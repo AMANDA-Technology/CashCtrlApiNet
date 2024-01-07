@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashCtrlApiNet", "src\CashCtrlApiNet\CashCtrlApiNet.csproj", "{CC4188E6-BDED-4FC8-AED3-D856160A81AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashCtrlApiNet.Abstractions", "src\CashCtrlApiNet.Abstractions\CashCtrlApiNet.Abstractions.csproj", "{13705F6D-81D4-4D75-B87C-20AB7C0482D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashCtrlApiNet.AspNetCore", "src\CashCtrlApiNet.AspNetCore\CashCtrlApiNet.AspNetCore.csproj", "{9C1B8002-DE84-4794-8197-721CC250B4C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashCtrlApiNet.Tests", "src\CashCtrlApiNet.Tests\CashCtrlApiNet.Tests.csproj", "{BD91FEF9-306C-4E8C-9813-8E323759D53D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository", "Repository", "{70AD12B6-1A7C-4F0C-BDBC-53121C869103}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC4188E6-BDED-4FC8-AED3-D856160A81AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC4188E6-BDED-4FC8-AED3-D856160A81AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC4188E6-BDED-4FC8-AED3-D856160A81AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC4188E6-BDED-4FC8-AED3-D856160A81AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13705F6D-81D4-4D75-B87C-20AB7C0482D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13705F6D-81D4-4D75-B87C-20AB7C0482D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13705F6D-81D4-4D75-B87C-20AB7C0482D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13705F6D-81D4-4D75-B87C-20AB7C0482D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C1B8002-DE84-4794-8197-721CC250B4C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C1B8002-DE84-4794-8197-721CC250B4C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C1B8002-DE84-4794-8197-721CC250B4C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C1B8002-DE84-4794-8197-721CC250B4C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD91FEF9-306C-4E8C-9813-8E323759D53D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD91FEF9-306C-4E8C-9813-8E323759D53D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD91FEF9-306C-4E8C-9813-8E323759D53D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD91FEF9-306C-4E8C-9813-8E323759D53D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

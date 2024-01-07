@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>12</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>CashCtrlApiNet</RootNamespace>
+        <Title>CashCtrlApiNet</Title>
+        <Authors>AMANDA Technology GmbH</Authors>
+        <Description>CashCtrl API Service</Description>
+        <Copyright>AMANDA Technology GmbH</Copyright>
+        <PackageProjectUrl>https://github.com/AMANDA-Technology/CashCtrlApiNet</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/AMANDA-Technology/CashCtrlApiNet</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CashCtrlApiNet.Abstractions\CashCtrlApiNet.Abstractions.csproj" />
+    </ItemGroup>
+
+</Project>
