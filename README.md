@@ -12,6 +12,6 @@ With a special thanks to CashCtrl AG for the handy Cloud ERP, accounting and bus
 
 [![BuildNuGetAndPublish](https://github.com/AMANDA-Technology/CashCtrlApiNet/actions/workflows/main.yml/badge.svg)](https://github.com/AMANDA-Technology/CashCtrlApiNet/actions/workflows/main.yml)
 
-[![CodeQL](https://github.com/AMANDA-Technology/CashCtrlApiNet/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/AMANDA-Technology/CashCtrlApiNet/actions/workflows/codeql-analysis.yml)
+[![CodeQL](https://github.com/AMANDA-Technology/CashCtrlApiNet/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/AMANDA-Technology/CashCtrlApiNet/actions/workflows/github-code-scanning/codeql)
 
 [![SonarCloud](https://github.com/AMANDA-Technology/CashCtrlApiNet/actions/workflows/sonar-analysis.yml/badge.svg)](https://github.com/AMANDA-Technology/CashCtrlApiNet/actions/workflows/sonar-analysis.yml)
