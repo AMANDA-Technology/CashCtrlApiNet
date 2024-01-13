@@ -23,31 +23,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace CashCtrlApiNet.Abstractions.Enums.Api;
+using System.Diagnostics.CodeAnalysis;
+
+namespace CashCtrlApiNet.Abstractions.Models.Base;
 
 /// <summary>
-/// Language
+/// Base record for all models
 /// </summary>
-// TODO: Fix c# naming, but implement json property names and conversion
-public enum Language
-{
-    /// <summary>
-    /// German
-    /// </summary>
-    de,
-
-    /// <summary>
-    /// French
-    /// </summary>
-    fr,
-
-    /// <summary>
-    /// Italian
-    /// </summary>
-    it,
-
-    /// <summary>
-    /// English
-    /// </summary>
-    en
-}
+[SuppressMessage("Sonar", "S2094:Classes should not be empty", Justification = "This empty abstract record is used like an empty interface, but also ensures that every inheritor must be a record as well")]
+public abstract record ModelBaseRecord;

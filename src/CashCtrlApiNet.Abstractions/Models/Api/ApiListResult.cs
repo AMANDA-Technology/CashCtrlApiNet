@@ -23,14 +23,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Collections.Immutable;
 using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Api;
 
 /// <summary>
 /// API list result. Not documented.
 /// </summary>
-public record ApiListResult<T>
+public record ApiListResult<T> : ModelBaseRecord where T : ModelBaseRecord
 {
     /// <summary>
     /// Total
@@ -40,7 +42,7 @@ public record ApiListResult<T>
     /// <summary>
     /// Data
     /// </summary>
-    [JsonPropertyName("data")] public T[] Data { get; init; } = [];
+    [JsonPropertyName("data")] public ImmutableArray<T> Data { get; init; } = [];
 
     /// <summary>
     /// Summary

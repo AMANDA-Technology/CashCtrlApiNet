@@ -24,12 +24,13 @@ SOFTWARE.
 */
 
 using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Inventory;
 
 // TODO: Cleanup this auto generated mess
 
-public record Article
+public record Article : ModelBaseRecord
 {
     [JsonPropertyName("id")]
     public int? Id { get; set; }

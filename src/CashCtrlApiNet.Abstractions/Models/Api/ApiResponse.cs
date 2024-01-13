@@ -23,7 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Collections.Immutable;
 using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Api;
 
@@ -36,6 +38,7 @@ namespace CashCtrlApiNet.Abstractions.Models.Api;
 /// <param name="InsertId"></param>
 public record ApiResponse(
     [property: JsonPropertyName("success")] bool Success,
-    [property: JsonPropertyName("errors")] ApiError[]? Errors,
+    [property: JsonPropertyName("errors")] ImmutableArray<ApiError>? Errors,
     [property: JsonPropertyName("message")] string? Message,
-    [property: JsonPropertyName("insertId")] int? InsertId);
+    [property: JsonPropertyName("insertId")] int? InsertId)
+    : ModelBaseRecord;

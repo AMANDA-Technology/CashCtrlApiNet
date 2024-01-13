@@ -24,6 +24,7 @@ SOFTWARE.
 */
 
 using System.Net;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Api;
 
@@ -57,7 +58,10 @@ public record ApiResult
 /// API result with response data
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public record ApiResult<T> : ApiResult
+public record ApiResult<T> : ApiResult where T : ModelBaseRecord
 {
+    /// <summary>
+    /// Data received in the API response
+    /// </summary>
     public T? ResponseData { get; init; }
 }

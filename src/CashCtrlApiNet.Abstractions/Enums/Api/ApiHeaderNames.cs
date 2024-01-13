@@ -25,6 +25,9 @@ SOFTWARE.
 
 namespace CashCtrlApiNet.Abstractions.Enums.Api;
 
+/// <summary>
+/// API header names
+/// </summary>
 public static class ApiHeaderNames
 {
     /// <summary>

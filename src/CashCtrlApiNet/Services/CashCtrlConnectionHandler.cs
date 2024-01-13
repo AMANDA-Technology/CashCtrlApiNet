@@ -31,6 +31,7 @@ using System.Text.Json.Serialization;
 using System.Web;
 using CashCtrlApiNet.Abstractions.Enums.Api;
 using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Values;
 using CashCtrlApiNet.Interfaces;
 
@@ -93,11 +94,11 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
         => await GetApiResult(await _client.SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, [Optional] CancellationToken cancellationToken)
+    public async Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, [Optional] CancellationToken cancellationToken) where TResult : ModelBaseRecord
         => await GetApiResult<TResult>(await _client.SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult<TResult>> PostAsync<TResult, TPost>(string requestPath, TPost payload, [Optional] CancellationToken cancellationToken)
+    public async Task<ApiResult<TResult>> PostAsync<TResult, TPost>(string requestPath, TPost payload, [Optional] CancellationToken cancellationToken) where TResult : ModelBaseRecord
         => await GetApiResult<TResult>(await _client.SendAsync(GetHttpRequestMessageWithFormData(HttpMethod.Post, requestPath, payload), cancellationToken));
 
     /// <summary>
@@ -155,7 +156,7 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     /// <param name="httpResponseMessage"></param>
     /// <returns></returns>
     private static async Task<ApiResult> GetApiResult(HttpResponseMessage httpResponseMessage)
-        => CreateApiResult<object>(await GetData(httpResponseMessage));
+        => CreateApiResult<ModelBaseRecord>(await GetData(httpResponseMessage));
 
     /// <summary>
     /// Get API result with data from http response
@@ -163,7 +164,7 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     /// <param name="httpResponseMessage"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    private static async Task<ApiResult<T>> GetApiResult<T>(HttpResponseMessage httpResponseMessage)
+    private static async Task<ApiResult<T>> GetApiResult<T>(HttpResponseMessage httpResponseMessage) where T : ModelBaseRecord
     {
         var data = await GetData(httpResponseMessage);
         return CreateApiResult<T>(data) with
@@ -177,7 +178,7 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     /// </summary>
     /// <param name="data"></param>
     /// <returns></returns>
-    private static ApiResult<T> CreateApiResult<T>((bool IsSuccessStatusCode, HttpStatusCode StatusCode, string StatusCodeDescription, IReadOnlyDictionary<string, object?> ResponseHeaders, string Content) data)
+    private static ApiResult<T> CreateApiResult<T>((bool IsSuccessStatusCode, HttpStatusCode StatusCode, string StatusCodeDescription, IReadOnlyDictionary<string, object?> ResponseHeaders, string Content) data) where T : ModelBaseRecord
         => new()
         {
             IsSuccess = data.IsSuccessStatusCode,

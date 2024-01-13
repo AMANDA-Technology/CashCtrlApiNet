@@ -23,8 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace CashCtrlApiNet.Tests.Inventory;
 
+[SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local", Justification = "This is the nature of Assert.Contains evaluations")]
 public class ArticleTests : CashCtrlTestBase
 {
     [Fact]
@@ -56,8 +59,9 @@ public class ArticleTests : CashCtrlTestBase
             Assert.False(res.ResponseData.Success);
             Assert.Null(res.ResponseData.InsertId);
             Assert.NotNull(res.ResponseData.Errors);
-            Assert.Contains(res.ResponseData.Errors, apiError => apiError.Field.Equals("nr")
-                                                          && apiError.Message.Equals("This article no. is already used by another article."));
+            Assert.Contains(res.ResponseData.Errors.Value, apiError
+                => apiError.Field.Equals("nr")
+                   && apiError.Message.Equals("This article no. is already used by another article."));
         });
     }
 
