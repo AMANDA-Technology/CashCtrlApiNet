@@ -23,28 +23,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Enums.Api;
+using System.Collections.Immutable;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Interfaces;
+namespace CashCtrlApiNet.Abstractions.Models.Inventory;
 
 /// <summary>
-/// Configuration for accessing CashCtrl API
+/// Article IDs
 /// </summary>
-public interface ICashCtrlConfiguration
+public record Articles : ModelBaseRecord
 {
     /// <summary>
-    /// Base URL for accessing the service. <see href="https://app.cashctrl.com/static/help/en/api/index.html#intro">API Doc - Introduction</see>
-    /// <br/>E.g. "https://myorg.cashctrl.com/"
+    /// The IDs of the selected entries, comma-separated.
     /// </summary>
-    public string BaseUri { get; }
+    [JsonPropertyName("ids")]
+    // [JsonConverter(typeof(IntArrayAsCsvJsonConverter))] // TODO: really a csv? or json array?
+    public required ImmutableArray<int> ArticleIds { get; init; }
+}
 
-    /// <summary>
-    /// API key for authenticating the service. <see href="https://app.cashctrl.com/static/help/en/api/index.html#auth">API Doc - Authentication</see>
-    /// </summary>
-    public string ApiKey { get; }
+/// <summary>
+/// Json converter for immutable array of int, parsed as comma separated values (CSV) in json
+/// </summary>
+public class IntArrayAsCsvJsonConverter : JsonConverter<ImmutableArray<int>>
+{
+    /// <inheritdoc />
+    public override ImmutableArray<int> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        => reader.GetString()
+            ?.Split(',')
+            .Select(val => int.Parse(val.Trim()))
+            .ToImmutableArray() ?? [];
 
-    /// <summary>
-    /// Default language to use. Must be name of <see cref="Language"/>. Can be changed later using <see cref="ICashCtrlApiClient.SetLanguage"/>. <see href="https://app.cashctrl.com/static/help/en/api/index.html#lang">API Doc - Language</see>
-    /// </summary>
-    public string DefaultLanguage { get; }
+    /// <inheritdoc />
+    public override void Write(Utf8JsonWriter writer, ImmutableArray<int> value, JsonSerializerOptions options)
+        => writer.WriteStringValue(string.Join(',', value));
 }

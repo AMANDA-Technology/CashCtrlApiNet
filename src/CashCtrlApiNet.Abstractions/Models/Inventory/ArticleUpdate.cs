@@ -23,28 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Enums.Api;
+namespace CashCtrlApiNet.Abstractions.Models.Inventory;
 
-namespace CashCtrlApiNet.Interfaces;
-
-/// <summary>
-/// Configuration for accessing CashCtrl API
-/// </summary>
-public interface ICashCtrlConfiguration
-{
-    /// <summary>
-    /// Base URL for accessing the service. <see href="https://app.cashctrl.com/static/help/en/api/index.html#intro">API Doc - Introduction</see>
-    /// <br/>E.g. "https://myorg.cashctrl.com/"
-    /// </summary>
-    public string BaseUri { get; }
-
-    /// <summary>
-    /// API key for authenticating the service. <see href="https://app.cashctrl.com/static/help/en/api/index.html#auth">API Doc - Authentication</see>
-    /// </summary>
-    public string ApiKey { get; }
-
-    /// <summary>
-    /// Default language to use. Must be name of <see cref="Language"/>. Can be changed later using <see cref="ICashCtrlApiClient.SetLanguage"/>. <see href="https://app.cashctrl.com/static/help/en/api/index.html#lang">API Doc - Language</see>
-    /// </summary>
-    public string DefaultLanguage { get; }
-}
+// TODO: Do not inherit, but create correct implementation
+public record ArticleUpdate : Article;

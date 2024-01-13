@@ -23,28 +23,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Enums.Api;
+using System.Collections.Immutable;
+using System.Text.Json.Serialization;
 
-namespace CashCtrlApiNet.Interfaces;
+namespace CashCtrlApiNet.Abstractions.Models.Inventory;
 
 /// <summary>
-/// Configuration for accessing CashCtrl API
+/// Article attachments
 /// </summary>
-public interface ICashCtrlConfiguration
+public record ArticleAttachments
 {
     /// <summary>
-    /// Base URL for accessing the service. <see href="https://app.cashctrl.com/static/help/en/api/index.html#intro">API Doc - Introduction</see>
-    /// <br/>E.g. "https://myorg.cashctrl.com/"
+    /// The ID of the entry.
     /// </summary>
-    public string BaseUri { get; }
+    [JsonPropertyName("id")]
+    public required int ArticleId { get; init; }
 
     /// <summary>
-    /// API key for authenticating the service. <see href="https://app.cashctrl.com/static/help/en/api/index.html#auth">API Doc - Authentication</see>
+    /// A list of file IDs, comma-separated. Leave empty to remove all attachments. Use the File API to upload a file and then use the file ID here.
     /// </summary>
-    public string ApiKey { get; }
-
-    /// <summary>
-    /// Default language to use. Must be name of <see cref="Language"/>. Can be changed later using <see cref="ICashCtrlApiClient.SetLanguage"/>. <see href="https://app.cashctrl.com/static/help/en/api/index.html#lang">API Doc - Language</see>
-    /// </summary>
-    public string DefaultLanguage { get; }
+    [JsonPropertyName("fileIds")]
+    public required ImmutableArray<int> AttachedFileIds { get; init; }
 }

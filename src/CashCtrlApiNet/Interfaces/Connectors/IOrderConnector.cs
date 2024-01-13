@@ -35,25 +35,25 @@ public interface IOrderConnector
     /// <summary>
     /// CashCtrl order service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/order">API Doc - Order/Order</see>
     /// </summary>
-    public IOrderService Order { get; set; }
+    public IOrderService Order { get; }
 
     /// <summary>
     /// CashCtrl order book entry service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/order/bookentry">API Doc - Order/Book entry</see>
     /// </summary>
-    public IBookEntryService BookEntry { get; set; }
+    public IBookEntryService BookEntry { get; }
 
     /// <summary>
     /// CashCtrl order category service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/order/category">API Doc - Order/Category</see>
     /// </summary>
-    public IOrderCategoryService Category { get; set; }
+    public IOrderCategoryService Category { get; }
 
     /// <summary>
     /// CashCtrl order document service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/order/document">API Doc - Order/Document</see>
     /// </summary>
-    public IDocumentService DocumentService { get; set; }
+    public IDocumentService DocumentService { get; }
 
     /// <summary>
     /// CashCtrl order document template service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/order/template">API Doc - Order/Document template</see>
     /// </summary>
-    public IDocumentTemplateService DocumentTemplate { get; set; }
+    public IDocumentTemplateService DocumentTemplate { get; }
 }

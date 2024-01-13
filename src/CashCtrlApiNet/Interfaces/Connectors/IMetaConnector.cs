@@ -35,25 +35,25 @@ public interface IMetaConnector
     /// <summary>
     /// CashCtrl meta fiscal period service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</see>
     /// </summary>
-    public IFiscalPeriodService FiscalPeriod { get; set; }
+    public IFiscalPeriodService FiscalPeriod { get; }
 
     /// <summary>
     /// CashCtrl meta fiscal period service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</see>
     /// </summary>
-    public IFiscalPeriodTaskService FiscalPeriodTask { get; set; }
+    public IFiscalPeriodTaskService FiscalPeriodTask { get; }
 
     /// <summary>
     /// CashCtrl meta fiscal period service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</see>
     /// </summary>
-    public ILocationService Location { get; set; }
+    public ILocationService Location { get; }
 
     /// <summary>
     /// CashCtrl meta fiscal period service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</see>
     /// </summary>
-    public IOrganizationService Organization { get; set; }
+    public IOrganizationService Organization { get; }
 
     /// <summary>
     /// CashCtrl meta fiscal period service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</see>
     /// </summary>
-    public ISettingsService Settings { get; set; }
+    public ISettingsService Settings { get; }
 }

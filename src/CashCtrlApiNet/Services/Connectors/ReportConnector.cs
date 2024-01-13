@@ -23,28 +23,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Enums.Api;
+using CashCtrlApiNet.Interfaces;
+using CashCtrlApiNet.Interfaces.Connectors;
+using CashCtrlApiNet.Interfaces.Connectors.Report;
 
-namespace CashCtrlApiNet.Interfaces;
+namespace CashCtrlApiNet.Services.Connectors;
 
-/// <summary>
-/// Configuration for accessing CashCtrl API
-/// </summary>
-public interface ICashCtrlConfiguration
+/// <inheritdoc />
+public class ReportConnector : IReportConnector
 {
     /// <summary>
-    /// Base URL for accessing the service. <see href="https://app.cashctrl.com/static/help/en/api/index.html#intro">API Doc - Introduction</see>
-    /// <br/>E.g. "https://myorg.cashctrl.com/"
+    /// Initializes a new instance of the <see cref="ReportConnector"/> class with all services using the connection handler.
     /// </summary>
-    public string BaseUri { get; }
+    /// <param name="connectionHandler"></param>
+    public ReportConnector(ICashCtrlConnectionHandler connectionHandler)
+    {
+        // Report = new IReportService(connectionHandler);
+        // Element = new IReportElementService(connectionHandler);
+        // Set = new IReportSetService(connectionHandler);
+    }
 
-    /// <summary>
-    /// API key for authenticating the service. <see href="https://app.cashctrl.com/static/help/en/api/index.html#auth">API Doc - Authentication</see>
-    /// </summary>
-    public string ApiKey { get; }
+    /// <inheritdoc />
+    public IReportService Report { get; }
 
-    /// <summary>
-    /// Default language to use. Must be name of <see cref="Language"/>. Can be changed later using <see cref="ICashCtrlApiClient.SetLanguage"/>. <see href="https://app.cashctrl.com/static/help/en/api/index.html#lang">API Doc - Language</see>
-    /// </summary>
-    public string DefaultLanguage { get; }
+    /// <inheritdoc />
+    public IReportElementService Element { get; }
+
+    /// <inheritdoc />
+    public IReportSetService Set { get; }
 }

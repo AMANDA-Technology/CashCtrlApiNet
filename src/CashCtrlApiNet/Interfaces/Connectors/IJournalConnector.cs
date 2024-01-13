@@ -35,15 +35,15 @@ public interface IJournalConnector
     /// <summary>
     /// CashCtrl journal service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/journal">API Doc - Journal/Journal</see>
     /// </summary>
-    public IJournalService Journal { get; set; }
+    public IJournalService Journal { get; }
 
     /// <summary>
     /// CashCtrl journal import service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import">API Doc - Journal/Import</see>
     /// </summary>
-    public IJournalImportService Import { get; set; }
+    public IJournalImportService Import { get; }
 
     /// <summary>
     /// CashCtrl journal import entry service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import/entry">API Doc - Journal/Import entry</see>
     /// </summary>
-    public IJournalImportEntryService ImportEntry { get; set; }
+    public IJournalImportEntryService ImportEntry { get; }
 }

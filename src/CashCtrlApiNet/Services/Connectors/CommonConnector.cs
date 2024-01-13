@@ -25,43 +25,46 @@ SOFTWARE.
 
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Inventory;
-using CashCtrlApiNet.Services.Connectors.Inventory;
+using CashCtrlApiNet.Interfaces.Connectors.Common;
 
 namespace CashCtrlApiNet.Services.Connectors;
 
 /// <inheritdoc />
-public class InventoryConnector : IInventoryConnector
+public class CommonConnector : ICommonConnector
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="InventoryConnector"/> class with all services using the connection handler.
+    /// Initializes a new instance of the <see cref="CommonConnector"/> class with all services using the connection handler.
     /// </summary>
     /// <param name="connectionHandler"></param>
-    public InventoryConnector(ICashCtrlConnectionHandler connectionHandler)
+    public CommonConnector(ICashCtrlConnectionHandler connectionHandler)
     {
-        Article = new ArticleService(connectionHandler);
-        // ArticleCategory = new IArticleCategoryService(connectionHandler);
-        // FixedAsset = new FixedAssetService(connectionHandler);
-        // FixedAssetCategory = new FixedAssetCategoryService(connectionHandler);
-        // Import = new InventoryImportService(connectionHandler);
-        // Unit = new UnitService(connectionHandler);
+        // Currency = new CurrencyService(connectionHandler);
+        // CustomField = new CustomFieldService(connectionHandler);
+        // CustomFieldGroup = new CustomFieldGroupService(connectionHandler);
+        // Rounding = new RoundingService(connectionHandler);
+        // SequenceNumber = new SequenceNumberService(connectionHandler);
+        // TaxRate = new TaxRateService(connectionHandler);
+        // TextTemplate = new TextTemplateService(connectionHandler);
     }
 
     /// <inheritdoc />
-    public IArticleService Article { get; }
+    public ICurrencyService Currency { get; }
 
     /// <inheritdoc />
-    public IArticleCategoryService ArticleCategory { get; }
+    public ICustomFieldService CustomField { get; }
 
     /// <inheritdoc />
-    public IFixedAssetService FixedAsset { get; }
+    public ICustomFieldGroupService CustomFieldGroup { get; }
 
     /// <inheritdoc />
-    public IFixedAssetCategoryService FixedAssetCategory { get; }
+    public IRoundingService Rounding { get; }
 
     /// <inheritdoc />
-    public IInventoryImportService Import { get; }
+    public ISequenceNumberService SequenceNumber { get; }
 
     /// <inheritdoc />
-    public IUnitService Unit { get; }
+    public ITaxRateService TaxRate { get; }
+
+    /// <inheritdoc />
+    public ITextTemplateService TextTemplate { get; }
 }

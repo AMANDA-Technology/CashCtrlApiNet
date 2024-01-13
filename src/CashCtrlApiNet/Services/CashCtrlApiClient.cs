@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Diagnostics.CodeAnalysis;
 using CashCtrlApiNet.Abstractions.Enums.Api;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors;
@@ -38,12 +39,37 @@ public class CashCtrlApiClient : ICashCtrlApiClient
     /// Initializes a new instance of the <see cref="CashCtrlApiClient"/> class.
     /// </summary>
     /// <param name="cashCtrlConnectionHandler"></param>
+    /// <param name="account"></param>
+    /// <param name="common"></param>
+    /// <param name="file"></param>
     /// <param name="inventory"></param>
+    /// <param name="journal"></param>
+    /// <param name="meta"></param>
+    /// <param name="order"></param>
+    /// <param name="person"></param>
+    /// <param name="report"></param>
+    [SuppressMessage("Sonar", "S107:Methods should not have too many parameters", Justification = "Accepted here, for injecting all services")]
     public CashCtrlApiClient(ICashCtrlConnectionHandler cashCtrlConnectionHandler,
-        IInventoryConnector inventory)
+        IAccountConnector account,
+        ICommonConnector common,
+        IFileConnector file,
+        IInventoryConnector inventory,
+        IJournalConnector journal,
+        IMetaConnector meta,
+        IOrderConnector order,
+        IPersonConnector person,
+        IReportConnector report)
     {
         _cashCtrlConnectionHandler = cashCtrlConnectionHandler;
+        Account = account;
+        Common = common;
+        File = file;
         Inventory = inventory;
+        Journal = journal;
+        Meta = meta;
+        Order = order;
+        Person = person;
+        Report = report;
     }
 
     /// <inheritdoc />
@@ -51,5 +77,29 @@ public class CashCtrlApiClient : ICashCtrlApiClient
         => _cashCtrlConnectionHandler.SetLanguage(language);
 
     /// <inheritdoc />
-    public IInventoryConnector Inventory { get; set; }
+    public IAccountConnector Account { get; }
+
+    /// <inheritdoc />
+    public ICommonConnector Common { get; }
+
+    /// <inheritdoc />
+    public IFileConnector File { get; }
+
+    /// <inheritdoc />
+    public IInventoryConnector Inventory { get; }
+
+    /// <inheritdoc />
+    public IJournalConnector Journal { get; }
+
+    /// <inheritdoc />
+    public IMetaConnector Meta { get; }
+
+    /// <inheritdoc />
+    public IOrderConnector Order { get; }
+
+    /// <inheritdoc />
+    public IPersonConnector Person { get; }
+
+    /// <inheritdoc />
+    public IReportConnector Report { get; }
 }

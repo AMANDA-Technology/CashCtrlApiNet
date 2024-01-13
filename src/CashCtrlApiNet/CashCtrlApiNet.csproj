@@ -22,4 +22,15 @@
       <ProjectReference Include="..\CashCtrlApiNet.Abstractions\CashCtrlApiNet.Abstractions.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Services\Connectors\Account\" />
+      <Folder Include="Services\Connectors\Common\" />
+      <Folder Include="Services\Connectors\File\" />
+      <Folder Include="Services\Connectors\Journal\" />
+      <Folder Include="Services\Connectors\Meta\" />
+      <Folder Include="Services\Connectors\Order\" />
+      <Folder Include="Services\Connectors\Person\" />
+      <Folder Include="Services\Connectors\Report\" />
+    </ItemGroup>
+
 </Project>

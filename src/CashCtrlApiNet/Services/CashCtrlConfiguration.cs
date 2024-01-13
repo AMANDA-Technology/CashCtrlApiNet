@@ -31,11 +31,11 @@ namespace CashCtrlApiNet.Services;
 public class CashCtrlConfiguration : ICashCtrlConfiguration
 {
     /// <inheritdoc />
-    public required string BaseUri { get; set; }
+    public required string BaseUri { get; init; }
 
     /// <inheritdoc />
-    public required string ApiKey { get; set; }
+    public required string ApiKey { get; init; }
 
     /// <inheritdoc />
-    public required string DefaultLanguage { get; set; }
+    public required string DefaultLanguage { get; init; }
 }

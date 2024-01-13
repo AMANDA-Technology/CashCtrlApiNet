@@ -35,20 +35,20 @@ public interface IAccountConnector
     /// <summary>
     /// CashCtrl account service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/account">API Doc - Account</see>
     /// </summary>
-    public IAccountService Account { get; set; }
+    public IAccountService Account { get; }
 
     /// <summary>
     /// CashCtrl account category service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/account/category">API Doc - Account/Category</see>
     /// </summary>
-    public IAccountCategoryService Category { get; set; }
+    public IAccountCategoryService Category { get; }
 
     /// <summary>
     /// CashCtrl account cost center service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter">API Doc - Account/Cost center</see>
     /// </summary>
-    public ICostCenterService CostCenter { get; set; }
+    public ICostCenterService CostCenter { get; }
 
     /// <summary>
     /// CashCtrl account cost center category service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/category">API Doc - Account/Cost center category</see>
     /// </summary>
-    public ICostCenterCategoryService CostCenterCategory { get; set; }
+    public ICostCenterCategoryService CostCenterCategory { get; }
 }

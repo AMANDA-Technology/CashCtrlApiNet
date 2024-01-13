@@ -35,15 +35,15 @@ public interface IReportConnector
     /// <summary>
     /// CashCtrl report service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/report">API Doc - Report/Report</see>
     /// </summary>
-    public IReportService Report { get; set; }
+    public IReportService Report { get; }
 
     /// <summary>
     /// CashCtrl report element service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element">API Doc - Report/Element</see>
     /// </summary>
-    public IReportElementService Element { get; set; }
+    public IReportElementService Element { get; }
 
     /// <summary>
     /// CashCtrl report set service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/report/set">API Doc - Report/Set</see>
     /// </summary>
-    public IReportSetService Set { get; set; }
+    public IReportSetService Set { get; }
 }

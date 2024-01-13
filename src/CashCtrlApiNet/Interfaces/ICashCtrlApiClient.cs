@@ -42,45 +42,45 @@ public interface ICashCtrlApiClient
     /// <summary>
     /// CashCtrl account service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/account">API Doc - Account</see>
     /// </summary>
-    // public IAccountConnector Account { get; set; }
+    public IAccountConnector Account { get; }
 
     /// <summary>
     /// CashCtrl common service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/currency">API Doc - Common</see>
     /// </summary>
-    // public ICommonConnector Common { get; set; }
+    public ICommonConnector Common { get; }
 
     /// <summary>
     /// CashCtrl file service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/file">API Doc - File</see>
     /// </summary>
-    // public IFileConnector File { get; set; }
+    public IFileConnector File { get; }
 
     /// <summary>
     /// CashCtrl inventory service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory">API Doc - Inventory</see>
     /// </summary>
-    public IInventoryConnector Inventory { get; set; }
+    public IInventoryConnector Inventory { get; }
 
     /// <summary>
     /// CashCtrl journal service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/journal">API Doc - Journal</see>
     /// </summary>
-    // public IJournalConnector Journal { get; set; }
+    public IJournalConnector Journal { get; }
 
     /// <summary>
     /// CashCtrl meta service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta</see>
     /// </summary>
-    // public IMetaConnector Meta { get; set; }
+    public IMetaConnector Meta { get; }
 
     /// <summary>
     /// CashCtrl order service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/order">API Doc - Order</see>
     /// </summary>
-    // public IOrderConnector Order { get; set; }
+    public IOrderConnector Order { get; }
 
     /// <summary>
     /// CashCtrl person service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/person">API Doc - Person</see>
     /// </summary>
-    // public IPersonConnector Person { get; set; }
+    public IPersonConnector Person { get; }
 
     /// <summary>
     /// CashCtrl report service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/report">API Doc - Report</see>
     /// </summary>
-    // public IReportConnector Report { get; set; }
+    public IReportConnector Report { get; }
 }

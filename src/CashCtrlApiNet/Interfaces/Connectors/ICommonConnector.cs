@@ -35,35 +35,35 @@ public interface ICommonConnector
     /// <summary>
     /// CashCtrl common currency service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/currency">API Doc - Common/Currency</see>
     /// </summary>
-    public ICurrencyService Currency { get; set; }
+    public ICurrencyService Currency { get; }
 
     /// <summary>
     /// CashCtrl common custom field service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield">API Doc - Common/Custom field</see>
     /// </summary>
-    public ICustomFieldService CustomField { get; set; }
+    public ICustomFieldService CustomField { get; }
 
     /// <summary>
     /// CashCtrl common custom field group service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield/group">API Doc - Common/Custom field group</see>
     /// </summary>
-    public ICustomFieldGroupService CustomFieldGroup { get; set; }
+    public ICustomFieldGroupService CustomFieldGroup { get; }
 
     /// <summary>
     /// CashCtrl common rounding service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/rounding">API Doc - Common/Rounding</see>
     /// </summary>
-    public IRoundingService Rounding { get; set; }
+    public IRoundingService Rounding { get; }
 
     /// <summary>
     /// CashCtrl common sequence number service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/sequencenumber">API Doc - Common/Sequence number</see>
     /// </summary>
-    public ISequenceNumberService SequenceNumber { get; set; }
+    public ISequenceNumberService SequenceNumber { get; }
 
     /// <summary>
     /// CashCtrl common sequence number service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/tax">API Doc - Common/Tax rate</see>
     /// </summary>
-    public ITaxRateService TaxRate { get; set; }
+    public ITaxRateService TaxRate { get; }
 
     /// <summary>
     /// CashCtrl common sequence number service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/text">API Doc - Common/Text template</see>
     /// </summary>
-    public ITextTemplateService TextTemplate { get; set; }
+    public ITextTemplateService TextTemplate { get; }
 }

@@ -27,9 +27,15 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace CashCtrlApiNet.Tests.Inventory;
 
+/// <summary>
+/// Tests for inventory article service
+/// </summary>
 [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local", Justification = "This is the nature of Assert.Contains evaluations")]
 public class ArticleTests : CashCtrlTestBase
 {
+    /// <summary>
+    /// Get list of articles successfully
+    /// </summary>
     [Fact]
     public async Task GetList_Success()
     {
@@ -45,6 +51,9 @@ public class ArticleTests : CashCtrlTestBase
         });
     }
 
+    /// <summary>
+    /// Try create article with duplicated Nr and fail
+    /// </summary>
     [Fact]
     public async Task Create_DuplicateNrFail()
     {
@@ -65,6 +74,9 @@ public class ArticleTests : CashCtrlTestBase
         });
     }
 
+    /// <summary>
+    /// Create an article successfully
+    /// </summary>
     [Fact]
     public async Task Create_Success()
     {

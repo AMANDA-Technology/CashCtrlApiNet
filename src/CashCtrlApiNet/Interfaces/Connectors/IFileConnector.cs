@@ -35,10 +35,10 @@ public interface IFileConnector
     /// <summary>
     /// CashCtrl file service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/file">API Doc - File/File</see>
     /// </summary>
-    public IFileService File { get; set; }
+    public IFileService File { get; }
 
     /// <summary>
     /// CashCtrl file category endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/file/category">API Doc - File/File category</see>
     /// </summary>
-    public IFileCategoryService FileCategory { get; set; }
+    public IFileCategoryService FileCategory { get; }
 }

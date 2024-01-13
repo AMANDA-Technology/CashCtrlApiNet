@@ -35,30 +35,30 @@ public interface IInventoryConnector
     /// <summary>
     /// CashCtrl inventory article service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article">API Doc - Inventory/Article</see>
     /// </summary>
-    public IArticleService Article { get; set; }
+    public IArticleService Article { get; }
 
     /// <summary>
     /// CashCtrl inventory article category service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/category">API Doc - Inventory/Article category</see>
     /// </summary>
-    // public IArticleCategoryService ArticleCategory { get; set; }
+    public IArticleCategoryService ArticleCategory { get; }
 
     /// <summary>
     /// CashCtrl inventory fixed asset service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset">API Doc - Inventory/Fixed asset</see>
     /// </summary>
-    // public IFixedAssetService FixedAsset { get; set; }
+    public IFixedAssetService FixedAsset { get; }
 
     /// <summary>
     /// CashCtrl inventory fixed asset category service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset/category">API Doc - Inventory/Fixed asset category</see>
     /// </summary>
-    // public IFixedAssetCategoryService FixedAssetCategory { get; set; }
+    public IFixedAssetCategoryService FixedAssetCategory { get; }
 
     /// <summary>
     /// CashCtrl inventory import service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/import">API Doc - Inventory/Import</see>
     /// </summary>
-    // public IInventoryImportService Import { get; set; }
+    public IInventoryImportService Import { get; }
 
     /// <summary>
     /// CashCtrl inventory unit service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/unit">API Doc - Inventory/Unit</see>
     /// </summary>
-    // public IUnitService Unit { get; set; }
+    public IUnitService Unit { get; }
 }

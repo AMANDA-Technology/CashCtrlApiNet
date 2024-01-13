@@ -30,8 +30,14 @@ using CashCtrlApiNet.Services.Connectors;
 
 namespace CashCtrlApiNet.Tests;
 
+/// <summary>
+/// Base class for all CashCtrl tests
+/// </summary>
 public class CashCtrlTestBase
 {
+    /// <summary>
+    /// Instance of CashCtrl configuration
+    /// </summary>
     private readonly ICashCtrlConfiguration _cashCtrlConfiguration;
 
     /// <summary>
@@ -43,7 +49,7 @@ public class CashCtrlTestBase
     /// Setup
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    public CashCtrlTestBase()
+    protected CashCtrlTestBase()
     {
         _cashCtrlConfiguration = new CashCtrlConfiguration
         {
@@ -63,8 +69,15 @@ public class CashCtrlTestBase
     {
         var connectionHandler = new CashCtrlConnectionHandler(_cashCtrlConfiguration);
 
-        return new(
-            connectionHandler,
-            new InventoryConnector(connectionHandler));
+        return new(connectionHandler,
+            new AccountConnector(connectionHandler),
+            new CommonConnector(connectionHandler),
+            new FileConnector(connectionHandler),
+            new InventoryConnector(connectionHandler),
+            new JournalConnector(connectionHandler),
+            new MetaConnector(connectionHandler),
+            new OrderConnector(connectionHandler),
+            new PersonConnector(connectionHandler),
+            new ReportConnector(connectionHandler));
     }
 }

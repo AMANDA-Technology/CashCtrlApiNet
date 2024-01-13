@@ -35,20 +35,20 @@ public interface IPersonConnector
     /// <summary>
     /// CashCtrl person service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/person">API Doc - Person/Person</see>
     /// </summary>
-    public IPersonService Person { get; set; }
+    public IPersonService Person { get; }
 
     /// <summary>
     /// CashCtrl person category service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/person/category">API Doc - Person/Category</see>
     /// </summary>
-    public IPersonCategoryService Category { get; set; }
+    public IPersonCategoryService Category { get; }
 
     /// <summary>
     /// CashCtrl person import service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/person/import">API Doc - Person/Import</see>
     /// </summary>
-    public IPersonImportService Import { get; set; }
+    public IPersonImportService Import { get; }
 
     /// <summary>
     /// CashCtrl person title service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/person/title">API Doc - Person/Title</see>
     /// </summary>
-    public IPersonTitleService Title { get; set; }
+    public IPersonTitleService Title { get; }
 }

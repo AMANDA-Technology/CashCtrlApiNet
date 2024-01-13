@@ -29,7 +29,6 @@ using CashCtrlApiNet.Abstractions.Models.Base;
 namespace CashCtrlApiNet.Abstractions.Models.Inventory;
 
 // TODO: Cleanup this auto generated mess
-
 public record Article : ModelBaseRecord
 {
     [JsonPropertyName("id")]

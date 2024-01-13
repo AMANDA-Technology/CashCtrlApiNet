@@ -25,6 +25,5 @@ SOFTWARE.
 
 namespace CashCtrlApiNet.Abstractions.Models.Inventory;
 
-
 // TODO: Do not inherit, but create correct implementation
 public record ArticleCreate : Article;

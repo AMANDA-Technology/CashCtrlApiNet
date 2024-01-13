@@ -23,28 +23,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Enums.Api;
-
-namespace CashCtrlApiNet.Interfaces;
+namespace CashCtrlApiNet.Services.Endpoints.Base;
 
 /// <summary>
-/// Configuration for accessing CashCtrl API
+/// Defaults for endpoints
 /// </summary>
-public interface ICashCtrlConfiguration
+internal static class Default
 {
     /// <summary>
-    /// Base URL for accessing the service. <see href="https://app.cashctrl.com/static/help/en/api/index.html#intro">API Doc - Introduction</see>
-    /// <br/>E.g. "https://myorg.cashctrl.com/"
+    /// Endpoints for read an entry
     /// </summary>
-    public string BaseUri { get; }
+    public const string Read = "read.json";
 
     /// <summary>
-    /// API key for authenticating the service. <see href="https://app.cashctrl.com/static/help/en/api/index.html#auth">API Doc - Authentication</see>
+    /// Endpoints for list entries
     /// </summary>
-    public string ApiKey { get; }
+    public const string List = "list.json";
 
     /// <summary>
-    /// Default language to use. Must be name of <see cref="Language"/>. Can be changed later using <see cref="ICashCtrlApiClient.SetLanguage"/>. <see href="https://app.cashctrl.com/static/help/en/api/index.html#lang">API Doc - Language</see>
+    /// Endpoints for create an entry
     /// </summary>
-    public string DefaultLanguage { get; }
+    public const string Create = "create.json";
+
+    /// <summary>
+    /// Endpoints for update an entry
+    /// </summary>
+    public const string Update = "update.json";
+
+    /// <summary>
+    /// Endpoints for delete entries
+    /// </summary>
+    public const string Delete = "delete.json";
 }
