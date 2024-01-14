@@ -23,15 +23,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace CashCtrlApiNet.Abstractions.Models.Api;
+namespace CashCtrlApiNet.Abstractions.Converters;
 
 /// <summary>
-/// Api Error. <see href="https://app.cashctrl.com/static/help/en/api/index.html#errors">API Doc - Error handling</see>
+/// CashCtrl date time json converter
 /// </summary>
-/// <param name="Field"></param>
-/// <param name="Message"></param>
-public record ApiError(
-    [property: JsonPropertyName("field")] string Field,
-    [property: JsonPropertyName("message")] string Message);
+public class CashCtrlDateTimeConverter : JsonConverter<DateTime>
+{
+    /// <summary>
+    /// Default CashCtrl date time string format 2024-01-07 20:21:38.0
+    /// </summary>
+    internal const string CashCtrlDateTimeFormat = "yyyy-MM-dd HH:mm:ss.f";
+
+    /// <inheritdoc />
+    public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var valueString = reader.GetString();
+
+        if (string.IsNullOrEmpty(valueString))
+            return DateTime.MinValue;
+
+        return DateTime.TryParseExact(valueString, CashCtrlDateTimeFormat, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var value)
+            ? value
+            : DateTime.MinValue;
+    }
+
+    /// <inheritdoc />
+    public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+    {
+        writer.WriteStringValue(value.ToString(CashCtrlDateTimeFormat));
+    }
+}

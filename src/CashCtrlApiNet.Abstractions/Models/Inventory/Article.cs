@@ -23,122 +23,115 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Collections.Immutable;
 using System.Text.Json.Serialization;
-using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Inventory;
 
-// TODO: Cleanup this auto generated mess
-public record Article : ModelBaseRecord
+/// <summary>
+/// Article
+/// </summary>
+public record Article : ArticleUpdate
 {
-    [JsonPropertyName("id")]
-    public int? Id { get; set; }
-
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("created")]
-    public string? Created { get; set; }
+    public required DateTime Created { get; init; }
 
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("createdBy")]
-    public string? CreatedBy { get; set; }
+    public required string CreatedBy { get; init; }
 
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("lastUpdated")]
-    public string? LastUpdated { get; set; }
+    public DateTime? LastUpdated { get; init; }
 
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("lastUpdatedBy")]
-    public string? LastUpdatedBy { get; set; }
+    public string? LastUpdatedBy { get; init; }
 
-    [JsonPropertyName("categoryId")]
-    public object? CategoryId { get; set; }
-
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("thumbnailFileId")]
-    public object? ThumbnailFileId { get; set; }
+    public int? ThumbnailFileId { get; init; }
 
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("categoryDisplay")]
-    public object? CategoryDisplay { get; set; }
+    public string? CategoryDisplay { get; init; }
 
-    [JsonPropertyName("unitId")]
-    public int? UnitId { get; set; }
-
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("unitName")]
-    public string? UnitName { get; set; }
+    public string? UnitName { get; init; }
 
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("salesAccountId")]
-    public object?SalesAccountId { get; set; }
+    public int? SalesAccountId { get; init; }
 
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("purchaseAccountId")]
-    public object? PurchaseAccountId { get; set; }
+    public int? PurchaseAccountId { get; init; }
 
-    [JsonPropertyName("locationId")]
-    public object? LocationId { get; set; }
-
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("locationName")]
-    public object? LocationName { get; set; }
+    public string? LocationName { get; init; }
 
-    [JsonPropertyName("currencyId")]
-    public object? CurrencyId { get; set; }
-
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("currencyCode")]
-    public string? CurrencyCode { get; set; }
+    public string? CurrencyCode { get; init; }
 
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("dateAdded")]
-    public string? DateAdded { get; set; }
+    public DateTime? DateAdded { get; init; }
 
-    [JsonPropertyName("nr")]
-    public string? Nr { get; set; }
-
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("type")]
-    public string? Type { get; set; }
+    public string? Type { get; init; }
 
-    [JsonPropertyName("name")]
-    public string? Name { get; set; }
-
-    [JsonPropertyName("description")]
-    public string? Description { get; set; }
-
-    [JsonPropertyName("notes")]
-    public object? Notes { get; set; }
-
-    [JsonPropertyName("salesPrice")]
-    public double? SalesPrice { get; set; }
-
-    [JsonPropertyName("lastPurchasePrice")]
-    public double? LastPurchasePrice { get; set; }
-
-    [JsonPropertyName("stock")]
-    public object? Stock { get; set; }
-
-    [JsonPropertyName("minStock")]
-    public object? MinStock { get; set; }
-
-    [JsonPropertyName("maxStock")]
-    public object? MaxStock { get; set; }
-
-    [JsonPropertyName("binLocation")]
-    public object? BinLocation { get; set; }
-
-    [JsonPropertyName("custom")]
-    public string? Custom { get; set; }
-
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("attachmentCount")]
-    public int? AttachmentCount { get; set; }
+    public int? AttachmentCount { get; init; }
 
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("allocationCount")]
-    public int? AllocationCount { get; set; }
+    public int? AllocationCount { get; init; }
 
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("costCenterIds")]
-    public object? CostCenterIds { get; set; }
+    public ImmutableArray<int>? CostCenterIds { get; init; }
 
+    /// <summary>
+    ///
+    /// </summary>
     [JsonPropertyName("costCenterNumbers")]
-    public object? CostCenterNumbers { get; set; }
-
-    [JsonPropertyName("isStockArticle")]
-    public bool? IsStockArticle { get; set; }
-
-    [JsonPropertyName("isInactive")]
-    public bool? IsInactive { get; set; }
-
-    [JsonPropertyName("isSalesPriceGross")]
-    public bool? IsSalesPriceGross { get; set; }
-
-    [JsonPropertyName("isPurchasePriceGross")]
-    public bool? IsPurchasePriceGross { get; set; }
+    public ImmutableArray<string>? CostCenterNumbers { get; init; }
 }

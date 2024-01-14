@@ -23,45 +23,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Net;
-using CashCtrlApiNet.Abstractions.Models.Api.Base;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Abstractions.Models.Api;
-
-/// <summary>
-/// API result. Library internal abstraction of the API result.
-/// </summary>
-public record ApiResult
-{
-    /// <summary>
-    /// If the http request was successful
-    /// </summary>
-    public bool IsHttpSuccess { get; init; }
-
-    /// <summary>
-    /// Http status code received from API
-    /// </summary>
-    public HttpStatusCode HttpStatusCode { get; init; }
-
-    /// <summary>
-    /// Official CashCtrl description to the http status code
-    /// </summary>
-    public string? CashCtrlHttpStatusCodeDescription { get; init; }
-
-    /// <summary>
-    /// Number of requests left on the API. Not documented, not sure how often this resets.
-    /// </summary>
-    public int? RequestsLeft { get; set; }
-}
+namespace CashCtrlApiNet.Abstractions.Models.Account;
 
 /// <summary>
-/// API result with response data
+/// Account
 /// </summary>
-/// <typeparam name="T"></typeparam>
-public record ApiResult<T> : ApiResult where T : ApiResponse
-{
-    /// <summary>
-    /// Data received in the API response
-    /// </summary>
-    public T? ResponseData { get; init; }
-}
+// TODO: implement members
+public record Account : ModelBaseRecord;

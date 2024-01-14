@@ -23,45 +23,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Net;
+using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Api.Base;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Api;
 
 /// <summary>
-/// API result. Library internal abstraction of the API result.
+/// Api result error message
 /// </summary>
-public record ApiResult
+public record SingleResponse<TData> : ApiResponse where TData : ModelBaseRecord
 {
     /// <summary>
-    /// If the http request was successful
+    ///
     /// </summary>
-    public bool IsHttpSuccess { get; init; }
+    [JsonPropertyName("success")]
+    public required bool Success { get; init; }
 
     /// <summary>
-    /// Http status code received from API
+    ///
     /// </summary>
-    public HttpStatusCode HttpStatusCode { get; init; }
+    [JsonPropertyName("errorMessage")]
+    public string? ErrorMessage { get; init; }
 
     /// <summary>
-    /// Official CashCtrl description to the http status code
+    ///
     /// </summary>
-    public string? CashCtrlHttpStatusCodeDescription { get; init; }
-
-    /// <summary>
-    /// Number of requests left on the API. Not documented, not sure how often this resets.
-    /// </summary>
-    public int? RequestsLeft { get; set; }
-}
-
-/// <summary>
-/// API result with response data
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public record ApiResult<T> : ApiResult where T : ApiResponse
-{
-    /// <summary>
-    /// Data received in the API response
-    /// </summary>
-    public T? ResponseData { get; init; }
+    [JsonPropertyName("data")]
+    public TData? Data { get; init; }
 }

@@ -26,12 +26,11 @@ SOFTWARE.
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Web;
 using CashCtrlApiNet.Abstractions.Enums.Api;
+using CashCtrlApiNet.Abstractions.Helpers;
 using CashCtrlApiNet.Abstractions.Models.Api;
-using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Api.Base;
 using CashCtrlApiNet.Abstractions.Values;
 using CashCtrlApiNet.Interfaces;
 
@@ -44,12 +43,6 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     /// Language to use on all requests
     /// </summary>
     private Language _language;
-
-    private static readonly JsonSerializerOptions DefaultJsonSerializerOptions = new()
-    {
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase
-    };
 
     /// <summary>
     /// Holds the http client with some basic settings, to be used for all connectors
@@ -88,37 +81,44 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     public void SetLanguage(Language language)
         => _language = language;
 
-
     /// <inheritdoc />
     public async Task<ApiResult> GetAsync(string requestPath, [Optional] CancellationToken cancellationToken)
-        => await GetApiResult(await _client.SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath), cancellationToken));
+        => await GetApiResult(await _client.SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, [Optional] CancellationToken cancellationToken) where TResult : ModelBaseRecord
-        => await GetApiResult<TResult>(await _client.SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath), cancellationToken));
+    public async Task<ApiResult> GetAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken)
+        => await GetApiResult(await _client.SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, queryParameters), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult<TResult>> PostAsync<TResult, TPost>(string requestPath, TPost payload, [Optional] CancellationToken cancellationToken) where TResult : ModelBaseRecord
+    public async Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
+        => await GetApiResult<TResult>(await _client.SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
+
+    /// <inheritdoc />
+    public async Task<ApiResult<TResult>> GetAsync<TResult, TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
+        => await GetApiResult<TResult>(await _client.SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, queryParameters), cancellationToken));
+
+    /// <inheritdoc />
+    public async Task<ApiResult<TResult>> PostAsync<TResult, TPost>(string requestPath, TPost payload, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
         => await GetApiResult<TResult>(await _client.SendAsync(GetHttpRequestMessageWithFormData(HttpMethod.Post, requestPath, payload), cancellationToken));
 
     /// <summary>
-    /// Get http request message to send to the API (with body as json from data with type T)
+    /// Get http request message to send to the API (with body as json from data with type TForms)
     /// </summary>
     /// <param name="httpMethod"></param>
     /// <param name="requestPath"></param>
     /// <param name="payload"></param>
+    /// <param name="queryParameters"></param>
     /// <returns></returns>
-    private HttpRequestMessage GetHttpRequestMessageWithFormData<T>(HttpMethod httpMethod, string requestPath, T? payload)
+    private HttpRequestMessage GetHttpRequestMessageWithFormData<TForms>(HttpMethod httpMethod, string requestPath, TForms? payload, [Optional] IEnumerable<KeyValuePair<string, string>>? queryParameters)
     {
-        var httpRequestMessage = GetHttpRequestMessage(httpMethod, requestPath);
+        var httpRequestMessage = GetHttpRequestMessage(httpMethod, requestPath, queryParameters);
 
-        // TODO: A bit hacky generic solution.. but who uses Form data for such payloads?
-        var asJson = JsonSerializer.Serialize(payload, DefaultJsonSerializerOptions);
-        var asDict = JsonSerializer.Deserialize<Dictionary<string, object?>>(asJson);
+        if (payload is null)
+            return httpRequestMessage;
 
-        httpRequestMessage.Content = new FormUrlEncodedContent(asDict
-                                                               ?.ToDictionary(e => e.Key, e => e.Value?.ToString())
-                                                               ?? throw new InvalidOperationException("Payload could not be serialized to form data dictionary"));
+        httpRequestMessage.Content = new FormUrlEncodedContent(
+            CashCtrlSerialization.ConvertToDictionary(payload)
+            ?? throw new InvalidOperationException("Payload could not be serialized to form data dictionary"));
 
         return httpRequestMessage;
     }
@@ -128,8 +128,9 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     /// </summary>
     /// <param name="httpMethod"></param>
     /// <param name="requestPath"></param>
+    /// <param name="queryParameters"></param>
     /// <returns></returns>
-    private HttpRequestMessage GetHttpRequestMessage(HttpMethod httpMethod, string requestPath)
+    private HttpRequestMessage GetHttpRequestMessage<TQuery>(HttpMethod httpMethod, string requestPath, [Optional] TQuery? queryParameters)
     {
         var httpRequestMessage = new HttpRequestMessage { Method = httpMethod };
 
@@ -138,11 +139,9 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
         var query = HttpUtility.ParseQueryString(uriBuilder.Query);
         query["lang "] = Enum.GetName(_language);
 
-        // foreach (var (key, value) in GetRequestHeaders(apiRequest, idempotencyKey))
-        //     httpRequestMessage.Headers.Add(key, value);
-
-        // foreach (var (key, value) in GetQueryParameters(apiRequest))
-        //     query[key] = value;
+        if (CashCtrlSerialization.ConvertToDictionary(queryParameters) is { } dictionary)
+            foreach (var (key, value) in dictionary)
+                query[key] = value;
 
         uriBuilder.Query = query.ToString();
         httpRequestMessage.RequestUri = uriBuilder.Uri;
@@ -156,7 +155,7 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     /// <param name="httpResponseMessage"></param>
     /// <returns></returns>
     private static async Task<ApiResult> GetApiResult(HttpResponseMessage httpResponseMessage)
-        => CreateApiResult<ModelBaseRecord>(await GetData(httpResponseMessage));
+        => CreateApiResult<ApiResponse>(await GetData(httpResponseMessage));
 
     /// <summary>
     /// Get API result with data from http response
@@ -164,12 +163,12 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     /// <param name="httpResponseMessage"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    private static async Task<ApiResult<T>> GetApiResult<T>(HttpResponseMessage httpResponseMessage) where T : ModelBaseRecord
+    private static async Task<ApiResult<T>> GetApiResult<T>(HttpResponseMessage httpResponseMessage) where T : ApiResponse
     {
         var data = await GetData(httpResponseMessage);
         return CreateApiResult<T>(data) with
         {
-            ResponseData = JsonSerializer.Deserialize<T>(data.Content)
+            ResponseData = CashCtrlSerialization.Deserialize<T>(data.Content)
         };
     }
 
@@ -178,10 +177,10 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     /// </summary>
     /// <param name="data"></param>
     /// <returns></returns>
-    private static ApiResult<T> CreateApiResult<T>((bool IsSuccessStatusCode, HttpStatusCode StatusCode, string StatusCodeDescription, IReadOnlyDictionary<string, object?> ResponseHeaders, string Content) data) where T : ModelBaseRecord
+    private static ApiResult<T> CreateApiResult<T>((bool IsSuccessStatusCode, HttpStatusCode StatusCode, string StatusCodeDescription, IReadOnlyDictionary<string, object?> ResponseHeaders, string Content) data) where T : ApiResponse
         => new()
         {
-            IsSuccess = data.IsSuccessStatusCode,
+            IsHttpSuccess = data.IsSuccessStatusCode,
             HttpStatusCode = data.StatusCode,
             CashCtrlHttpStatusCodeDescription = data.StatusCodeDescription,
             RequestsLeft = (int?) data.ResponseHeaders[ApiHeaderNames.RequestsLeft]

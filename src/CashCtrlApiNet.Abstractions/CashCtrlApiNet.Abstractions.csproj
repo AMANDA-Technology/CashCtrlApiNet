@@ -18,4 +18,14 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Models\Common\" />
+      <Folder Include="Models\File\" />
+      <Folder Include="Models\Journal\" />
+      <Folder Include="Models\Meta\" />
+      <Folder Include="Models\Order\" />
+      <Folder Include="Models\Person\" />
+      <Folder Include="Models\Report\" />
+    </ItemGroup>
+
 </Project>

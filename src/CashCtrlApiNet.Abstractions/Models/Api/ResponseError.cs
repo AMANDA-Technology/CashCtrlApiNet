@@ -25,16 +25,13 @@ SOFTWARE.
 
 using System.Text.Json.Serialization;
 
-namespace CashCtrlApiNet.Abstractions.Models.Inventory;
+namespace CashCtrlApiNet.Abstractions.Models.Api;
 
 /// <summary>
-/// Articles categorize
+/// Api Error. <see href="https://app.cashctrl.com/static/help/en/api/index.html#errors">API Doc - Error handling</see>
 /// </summary>
-public record ArticlesCategorize : Articles
-{
-    /// <summary>
-    /// The ID of the target category.
-    /// </summary>
-    [JsonPropertyName("target")]
-    public required int TargetCategoryId { get; init; }
-}
+/// <param name="Field"></param>
+/// <param name="Message"></param>
+public record ResponseError(
+    [property: JsonPropertyName("field")] string Field,
+    [property: JsonPropertyName("message")] string Message);

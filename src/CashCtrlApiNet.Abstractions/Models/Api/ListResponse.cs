@@ -23,45 +23,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Net;
+using System.Collections.Immutable;
+using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Api.Base;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Api;
 
 /// <summary>
-/// API result. Library internal abstraction of the API result.
+/// API list result. Not documented.
 /// </summary>
-public record ApiResult
+public record ListResponse<TData> : ApiResponse where TData : ModelBaseRecord
 {
     /// <summary>
-    /// If the http request was successful
+    /// Total
     /// </summary>
-    public bool IsHttpSuccess { get; init; }
+    [JsonPropertyName("total")]
+    public required int Total { get; init; }
 
     /// <summary>
-    /// Http status code received from API
+    /// Data
     /// </summary>
-    public HttpStatusCode HttpStatusCode { get; init; }
+    [JsonPropertyName("data")]
+    public ImmutableArray<TData> Data { get; init; } = [];
 
     /// <summary>
-    /// Official CashCtrl description to the http status code
+    /// Summary
     /// </summary>
-    public string? CashCtrlHttpStatusCodeDescription { get; init; }
+    [JsonPropertyName("summary")]
+    public object? Summary { get; init; }
 
     /// <summary>
-    /// Number of requests left on the API. Not documented, not sure how often this resets.
+    /// Properties
     /// </summary>
-    public int? RequestsLeft { get; set; }
-}
-
-/// <summary>
-/// API result with response data
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public record ApiResult<T> : ApiResult where T : ApiResponse
-{
-    /// <summary>
-    /// Data received in the API response
-    /// </summary>
-    public T? ResponseData { get; init; }
+    [JsonPropertyName("properties")]
+    public object? Properties { get; init; }
 }

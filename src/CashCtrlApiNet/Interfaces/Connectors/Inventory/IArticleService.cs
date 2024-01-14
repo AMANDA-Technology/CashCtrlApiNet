@@ -25,6 +25,7 @@ SOFTWARE.
 
 using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Inventory;
 
 namespace CashCtrlApiNet.Interfaces.Connectors.Inventory;
@@ -41,14 +42,14 @@ public interface IArticleService
     /// <param name="articleId">The ID of the entry.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<Article>> Get(int articleId, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Article>>> Get(Entry articleId, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// List articles. Returns a list of articles.
     /// <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/list.json">API Doc - Inventory/Article/List articles</see>
     /// </summary>
     /// <returns></returns>
-    public Task<ApiResult<ApiListResult<Article>>> GetList([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<Article>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// Creates a new article. Returns either a success or multiple error messages (for each issue).
@@ -57,7 +58,7 @@ public interface IArticleService
     /// <param name="article"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ApiResponse>> Create(ArticleCreate article, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(ArticleCreate article, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// Update article. Updates an existing article. Returns either a success or multiple error messages (for each issue).
@@ -66,7 +67,7 @@ public interface IArticleService
     /// <param name="article"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ApiResponse>> Update(ArticleUpdate article, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(ArticleUpdate article, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// Delete articles. Deletes one or multiple articles. Returns either a success or error message.
@@ -75,7 +76,7 @@ public interface IArticleService
     /// <param name="articles"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ApiResponse>> Delete(Articles articles, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries articles, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// Categorize articles. Assigns one or multiple articles to the desired category. Returns either a success or error message.
@@ -84,7 +85,7 @@ public interface IArticleService
     /// <param name="articlesCategorize"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ApiResponse>> Categorize(ArticlesCategorize articlesCategorize, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize articlesCategorize, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// Update attachments. Updates the file attachments of an article. Use the File API to upload a file and then use the file ID here. Returns either a success or error message.
@@ -93,5 +94,5 @@ public interface IArticleService
     /// <param name="articleAttachments"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ApiResponse>> UpdateAttachments(ArticleAttachments articleAttachments, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments articleAttachments, [Optional] CancellationToken cancellationToken);
 }

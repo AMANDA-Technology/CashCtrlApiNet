@@ -23,12 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace CashCtrlApiNet.Abstractions.Enums.Api;
 
 /// <summary>
 /// Language
 /// </summary>
-// TODO: Fix c# naming, but implement json property names and conversion
+[SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Currently there is no out of")]
 public enum Language
 {
     /// <summary>

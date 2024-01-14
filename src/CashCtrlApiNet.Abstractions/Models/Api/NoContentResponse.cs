@@ -23,45 +23,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Net;
+using System.Collections.Immutable;
+using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Api.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Api;
 
 /// <summary>
-/// API result. Library internal abstraction of the API result.
+/// Api response. <see href="https://app.cashctrl.com/static/help/en/api/index.html#errors">API Doc - Error handling</see>
 /// </summary>
-public record ApiResult
-{
-    /// <summary>
-    /// If the http request was successful
-    /// </summary>
-    public bool IsHttpSuccess { get; init; }
-
-    /// <summary>
-    /// Http status code received from API
-    /// </summary>
-    public HttpStatusCode HttpStatusCode { get; init; }
-
-    /// <summary>
-    /// Official CashCtrl description to the http status code
-    /// </summary>
-    public string? CashCtrlHttpStatusCodeDescription { get; init; }
-
-    /// <summary>
-    /// Number of requests left on the API. Not documented, not sure how often this resets.
-    /// </summary>
-    public int? RequestsLeft { get; set; }
-}
-
-/// <summary>
-/// API result with response data
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public record ApiResult<T> : ApiResult where T : ApiResponse
-{
-    /// <summary>
-    /// Data received in the API response
-    /// </summary>
-    public T? ResponseData { get; init; }
-}
+/// <param name="Success"></param>
+/// <param name="Errors"></param>
+/// <param name="Message"></param>
+/// <param name="InsertId"></param>
+public record NoContentResponse(
+    [property: JsonPropertyName("success")] bool Success,
+    [property: JsonPropertyName("errors")] ImmutableArray<ResponseError>? Errors,
+    [property: JsonPropertyName("message")] string? Message,
+    [property: JsonPropertyName("insertId")] int? InsertId)
+    : ApiResponse;

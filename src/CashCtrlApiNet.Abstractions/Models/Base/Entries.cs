@@ -25,23 +25,19 @@ SOFTWARE.
 
 using System.Collections.Immutable;
 using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Converters;
 
-namespace CashCtrlApiNet.Abstractions.Models.Inventory;
+namespace CashCtrlApiNet.Abstractions.Models.Base;
 
 /// <summary>
-/// Article attachments
+/// Entry IDs
 /// </summary>
-public record ArticleAttachments
+public record Entries : ModelBaseRecord
 {
     /// <summary>
-    /// The ID of the entry.
+    /// The IDs of the selected entries, comma-separated.
     /// </summary>
-    [JsonPropertyName("id")]
-    public required int ArticleId { get; init; }
-
-    /// <summary>
-    /// A list of file IDs, comma-separated. Leave empty to remove all attachments. Use the File API to upload a file and then use the file ID here.
-    /// </summary>
-    [JsonPropertyName("fileIds")]
-    public required ImmutableArray<int> AttachedFileIds { get; init; }
+    [JsonPropertyName("ids")]
+    [JsonConverter(typeof(IntArrayAsCsvJsonConverter))]
+    public required ImmutableArray<int> Ids { get; init; }
 }

@@ -23,22 +23,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using System.Text.Json.Serialization;
-using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Abstractions.Models.Api;
+namespace CashCtrlApiNet.Abstractions.Models.Base;
 
 /// <summary>
-/// Api response. <see href="https://app.cashctrl.com/static/help/en/api/index.html#errors">API Doc - Error handling</see>
+/// Articles categorize
 /// </summary>
-/// <param name="Success"></param>
-/// <param name="Errors"></param>
-/// <param name="Message"></param>
-/// <param name="InsertId"></param>
-public record ApiResponse(
-    [property: JsonPropertyName("success")] bool Success,
-    [property: JsonPropertyName("errors")] ImmutableArray<ApiError>? Errors,
-    [property: JsonPropertyName("message")] string? Message,
-    [property: JsonPropertyName("insertId")] int? InsertId)
-    : ModelBaseRecord;
+public record EntriesCategorize : Entries
+{
+    /// <summary>
+    /// The ID of the target category.
+    /// </summary>
+    [JsonPropertyName("target")]
+    public required int TargetCategoryId { get; init; }
+}

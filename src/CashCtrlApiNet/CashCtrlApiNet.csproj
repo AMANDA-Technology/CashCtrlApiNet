@@ -23,7 +23,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Services\Connectors\Account\" />
       <Folder Include="Services\Connectors\Common\" />
       <Folder Include="Services\Connectors\File\" />
       <Folder Include="Services\Connectors\Journal\" />

@@ -23,39 +23,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Abstractions.Models.Inventory;
-
-/// <summary>
-/// Article IDs
-/// </summary>
-public record Articles : ModelBaseRecord
-{
-    /// <summary>
-    /// The IDs of the selected entries, comma-separated.
-    /// </summary>
-    [JsonPropertyName("ids")]
-    // [JsonConverter(typeof(IntArrayAsCsvJsonConverter))] // TODO: really a csv? or json array?
-    public required ImmutableArray<int> ArticleIds { get; init; }
-}
+namespace CashCtrlApiNet.Abstractions.Converters;
 
 /// <summary>
-/// Json converter for immutable array of int, parsed as comma separated values (CSV) in json
+/// CashCtrl date time json converter
 /// </summary>
-public class IntArrayAsCsvJsonConverter : JsonConverter<ImmutableArray<int>>
+public class CashCtrlDateTimeNullableConverter : JsonConverter<DateTime?>
 {
     /// <inheritdoc />
-    public override ImmutableArray<int> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        => reader.GetString()
-            ?.Split(',')
-            .Select(val => int.Parse(val.Trim()))
-            .ToImmutableArray() ?? [];
+    public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var valueString = reader.GetString();
+
+        if (string.IsNullOrEmpty(valueString))
+            return null;
+
+        return DateTime.TryParseExact(valueString, CashCtrlDateTimeConverter.CashCtrlDateTimeFormat, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var value)
+            ? value
+            : null;
+    }
 
     /// <inheritdoc />
-    public override void Write(Utf8JsonWriter writer, ImmutableArray<int> value, JsonSerializerOptions options)
-        => writer.WriteStringValue(string.Join(',', value));
+    public override void Write(Utf8JsonWriter writer, DateTime? value, JsonSerializerOptions options)
+    {
+        if (value.HasValue)
+        {
+            writer.WriteStringValue(value.Value.ToString(CashCtrlDateTimeConverter.CashCtrlDateTimeFormat));
+        }
+        else
+        {
+            writer.WriteNullValue();
+        }
+    }
 }

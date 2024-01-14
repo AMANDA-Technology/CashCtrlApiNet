@@ -23,36 +23,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
-using System.Text.Json.Serialization;
-using CashCtrlApiNet.Abstractions.Models.Base;
+using System.Diagnostics.CodeAnalysis;
 
-namespace CashCtrlApiNet.Abstractions.Models.Api;
+namespace CashCtrlApiNet.Abstractions.Models.Api.Base;
 
 /// <summary>
-/// API list result. Not documented.
+/// Base record for all api responses
 /// </summary>
-public record ApiListResult<T> : ModelBaseRecord where T : ModelBaseRecord
-{
-    /// <summary>
-    /// Total
-    /// </summary>
-    [JsonPropertyName("total")] public required int Total { get; init; }
-
-    /// <summary>
-    /// Data
-    /// </summary>
-    [JsonPropertyName("data")] public ImmutableArray<T> Data { get; init; } = [];
-
-    /// <summary>
-    /// Summary
-    /// </summary>
-    [JsonPropertyName("summary")]
-    public object? Summary { get; init; }
-
-    /// <summary>
-    /// Properties
-    /// </summary>
-    [JsonPropertyName("properties")]
-    public object? Properties { get; init; }
-}
+[SuppressMessage("Sonar", "S2094:Classes should not be empty", Justification = "This empty abstract record is used like an empty interface, but also ensures that every inheritor must be a record as well")]
+public abstract record ApiResponse;

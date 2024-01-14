@@ -26,7 +26,7 @@ SOFTWARE.
 using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Enums.Api;
 using CashCtrlApiNet.Abstractions.Models.Api;
-using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Api.Base;
 
 namespace CashCtrlApiNet.Interfaces;
 
@@ -53,9 +53,27 @@ public interface ICashCtrlConnectionHandler
     /// Base GET request
     /// </summary>
     /// <param name="requestPath"></param>
+    /// <param name="queryParameters"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, [Optional] CancellationToken cancellationToken) where TResult : ModelBaseRecord;
+    public Task<ApiResult> GetAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Base GET request
+    /// </summary>
+    /// <param name="requestPath"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse;
+
+    /// <summary>
+    /// Base GET request
+    /// </summary>
+    /// <param name="requestPath"></param>
+    /// <param name="queryParameters"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<TResult>> GetAsync<TResult, TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse;
 
     /// <summary>
     /// Base GET request
@@ -64,5 +82,5 @@ public interface ICashCtrlConnectionHandler
     /// <param name="payload"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<TResult>> PostAsync<TResult, TPost>(string requestPath, TPost payload, [Optional] CancellationToken cancellationToken) where TResult : ModelBaseRecord;
+    public Task<ApiResult<TResult>> PostAsync<TResult, TPost>(string requestPath, TPost payload, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse;
 }
