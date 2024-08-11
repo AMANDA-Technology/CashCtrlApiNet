@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,12 +23,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace CashCtrlApiNet.Interfaces.Connectors.Order;
+using System.Text.Json.Serialization;
+
+namespace CashCtrlApiNet.Abstractions.Models.Inventory.ArticleCategory;
 
 /// <summary>
-/// CashCtrl order book entry service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/bookentry">API Doc - Order/Book entry</a>
+/// Article category allocation
 /// </summary>
-public interface IBookEntryService
-{
-
-}
+/// <param name="Share">Allocation share. This can be a percentage or just a share number.</param>
+/// <param name="ToCostCenterId">ID of cost center to allocate to. See <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter">API Doc - Account/Cost center</a>.</param>
+public record ArticleCategoryAllocation(
+    [property: JsonPropertyName("share")] string Share,
+    [property: JsonPropertyName("toCostCenterId")] string ToCostCenterId);

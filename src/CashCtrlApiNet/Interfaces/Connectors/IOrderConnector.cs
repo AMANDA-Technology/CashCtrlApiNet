@@ -28,32 +28,32 @@ using CashCtrlApiNet.Interfaces.Connectors.Order;
 namespace CashCtrlApiNet.Interfaces.Connectors;
 
 /// <summary>
-/// CashCtrl order service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/order">API Doc - Order</see>
+/// CashCtrl order service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order">API Doc - Order</a>
 /// </summary>
 public interface IOrderConnector
 {
     /// <summary>
-    /// CashCtrl order service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/order">API Doc - Order/Order</see>
+    /// CashCtrl order service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order">API Doc - Order/Order</a>
     /// </summary>
     public IOrderService Order { get; }
 
     /// <summary>
-    /// CashCtrl order book entry service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/order/bookentry">API Doc - Order/Book entry</see>
+    /// CashCtrl order book entry service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/bookentry">API Doc - Order/Book entry</a>
     /// </summary>
     public IBookEntryService BookEntry { get; }
 
     /// <summary>
-    /// CashCtrl order category service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/order/category">API Doc - Order/Category</see>
+    /// CashCtrl order category service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/category">API Doc - Order/Category</a>
     /// </summary>
     public IOrderCategoryService Category { get; }
 
     /// <summary>
-    /// CashCtrl order document service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/order/document">API Doc - Order/Document</see>
+    /// CashCtrl order document service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/document">API Doc - Order/Document</a>
     /// </summary>
     public IDocumentService DocumentService { get; }
 
     /// <summary>
-    /// CashCtrl order document template service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/order/template">API Doc - Order/Document template</see>
+    /// CashCtrl order document template service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/template">API Doc - Order/Document template</a>
     /// </summary>
     public IDocumentTemplateService DocumentTemplate { get; }
 }

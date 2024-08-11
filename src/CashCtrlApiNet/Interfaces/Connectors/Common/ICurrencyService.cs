@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Common;
 
 /// <summary>
-/// CashCtrl common currency service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/currency">API Doc - Common/Currency</see>
+/// CashCtrl common currency service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/currency">API Doc - Common/Currency</a>
 /// </summary>
 public interface ICurrencyService
 {

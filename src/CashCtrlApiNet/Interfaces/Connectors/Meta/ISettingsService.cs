@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
 
 /// <summary>
-/// CashCtrl meta settings service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/setting">API Doc - Meta/Settings</see>
+/// CashCtrl meta settings service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/setting">API Doc - Meta/Settings</a>
 /// </summary>
 public interface ISettingsService
 {

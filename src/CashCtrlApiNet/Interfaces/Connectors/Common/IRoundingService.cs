@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Common;
 
 /// <summary>
-/// CashCtrl common rounding service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/rounding">API Doc - Common/Rounding</see>
+/// CashCtrl common rounding service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/rounding">API Doc - Common/Rounding</a>
 /// </summary>
 public interface IRoundingService
 {

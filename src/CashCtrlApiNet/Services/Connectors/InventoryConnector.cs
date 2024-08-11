@@ -40,7 +40,7 @@ public class InventoryConnector : IInventoryConnector
     public InventoryConnector(ICashCtrlConnectionHandler connectionHandler)
     {
         Article = new ArticleService(connectionHandler);
-        // ArticleCategory = new IArticleCategoryService(connectionHandler);
+        ArticleCategory = new ArticleCategoryService(connectionHandler);
         // FixedAsset = new FixedAssetService(connectionHandler);
         // FixedAssetCategory = new FixedAssetCategoryService(connectionHandler);
         // Import = new InventoryImportService(connectionHandler);

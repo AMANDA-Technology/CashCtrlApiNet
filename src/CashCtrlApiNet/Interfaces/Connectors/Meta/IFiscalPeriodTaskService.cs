@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
 
 /// <summary>
-/// CashCtrl meta fiscal period task service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod/task">API Doc - Meta/Fiscal period task</see>
+/// CashCtrl meta fiscal period task service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod/task">API Doc - Meta/Fiscal period task</a>
 /// </summary>
 public interface IFiscalPeriodTaskService
 {

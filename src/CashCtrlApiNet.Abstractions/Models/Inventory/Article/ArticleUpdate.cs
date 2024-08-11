@@ -23,12 +23,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace CashCtrlApiNet.Interfaces.Connectors.Order;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+namespace CashCtrlApiNet.Abstractions.Models.Inventory.Article;
 
 /// <summary>
-/// CashCtrl order book entry service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/bookentry">API Doc - Order/Book entry</a>
+/// Article update
 /// </summary>
-public interface IBookEntryService
+public record ArticleUpdate : ArticleCreate
 {
+    /// <summary>
+    /// The ID of the article to update.
+    /// </summary>
+    [JsonPropertyName("id")]
+    public required int Id { get; init; }
 
+    /// <summary>
+    /// The article number.
+    /// </summary>
+    [JsonPropertyName("nr")]
+    [MaxLength(50)]
+    public new required string Nr { get; init; }
 }

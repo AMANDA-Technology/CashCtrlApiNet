@@ -28,17 +28,17 @@ using CashCtrlApiNet.Interfaces.Connectors.File;
 namespace CashCtrlApiNet.Interfaces.Connectors;
 
 /// <summary>
-/// CashCtrl file service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/file">API Doc - File</see>
+/// CashCtrl file service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file">API Doc - File</a>
 /// </summary>
 public interface IFileConnector
 {
     /// <summary>
-    /// CashCtrl file service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/file">API Doc - File/File</see>
+    /// CashCtrl file service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file">API Doc - File/File</a>
     /// </summary>
     public IFileService File { get; }
 
     /// <summary>
-    /// CashCtrl file category endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/file/category">API Doc - File/File category</see>
+    /// CashCtrl file category endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file/category">API Doc - File/File category</a>
     /// </summary>
     public IFileCategoryService FileCategory { get; }
 }

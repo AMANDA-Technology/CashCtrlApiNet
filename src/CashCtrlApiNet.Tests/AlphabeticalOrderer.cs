@@ -23,12 +23,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace CashCtrlApiNet.Interfaces.Connectors.Order;
+using Xunit.Abstractions;
+using Xunit.Sdk;
 
-/// <summary>
-/// CashCtrl order book entry service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/bookentry">API Doc - Order/Book entry</a>
-/// </summary>
-public interface IBookEntryService
+namespace CashCtrlApiNet.Tests;
+
+// ReSharper disable once UnusedType.Global
+public class AlphabeticalOrderer : ITestCaseOrderer
 {
-
+    public IEnumerable<TTestCase> OrderTestCases<TTestCase>(IEnumerable<TTestCase> testCases) where TTestCase : ITestCase
+    {
+        var result = testCases.ToList();
+        result.Sort((x, y) => StringComparer.OrdinalIgnoreCase.Compare(x.TestMethod.Method.Name, y.TestMethod.Method.Name));
+        return result;
+    }
 }

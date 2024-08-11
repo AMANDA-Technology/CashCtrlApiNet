@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Report;
 
 /// <summary>
-/// CashCtrl report element service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element">API Doc - Report/Element</see>
+/// CashCtrl report element service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element">API Doc - Report/Element</a>
 /// </summary>
 public interface IReportElementService
 {

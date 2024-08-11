@@ -29,58 +29,58 @@ using CashCtrlApiNet.Interfaces.Connectors;
 namespace CashCtrlApiNet.Interfaces;
 
 /// <summary>
-/// Connector service to call CashCtrl REST API. <see href="https://app.cashctrl.com/static/help/en/api/index.html">API Doc</see>
+/// Connector service to call CashCtrl REST API. <a href="https://app.cashctrl.com/static/help/en/api/index.html">API Doc</a>
 /// </summary>
 public interface ICashCtrlApiClient
 {
     /// <summary>
-    /// Change the language to use for upcoming requests. <see href="https://app.cashctrl.com/static/help/en/api/index.html#lang">API Doc - Language</see>
+    /// Change the language to use for upcoming requests. <a href="https://app.cashctrl.com/static/help/en/api/index.html#lang">API Doc - Language</a>
     /// </summary>
     /// <param name="language"></param>
     public void SetLanguage(Language language);
 
     /// <summary>
-    /// CashCtrl account service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/account">API Doc - Account</see>
+    /// CashCtrl account service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account">API Doc - Account</a>
     /// </summary>
     public IAccountConnector Account { get; }
 
     /// <summary>
-    /// CashCtrl common service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/currency">API Doc - Common</see>
+    /// CashCtrl common service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/currency">API Doc - Common</a>
     /// </summary>
     public ICommonConnector Common { get; }
 
     /// <summary>
-    /// CashCtrl file service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/file">API Doc - File</see>
+    /// CashCtrl file service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file">API Doc - File</a>
     /// </summary>
     public IFileConnector File { get; }
 
     /// <summary>
-    /// CashCtrl inventory service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory">API Doc - Inventory</see>
+    /// CashCtrl inventory service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory">API Doc - Inventory</a>
     /// </summary>
     public IInventoryConnector Inventory { get; }
 
     /// <summary>
-    /// CashCtrl journal service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/journal">API Doc - Journal</see>
+    /// CashCtrl journal service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal">API Doc - Journal</a>
     /// </summary>
     public IJournalConnector Journal { get; }
 
     /// <summary>
-    /// CashCtrl meta service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta</see>
+    /// CashCtrl meta service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta</a>
     /// </summary>
     public IMetaConnector Meta { get; }
 
     /// <summary>
-    /// CashCtrl order service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/order">API Doc - Order</see>
+    /// CashCtrl order service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order">API Doc - Order</a>
     /// </summary>
     public IOrderConnector Order { get; }
 
     /// <summary>
-    /// CashCtrl person service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/person">API Doc - Person</see>
+    /// CashCtrl person service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person">API Doc - Person</a>
     /// </summary>
     public IPersonConnector Person { get; }
 
     /// <summary>
-    /// CashCtrl report service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/report">API Doc - Report</see>
+    /// CashCtrl report service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report">API Doc - Report</a>
     /// </summary>
     public IReportConnector Report { get; }
 }

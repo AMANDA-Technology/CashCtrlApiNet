@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Journal;
 
 /// <summary>
-/// CashCtrl journal import service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import">API Doc - Journal/Import</see>
+/// CashCtrl journal import service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import">API Doc - Journal/Import</a>
 /// </summary>
 public interface IJournalImportService
 {

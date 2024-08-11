@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Common;
 
 /// <summary>
-/// CashCtrl common sequence number service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/tax">API Doc - Common/Tax rate</see>
+/// CashCtrl common sequence number service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/tax">API Doc - Common/Tax rate</a>
 /// </summary>
 public interface ITaxRateService
 {

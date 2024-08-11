@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Person;
 
 /// <summary>
-/// CashCtrl person title service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/person/title">API Doc - Person/Title</see>
+/// CashCtrl person title service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/title">API Doc - Person/Title</a>
 /// </summary>
 public interface IPersonTitleService
 {

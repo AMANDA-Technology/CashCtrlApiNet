@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Inventory;
 
 /// <summary>
-/// CashCtrl inventory import service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/import">API Doc - Inventory/Import</see>
+/// CashCtrl inventory import service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/import">API Doc - Inventory/Import</a>
 /// </summary>
 public interface IInventoryImportService
 {

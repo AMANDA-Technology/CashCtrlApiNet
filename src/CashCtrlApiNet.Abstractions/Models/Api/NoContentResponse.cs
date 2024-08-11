@@ -30,7 +30,7 @@ using CashCtrlApiNet.Abstractions.Models.Api.Base;
 namespace CashCtrlApiNet.Abstractions.Models.Api;
 
 /// <summary>
-/// Api response. <see href="https://app.cashctrl.com/static/help/en/api/index.html#errors">API Doc - Error handling</see>
+/// Api response. <a href="https://app.cashctrl.com/static/help/en/api/index.html#errors">API Doc - Error handling</a>
 /// </summary>
 /// <param name="Success"></param>
 /// <param name="Errors"></param>

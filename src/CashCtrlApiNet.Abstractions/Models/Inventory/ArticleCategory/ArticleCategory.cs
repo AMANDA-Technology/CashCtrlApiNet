@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,12 +23,48 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace CashCtrlApiNet.Interfaces.Connectors.Order;
+using System.Text.Json.Serialization;
+
+namespace CashCtrlApiNet.Abstractions.Models.Inventory.ArticleCategory;
 
 /// <summary>
-/// CashCtrl order book entry service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/bookentry">API Doc - Order/Book entry</a>
+/// Article category
 /// </summary>
-public interface IBookEntryService
+public record ArticleCategory : ArticleCategoryUpdate
 {
+    /// <summary>
+    ///
+    /// </summary>
+    [JsonPropertyName("created")]
+    public required DateTime Created { get; init; }
 
+    /// <summary>
+    ///
+    /// </summary>
+    [JsonPropertyName("createdBy")]
+    public required string CreatedBy { get; init; }
+
+    /// <summary>
+    ///
+    /// </summary>
+    [JsonPropertyName("lastUpdated")]
+    public DateTime? LastUpdated { get; init; }
+
+    /// <summary>
+    ///
+    /// </summary>
+    [JsonPropertyName("lastUpdatedBy")]
+    public string? LastUpdatedBy { get; init; }
+
+    /// <summary>
+    ///
+    /// </summary>
+    [JsonPropertyName("type")]
+    public string? Type { get; init; }
+
+    /// <summary>
+    ///
+    /// </summary>
+    [JsonPropertyName("sequenceNrIdInherited")]
+    public int? SequenceNrIdInherited { get; init; }
 }

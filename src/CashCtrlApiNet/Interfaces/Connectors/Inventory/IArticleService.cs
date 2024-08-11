@@ -26,18 +26,18 @@ SOFTWARE.
 using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Inventory;
+using CashCtrlApiNet.Abstractions.Models.Inventory.Article;
 
 namespace CashCtrlApiNet.Interfaces.Connectors.Inventory;
 
 /// <summary>
-/// CashCtrl inventory article service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article">API Doc - Inventory/Article</see>
+/// CashCtrl inventory article service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article">API Doc - Inventory/Article</a>
 /// </summary>
 public interface IArticleService
 {
     /// <summary>
     /// Read article. Returns a single article by ID.
-    /// <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/read.json">API Doc - Inventory/Article/Read article</see>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/read.json">API Doc - Inventory/Article/Read article</a>
     /// </summary>
     /// <param name="articleId">The ID of the entry.</param>
     /// <param name="cancellationToken"></param>
@@ -46,14 +46,14 @@ public interface IArticleService
 
     /// <summary>
     /// List articles. Returns a list of articles.
-    /// <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/list.json">API Doc - Inventory/Article/List articles</see>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/list.json">API Doc - Inventory/Article/List articles</a>
     /// </summary>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<Article>>> GetList([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<ArticleListed>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// Creates a new article. Returns either a success or multiple error messages (for each issue).
-    /// <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/create.json">API Doc - Inventory/Article/Create article</see>
+    /// Create article. Creates a new article. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/create.json">API Doc - Inventory/Article/Create article</a>
     /// </summary>
     /// <param name="article"></param>
     /// <param name="cancellationToken"></param>
@@ -62,7 +62,7 @@ public interface IArticleService
 
     /// <summary>
     /// Update article. Updates an existing article. Returns either a success or multiple error messages (for each issue).
-    /// <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/update.json">API Doc - Inventory/Article/Update article</see>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/update.json">API Doc - Inventory/Article/Update article</a>
     /// </summary>
     /// <param name="article"></param>
     /// <param name="cancellationToken"></param>
@@ -71,7 +71,7 @@ public interface IArticleService
 
     /// <summary>
     /// Delete articles. Deletes one or multiple articles. Returns either a success or error message.
-    /// <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/delete.json">API Doc - Inventory/Article/Delete articles</see>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/delete.json">API Doc - Inventory/Article/Delete articles</a>
     /// </summary>
     /// <param name="articles"></param>
     /// <param name="cancellationToken"></param>
@@ -80,7 +80,7 @@ public interface IArticleService
 
     /// <summary>
     /// Categorize articles. Assigns one or multiple articles to the desired category. Returns either a success or error message.
-    /// <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/categorize.json">API Doc - Inventory/Article/Categorize articles</see>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/categorize.json">API Doc - Inventory/Article/Categorize articles</a>
     /// </summary>
     /// <param name="articlesCategorize"></param>
     /// <param name="cancellationToken"></param>
@@ -89,7 +89,7 @@ public interface IArticleService
 
     /// <summary>
     /// Update attachments. Updates the file attachments of an article. Use the File API to upload a file and then use the file ID here. Returns either a success or error message.
-    /// <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/update_attachments.json">API Doc - Inventory/Article/Update attachments</see>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/update_attachments.json">API Doc - Inventory/Article/Update attachments</a>
     /// </summary>
     /// <param name="articleAttachments"></param>
     /// <param name="cancellationToken"></param>

@@ -28,32 +28,32 @@ using CashCtrlApiNet.Interfaces.Connectors.Meta;
 namespace CashCtrlApiNet.Interfaces.Connectors;
 
 /// <summary>
-/// CashCtrl meta service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta</see>
+/// CashCtrl meta service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta</a>
 /// </summary>
 public interface IMetaConnector
 {
     /// <summary>
-    /// CashCtrl meta fiscal period service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</see>
+    /// CashCtrl meta fiscal period service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</a>
     /// </summary>
     public IFiscalPeriodService FiscalPeriod { get; }
 
     /// <summary>
-    /// CashCtrl meta fiscal period service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</see>
+    /// CashCtrl meta fiscal period service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</a>
     /// </summary>
     public IFiscalPeriodTaskService FiscalPeriodTask { get; }
 
     /// <summary>
-    /// CashCtrl meta fiscal period service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</see>
+    /// CashCtrl meta fiscal period service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</a>
     /// </summary>
     public ILocationService Location { get; }
 
     /// <summary>
-    /// CashCtrl meta fiscal period service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</see>
+    /// CashCtrl meta fiscal period service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</a>
     /// </summary>
     public IOrganizationService Organization { get; }
 
     /// <summary>
-    /// CashCtrl meta fiscal period service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</see>
+    /// CashCtrl meta fiscal period service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</a>
     /// </summary>
     public ISettingsService Settings { get; }
 }

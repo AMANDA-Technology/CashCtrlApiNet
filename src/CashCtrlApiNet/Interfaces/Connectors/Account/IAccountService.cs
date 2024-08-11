@@ -31,13 +31,13 @@ using CashCtrlApiNet.Abstractions.Models.Base;
 namespace CashCtrlApiNet.Interfaces.Connectors.Account;
 
 /// <summary>
-/// CashCtrl account service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/account">API Doc - Account/Account</see>
+/// CashCtrl account service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account">API Doc - Account/Account</a>
 /// </summary>
 public interface IAccountService
 {
     /// <summary>
     /// Read account. Returns a single account by ID.
-    /// <see href="https://app.cashctrl.com/static/help/en/api/index.html#/account/read.json">API Doc - Inventory/Account/Read account</see>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/read.json">API Doc - Inventory/Account/Read account</a>
     /// </summary>
     /// <param name="accountId">The ID of the entry.</param>
     /// <param name="cancellationToken"></param>
@@ -46,14 +46,14 @@ public interface IAccountService
 
     /// <summary>
     /// List accounts. Returns a list of accounts.
-    /// <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/list.json">API Doc - Inventory/Account/List accounts</see>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/list.json">API Doc - Inventory/Account/List accounts</a>
     /// </summary>
     /// <returns></returns>
     public Task<ApiResult<ListResponse<Abstractions.Models.Account.Account>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// Creates a new account. Returns either a success or multiple error messages (for each issue).
-    /// <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/create.json">API Doc - Inventory/Account/Create account</see>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/create.json">API Doc - Inventory/Account/Create account</a>
     /// </summary>
     /// <param name="account"></param>
     /// <param name="cancellationToken"></param>
@@ -62,7 +62,7 @@ public interface IAccountService
 
     /// <summary>
     /// Update account. Updates an existing account. Returns either a success or multiple error messages (for each issue).
-    /// <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/update.json">API Doc - Inventory/Account/Update account</see>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/update.json">API Doc - Inventory/Account/Update account</a>
     /// </summary>
     /// <param name="account"></param>
     /// <param name="cancellationToken"></param>
@@ -71,7 +71,7 @@ public interface IAccountService
 
     /// <summary>
     /// Delete accounts. Deletes one or multiple accounts. Returns either a success or error message.
-    /// <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/delete.json">API Doc - Inventory/Account/Delete accounts</see>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/delete.json">API Doc - Inventory/Account/Delete accounts</a>
     /// </summary>
     /// <param name="accounts"></param>
     /// <param name="cancellationToken"></param>
@@ -80,7 +80,7 @@ public interface IAccountService
 
     /// <summary>
     /// Categorize accounts. Assigns one or multiple accounts to the desired category. Returns either a success or error message.
-    /// <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/categorize.json">API Doc - Inventory/Account/Categorize accounts</see>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/categorize.json">API Doc - Inventory/Account/Categorize accounts</a>
     /// </summary>
     /// <param name="accountsCategorize"></param>
     /// <param name="cancellationToken"></param>
@@ -89,7 +89,7 @@ public interface IAccountService
 
     /// <summary>
     /// Update attachments. Updates the file attachments of an account. Use the File API to upload a file and then use the file ID here. Returns either a success or error message.
-    /// <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/update_attachments.json">API Doc - Inventory/Account/Update attachments</see>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/update_attachments.json">API Doc - Inventory/Account/Update attachments</a>
     /// </summary>
     /// <param name="accountAttachments"></param>
     /// <param name="cancellationToken"></param>

@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Account;
 
 /// <summary>
-/// CashCtrl account cost center service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter">API Doc - Account/Cost center</see>
+/// CashCtrl account cost center service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter">API Doc - Account/Cost center</a>
 /// </summary>
 public interface ICostCenterService
 {

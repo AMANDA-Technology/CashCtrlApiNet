@@ -27,7 +27,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Abstractions.Models.Inventory;
+namespace CashCtrlApiNet.Abstractions.Models.Inventory.Article;
 
 /// <summary>
 /// Article create

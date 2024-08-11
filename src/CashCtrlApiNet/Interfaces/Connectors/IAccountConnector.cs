@@ -28,27 +28,27 @@ using CashCtrlApiNet.Interfaces.Connectors.Account;
 namespace CashCtrlApiNet.Interfaces.Connectors;
 
 /// <summary>
-/// CashCtrl account service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/account">API Doc - Account</see>
+/// CashCtrl account service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account">API Doc - Account</a>
 /// </summary>
 public interface IAccountConnector
 {
     /// <summary>
-    /// CashCtrl account service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/account">API Doc - Account</see>
+    /// CashCtrl account service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account">API Doc - Account</a>
     /// </summary>
     public IAccountService Account { get; }
 
     /// <summary>
-    /// CashCtrl account category service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/account/category">API Doc - Account/Category</see>
+    /// CashCtrl account category service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/category">API Doc - Account/Category</a>
     /// </summary>
     public IAccountCategoryService Category { get; }
 
     /// <summary>
-    /// CashCtrl account cost center service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter">API Doc - Account/Cost center</see>
+    /// CashCtrl account cost center service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter">API Doc - Account/Cost center</a>
     /// </summary>
     public ICostCenterService CostCenter { get; }
 
     /// <summary>
-    /// CashCtrl account cost center category service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/category">API Doc - Account/Cost center category</see>
+    /// CashCtrl account cost center category service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/category">API Doc - Account/Cost center category</a>
     /// </summary>
     public ICostCenterCategoryService CostCenterCategory { get; }
 }

@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Order;
 
 /// <summary>
-/// CashCtrl order document template service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/order/template">API Doc - Order/Document template</see>
+/// CashCtrl order document template service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/template">API Doc - Order/Document template</a>
 /// </summary>
 public interface IDocumentTemplateService
 {

@@ -23,12 +23,58 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Inventory.ArticleCategory;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Inventory;
 
 /// <summary>
-/// CashCtrl inventory article category service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/category">API Doc - Inventory/Article category</see>
+/// CashCtrl inventory article category service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/category">API Doc - Inventory/Article category</a>
 /// </summary>
 public interface IArticleCategoryService
 {
+    /// <summary>
+    /// Read category. Returns a single category by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/category/read.json">API Doc - Inventory/Article category/Read category</a>
+    /// </summary>
+    /// <param name="articleCategoryId">The ID of the entry.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<ArticleCategory>>> Get(Entry articleCategoryId, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// List categories. Returns a list of all categories.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/category/list.json">API Doc - Inventory/Article category/List articles</a>
+    /// </summary>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<ArticleCategory>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Create category. Creates a new category. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/category/create.json">API Doc - Inventory/Article category/Create category</a>
+    /// </summary>
+    /// <param name="articleCategory"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(ArticleCategoryCreate articleCategory, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update category. Updates an existing category. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/category/update.json">API Doc - Inventory/Article category/Update category</a>
+    /// </summary>
+    /// <param name="articleCategory"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(ArticleCategoryUpdate articleCategory, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete categories. Deletes one or multiple existing categories. Note that you can only delete empty categories. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/category/delete.json">API Doc - Inventory/Article category/Delete categories</a>
+    /// </summary>
+    /// <param name="articleCategories"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries articleCategories, [Optional] CancellationToken cancellationToken);
 }

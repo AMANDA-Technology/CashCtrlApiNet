@@ -28,7 +28,7 @@ using System.Text.Json.Serialization;
 namespace CashCtrlApiNet.Abstractions.Models.Api;
 
 /// <summary>
-/// Api Error. <see href="https://app.cashctrl.com/static/help/en/api/index.html#errors">API Doc - Error handling</see>
+/// Api Error. <a href="https://app.cashctrl.com/static/help/en/api/index.html#errors">API Doc - Error handling</a>
 /// </summary>
 /// <param name="Field"></param>
 /// <param name="Message"></param>

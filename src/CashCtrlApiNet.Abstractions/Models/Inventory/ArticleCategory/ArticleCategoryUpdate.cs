@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,26 +23,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace CashCtrlApiNet.Abstractions.Models.Inventory;
+namespace CashCtrlApiNet.Abstractions.Models.Inventory.ArticleCategory;
 
 /// <summary>
-/// Article update
+/// Article category update
 /// </summary>
-public record ArticleUpdate : ArticleCreate
+public record ArticleCategoryUpdate : ArticleCategoryCreate
 {
     /// <summary>
-    /// The ID of the article to update.
+    /// The ID of the category to update.
     /// </summary>
     [JsonPropertyName("id")]
     public required int Id { get; init; }
-
-    /// <summary>
-    /// The article number.
-    /// </summary>
-    [JsonPropertyName("nr")]
-    [MaxLength(50)]
-    public new required string Nr { get; init; }
 }

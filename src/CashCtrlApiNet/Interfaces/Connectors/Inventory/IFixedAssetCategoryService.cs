@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Inventory;
 
 /// <summary>
-/// CashCtrl inventory fixed asset category service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset/category">API Doc - Inventory/Fixed asset category</see>
+/// CashCtrl inventory fixed asset category service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset/category">API Doc - Inventory/Fixed asset category</a>
 /// </summary>
 public interface IFixedAssetCategoryService
 {

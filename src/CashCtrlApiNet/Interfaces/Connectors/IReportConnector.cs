@@ -28,22 +28,22 @@ using CashCtrlApiNet.Interfaces.Connectors.Report;
 namespace CashCtrlApiNet.Interfaces.Connectors;
 
 /// <summary>
-/// CashCtrl report service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/report">API Doc - Report</see>
+/// CashCtrl report service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report">API Doc - Report</a>
 /// </summary>
 public interface IReportConnector
 {
     /// <summary>
-    /// CashCtrl report service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/report">API Doc - Report/Report</see>
+    /// CashCtrl report service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report">API Doc - Report/Report</a>
     /// </summary>
     public IReportService Report { get; }
 
     /// <summary>
-    /// CashCtrl report element service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element">API Doc - Report/Element</see>
+    /// CashCtrl report element service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element">API Doc - Report/Element</a>
     /// </summary>
     public IReportElementService Element { get; }
 
     /// <summary>
-    /// CashCtrl report set service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/report/set">API Doc - Report/Set</see>
+    /// CashCtrl report set service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/set">API Doc - Report/Set</a>
     /// </summary>
     public IReportSetService Set { get; }
 }

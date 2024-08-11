@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Order;
 
 /// <summary>
-/// CashCtrl order service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/order">API Doc - Order/Order</see>
+/// CashCtrl order service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order">API Doc - Order/Order</a>
 /// </summary>
 public interface IOrderService
 {

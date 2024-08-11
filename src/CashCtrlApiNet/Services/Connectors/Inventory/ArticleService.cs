@@ -26,11 +26,11 @@ SOFTWARE.
 using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Inventory;
+using CashCtrlApiNet.Abstractions.Models.Inventory.Article;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors.Inventory;
 using CashCtrlApiNet.Services.Connectors.Base;
-using CashCtrlApiNet.Services.Endpoints;
+using Endpoint = CashCtrlApiNet.Services.Endpoints.InventoryEndpoints.Article;
 
 namespace CashCtrlApiNet.Services.Connectors.Inventory;
 
@@ -39,29 +39,29 @@ public class ArticleService(ICashCtrlConnectionHandler connectionHandler) : Conn
 {
     /// <inheritdoc />
     public Task<ApiResult<SingleResponse<Article>>> Get(Entry articleId, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<SingleResponse<Article>, Entry>(InventoryEndpoints.Article.Read, articleId, cancellationToken);
+        => ConnectionHandler.GetAsync<SingleResponse<Article>, Entry>(Endpoint.Read, articleId, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<Article>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<Article>>(InventoryEndpoints.Article.List, cancellationToken: cancellationToken);
+    public Task<ApiResult<ListResponse<ArticleListed>>> GetList([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<ArticleListed>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(ArticleCreate article, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, ArticleCreate>(InventoryEndpoints.Article.Create, article, cancellationToken: cancellationToken);
+        => ConnectionHandler.PostAsync<NoContentResponse, ArticleCreate>(Endpoint.Create, article, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Update(ArticleUpdate article, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, ArticleUpdate>(InventoryEndpoints.Article.Update, article, cancellationToken: cancellationToken);
+        => ConnectionHandler.PostAsync<NoContentResponse, ArticleUpdate>(Endpoint.Update, article, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Delete(Entries articles, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, Entries>(InventoryEndpoints.Article.Delete, articles, cancellationToken: cancellationToken);
+        => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, articles, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize articlesCategorize, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, EntriesCategorize>(InventoryEndpoints.Article.Categorize, articlesCategorize, cancellationToken: cancellationToken);
+        => ConnectionHandler.PostAsync<NoContentResponse, EntriesCategorize>(Endpoint.Categorize, articlesCategorize, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments articleAttachments, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, EntryAttachments>(InventoryEndpoints.Article.UpdateAttachments, articleAttachments, cancellationToken: cancellationToken);
+        => ConnectionHandler.PostAsync<NoContentResponse, EntryAttachments>(Endpoint.UpdateAttachments, articleAttachments, cancellationToken: cancellationToken);
 }

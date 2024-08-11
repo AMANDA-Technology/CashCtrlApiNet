@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Person;
 
 /// <summary>
-/// CashCtrl person import service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/person/import">API Doc - Person/Import</see>
+/// CashCtrl person import service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/import">API Doc - Person/Import</a>
 /// </summary>
 public interface IPersonImportService
 {

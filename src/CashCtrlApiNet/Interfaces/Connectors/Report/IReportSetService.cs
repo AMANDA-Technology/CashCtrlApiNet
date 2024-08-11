@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Report;
 
 /// <summary>
-/// CashCtrl report set service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/report/set">API Doc - Report/Set</see>
+/// CashCtrl report set service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/set">API Doc - Report/Set</a>
 /// </summary>
 public interface IReportSetService
 {

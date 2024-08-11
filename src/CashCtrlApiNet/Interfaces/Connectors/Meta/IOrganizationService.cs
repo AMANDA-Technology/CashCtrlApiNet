@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
 
 /// <summary>
-/// CashCtrl meta organization service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/domain/current">API Doc - Meta/Organization</see>
+/// CashCtrl meta organization service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/domain/current">API Doc - Meta/Organization</a>
 /// </summary>
 public interface IOrganizationService
 {

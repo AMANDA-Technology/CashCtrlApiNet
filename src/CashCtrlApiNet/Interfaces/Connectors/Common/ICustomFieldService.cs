@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Common;
 
 /// <summary>
-/// CashCtrl common custom field service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield">API Doc - Common/Custom field</see>
+/// CashCtrl common custom field service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield">API Doc - Common/Custom field</a>
 /// </summary>
 public interface ICustomFieldService
 {

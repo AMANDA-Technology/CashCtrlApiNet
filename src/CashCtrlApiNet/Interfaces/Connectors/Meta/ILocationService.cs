@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
 
 /// <summary>
-/// CashCtrl meta location service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/location">API Doc - Meta/Location</see>
+/// CashCtrl meta location service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/location">API Doc - Meta/Location</a>
 /// </summary>
 public interface ILocationService
 {

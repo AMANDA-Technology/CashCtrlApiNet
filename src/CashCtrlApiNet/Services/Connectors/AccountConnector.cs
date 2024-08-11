@@ -26,6 +26,7 @@ SOFTWARE.
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors;
 using CashCtrlApiNet.Interfaces.Connectors.Account;
+using CashCtrlApiNet.Services.Connectors.Account;
 
 namespace CashCtrlApiNet.Services.Connectors;
 
@@ -38,7 +39,7 @@ public class AccountConnector : IAccountConnector
     /// <param name="connectionHandler"></param>
     public AccountConnector(ICashCtrlConnectionHandler connectionHandler)
     {
-        // Account = new AccountService(connectionHandler);
+        Account = new AccountService(connectionHandler);
         // Category = new AccountCategoryService(connectionHandler);
         // CostCenter = new CostCenterService(connectionHandler);
         // Account = new CostCenterCategoryService(connectionHandler);

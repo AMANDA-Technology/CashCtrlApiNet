@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,12 +23,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace CashCtrlApiNet.Interfaces.Connectors.Order;
+using System.Text.Json.Serialization;
+
+namespace CashCtrlApiNet.Abstractions.Models.Inventory.Article;
 
 /// <summary>
-/// CashCtrl order book entry service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/bookentry">API Doc - Order/Book entry</a>
+/// Article attachment
 /// </summary>
-public interface IBookEntryService
-{
-
-}
+/// <param name="Id"></param>
+/// <param name="FileId"></param>
+/// <param name="InventoryId"></param>
+/// <param name="Pos"></param>
+/// <param name="Name"></param>
+/// <param name="MimeType"></param>
+public record ArticleAttachment(
+    [property: JsonPropertyName("id")] int Id,
+    [property: JsonPropertyName("fileId")] int FileId,
+    [property: JsonPropertyName("inventoryId")] int InventoryId,
+    [property: JsonPropertyName("pos")] int Pos,
+    [property: JsonPropertyName("name")] string Name,
+    [property: JsonPropertyName("mimeType")] string MimeType);

@@ -28,42 +28,42 @@ using CashCtrlApiNet.Interfaces.Connectors.Common;
 namespace CashCtrlApiNet.Interfaces.Connectors;
 
 /// <summary>
-/// CashCtrl common service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/currency">API Doc - Common</see>
+/// CashCtrl common service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/currency">API Doc - Common</a>
 /// </summary>
 public interface ICommonConnector
 {
     /// <summary>
-    /// CashCtrl common currency service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/currency">API Doc - Common/Currency</see>
+    /// CashCtrl common currency service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/currency">API Doc - Common/Currency</a>
     /// </summary>
     public ICurrencyService Currency { get; }
 
     /// <summary>
-    /// CashCtrl common custom field service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield">API Doc - Common/Custom field</see>
+    /// CashCtrl common custom field service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield">API Doc - Common/Custom field</a>
     /// </summary>
     public ICustomFieldService CustomField { get; }
 
     /// <summary>
-    /// CashCtrl common custom field group service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield/group">API Doc - Common/Custom field group</see>
+    /// CashCtrl common custom field group service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield/group">API Doc - Common/Custom field group</a>
     /// </summary>
     public ICustomFieldGroupService CustomFieldGroup { get; }
 
     /// <summary>
-    /// CashCtrl common rounding service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/rounding">API Doc - Common/Rounding</see>
+    /// CashCtrl common rounding service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/rounding">API Doc - Common/Rounding</a>
     /// </summary>
     public IRoundingService Rounding { get; }
 
     /// <summary>
-    /// CashCtrl common sequence number service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/sequencenumber">API Doc - Common/Sequence number</see>
+    /// CashCtrl common sequence number service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/sequencenumber">API Doc - Common/Sequence number</a>
     /// </summary>
     public ISequenceNumberService SequenceNumber { get; }
 
     /// <summary>
-    /// CashCtrl common sequence number service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/tax">API Doc - Common/Tax rate</see>
+    /// CashCtrl common sequence number service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/tax">API Doc - Common/Tax rate</a>
     /// </summary>
     public ITaxRateService TaxRate { get; }
 
     /// <summary>
-    /// CashCtrl common sequence number service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/text">API Doc - Common/Text template</see>
+    /// CashCtrl common sequence number service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/text">API Doc - Common/Text template</a>
     /// </summary>
     public ITextTemplateService TextTemplate { get; }
 }

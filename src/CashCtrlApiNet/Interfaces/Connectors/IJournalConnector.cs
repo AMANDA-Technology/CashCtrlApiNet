@@ -28,22 +28,22 @@ using CashCtrlApiNet.Interfaces.Connectors.Journal;
 namespace CashCtrlApiNet.Interfaces.Connectors;
 
 /// <summary>
-/// CashCtrl journal service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/journal">API Doc - Journal</see>
+/// CashCtrl journal service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal">API Doc - Journal</a>
 /// </summary>
 public interface IJournalConnector
 {
     /// <summary>
-    /// CashCtrl journal service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/journal">API Doc - Journal/Journal</see>
+    /// CashCtrl journal service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal">API Doc - Journal/Journal</a>
     /// </summary>
     public IJournalService Journal { get; }
 
     /// <summary>
-    /// CashCtrl journal import service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import">API Doc - Journal/Import</see>
+    /// CashCtrl journal import service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import">API Doc - Journal/Import</a>
     /// </summary>
     public IJournalImportService Import { get; }
 
     /// <summary>
-    /// CashCtrl journal import entry service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import/entry">API Doc - Journal/Import entry</see>
+    /// CashCtrl journal import entry service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import/entry">API Doc - Journal/Import entry</a>
     /// </summary>
     public IJournalImportEntryService ImportEntry { get; }
 }

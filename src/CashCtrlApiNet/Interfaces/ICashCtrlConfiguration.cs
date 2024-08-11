@@ -33,18 +33,18 @@ namespace CashCtrlApiNet.Interfaces;
 public interface ICashCtrlConfiguration
 {
     /// <summary>
-    /// Base URL for accessing the service. <see href="https://app.cashctrl.com/static/help/en/api/index.html#intro">API Doc - Introduction</see>
+    /// Base URL for accessing the service. <a href="https://app.cashctrl.com/static/help/en/api/index.html#intro">API Doc - Introduction</a>
     /// <br/>E.g. "https://myorg.cashctrl.com/"
     /// </summary>
     public string BaseUri { get; }
 
     /// <summary>
-    /// API key for authenticating the service. <see href="https://app.cashctrl.com/static/help/en/api/index.html#auth">API Doc - Authentication</see>
+    /// API key for authenticating the service. <a href="https://app.cashctrl.com/static/help/en/api/index.html#auth">API Doc - Authentication</a>
     /// </summary>
     public string ApiKey { get; }
 
     /// <summary>
-    /// Default language to use. Must be name of <see cref="Language"/>. Can be changed later using <see cref="ICashCtrlApiClient.SetLanguage"/>. <see href="https://app.cashctrl.com/static/help/en/api/index.html#lang">API Doc - Language</see>
+    /// Default language to use. Must be name of <see cref="Language"/>. Can be changed later using <see cref="ICashCtrlApiClient.SetLanguage"/>. <a href="https://app.cashctrl.com/static/help/en/api/index.html#lang">API Doc - Language</a>
     /// </summary>
     public string DefaultLanguage { get; }
 }

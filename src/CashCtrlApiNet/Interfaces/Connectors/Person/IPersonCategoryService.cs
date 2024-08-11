@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.Person;
 
 /// <summary>
-/// CashCtrl person category service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/person/category">API Doc - Person/Category</see>
+/// CashCtrl person category service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/category">API Doc - Person/Category</a>
 /// </summary>
 public interface IPersonCategoryService
 {

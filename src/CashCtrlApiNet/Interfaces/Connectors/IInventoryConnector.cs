@@ -28,37 +28,37 @@ using CashCtrlApiNet.Interfaces.Connectors.Inventory;
 namespace CashCtrlApiNet.Interfaces.Connectors;
 
 /// <summary>
-/// CashCtrl inventory service endpoint group. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory">API Doc - Inventory</see>
+/// CashCtrl inventory service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory">API Doc - Inventory</a>
 /// </summary>
 public interface IInventoryConnector
 {
     /// <summary>
-    /// CashCtrl inventory article service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article">API Doc - Inventory/Article</see>
+    /// CashCtrl inventory article service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article">API Doc - Inventory/Article</a>
     /// </summary>
     public IArticleService Article { get; }
 
     /// <summary>
-    /// CashCtrl inventory article category service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/category">API Doc - Inventory/Article category</see>
+    /// CashCtrl inventory article category service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/category">API Doc - Inventory/Article category</a>
     /// </summary>
     public IArticleCategoryService ArticleCategory { get; }
 
     /// <summary>
-    /// CashCtrl inventory fixed asset service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset">API Doc - Inventory/Fixed asset</see>
+    /// CashCtrl inventory fixed asset service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset">API Doc - Inventory/Fixed asset</a>
     /// </summary>
     public IFixedAssetService FixedAsset { get; }
 
     /// <summary>
-    /// CashCtrl inventory fixed asset category service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset/category">API Doc - Inventory/Fixed asset category</see>
+    /// CashCtrl inventory fixed asset category service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset/category">API Doc - Inventory/Fixed asset category</a>
     /// </summary>
     public IFixedAssetCategoryService FixedAssetCategory { get; }
 
     /// <summary>
-    /// CashCtrl inventory import service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/import">API Doc - Inventory/Import</see>
+    /// CashCtrl inventory import service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/import">API Doc - Inventory/Import</a>
     /// </summary>
     public IInventoryImportService Import { get; }
 
     /// <summary>
-    /// CashCtrl inventory unit service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/unit">API Doc - Inventory/Unit</see>
+    /// CashCtrl inventory unit service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/unit">API Doc - Inventory/Unit</a>
     /// </summary>
     public IUnitService Unit { get; }
 }

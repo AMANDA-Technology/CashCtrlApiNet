@@ -36,7 +36,7 @@ namespace CashCtrlApiNet.Interfaces;
 public interface ICashCtrlConnectionHandler
 {
     /// <summary>
-    /// Change the language to use for upcoming requests. <see href="https://app.cashctrl.com/static/help/en/api/index.html#lang">API Doc - Language</see>
+    /// Change the language to use for upcoming requests. <a href="https://app.cashctrl.com/static/help/en/api/index.html#lang">API Doc - Language</a>
     /// </summary>
     /// <param name="language"></param>
     public void SetLanguage(Language language);

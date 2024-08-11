@@ -26,7 +26,7 @@ SOFTWARE.
 namespace CashCtrlApiNet.Interfaces.Connectors.File;
 
 /// <summary>
-/// CashCtrl file service endpoint. <see href="https://app.cashctrl.com/static/help/en/api/index.html#/file">API Doc - File/File</see>
+/// CashCtrl file service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file">API Doc - File/File</a>
 /// </summary>
 public interface IFileService
 {

@@ -26,12 +26,24 @@ SOFTWARE.
 using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 
-namespace CashCtrlApiNet.Abstractions.Models.Inventory;
+namespace CashCtrlApiNet.Abstractions.Models.Inventory.Article;
 
 /// <summary>
 /// Article
 /// </summary>
-public record Article : ArticleUpdate
+public record Article : ArticleListed
+{
+    /// <summary>
+    ///
+    /// </summary>
+    [JsonPropertyName("attachments")]
+    public ImmutableArray<ArticleAttachment>? Attachments { get; init; }
+}
+
+/// <summary>
+/// Article listed
+/// </summary>
+public record ArticleListed : ArticleUpdate
 {
     /// <summary>
     ///
