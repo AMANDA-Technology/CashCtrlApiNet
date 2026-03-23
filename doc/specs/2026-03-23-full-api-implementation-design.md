@@ -20,7 +20,7 @@ Implement every CashCtrl REST API endpoint in the CashCtrlApiNet client library 
 | Execution approach | Parallel by domain group (3-4 agents per wave) | 3-4x faster than sequential; quality maintained via golden reference |
 | Salary module | Included as 10th group, tackled last | Complete coverage goal |
 | Binary endpoints | Included; infrastructure added in Phase 0 | No deferred gaps |
-| Binary return type | `Task<ApiResult<byte[]>>` for all export/download endpoints | Consistent API surface; `byte[]` is simpler than `Stream` for consumers and avoids disposal concerns |
+| Binary return type | `Task<ApiResult<BinaryResponse>>` for all export/download endpoints | Consistent API surface; `BinaryResponse : ApiResponse` satisfies `ApiResult<T>` constraint and carries content-type/filename metadata |
 
 ---
 
@@ -40,8 +40,8 @@ One GitHub issue. Must merge before any domain group work begins.
 
 ### 0.2 Binary HTTP Support
 
-- Add `GetBinaryAsync` method to `ICashCtrlConnectionHandler` returning `byte[]`
-- All export/download service methods use `Task<ApiResult<byte[]>>` as return type
+- Add `GetBinaryAsync` method to `ICashCtrlConnectionHandler` returning `Task<ApiResult<BinaryResponse>>`
+- All export/download service methods use `Task<ApiResult<BinaryResponse>>` as return type
 - Add multipart form data support for `file/prepare.json` upload
 - Unit tests for both
 
@@ -191,7 +191,7 @@ Every service follows this checklist (derived from `doc/api-reference.md`):
 
 - Populate existing empty interface with method signatures
 - XML doc comments with `<a href>` to CashCtrl API docs
-- Export/download methods return `Task<ApiResult<byte[]>>`
+- Export/download methods return `Task<ApiResult<BinaryResponse>>`
 
 ### Step 3: Service
 
@@ -279,7 +279,7 @@ Every `.cs` file must include (from `doc/api-reference.md`):
 ## Issue Summary
 
 | # | Title | Wave | Services | Est. Endpoints |
-|---|-------|------|----------|----------------|
+|---|-------|------|----------|-----------|
 | 0 | Phase 0: Infrastructure, bug fixes & Account golden reference | Pre | 5 | ~43 |
 | 1 | Implement Journal group | Wave 1 | 3 | ~24 |
 | 2 | Implement Order group | Wave 1 | 7 | ~45 |
