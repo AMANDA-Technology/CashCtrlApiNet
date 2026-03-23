@@ -20,6 +20,7 @@ Implement every CashCtrl REST API endpoint in the CashCtrlApiNet client library 
 | Execution approach | Parallel by domain group (3-4 agents per wave) | 3-4x faster than sequential; quality maintained via golden reference |
 | Salary module | Included as 10th group, tackled last | Complete coverage goal |
 | Binary endpoints | Included; infrastructure added in Phase 0 | No deferred gaps |
+| Binary return type | `Task<ApiResult<byte[]>>` for all export/download endpoints | Consistent API surface; `byte[]` is simpler than `Stream` for consumers and avoids disposal concerns |
 
 ---
 
@@ -39,7 +40,8 @@ One GitHub issue. Must merge before any domain group work begins.
 
 ### 0.2 Binary HTTP Support
 
-- Add `GetBinaryAsync` method to `ICashCtrlConnectionHandler` returning `byte[]` or `Stream`
+- Add `GetBinaryAsync` method to `ICashCtrlConnectionHandler` returning `byte[]`
+- All export/download service methods use `Task<ApiResult<byte[]>>` as return type
 - Add multipart form data support for `file/prepare.json` upload
 - Unit tests for both
 
@@ -56,16 +58,15 @@ One GitHub issue. Must merge before any domain group work begins.
 
 ### 0.4 Account Group as Golden Reference
 
-Fully implement all 4 Account services with unit tests:
+Fully implement all 5 Account services with unit tests:
 
-| Service | Endpoints |
-|---------|-----------|
-| AccountService (fix models + service) | 11 (incl. exports) |
-| AccountCategoryService | 6 |
-| CostCenterService | 11 (incl. exports) |
-| CostCenterCategoryService | 6 |
-
-Includes: AccountBankService (missing entirely from codebase -- new interface, endpoints, models, service).
+| Service | Endpoints | Notes |
+|---------|-----------|-------|
+| AccountService (fix models + service) | 11 (incl. exports) | Fix stub models, fix Get() signature |
+| AccountBankService | 9 (incl. exports) | NEW -- missing entirely from codebase; new interface, endpoints, models, service |
+| AccountCategoryService | 6 | Standard tree pattern |
+| CostCenterService | 11 (incl. exports) | Includes GetBalance, Categorize, UpdateAttachments |
+| CostCenterCategoryService | 6 | Standard tree pattern |
 
 **Deliverable:** One PR. After merge, this is the reference pattern for all parallel agents.
 
@@ -141,10 +142,10 @@ Includes: AccountBankService (missing entirely from codebase -- new interface, e
 
 | Service | Endpoints | Notes |
 |---------|-----------|-------|
-| FiscalPeriodService | 15 | Complex: Result, Depreciations, BookDepreciations, ExchangeDiff, BookExchangeDiff, Complete, Reopen, CompleteMonths, ReopenMonths |
+| FiscalPeriodService | 15 | Complex: Switch, Result, Depreciations, BookDepreciations, ExchangeDiff, BookExchangeDiff, Complete, Reopen, CompleteMonths, ReopenMonths |
 | FiscalPeriodTaskService | 3 | List, Create, Delete |
 | LocationService | 5 | Standard CRUD |
-| OrganizationService | 1 | GetLogo only |
+| OrganizationService | 1 | GetLogo only (binary) |
 | SettingsService | 3 | Read, Get, Update (no Create/Delete) |
 
 ---
@@ -156,8 +157,8 @@ Includes: AccountBankService (missing entirely from codebase -- new interface, e
 | Service | Endpoints | Notes |
 |---------|-----------|-------|
 | ReportService | 1 | GetTree only |
-| ReportElementService | 10 (incl. downloads) | Data (JSON/HTML), Meta, Reorder |
-| ReportSetService | 10 (incl. downloads) | API calls it "Collection", codebase calls it "Set" -- fix paths |
+| ReportElementService | 11 (incl. downloads) | Data (JSON/HTML), Meta, Reorder, Download (PDF/CSV/Excel) |
+| ReportSetService | 10 (incl. downloads) | API calls it "Collection", codebase calls it "Set" -- fix paths; includes `download_annualreport.pdf` special endpoint |
 
 ### Issue: Implement Salary Group
 
@@ -190,7 +191,7 @@ Every service follows this checklist (derived from `doc/api-reference.md`):
 
 - Populate existing empty interface with method signatures
 - XML doc comments with `<a href>` to CashCtrl API docs
-- Export methods return appropriate binary type
+- Export/download methods return `Task<ApiResult<byte[]>>`
 
 ### Step 3: Service
 
@@ -287,9 +288,9 @@ Every `.cs` file must include (from `doc/api-reference.md`):
 | 5 | Implement File group | Wave 2 | 2 | ~20 |
 | 6 | Implement Inventory group (remaining) | Wave 2 | 6 | ~33 |
 | 7 | Implement Meta group | Wave 2 | 5 | ~27 |
-| 8 | Implement Report group | Wave 3 | 3 | ~21 |
+| 8 | Implement Report group | Wave 3 | 3 | ~22 |
 | 9 | Implement Salary group | Wave 3 | ~15 | ~80 |
-| **Total** | | | **~58** | **~361** |
+| **Total** | | | **~58** | **~362** |
 
 **Labels:** `wave-0`, `wave-1`, `wave-2`, `wave-3`
 **Milestone:** "100% API Coverage"
