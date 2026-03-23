@@ -1,0 +1,105 @@
+---
+title: "C4 Level 2: Container Diagram - CashCtrlApiNet"
+tags: [architecture, c4, containers]
+---
+
+# Container Diagram
+
+```mermaid
+C4Container
+    title CashCtrlApiNet - Container Diagram (NuGet Packages)
+
+    Person(developer, ".NET Developer", "Consumes the library")
+
+    System_Boundary(lib, "CashCtrlApiNet Library") {
+        Container(abstractions, "CashCtrlApiNet.Abstractions", ".NET 9 Class Library / NuGet", "Models, enums, converters, serialization helpers. Zero external dependencies.")
+        Container(client, "CashCtrlApiNet", ".NET 9 Class Library / NuGet", "API client, connection handler, connectors, endpoints. Core library.")
+        Container(aspnetcore, "CashCtrlApiNet.AspNetCore", ".NET 9 Class Library / NuGet", "ASP.NET Core DI registration extensions. NOT YET IMPLEMENTED.")
+    }
+
+    System_Boundary(tests, "Test Suite") {
+        Container(test, "CashCtrlApiNet.Tests", ".NET 9 / xUnit", "Integration tests against live CashCtrl API.")
+    }
+
+    System_Ext(cashctrl, "CashCtrl REST API v1", "External API")
+
+    Rel(developer, client, "References", "NuGet")
+    Rel(developer, aspnetcore, "References (for DI)", "NuGet")
+    Rel(client, abstractions, "Depends on", "ProjectReference")
+    Rel(aspnetcore, client, "Depends on", "ProjectReference")
+    Rel(test, client, "Tests", "ProjectReference")
+    Rel(client, cashctrl, "HTTPS REST", "Basic Auth")
+```
+
+## Package Details
+
+### CashCtrlApiNet.Abstractions
+
+| Property        | Value                                              |
+| --------------- | -------------------------------------------------- |
+| Technology      | .NET 9 Class Library                               |
+| NuGet Package   | `CashCtrlApiNet.Abstractions`                      |
+| Repo Path       | `src/CashCtrlApiNet.Abstractions/`                 |
+| Responsibility  | Domain models, API response types, enums, JSON converters, serialization helpers |
+| Dependencies    | None (only `System.Text.Json` from framework)       |
+| Interfaces      | No service interfaces -- only data types            |
+
+**Key directories:**
+- `Models/Base/` -- `ModelBaseRecord`, `Entry`, `Entries`, `EntriesCategorize`, `EntryAttachments`
+- `Models/Api/` -- `ApiResult`, `ApiResponse`, `ListResponse<T>`, `SingleResponse<T>`, `NoContentResponse`, `ResponseError`
+- `Models/Account/` -- Account domain models (stubs)
+- `Models/Inventory/Article/` -- Article models (fully implemented)
+- `Models/Inventory/ArticleCategory/` -- ArticleCategory models (fully implemented)
+- `Converters/` -- `CashCtrlDateTimeConverter`, `CashCtrlDateTimeNullableConverter`, `IntArrayAsCsvJsonConverter`
+- `Helpers/` -- `CashCtrlSerialization` (JSON serialize/deserialize, dictionary conversion)
+- `Enums/Api/` -- `Language`, `ApiHeaderNames`
+- `Values/` -- `HttpStatusCodeMapping`
+
+### CashCtrlApiNet
+
+| Property        | Value                                              |
+| --------------- | -------------------------------------------------- |
+| Technology      | .NET 9 Class Library                               |
+| NuGet Package   | `CashCtrlApiNet`                                   |
+| Repo Path       | `src/CashCtrlApiNet/`                              |
+| Responsibility  | HTTP client, API connection handling, typed service interfaces, connector aggregation, endpoint path definitions |
+| Dependencies    | `CashCtrlApiNet.Abstractions`                      |
+| Key Interface   | `ICashCtrlApiClient` -- entry point for consumers  |
+
+**Key directories:**
+- `Interfaces/` -- `ICashCtrlApiClient`, `ICashCtrlConfiguration`, `ICashCtrlConnectionHandler`
+- `Interfaces/Connectors/` -- Connector group interfaces (e.g., `IInventoryConnector`)
+- `Interfaces/Connectors/{Group}/` -- Individual service interfaces (e.g., `IArticleService`)
+- `Services/` -- `CashCtrlApiClient`, `CashCtrlConfiguration`, `CashCtrlConnectionHandler`
+- `Services/Connectors/` -- Connector implementations (e.g., `InventoryConnector`)
+- `Services/Connectors/{Group}/` -- Service implementations (e.g., `ArticleService`)
+- `Services/Connectors/Base/` -- `ConnectorService` abstract base class
+- `Services/Endpoints/` -- Static endpoint path constants (e.g., `InventoryEndpoints`)
+- `Services/Endpoints/Base/` -- `Api` (version root), `Default` (CRUD action suffixes)
+
+### CashCtrlApiNet.AspNetCore
+
+| Property        | Value                                              |
+| --------------- | -------------------------------------------------- |
+| Technology      | .NET 9 Class Library                               |
+| NuGet Package   | `CashCtrlApiNet.AspNetCore`                        |
+| Repo Path       | `src/CashCtrlApiNet.AspNetCore/`                   |
+| Responsibility  | Dependency injection registration for ASP.NET Core |
+| Dependencies    | `CashCtrlApiNet`                                   |
+| Status          | **EMPTY** -- only `.csproj` exists, no C# code     |
+
+### CashCtrlApiNet.Tests
+
+| Property        | Value                                              |
+| --------------- | -------------------------------------------------- |
+| Technology      | .NET 9, xUnit 2.9, FluentAssertions 6.12, Coverlet |
+| Repo Path       | `src/CashCtrlApiNet.Tests/`                        |
+| Responsibility  | Integration tests against live CashCtrl API        |
+| Dependencies    | `CashCtrlApiNet` (transitively includes Abstractions) |
+| Not Packaged    | `<IsPackable>false</IsPackable>`                   |
+
+**Key files:**
+- `CashCtrlTestBase.cs` -- Base class that reads env vars and constructs `CashCtrlApiClient` manually
+- `AlphabeticalOrderer.cs` -- Custom xUnit test orderer for sequential test execution
+- `Inventory/ArticleTests.cs` -- Full CRUD + categorize + attachments tests for articles
+- `Inventory/ArticleCategoryTests.cs` -- CRUD tests for article categories
