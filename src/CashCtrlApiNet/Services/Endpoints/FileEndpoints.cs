@@ -106,7 +106,7 @@ internal static class FileEndpoints
     /// <summary>
     /// Api endpoint definitions for file categories
     /// </summary>
-    public static class ArticleCategory
+    public static class FileCategory
     {
         /// <summary>
         /// Root path for file category

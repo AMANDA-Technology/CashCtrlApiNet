@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,32 +23,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Report;
+using CashCtrlApiNet.Abstractions.Models.Api.Base;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Api;
 
-/// <inheritdoc />
-public class ReportConnector : IReportConnector
+/// <summary>
+/// Response containing binary data from the CashCtrl API (e.g., file downloads, PDF exports)
+/// </summary>
+public record BinaryResponse : ApiResponse
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ReportConnector"/> class with all services using the connection handler.
+    /// The binary content of the response
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public ReportConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        // Report = new ReportService(connectionHandler);
-        // Element = new ReportElementService(connectionHandler);
-        // Set = new ReportSetService(connectionHandler);
-    }
+    public required byte[] Data { get; init; }
 
-    /// <inheritdoc />
-    public IReportService Report { get; }
+    /// <summary>
+    /// The MIME content type of the response (e.g., application/pdf, image/png)
+    /// </summary>
+    public string? ContentType { get; init; }
 
-    /// <inheritdoc />
-    public IReportElementService Element { get; }
-
-    /// <inheritdoc />
-    public IReportSetService Set { get; }
+    /// <summary>
+    /// The suggested file name from the Content-Disposition header, if available
+    /// </summary>
+    public string? FileName { get; init; }
 }

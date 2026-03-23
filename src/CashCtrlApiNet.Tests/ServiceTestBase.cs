@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -24,31 +24,38 @@ SOFTWARE.
 */
 
 using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Report;
+using NSubstitute;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Tests;
 
-/// <inheritdoc />
-public class ReportConnector : IReportConnector
+/// <summary>
+/// Base class for unit tests of connector services using a mocked <see cref="ICashCtrlConnectionHandler"/>
+/// </summary>
+/// <typeparam name="TService">The service type under test</typeparam>
+public abstract class ServiceTestBase<TService> where TService : class
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ReportConnector"/> class with all services using the connection handler.
+    /// Mocked connection handler for isolating service logic from HTTP calls
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public ReportConnector(ICashCtrlConnectionHandler connectionHandler)
+    protected readonly ICashCtrlConnectionHandler ConnectionHandler;
+
+    /// <summary>
+    /// The service instance under test
+    /// </summary>
+    protected readonly TService Service;
+
+    /// <summary>
+    /// Initializes the mocked connection handler and creates the service under test
+    /// </summary>
+    protected ServiceTestBase()
     {
-        // Report = new ReportService(connectionHandler);
-        // Element = new ReportElementService(connectionHandler);
-        // Set = new ReportSetService(connectionHandler);
+        ConnectionHandler = Substitute.For<ICashCtrlConnectionHandler>();
+        Service = CreateService();
     }
 
-    /// <inheritdoc />
-    public IReportService Report { get; }
-
-    /// <inheritdoc />
-    public IReportElementService Element { get; }
-
-    /// <inheritdoc />
-    public IReportSetService Set { get; }
+    /// <summary>
+    /// Creates an instance of the service under test using the mocked connection handler
+    /// </summary>
+    /// <returns>A new instance of <typeparamref name="TService"/></returns>
+    protected abstract TService CreateService();
 }
