@@ -741,7 +741,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
     [Fact]
     public async Task Categorize_ShouldPostToCorrectEndpoint()
     {
-        var categorize = new EntriesCategorize { Ids = [1], CategoryId = 5 };
+        var categorize = new EntriesCategorize { Ids = [1], TargetCategoryId = 5 };
         ConnectionHandler
             .PostAsync<NoContentResponse, EntriesCategorize>(Arg.Any<string>(), Arg.Any<EntriesCategorize>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
