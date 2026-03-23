@@ -24,7 +24,7 @@ Implement every CashCtrl REST API endpoint in the CashCtrlApiNet client library 
 
 ---
 
-## Phase 0: Infrastructure, Bug Fixes & Golden Reference
+## Phase 0: Infrastructure, Bug Fixes & Golden Reference (#3)
 
 One GitHub issue. Must merge before any domain group work begins.
 
@@ -74,7 +74,7 @@ Fully implement all 5 Account services with unit tests:
 
 ## Wave 1: Core Business Entities (3 parallel agents)
 
-### Issue: Implement Journal Group
+### Implement Journal Group (#4)
 
 | Service | Endpoints | Notes |
 |---------|-----------|-------|
@@ -82,7 +82,7 @@ Fully implement all 5 Account services with unit tests:
 | JournalImportService | 4 | Non-standard: Read, List, Create, Execute |
 | JournalImportEntryService | 10 (incl. exports) | Non-standard: Confirm, Unconfirm, Restore, Ignore |
 
-### Issue: Implement Order Group
+### Implement Order Group (#5)
 
 | Service | Endpoints | Notes |
 |---------|-----------|-------|
@@ -94,7 +94,7 @@ Fully implement all 5 Account services with unit tests:
 | OrderLayoutService | 5 | NEW -- missing from codebase entirely |
 | OrderPaymentService | 2 | NEW -- Create + Download |
 
-### Issue: Implement Person Group
+### Implement Person Group (#6)
 
 | Service | Endpoints | Notes |
 |---------|-----------|-------|
@@ -107,7 +107,7 @@ Fully implement all 5 Account services with unit tests:
 
 ## Wave 2: Supporting Entities (3-4 parallel agents)
 
-### Issue: Implement Common Group
+### Implement Common Group (#7)
 
 | Service | Endpoints | Notes |
 |---------|-----------|-------|
@@ -120,14 +120,14 @@ Fully implement all 5 Account services with unit tests:
 | TextTemplateService | 5 | Standard CRUD |
 | HistoryService | 1 | NEW -- List only |
 
-### Issue: Implement File Group
+### Implement File Group (#8)
 
 | Service | Endpoints | Notes |
 |---------|-----------|-------|
 | FileService | 14 (incl. exports) | GetContent, Prepare (multipart), Persist, Categorize, EmptyArchive, Restore |
 | FileCategoryService | 6 | Standard tree pattern |
 
-### Issue: Implement Inventory Group (remaining)
+### Implement Inventory Group (remaining) (#9)
 
 | Service | Endpoints | Notes |
 |---------|-----------|-------|
@@ -138,7 +138,7 @@ Fully implement all 5 Account services with unit tests:
 | + ArticleCategoryService.GetTree | 1 | Missing from existing implementation |
 | + Article/ArticleCategory exports | 6 | .xlsx/.csv/.pdf for both |
 
-### Issue: Implement Meta Group
+### Implement Meta Group (#10)
 
 | Service | Endpoints | Notes |
 |---------|-----------|-------|
@@ -152,7 +152,7 @@ Fully implement all 5 Account services with unit tests:
 
 ## Wave 3: Report & Salary
 
-### Issue: Implement Report Group
+### Implement Report Group (#11)
 
 | Service | Endpoints | Notes |
 |---------|-----------|-------|
@@ -160,7 +160,7 @@ Fully implement all 5 Account services with unit tests:
 | ReportElementService | 11 (incl. downloads) | Data (JSON/HTML), Meta, Reorder, Download (PDF/CSV/Excel) |
 | ReportSetService | 10 (incl. downloads) | API calls it "Collection", codebase calls it "Set" -- fix paths; includes `download_annualreport.pdf` special endpoint |
 
-### Issue: Implement Salary Group
+### Implement Salary Group (#12)
 
 **Prerequisite:** Architect agent scrapes CashCtrl HTML docs and produces a Salary section for api-reference.md with endpoint tables, parameter details, and model specifications.
 
@@ -278,18 +278,18 @@ Every `.cs` file must include (from `doc/api-reference.md`):
 
 ## Issue Summary
 
-| # | Title | Wave | Services | Est. Endpoints |
-|---|-------|------|----------|-----------|
-| 0 | Phase 0: Infrastructure, bug fixes & Account golden reference | Pre | 5 | ~43 |
-| 1 | Implement Journal group | Wave 1 | 3 | ~24 |
-| 2 | Implement Order group | Wave 1 | 7 | ~45 |
-| 3 | Implement Person group | Wave 1 | 4 | ~27 |
-| 4 | Implement Common group | Wave 2 | 8 | ~41 |
-| 5 | Implement File group | Wave 2 | 2 | ~20 |
-| 6 | Implement Inventory group (remaining) | Wave 2 | 6 | ~33 |
-| 7 | Implement Meta group | Wave 2 | 5 | ~27 |
-| 8 | Implement Report group | Wave 3 | 3 | ~22 |
-| 9 | Implement Salary group | Wave 3 | ~15 | ~80 |
+| Issue | Title | Wave | Services | Est. Endpoints |
+|-------|-------|------|----------|-----------|
+| [#3](https://github.com/AMANDA-Technology/CashCtrlApiNet/issues/3) | Phase 0: Infrastructure, bug fixes & Account golden reference | Pre | 5 | ~43 |
+| [#4](https://github.com/AMANDA-Technology/CashCtrlApiNet/issues/4) | Implement Journal group | Wave 1 | 3 | ~24 |
+| [#5](https://github.com/AMANDA-Technology/CashCtrlApiNet/issues/5) | Implement Order group | Wave 1 | 7 | ~45 |
+| [#6](https://github.com/AMANDA-Technology/CashCtrlApiNet/issues/6) | Implement Person group | Wave 1 | 4 | ~27 |
+| [#7](https://github.com/AMANDA-Technology/CashCtrlApiNet/issues/7) | Implement Common group | Wave 2 | 8 | ~41 |
+| [#8](https://github.com/AMANDA-Technology/CashCtrlApiNet/issues/8) | Implement File group | Wave 2 | 2 | ~20 |
+| [#9](https://github.com/AMANDA-Technology/CashCtrlApiNet/issues/9) | Implement Inventory group (remaining) | Wave 2 | 6 | ~33 |
+| [#10](https://github.com/AMANDA-Technology/CashCtrlApiNet/issues/10) | Implement Meta group | Wave 2 | 5 | ~27 |
+| [#11](https://github.com/AMANDA-Technology/CashCtrlApiNet/issues/11) | Implement Report group | Wave 3 | 3 | ~22 |
+| [#12](https://github.com/AMANDA-Technology/CashCtrlApiNet/issues/12) | Implement Salary group | Wave 3 | ~15 | ~80 |
 | **Total** | | | **~58** | **~362** |
 
 **Labels:** `wave-0`, `wave-1`, `wave-2`, `wave-3`
