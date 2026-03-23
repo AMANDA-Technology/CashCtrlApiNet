@@ -25,23 +25,32 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Enums.Account;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Abstractions.Models.Account;
+namespace CashCtrlApiNet.Abstractions.Models.Account.Bank;
 
 /// <summary>
-/// Account create. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/create.json">API Doc</a>
+/// Bank account create. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/bank/create.json">API Doc</a>
 /// </summary>
-public record AccountCreate : ModelBaseRecord
+public record AccountBankCreate : ModelBaseRecord
 {
     /// <summary>
-    /// The ID of the category. See Account category.
+    /// The BIC (Bank Identifier Code) of the bank account.
     /// </summary>
-    [JsonPropertyName("categoryId")]
-    public required int CategoryId { get; init; }
+    [JsonPropertyName("bic")]
+    [MaxLength(11)]
+    public required string Bic { get; init; }
 
     /// <summary>
-    /// The name of the account.
+    /// The IBAN (International Bank Account Number) of the bank account.
+    /// </summary>
+    [JsonPropertyName("iban")]
+    [MaxLength(32)]
+    public required string Iban { get; init; }
+
+    /// <summary>
+    /// The name of the bank account.
     /// <br/>This can contain localized text. To add values in multiple languages, use the XML format like this: &lt;values&gt;&lt;de&gt;German text&lt;/de&gt;&lt;en&gt;English text&lt;/en&gt;&lt;/values&gt;
     /// </summary>
     [JsonPropertyName("name")]
@@ -49,10 +58,16 @@ public record AccountCreate : ModelBaseRecord
     public required string Name { get; init; }
 
     /// <summary>
-    /// The account number.
+    /// The type of the bank account.
     /// </summary>
-    [JsonPropertyName("number")]
-    public required int Number { get; init; }
+    [JsonPropertyName("type")]
+    public required BankAccountType Type { get; init; }
+
+    /// <summary>
+    /// The ID of the associated account. See Account.
+    /// </summary>
+    [JsonPropertyName("accountId")]
+    public int? AccountId { get; init; }
 
     /// <summary>
     /// The ID of the currency. Leave empty to use the default currency. See Currency.
@@ -61,22 +76,10 @@ public record AccountCreate : ModelBaseRecord
     public int? CurrencyId { get; init; }
 
     /// <summary>
-    /// The ID of the tax rate. See Tax rate.
+    /// Mark the bank account as inactive. Defaults to false.
     /// </summary>
-    [JsonPropertyName("taxId")]
-    public int? TaxId { get; init; }
-
-    /// <summary>
-    /// Allocations to cost centers. This is a JSON array.
-    /// </summary>
-    [JsonPropertyName("allocations")]
-    public string? AllocationsJson { get; init; }
-
-    /// <summary>
-    /// Custom field values. They are stored as XML in this parameter.
-    /// </summary>
-    [JsonPropertyName("custom")]
-    public string? CustomXml { get; init; }
+    [JsonPropertyName("isInactive")]
+    public bool? IsInactive { get; init; }
 
     /// <summary>
     /// Some optional notes.
@@ -86,20 +89,23 @@ public record AccountCreate : ModelBaseRecord
     public string? NotesHtml { get; init; }
 
     /// <summary>
-    /// The target minimum balance of the account.
+    /// The first digits of the QR reference number.
     /// </summary>
-    [JsonPropertyName("targetMin")]
-    public double? TargetMin { get; init; }
+    [JsonPropertyName("qrFirstDigits")]
+    [MaxLength(8)]
+    public string? QrFirstDigits { get; init; }
 
     /// <summary>
-    /// The target maximum balance of the account.
+    /// The QR-IBAN for QR-Bill payments.
     /// </summary>
-    [JsonPropertyName("targetMax")]
-    public double? TargetMax { get; init; }
+    [JsonPropertyName("qrIban")]
+    [MaxLength(32)]
+    public string? QrIban { get; init; }
 
     /// <summary>
-    /// Mark the account as inactive. Defaults to false.
+    /// The URL of the bank's website.
     /// </summary>
-    [JsonPropertyName("isInactive")]
-    public bool? IsInactive { get; init; }
+    [JsonPropertyName("url")]
+    [MaxLength(255)]
+    public string? Url { get; init; }
 }

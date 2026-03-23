@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Account.CostCenter;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Account;
 
 /// <summary>
@@ -30,5 +35,98 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Account;
 /// </summary>
 public interface ICostCenterService
 {
+    /// <summary>
+    /// Read cost center. Returns a single cost center by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/read.json">API Doc - Account/Cost center/Read</a>
+    /// </summary>
+    /// <param name="costCenter">The entry containing the ID of the cost center.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<CostCenter>>> Get(Entry costCenter, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// List cost centers. Returns a list of cost centers.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/list.json">API Doc - Account/Cost center/List</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<CostCenterListed>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Get cost center balance. Returns the balance of a single cost center.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/balance">API Doc - Account/Cost center/Get balance</a>
+    /// </summary>
+    /// <param name="costCenter">The entry containing the ID of the cost center.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<CostCenter>>> GetBalance(Entry costCenter, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates a new cost center. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/create.json">API Doc - Account/Cost center/Create</a>
+    /// </summary>
+    /// <param name="costCenter"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(CostCenterCreate costCenter, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update cost center. Updates an existing cost center. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/update.json">API Doc - Account/Cost center/Update</a>
+    /// </summary>
+    /// <param name="costCenter"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(CostCenterUpdate costCenter, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete cost centers. Deletes one or multiple cost centers. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/delete.json">API Doc - Account/Cost center/Delete</a>
+    /// </summary>
+    /// <param name="costCenters"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries costCenters, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Categorize cost centers. Assigns one or multiple cost centers to the desired category. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/categorize.json">API Doc - Account/Cost center/Categorize</a>
+    /// </summary>
+    /// <param name="costCentersCategorize"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize costCentersCategorize, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update attachments. Updates the file attachments of a cost center. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/update_attachments.json">API Doc - Account/Cost center/Update attachments</a>
+    /// </summary>
+    /// <param name="costCenterAttachments"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments costCenterAttachments, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export cost centers as Excel file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/list.xlsx">API Doc - Account/Cost center/Export Excel</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export cost centers as CSV file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/list.csv">API Doc - Account/Cost center/Export CSV</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export cost centers as PDF file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/list.pdf">API Doc - Account/Cost center/Export PDF</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
 }

@@ -23,18 +23,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Text.Json.Serialization;
-
-namespace CashCtrlApiNet.Abstractions.Models.Account;
+namespace CashCtrlApiNet.Abstractions.Enums.Account;
 
 /// <summary>
-/// Account update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/update.json">API Doc</a>
+/// Type of bank account. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/bank">API Doc</a>
 /// </summary>
-public record AccountUpdate : AccountCreate
+public enum BankAccountType
 {
     /// <summary>
-    /// The ID of the account to update.
+    /// Default bank account
     /// </summary>
-    [JsonPropertyName("id")]
-    public required int Id { get; init; }
+    DEFAULT,
+
+    /// <summary>
+    /// Order bank account
+    /// </summary>
+    ORDER,
+
+    /// <summary>
+    /// Salary bank account
+    /// </summary>
+    SALARY,
+
+    /// <summary>
+    /// Historical bank account
+    /// </summary>
+    HISTORICAL,
+
+    /// <summary>
+    /// Other bank account type
+    /// </summary>
+    OTHER
 }

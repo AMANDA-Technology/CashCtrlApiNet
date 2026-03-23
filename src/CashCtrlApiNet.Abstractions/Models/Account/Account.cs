@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,12 +23,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
+using System.Collections.Immutable;
+using System.Text.Json.Serialization;
 
 namespace CashCtrlApiNet.Abstractions.Models.Account;
 
 /// <summary>
-/// Account
+/// Account (detail response). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/read.json">API Doc</a>
 /// </summary>
-// TODO: implement members
-public record Account : ModelBaseRecord;
+public record Account : AccountListed
+{
+    /// <summary>
+    /// The file attachments of the account.
+    /// </summary>
+    [JsonPropertyName("attachments")]
+    public ImmutableArray<int>? Attachments { get; init; }
+}

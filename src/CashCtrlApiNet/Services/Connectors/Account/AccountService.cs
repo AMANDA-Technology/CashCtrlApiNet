@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -30,7 +30,7 @@ using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors.Account;
 using CashCtrlApiNet.Services.Connectors.Base;
-using CashCtrlApiNet.Services.Endpoints;
+using Endpoint = CashCtrlApiNet.Services.Endpoints.AccountEndpoints.Account;
 
 namespace CashCtrlApiNet.Services.Connectors.Account;
 
@@ -38,30 +38,46 @@ namespace CashCtrlApiNet.Services.Connectors.Account;
 public class AccountService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IAccountService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Account.Account>>> Get(int accountId, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<SingleResponse<Abstractions.Models.Account.Account>>(AccountEndpoints.Account.Read, cancellationToken: cancellationToken);
+    public Task<ApiResult<SingleResponse<Abstractions.Models.Account.Account>>> Get(Entry account, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<SingleResponse<Abstractions.Models.Account.Account>, Entry>(Endpoint.Read, account, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<Abstractions.Models.Account.Account>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<Abstractions.Models.Account.Account>>(AccountEndpoints.Account.List, cancellationToken: cancellationToken);
+    public Task<ApiResult<ListResponse<AccountListed>>> GetList([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<AccountListed>>(Endpoint.List, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<SingleResponse<Abstractions.Models.Account.Account>>> GetBalance(Entry account, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<SingleResponse<Abstractions.Models.Account.Account>, Entry>(Endpoint.Balance, account, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(AccountCreate account, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, AccountCreate>(AccountEndpoints.Account.Create, account, cancellationToken: cancellationToken);
+        => ConnectionHandler.PostAsync<NoContentResponse, AccountCreate>(Endpoint.Create, account, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Update(AccountUpdate account, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, AccountUpdate>(AccountEndpoints.Account.Update, account, cancellationToken: cancellationToken);
+        => ConnectionHandler.PostAsync<NoContentResponse, AccountUpdate>(Endpoint.Update, account, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Delete(Entries accounts, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, Entries>(AccountEndpoints.Account.Delete, accounts, cancellationToken: cancellationToken);
+        => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, accounts, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize accountsCategorize, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, EntriesCategorize>(AccountEndpoints.Account.Categorize, accountsCategorize, cancellationToken: cancellationToken);
+        => ConnectionHandler.PostAsync<NoContentResponse, EntriesCategorize>(Endpoint.Categorize, accountsCategorize, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments accountAttachments, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, EntryAttachments>(AccountEndpoints.Account.UpdateAttachments, accountAttachments, cancellationToken: cancellationToken);
+        => ConnectionHandler.PostAsync<NoContentResponse, EntryAttachments>(Endpoint.UpdateAttachments, accountAttachments, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ListXlsx, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ListCsv, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ListPdf, cancellationToken: cancellationToken);
 }

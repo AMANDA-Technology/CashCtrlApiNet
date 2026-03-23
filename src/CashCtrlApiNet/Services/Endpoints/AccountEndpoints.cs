@@ -86,6 +86,77 @@ internal static class AccountEndpoints
         /// Endpoint to update attachments of an account
         /// </summary>
         public const string UpdateAttachments = $"{Root}/update_attachments.json";
+
+        /// <summary>
+        /// Endpoint to export accounts as Excel
+        /// </summary>
+        public const string ListXlsx = $"{Root}/list.xlsx";
+
+        /// <summary>
+        /// Endpoint to export accounts as CSV
+        /// </summary>
+        public const string ListCsv = $"{Root}/list.csv";
+
+        /// <summary>
+        /// Endpoint to export accounts as PDF
+        /// </summary>
+        public const string ListPdf = $"{Root}/list.pdf";
+    }
+
+    /// <summary>
+    /// Api endpoint definitions for account bank
+    /// </summary>
+    public static class Bank
+    {
+        /// <summary>
+        /// Root path for account bank
+        /// </summary>
+        private const string Root = $"{GroupRoot}/bank";
+
+        /// <summary>
+        /// Endpoint to read a bank account
+        /// </summary>
+        public const string Read = $"{Root}/{Default.Read}";
+
+        /// <summary>
+        /// Endpoint to list bank accounts
+        /// </summary>
+        public const string List = $"{Root}/{Default.List}";
+
+        /// <summary>
+        /// Endpoint to create a bank account
+        /// </summary>
+        public const string Create = $"{Root}/{Default.Create}";
+
+        /// <summary>
+        /// Endpoint to update a bank account
+        /// </summary>
+        public const string Update = $"{Root}/{Default.Update}";
+
+        /// <summary>
+        /// Endpoint to delete bank accounts
+        /// </summary>
+        public const string Delete = $"{Root}/{Default.Delete}";
+
+        /// <summary>
+        /// Endpoint to update attachments of a bank account
+        /// </summary>
+        public const string UpdateAttachments = $"{Root}/update_attachments.json";
+
+        /// <summary>
+        /// Endpoint to export bank accounts as Excel
+        /// </summary>
+        public const string ListXlsx = $"{Root}/list.xlsx";
+
+        /// <summary>
+        /// Endpoint to export bank accounts as CSV
+        /// </summary>
+        public const string ListCsv = $"{Root}/list.csv";
+
+        /// <summary>
+        /// Endpoint to export bank accounts as PDF
+        /// </summary>
+        public const string ListPdf = $"{Root}/list.pdf";
     }
 
     /// <summary>
@@ -178,6 +249,21 @@ internal static class AccountEndpoints
         /// Endpoint to update attachments of an account cost center
         /// </summary>
         public const string UpdateAttachments = $"{Root}/update_attachments.json";
+
+        /// <summary>
+        /// Endpoint to export cost centers as Excel
+        /// </summary>
+        public const string ListXlsx = $"{Root}/list.xlsx";
+
+        /// <summary>
+        /// Endpoint to export cost centers as CSV
+        /// </summary>
+        public const string ListCsv = $"{Root}/list.csv";
+
+        /// <summary>
+        /// Endpoint to export cost centers as PDF
+        /// </summary>
+        public const string ListPdf = $"{Root}/list.pdf";
     }
 
     /// <summary>

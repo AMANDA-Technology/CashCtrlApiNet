@@ -23,18 +23,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 
-namespace CashCtrlApiNet.Abstractions.Models.Account;
+namespace CashCtrlApiNet.Abstractions.Models.Account.CostCenter;
 
 /// <summary>
-/// Account update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/update.json">API Doc</a>
+/// Cost center (detail response). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/read.json">API Doc</a>
 /// </summary>
-public record AccountUpdate : AccountCreate
+public record CostCenter : CostCenterListed
 {
     /// <summary>
-    /// The ID of the account to update.
+    /// The file attachments of the cost center.
     /// </summary>
-    [JsonPropertyName("id")]
-    public required int Id { get; init; }
+    [JsonPropertyName("attachments")]
+    public ImmutableArray<int>? Attachments { get; init; }
 }

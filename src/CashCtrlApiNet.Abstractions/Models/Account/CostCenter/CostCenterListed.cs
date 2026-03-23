@@ -24,17 +24,38 @@ SOFTWARE.
 */
 
 using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Converters;
 
-namespace CashCtrlApiNet.Abstractions.Models.Account;
+namespace CashCtrlApiNet.Abstractions.Models.Account.CostCenter;
 
 /// <summary>
-/// Account update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/update.json">API Doc</a>
+/// Cost center listed (list response). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/list.json">API Doc</a>
 /// </summary>
-public record AccountUpdate : AccountCreate
+public record CostCenterListed : CostCenterUpdate
 {
     /// <summary>
-    /// The ID of the account to update.
+    /// The date and time the cost center was created.
     /// </summary>
-    [JsonPropertyName("id")]
-    public required int Id { get; init; }
+    [JsonPropertyName("created")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? Created { get; init; }
+
+    /// <summary>
+    /// The user who created the cost center.
+    /// </summary>
+    [JsonPropertyName("createdBy")]
+    public string? CreatedBy { get; init; }
+
+    /// <summary>
+    /// The date and time the cost center was last updated.
+    /// </summary>
+    [JsonPropertyName("lastUpdated")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? LastUpdated { get; init; }
+
+    /// <summary>
+    /// The user who last updated the cost center.
+    /// </summary>
+    [JsonPropertyName("lastUpdatedBy")]
+    public string? LastUpdatedBy { get; init; }
 }

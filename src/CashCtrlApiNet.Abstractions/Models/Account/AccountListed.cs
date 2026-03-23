@@ -24,17 +24,38 @@ SOFTWARE.
 */
 
 using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Converters;
 
 namespace CashCtrlApiNet.Abstractions.Models.Account;
 
 /// <summary>
-/// Account update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/update.json">API Doc</a>
+/// Account listed (list response). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/list.json">API Doc</a>
 /// </summary>
-public record AccountUpdate : AccountCreate
+public record AccountListed : AccountUpdate
 {
     /// <summary>
-    /// The ID of the account to update.
+    /// The date and time the account was created.
     /// </summary>
-    [JsonPropertyName("id")]
-    public required int Id { get; init; }
+    [JsonPropertyName("created")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? Created { get; init; }
+
+    /// <summary>
+    /// The user who created the account.
+    /// </summary>
+    [JsonPropertyName("createdBy")]
+    public string? CreatedBy { get; init; }
+
+    /// <summary>
+    /// The date and time the account was last updated.
+    /// </summary>
+    [JsonPropertyName("lastUpdated")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? LastUpdated { get; init; }
+
+    /// <summary>
+    /// The user who last updated the account.
+    /// </summary>
+    [JsonPropertyName("lastUpdatedBy")]
+    public string? LastUpdatedBy { get; init; }
 }

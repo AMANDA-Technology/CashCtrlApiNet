@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,37 +23,51 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces.Connectors.Account;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Converters;
 
-namespace CashCtrlApiNet.Interfaces.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Account.CostCenterCategory;
 
 /// <summary>
-/// CashCtrl account service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account">API Doc - Account</a>
+/// Cost center category. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/category/read.json">API Doc</a>
 /// </summary>
-public interface IAccountConnector
+public record CostCenterCategory : CostCenterCategoryUpdate
 {
     /// <summary>
-    /// CashCtrl account service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account">API Doc - Account</a>
+    /// The date and time the category was created.
     /// </summary>
-    public IAccountService Account { get; }
+    [JsonPropertyName("created")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? Created { get; init; }
 
     /// <summary>
-    /// CashCtrl bank account service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/bank">API Doc - Account/Bank</a>
+    /// The user who created the category.
     /// </summary>
-    public IAccountBankService Bank { get; }
+    [JsonPropertyName("createdBy")]
+    public string? CreatedBy { get; init; }
 
     /// <summary>
-    /// CashCtrl account category service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/category">API Doc - Account/Category</a>
+    /// The date and time the category was last updated.
     /// </summary>
-    public IAccountCategoryService Category { get; }
+    [JsonPropertyName("lastUpdated")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? LastUpdated { get; init; }
 
     /// <summary>
-    /// CashCtrl account cost center service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter">API Doc - Account/Cost center</a>
+    /// The user who last updated the category.
     /// </summary>
-    public ICostCenterService CostCenter { get; }
+    [JsonPropertyName("lastUpdatedBy")]
+    public string? LastUpdatedBy { get; init; }
 
     /// <summary>
-    /// CashCtrl account cost center category service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/category">API Doc - Account/Cost center category</a>
+    /// The path of the category in the tree hierarchy.
     /// </summary>
-    public ICostCenterCategoryService CostCenterCategory { get; }
+    [JsonPropertyName("path")]
+    public string? Path { get; init; }
+
+    /// <summary>
+    /// The full name of the category including parent path.
+    /// </summary>
+    [JsonPropertyName("fullName")]
+    public string? FullName { get; init; }
 }

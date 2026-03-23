@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -40,13 +40,17 @@ public class AccountConnector : IAccountConnector
     public AccountConnector(ICashCtrlConnectionHandler connectionHandler)
     {
         Account = new AccountService(connectionHandler);
-        // Category = new AccountCategoryService(connectionHandler);
-        // CostCenter = new CostCenterService(connectionHandler);
-        // Account = new CostCenterCategoryService(connectionHandler);
+        Bank = new AccountBankService(connectionHandler);
+        Category = new AccountCategoryService(connectionHandler);
+        CostCenter = new CostCenterService(connectionHandler);
+        CostCenterCategory = new CostCenterCategoryService(connectionHandler);
     }
 
     /// <inheritdoc />
     public IAccountService Account { get; }
+
+    /// <inheritdoc />
+    public IAccountBankService Bank { get; }
 
     /// <inheritdoc />
     public IAccountCategoryService Category { get; }
