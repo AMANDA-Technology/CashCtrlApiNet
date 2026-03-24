@@ -234,6 +234,16 @@ internal static class OrderEndpoints
         /// Endpoint to update an order document
         /// </summary>
         public const string Update = $"{Root}/{Default.Update}";
+
+        /// <summary>
+        /// Endpoint to download an order document as PDF
+        /// </summary>
+        public const string ReadPdf = $"{Root}/read.pdf";
+
+        /// <summary>
+        /// Endpoint to download an order document as ZIP
+        /// </summary>
+        public const string ReadZip = $"{Root}/read.zip";
     }
 
     /// <summary>
@@ -242,33 +252,90 @@ internal static class OrderEndpoints
     public static class DocumentTemplate
     {
         /// <summary>
-        /// Root path for order document
+        /// Root path for order document template
         /// </summary>
         private const string Root = $"{GroupRoot}/template";
 
         /// <summary>
-        /// Endpoint to read an order document
+        /// Endpoint to read an order document template
         /// </summary>
         public const string Read = $"{Root}/{Default.Read}";
 
         /// <summary>
-        /// Endpoint to list order documents
+        /// Endpoint to list order document templates
         /// </summary>
         public const string List = $"{Root}/{Default.List}";
 
         /// <summary>
-        /// Endpoint to create an order document
+        /// Endpoint to create an order document template
         /// </summary>
         public const string Create = $"{Root}/{Default.Create}";
 
         /// <summary>
-        /// Endpoint to update an order document
+        /// Endpoint to update an order document template
         /// </summary>
         public const string Update = $"{Root}/{Default.Update}";
 
         /// <summary>
-        /// Endpoint to delete order documents
+        /// Endpoint to delete order document templates
         /// </summary>
         public const string Delete = $"{Root}/{Default.Delete}";
+    }
+
+    /// <summary>
+    /// Api endpoint definitions for order layout
+    /// </summary>
+    public static class Layout
+    {
+        /// <summary>
+        /// Root path for order layout
+        /// </summary>
+        private const string Root = $"{GroupRoot}/layout";
+
+        /// <summary>
+        /// Endpoint to read an order layout
+        /// </summary>
+        public const string Read = $"{Root}/{Default.Read}";
+
+        /// <summary>
+        /// Endpoint to list order layouts
+        /// </summary>
+        public const string List = $"{Root}/{Default.List}";
+
+        /// <summary>
+        /// Endpoint to create an order layout
+        /// </summary>
+        public const string Create = $"{Root}/{Default.Create}";
+
+        /// <summary>
+        /// Endpoint to update an order layout
+        /// </summary>
+        public const string Update = $"{Root}/{Default.Update}";
+
+        /// <summary>
+        /// Endpoint to delete order layouts
+        /// </summary>
+        public const string Delete = $"{Root}/{Default.Delete}";
+    }
+
+    /// <summary>
+    /// Api endpoint definitions for order payment
+    /// </summary>
+    public static class Payment
+    {
+        /// <summary>
+        /// Root path for order payment
+        /// </summary>
+        private const string Root = $"{GroupRoot}/payment";
+
+        /// <summary>
+        /// Endpoint to create an order payment
+        /// </summary>
+        public const string Create = $"{Root}/{Default.Create}";
+
+        /// <summary>
+        /// Endpoint to download an order payment file
+        /// </summary>
+        public const string Download = $"{Root}/download";
     }
 }

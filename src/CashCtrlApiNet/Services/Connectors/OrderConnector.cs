@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -26,6 +26,7 @@ SOFTWARE.
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors;
 using CashCtrlApiNet.Interfaces.Connectors.Order;
+using CashCtrlApiNet.Services.Connectors.Order;
 
 namespace CashCtrlApiNet.Services.Connectors;
 
@@ -38,11 +39,13 @@ public class OrderConnector : IOrderConnector
     /// <param name="connectionHandler"></param>
     public OrderConnector(ICashCtrlConnectionHandler connectionHandler)
     {
-        // Order = new OrderService(connectionHandler);
-        // BookEntry = new BookEntryService(connectionHandler);
-        // Category = new OrderCategoryService(connectionHandler);
-        // DocumentService = new DocumentService(connectionHandler);
-        // DocumentTemplate = new DocumentTemplateService(connectionHandler);
+        Order = new OrderService(connectionHandler);
+        BookEntry = new BookEntryService(connectionHandler);
+        Category = new OrderCategoryService(connectionHandler);
+        Document = new DocumentService(connectionHandler);
+        DocumentTemplate = new DocumentTemplateService(connectionHandler);
+        Layout = new OrderLayoutService(connectionHandler);
+        Payment = new OrderPaymentService(connectionHandler);
     }
 
     /// <inheritdoc />
@@ -55,8 +58,14 @@ public class OrderConnector : IOrderConnector
     public IOrderCategoryService Category { get; }
 
     /// <inheritdoc />
-    public IDocumentService DocumentService { get; }
+    public IDocumentService Document { get; }
 
     /// <inheritdoc />
     public IDocumentTemplateService DocumentTemplate { get; }
+
+    /// <inheritdoc />
+    public IOrderLayoutService Layout { get; }
+
+    /// <inheritdoc />
+    public IOrderPaymentService Payment { get; }
 }
