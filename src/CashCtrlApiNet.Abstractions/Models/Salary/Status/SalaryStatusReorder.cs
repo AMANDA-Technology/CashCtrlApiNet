@@ -23,25 +23,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
-using CashCtrlApiNet.Abstractions.Models.Api;
+using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Salary.Field;
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors.Salary;
-using CashCtrlApiNet.Services.Connectors.Base;
-using Endpoint = CashCtrlApiNet.Services.Endpoints.SalaryEndpoints.Field;
 
-namespace CashCtrlApiNet.Services.Connectors.Salary;
+namespace CashCtrlApiNet.Abstractions.Models.Salary.Status;
 
-/// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalaryFieldService" />
-public class SalaryFieldService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryFieldService
+/// <summary>
+/// Salary status reorder parameters. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/status/reorder.json">API Doc</a>
+/// </summary>
+public record SalaryStatusReorder : ModelBaseRecord
 {
-    /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<SalaryField>>> Get(Entry field, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<SingleResponse<SalaryField>, Entry>(Endpoint.Read, field, cancellationToken);
+    /// <summary>
+    /// The IDs of the statuses to reorder, comma-separated.
+    /// </summary>
+    [JsonPropertyName("ids")]
+    public required string Ids { get; init; }
 
-    /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SalaryField>>> GetList(Entry type, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<SalaryField>, Entry>(Endpoint.List, type, cancellationToken);
+    /// <summary>
+    /// The ID of the target status to reorder relative to.
+    /// </summary>
+    [JsonPropertyName("target")]
+    public required int Target { get; init; }
+
+    /// <summary>
+    /// Whether to place the statuses before (true) or after (false) the target.
+    /// </summary>
+    [JsonPropertyName("before")]
+    public bool? Before { get; init; }
 }

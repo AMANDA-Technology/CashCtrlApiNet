@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.Setting;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 
 /// <summary>
@@ -30,4 +35,47 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 /// </summary>
 public interface ISalarySettingService
 {
+    /// <summary>
+    /// Read salary setting. Returns a single setting by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/setting/read.json">API Doc - Salary/Setting/Read</a>
+    /// </summary>
+    /// <param name="setting">The entry containing the ID of the setting.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<SalarySetting>>> Get(Entry setting, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// List salary settings. Returns a list of settings.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/setting/list.json">API Doc - Salary/Setting/List</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalarySetting>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates a new salary setting. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/setting/create.json">API Doc - Salary/Setting/Create</a>
+    /// </summary>
+    /// <param name="setting"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(SalarySettingCreate setting, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update salary setting. Updates an existing setting. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/setting/update.json">API Doc - Salary/Setting/Update</a>
+    /// </summary>
+    /// <param name="setting"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(SalarySettingUpdate setting, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete salary settings. Deletes one or multiple settings. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/setting/delete.json">API Doc - Salary/Setting/Delete</a>
+    /// </summary>
+    /// <param name="settings"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries settings, [Optional] CancellationToken cancellationToken);
 }

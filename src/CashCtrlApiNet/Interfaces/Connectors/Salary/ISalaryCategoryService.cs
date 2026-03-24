@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.Category;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 
 /// <summary>
@@ -30,4 +35,55 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 /// </summary>
 public interface ISalaryCategoryService
 {
+    /// <summary>
+    /// Read salary category. Returns a single category by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/category/read.json">API Doc - Salary/Category/Read</a>
+    /// </summary>
+    /// <param name="category">The entry containing the ID of the category.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<SalaryCategory>>> Get(Entry category, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// List salary categories. Returns a list of categories.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/category/list.json">API Doc - Salary/Category/List</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalaryCategory>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Get salary category tree. Returns a tree of categories.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/category/tree.json">API Doc - Salary/Category/Tree</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalaryCategory>>> GetTree([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates a new salary category. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/category/create.json">API Doc - Salary/Category/Create</a>
+    /// </summary>
+    /// <param name="category"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(SalaryCategoryCreate category, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update salary category. Updates an existing category. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/category/update.json">API Doc - Salary/Category/Update</a>
+    /// </summary>
+    /// <param name="category"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(SalaryCategoryUpdate category, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete salary categories. Deletes one or multiple categories. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/category/delete.json">API Doc - Salary/Category/Delete</a>
+    /// </summary>
+    /// <param name="categories"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries categories, [Optional] CancellationToken cancellationToken);
 }

@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.Sum;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 
 /// <summary>
@@ -30,4 +35,47 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 /// </summary>
 public interface ISalarySumService
 {
+    /// <summary>
+    /// Read salary sum. Returns a single sum by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/sum/read.json">API Doc - Salary/Sum/Read</a>
+    /// </summary>
+    /// <param name="sum">The entry containing the ID of the sum.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<SalarySum>>> Get(Entry sum, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// List salary sums. Returns a list of sums.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/sum/list.json">API Doc - Salary/Sum/List</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalarySum>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates a new salary sum. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/sum/create.json">API Doc - Salary/Sum/Create</a>
+    /// </summary>
+    /// <param name="sum"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(SalarySumCreate sum, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update salary sum. Updates an existing sum. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/sum/update.json">API Doc - Salary/Sum/Update</a>
+    /// </summary>
+    /// <param name="sum"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(SalarySumUpdate sum, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete salary sums. Deletes one or multiple sums. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/sum/delete.json">API Doc - Salary/Sum/Delete</a>
+    /// </summary>
+    /// <param name="sums"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries sums, [Optional] CancellationToken cancellationToken);
 }

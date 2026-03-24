@@ -23,13 +23,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.Sum;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors.Salary;
 using CashCtrlApiNet.Services.Connectors.Base;
+using Endpoint = CashCtrlApiNet.Services.Endpoints.SalaryEndpoints.Sum;
 
 namespace CashCtrlApiNet.Services.Connectors.Salary;
 
 /// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalarySumService" />
 public class SalarySumService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalarySumService
 {
+    /// <inheritdoc />
+    public Task<ApiResult<SingleResponse<SalarySum>>> Get(Entry sum, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<SingleResponse<SalarySum>, Entry>(Endpoint.Read, sum, cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<ListResponse<SalarySum>>> GetList([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<SalarySum>>(Endpoint.List, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Create(SalarySumCreate sum, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, SalarySumCreate>(Endpoint.Create, sum, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Update(SalarySumUpdate sum, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, SalarySumUpdate>(Endpoint.Update, sum, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Delete(Entries sums, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, sums, cancellationToken: cancellationToken);
 }

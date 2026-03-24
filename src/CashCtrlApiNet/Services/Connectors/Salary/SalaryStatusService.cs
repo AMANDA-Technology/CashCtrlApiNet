@@ -23,13 +23,41 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.Status;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors.Salary;
 using CashCtrlApiNet.Services.Connectors.Base;
+using Endpoint = CashCtrlApiNet.Services.Endpoints.SalaryEndpoints.Status;
 
 namespace CashCtrlApiNet.Services.Connectors.Salary;
 
 /// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalaryStatusService" />
 public class SalaryStatusService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryStatusService
 {
+    /// <inheritdoc />
+    public Task<ApiResult<SingleResponse<SalaryStatus>>> Get(Entry status, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<SingleResponse<SalaryStatus>, Entry>(Endpoint.Read, status, cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<ListResponse<SalaryStatus>>> GetList([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<SalaryStatus>>(Endpoint.List, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Create(SalaryStatusCreate status, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, SalaryStatusCreate>(Endpoint.Create, status, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Update(SalaryStatusUpdate status, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, SalaryStatusUpdate>(Endpoint.Update, status, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Delete(Entries statuses, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, statuses, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Reorder(SalaryStatusReorder reorder, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, SalaryStatusReorder>(Endpoint.Reorder, reorder, cancellationToken: cancellationToken);
 }

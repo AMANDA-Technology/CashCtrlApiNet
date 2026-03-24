@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.Type;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 
 /// <summary>
@@ -30,4 +35,80 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 /// </summary>
 public interface ISalaryTypeService
 {
+    /// <summary>
+    /// Read salary type. Returns a single salary type by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/type/read.json">API Doc - Salary/Type/Read</a>
+    /// </summary>
+    /// <param name="salaryType">The entry containing the ID of the salary type.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<SalaryType>>> Get(Entry salaryType, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// List salary types. Returns a list of salary types.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/type/list.json">API Doc - Salary/Type/List</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalaryType>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates a new salary type. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/type/create.json">API Doc - Salary/Type/Create</a>
+    /// </summary>
+    /// <param name="salaryType"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(SalaryTypeCreate salaryType, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update salary type. Updates an existing salary type. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/type/update.json">API Doc - Salary/Type/Update</a>
+    /// </summary>
+    /// <param name="salaryType"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(SalaryTypeUpdate salaryType, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Categorize salary types. Assigns one or multiple salary types to the desired category. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/type/categorize.json">API Doc - Salary/Type/Categorize</a>
+    /// </summary>
+    /// <param name="salaryTypesCategorize"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize salaryTypesCategorize, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete salary types. Deletes one or multiple salary types. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/type/delete.json">API Doc - Salary/Type/Delete</a>
+    /// </summary>
+    /// <param name="salaryTypes"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries salaryTypes, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export salary types as Excel file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/type/list.xlsx">API Doc - Salary/Type/Export Excel</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export salary types as CSV file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/type/list.csv">API Doc - Salary/Type/Export CSV</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export salary types as PDF file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/type/list.pdf">API Doc - Salary/Type/Export PDF</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
 }

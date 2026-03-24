@@ -23,13 +23,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.Layout;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors.Salary;
 using CashCtrlApiNet.Services.Connectors.Base;
+using Endpoint = CashCtrlApiNet.Services.Endpoints.SalaryEndpoints.Layout;
 
 namespace CashCtrlApiNet.Services.Connectors.Salary;
 
 /// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalaryLayoutService" />
 public class SalaryLayoutService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryLayoutService
 {
+    /// <inheritdoc />
+    public Task<ApiResult<SingleResponse<SalaryLayout>>> Get(Entry layout, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<SingleResponse<SalaryLayout>, Entry>(Endpoint.Read, layout, cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<ListResponse<SalaryLayout>>> GetList([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<SalaryLayout>>(Endpoint.List, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Create(SalaryLayoutCreate layout, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, SalaryLayoutCreate>(Endpoint.Create, layout, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Update(SalaryLayoutUpdate layout, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, SalaryLayoutUpdate>(Endpoint.Update, layout, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Delete(Entries layouts, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, layouts, cancellationToken: cancellationToken);
 }

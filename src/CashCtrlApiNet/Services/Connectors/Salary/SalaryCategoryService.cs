@@ -23,13 +23,41 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.Category;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors.Salary;
 using CashCtrlApiNet.Services.Connectors.Base;
+using Endpoint = CashCtrlApiNet.Services.Endpoints.SalaryEndpoints.Category;
 
 namespace CashCtrlApiNet.Services.Connectors.Salary;
 
 /// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalaryCategoryService" />
 public class SalaryCategoryService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryCategoryService
 {
+    /// <inheritdoc />
+    public Task<ApiResult<SingleResponse<SalaryCategory>>> Get(Entry category, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<SingleResponse<SalaryCategory>, Entry>(Endpoint.Read, category, cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<ListResponse<SalaryCategory>>> GetList([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<SalaryCategory>>(Endpoint.List, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<ListResponse<SalaryCategory>>> GetTree([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<SalaryCategory>>(Endpoint.Tree, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Create(SalaryCategoryCreate category, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, SalaryCategoryCreate>(Endpoint.Create, category, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Update(SalaryCategoryUpdate category, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, SalaryCategoryUpdate>(Endpoint.Update, category, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Delete(Entries categories, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, categories, cancellationToken: cancellationToken);
 }

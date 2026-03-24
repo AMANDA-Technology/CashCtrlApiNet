@@ -23,11 +23,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.Field;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 
 /// <summary>
-/// CashCtrl salary field service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/field">API Doc - Salary/Field</a>
+/// CashCtrl salary field service endpoint (read-only). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/field">API Doc - Salary/Field</a>
 /// </summary>
 public interface ISalaryFieldService
 {
+    /// <summary>
+    /// Read salary field. Returns a single field by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/field/read.json">API Doc - Salary/Field/Read</a>
+    /// </summary>
+    /// <param name="field">The entry containing the ID of the field.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<SalaryField>>> Get(Entry field, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// List salary fields. Returns a list of fields for the specified type.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/field/list.json">API Doc - Salary/Field/List</a>
+    /// </summary>
+    /// <param name="type">The entry containing the type ID to list fields for.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalaryField>>> GetList(Entry type, [Optional] CancellationToken cancellationToken);
 }

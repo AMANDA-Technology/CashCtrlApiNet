@@ -23,13 +23,53 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.Type;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors.Salary;
 using CashCtrlApiNet.Services.Connectors.Base;
+using Endpoint = CashCtrlApiNet.Services.Endpoints.SalaryEndpoints.Type;
 
 namespace CashCtrlApiNet.Services.Connectors.Salary;
 
 /// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalaryTypeService" />
 public class SalaryTypeService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryTypeService
 {
+    /// <inheritdoc />
+    public Task<ApiResult<SingleResponse<SalaryType>>> Get(Entry salaryType, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<SingleResponse<SalaryType>, Entry>(Endpoint.Read, salaryType, cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<ListResponse<SalaryType>>> GetList([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<SalaryType>>(Endpoint.List, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Create(SalaryTypeCreate salaryType, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, SalaryTypeCreate>(Endpoint.Create, salaryType, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Update(SalaryTypeUpdate salaryType, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, SalaryTypeUpdate>(Endpoint.Update, salaryType, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize salaryTypesCategorize, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, EntriesCategorize>(Endpoint.Categorize, salaryTypesCategorize, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Delete(Entries salaryTypes, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, salaryTypes, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ListXlsx, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ListCsv, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ListPdf, cancellationToken: cancellationToken);
 }

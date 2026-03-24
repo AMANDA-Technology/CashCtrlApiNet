@@ -23,25 +23,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
-using CashCtrlApiNet.Abstractions.Models.Api;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Salary.Field;
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors.Salary;
-using CashCtrlApiNet.Services.Connectors.Base;
-using Endpoint = CashCtrlApiNet.Services.Endpoints.SalaryEndpoints.Field;
 
-namespace CashCtrlApiNet.Services.Connectors.Salary;
+namespace CashCtrlApiNet.Abstractions.Models.Salary.Layout;
 
-/// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalaryFieldService" />
-public class SalaryFieldService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryFieldService
+/// <summary>
+/// Salary layout create. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/layout/create.json">API Doc</a>
+/// </summary>
+public record SalaryLayoutCreate : ModelBaseRecord
 {
-    /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<SalaryField>>> Get(Entry field, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<SingleResponse<SalaryField>, Entry>(Endpoint.Read, field, cancellationToken);
+    /// <summary>
+    /// The name of the layout.
+    /// </summary>
+    [JsonPropertyName("name")]
+    [MaxLength(100)]
+    public required string Name { get; init; }
 
-    /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SalaryField>>> GetList(Entry type, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<SalaryField>, Entry>(Endpoint.List, type, cancellationToken);
+    /// <summary>
+    /// The layout elements as a JSON array of objects with elementId, css, and html properties.
+    /// </summary>
+    [JsonPropertyName("elements")]
+    public string? Elements { get; init; }
 }

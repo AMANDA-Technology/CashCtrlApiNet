@@ -23,25 +23,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
-using CashCtrlApiNet.Abstractions.Models.Api;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Salary.Field;
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors.Salary;
-using CashCtrlApiNet.Services.Connectors.Base;
-using Endpoint = CashCtrlApiNet.Services.Endpoints.SalaryEndpoints.Field;
 
-namespace CashCtrlApiNet.Services.Connectors.Salary;
+namespace CashCtrlApiNet.Abstractions.Models.Salary.Category;
 
-/// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalaryFieldService" />
-public class SalaryFieldService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryFieldService
+/// <summary>
+/// Salary category create. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/category/create.json">API Doc</a>
+/// </summary>
+public record SalaryCategoryCreate : ModelBaseRecord
 {
-    /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<SalaryField>>> Get(Entry field, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<SingleResponse<SalaryField>, Entry>(Endpoint.Read, field, cancellationToken);
+    /// <summary>
+    /// The name of the category.
+    /// <br/>This can contain localized text. To add values in multiple languages, use the XML format like this: &lt;values&gt;&lt;de&gt;German text&lt;/de&gt;&lt;en&gt;English text&lt;/en&gt;&lt;/values&gt;
+    /// </summary>
+    [JsonPropertyName("name")]
+    [MaxLength(50)]
+    public required string Name { get; init; }
 
-    /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SalaryField>>> GetList(Entry type, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<SalaryField>, Entry>(Endpoint.List, type, cancellationToken);
+    /// <summary>
+    /// The number of the category.
+    /// </summary>
+    [JsonPropertyName("number")]
+    [MaxLength(20)]
+    public string? Number { get; init; }
+
+    /// <summary>
+    /// The ID of the parent category.
+    /// </summary>
+    [JsonPropertyName("parentId")]
+    public int? ParentId { get; init; }
 }

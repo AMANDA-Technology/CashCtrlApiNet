@@ -23,13 +23,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.InsuranceType;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors.Salary;
 using CashCtrlApiNet.Services.Connectors.Base;
+using Endpoint = CashCtrlApiNet.Services.Endpoints.SalaryEndpoints.InsuranceType;
 
 namespace CashCtrlApiNet.Services.Connectors.Salary;
 
 /// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalaryInsuranceTypeService" />
 public class SalaryInsuranceTypeService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryInsuranceTypeService
 {
+    /// <inheritdoc />
+    public Task<ApiResult<SingleResponse<SalaryInsuranceType>>> Get(Entry insuranceType, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<SingleResponse<SalaryInsuranceType>, Entry>(Endpoint.Read, insuranceType, cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<ListResponse<SalaryInsuranceType>>> GetList([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<SalaryInsuranceType>>(Endpoint.List, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Create(SalaryInsuranceTypeCreate insuranceType, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, SalaryInsuranceTypeCreate>(Endpoint.Create, insuranceType, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Update(SalaryInsuranceTypeUpdate insuranceType, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, SalaryInsuranceTypeUpdate>(Endpoint.Update, insuranceType, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Delete(Entries insuranceTypes, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, insuranceTypes, cancellationToken: cancellationToken);
 }

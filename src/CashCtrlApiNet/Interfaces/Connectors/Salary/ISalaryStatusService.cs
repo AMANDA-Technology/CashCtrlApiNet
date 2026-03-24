@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.Status;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 
 /// <summary>
@@ -30,4 +35,56 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 /// </summary>
 public interface ISalaryStatusService
 {
+    /// <summary>
+    /// Read salary status. Returns a single status by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/status/read.json">API Doc - Salary/Status/Read</a>
+    /// </summary>
+    /// <param name="status">The entry containing the ID of the status.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<SalaryStatus>>> Get(Entry status, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// List salary statuses. Returns a list of statuses.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/status/list.json">API Doc - Salary/Status/List</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalaryStatus>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates a new salary status. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/status/create.json">API Doc - Salary/Status/Create</a>
+    /// </summary>
+    /// <param name="status"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(SalaryStatusCreate status, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update salary status. Updates an existing status. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/status/update.json">API Doc - Salary/Status/Update</a>
+    /// </summary>
+    /// <param name="status"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(SalaryStatusUpdate status, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete salary statuses. Deletes one or multiple statuses. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/status/delete.json">API Doc - Salary/Status/Delete</a>
+    /// </summary>
+    /// <param name="statuses"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries statuses, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Reorder salary statuses. Changes the order of statuses. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/status/reorder.json">API Doc - Salary/Status/Reorder</a>
+    /// </summary>
+    /// <param name="reorder"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Reorder(SalaryStatusReorder reorder, [Optional] CancellationToken cancellationToken);
 }
