@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Report.Element;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Report;
 
 /// <summary>
@@ -30,5 +35,102 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Report;
 /// </summary>
 public interface IReportElementService
 {
+    /// <summary>
+    /// Read report element. Returns a single report element by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/read.json">API Doc - Report/Element/Read</a>
+    /// </summary>
+    /// <param name="element">The entry containing the ID of the report element.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<ReportElement>>> Get(Entry element, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Creates a new report element. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/create.json">API Doc - Report/Element/Create</a>
+    /// </summary>
+    /// <param name="element"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(ReportElementCreate element, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update report element. Updates an existing report element. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/update.json">API Doc - Report/Element/Update</a>
+    /// </summary>
+    /// <param name="element"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(ReportElementUpdate element, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete report elements. Deletes one or multiple report elements. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/delete.json">API Doc - Report/Element/Delete</a>
+    /// </summary>
+    /// <param name="elements"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries elements, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Reorder report elements. Changes the order of report elements. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/reorder.json">API Doc - Report/Element/Reorder</a>
+    /// </summary>
+    /// <param name="reorder"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Reorder(ReportElementReorder reorder, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Get report element data as JSON.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/data.json">API Doc - Report/Element/Data JSON</a>
+    /// </summary>
+    /// <param name="element">The entry containing the ID of the report element.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<ReportElement>>> GetData(Entry element, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Get report element data as HTML.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/data.html">API Doc - Report/Element/Data HTML</a>
+    /// </summary>
+    /// <param name="element">The entry containing the ID of the report element.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> GetDataHtml(Entry element, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Get report element meta data.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/meta.json">API Doc - Report/Element/Meta</a>
+    /// </summary>
+    /// <param name="element">The entry containing the ID of the report element.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<ReportElement>>> GetMeta(Entry element, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Download report element as PDF.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/download.pdf">API Doc - Report/Element/Download PDF</a>
+    /// </summary>
+    /// <param name="element">The entry containing the ID of the report element.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry element, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Download report element as CSV.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/download.csv">API Doc - Report/Element/Download CSV</a>
+    /// </summary>
+    /// <param name="element">The entry containing the ID of the report element.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> DownloadCsv(Entry element, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Download report element as Excel.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/download.xlsx">API Doc - Report/Element/Download Excel</a>
+    /// </summary>
+    /// <param name="element">The entry containing the ID of the report element.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> DownloadExcel(Entry element, [Optional] CancellationToken cancellationToken);
 }

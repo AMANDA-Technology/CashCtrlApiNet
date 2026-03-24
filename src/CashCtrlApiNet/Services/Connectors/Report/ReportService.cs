@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,33 +23,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
 using CashCtrlApiNet.Interfaces.Connectors.Report;
-using CashCtrlApiNet.Services.Connectors.Report;
+using CashCtrlApiNet.Services.Connectors.Base;
+using Endpoint = CashCtrlApiNet.Services.Endpoints.ReportEndpoints.Report;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Services.Connectors.Report;
 
-/// <inheritdoc />
-public class ReportConnector : IReportConnector
+/// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Report.IReportService" />
+public class ReportService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IReportService
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ReportConnector"/> class with all services using the connection handler.
-    /// </summary>
-    /// <param name="connectionHandler"></param>
-    public ReportConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        Report = new ReportService(connectionHandler);
-        Element = new ReportElementService(connectionHandler);
-        Set = new ReportSetService(connectionHandler);
-    }
-
     /// <inheritdoc />
-    public IReportService Report { get; }
-
-    /// <inheritdoc />
-    public IReportElementService Element { get; }
-
-    /// <inheritdoc />
-    public IReportSetService Set { get; }
+    public Task<ApiResult<ListResponse<Abstractions.Models.Report.Report>>> GetTree([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<Abstractions.Models.Report.Report>>(Endpoint.Tree, cancellationToken: cancellationToken);
 }

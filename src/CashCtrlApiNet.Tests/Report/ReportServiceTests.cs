@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,33 +23,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Report;
+using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Services.Connectors.Report;
+using CashCtrlApiNet.Services.Endpoints;
+using NSubstitute;
+using Shouldly;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Tests.Report;
 
-/// <inheritdoc />
-public class ReportConnector : IReportConnector
+/// <summary>
+/// Unit tests for <see cref="ReportService"/>
+/// </summary>
+public class ReportServiceTests : ServiceTestBase<ReportService>
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ReportConnector"/> class with all services using the connection handler.
-    /// </summary>
-    /// <param name="connectionHandler"></param>
-    public ReportConnector(ICashCtrlConnectionHandler connectionHandler)
+    /// <inheritdoc />
+    protected override ReportService CreateService()
+        => new(ConnectionHandler);
+
+    [Fact]
+    public async Task GetTree_ShouldCallCorrectEndpoint()
     {
-        Report = new ReportService(connectionHandler);
-        Element = new ReportElementService(connectionHandler);
-        Set = new ReportSetService(connectionHandler);
+        ConnectionHandler
+            .GetAsync<ListResponse<Abstractions.Models.Report.Report>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<Abstractions.Models.Report.Report>>());
+
+        await Service.GetTree();
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<Abstractions.Models.Report.Report>>(
+                ReportEndpoints.Report.Tree, Arg.Any<CancellationToken>());
     }
-
-    /// <inheritdoc />
-    public IReportService Report { get; }
-
-    /// <inheritdoc />
-    public IReportElementService Element { get; }
-
-    /// <inheritdoc />
-    public IReportSetService Set { get; }
 }

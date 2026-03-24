@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,33 +23,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Report;
-using CashCtrlApiNet.Services.Connectors.Report;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Report.Set;
 
-/// <inheritdoc />
-public class ReportConnector : IReportConnector
+/// <summary>
+/// Report set create. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/create.json">API Doc</a>
+/// </summary>
+public record ReportSetCreate : ModelBaseRecord
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ReportConnector"/> class with all services using the connection handler.
+    /// The name of the report set.
+    /// <br/>This can contain localized text. To add values in multiple languages, use the XML format like this: &lt;values&gt;&lt;de&gt;German text&lt;/de&gt;&lt;en&gt;English text&lt;/en&gt;&lt;/values&gt;
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public ReportConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        Report = new ReportService(connectionHandler);
-        Element = new ReportElementService(connectionHandler);
-        Set = new ReportSetService(connectionHandler);
-    }
+    [JsonPropertyName("name")]
+    [MaxLength(100)]
+    public required string Name { get; init; }
 
-    /// <inheritdoc />
-    public IReportService Report { get; }
-
-    /// <inheritdoc />
-    public IReportElementService Element { get; }
-
-    /// <inheritdoc />
-    public IReportSetService Set { get; }
+    /// <summary>
+    /// An optional description of the report set.
+    /// </summary>
+    [JsonPropertyName("text")]
+    public string? Text { get; init; }
 }
