@@ -48,6 +48,7 @@ public class CashCtrlApiClient : ICashCtrlApiClient
     /// <param name="order"></param>
     /// <param name="person"></param>
     /// <param name="report"></param>
+    /// <param name="salary"></param>
     [SuppressMessage("Sonar", "S107:Methods should not have too many parameters", Justification = "Accepted here, for injecting all services")]
     public CashCtrlApiClient(ICashCtrlConnectionHandler cashCtrlConnectionHandler,
         IAccountConnector account,
@@ -58,7 +59,8 @@ public class CashCtrlApiClient : ICashCtrlApiClient
         IMetaConnector meta,
         IOrderConnector order,
         IPersonConnector person,
-        IReportConnector report)
+        IReportConnector report,
+        ISalaryConnector salary)
     {
         _cashCtrlConnectionHandler = cashCtrlConnectionHandler;
         Account = account;
@@ -70,6 +72,7 @@ public class CashCtrlApiClient : ICashCtrlApiClient
         Order = order;
         Person = person;
         Report = report;
+        Salary = salary;
     }
 
     /// <inheritdoc />
@@ -102,4 +105,7 @@ public class CashCtrlApiClient : ICashCtrlApiClient
 
     /// <inheritdoc />
     public IReportConnector Report { get; }
+
+    /// <inheritdoc />
+    public ISalaryConnector Salary { get; }
 }

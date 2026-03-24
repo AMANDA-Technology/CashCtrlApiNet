@@ -83,4 +83,9 @@ public interface ICashCtrlApiClient
     /// CashCtrl report service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report">API Doc - Report</a>
     /// </summary>
     public IReportConnector Report { get; }
+
+    /// <summary>
+    /// CashCtrl salary service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/bookentry">API Doc - Salary</a>
+    /// </summary>
+    public ISalaryConnector Salary { get; }
 }
