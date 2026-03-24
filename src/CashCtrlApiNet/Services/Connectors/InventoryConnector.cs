@@ -43,7 +43,7 @@ public class InventoryConnector : IInventoryConnector
         ArticleCategory = new ArticleCategoryService(connectionHandler);
         FixedAsset = new FixedAssetService(connectionHandler);
         FixedAssetCategory = new FixedAssetCategoryService(connectionHandler);
-        // Import = new InventoryImportService(connectionHandler);
+        Import = new InventoryImportService(connectionHandler);
         Unit = new UnitService(connectionHandler);
     }
 

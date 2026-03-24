@@ -64,4 +64,16 @@ public class ArticleService(ICashCtrlConnectionHandler connectionHandler) : Conn
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments articleAttachments, [Optional] CancellationToken cancellationToken)
         => ConnectionHandler.PostAsync<NoContentResponse, EntryAttachments>(Endpoint.UpdateAttachments, articleAttachments, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ListXlsx, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ListCsv, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ListPdf, cancellationToken: cancellationToken);
 }
