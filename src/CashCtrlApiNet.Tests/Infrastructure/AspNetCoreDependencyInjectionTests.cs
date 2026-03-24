@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Net.Http;
 using CashCtrlApiNet.Abstractions.Enums.Api;
 using CashCtrlApiNet.AspNetCore;
 using CashCtrlApiNet.Interfaces;
@@ -287,6 +288,20 @@ public class AspNetCoreDependencyInjectionTests
         using var provider = services.BuildServiceProvider();
 
         Should.Throw<OptionsValidationException>(() => provider.GetRequiredService<ICashCtrlConfiguration>());
+    }
+
+    /// <summary>
+    /// Verifies that IHttpClientFactory is registered by AddCashCtrl
+    /// </summary>
+    [Fact]
+    public void AddCashCtrl_ShouldRegister_IHttpClientFactory()
+    {
+        var services = CreateServiceCollectionWithValidOptions();
+        using var provider = services.BuildServiceProvider();
+
+        var factory = provider.GetService<IHttpClientFactory>();
+
+        factory.ShouldNotBeNull();
     }
 
     /// <summary>

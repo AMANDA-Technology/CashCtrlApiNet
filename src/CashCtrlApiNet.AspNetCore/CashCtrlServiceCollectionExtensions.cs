@@ -39,7 +39,7 @@ public static class CashCtrlServiceCollectionExtensions
 {
     /// <summary>
     /// Adds CashCtrl API client services to the specified <see cref="IServiceCollection"/>.
-    /// Registers <see cref="ICashCtrlApiClient"/>, <see cref="ICashCtrlConnectionHandler"/>,
+    /// Registers <see cref="ICashCtrlApiClient"/>, <see cref="ICashCtrlConnectionHandler"/> (via <see cref="IHttpClientFactory"/>),
     /// <see cref="ICashCtrlConfiguration"/>, and all connector interfaces.
     /// </summary>
     /// <param name="services">The service collection to add services to</param>
@@ -61,7 +61,8 @@ public static class CashCtrlServiceCollectionExtensions
         // Register configuration adapter
         services.AddSingleton<ICashCtrlConfiguration, CashCtrlOptionsAdapter>();
 
-        // Register connection handler
+        // Register IHttpClientFactory and connection handler
+        services.AddHttpClient();
         services.AddScoped<ICashCtrlConnectionHandler, CashCtrlConnectionHandler>();
 
         // Register all connectors
