@@ -62,14 +62,14 @@ public class JournalImportServiceTests : ServiceTestBase<JournalImportService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<JournalImport>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<JournalImport>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<JournalImport>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<JournalImport>>(
-                JournalEndpoints.Import.List, Arg.Any<CancellationToken>());
+                JournalEndpoints.Import.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -92,14 +92,13 @@ public class JournalImportServiceTests : ServiceTestBase<JournalImportService>
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
         ConnectionHandler
-            .GetAsync<ListResponse<JournalImport>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<JournalImport>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<JournalImport>>());
 
         await Service.GetList(listParams);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<JournalImport>, ListParams>(
+            .GetAsync<ListResponse<JournalImport>>(
                 JournalEndpoints.Import.List, listParams, Arg.Any<CancellationToken>());
     }
 
@@ -109,8 +108,7 @@ public class JournalImportServiceTests : ServiceTestBase<JournalImportService>
         var listParams = new ListParams { Query = "test" };
         var expected = new ApiResult<ListResponse<JournalImport>>();
         ConnectionHandler
-            .GetAsync<ListResponse<JournalImport>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<JournalImport>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
         var result = await Service.GetList(listParams);

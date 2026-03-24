@@ -43,9 +43,7 @@ public class PersonService(ICashCtrlConnectionHandler connectionHandler) : Conne
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<PersonListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
-        => listParams is not null
-            ? ConnectionHandler.GetAsync<ListResponse<PersonListed>, ListParams>(Endpoint.List, listParams, cancellationToken)
-            : ConnectionHandler.GetAsync<ListResponse<PersonListed>>(Endpoint.List, cancellationToken: cancellationToken);
+        => ConnectionHandler.GetAsync<ListResponse<PersonListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(PersonCreate person, [Optional] CancellationToken cancellationToken)

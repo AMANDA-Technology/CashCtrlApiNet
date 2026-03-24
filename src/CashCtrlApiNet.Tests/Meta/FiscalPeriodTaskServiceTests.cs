@@ -46,14 +46,14 @@ public class FiscalPeriodTaskServiceTests : ServiceTestBase<FiscalPeriodTaskServ
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<FiscalPeriodTask>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<FiscalPeriodTask>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<FiscalPeriodTask>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<FiscalPeriodTask>>(
-                MetaEndpoints.FiscalPeriodTask.List, Arg.Any<CancellationToken>());
+                MetaEndpoints.FiscalPeriodTask.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -61,14 +61,13 @@ public class FiscalPeriodTaskServiceTests : ServiceTestBase<FiscalPeriodTaskServ
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
         ConnectionHandler
-            .GetAsync<ListResponse<FiscalPeriodTask>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<FiscalPeriodTask>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<FiscalPeriodTask>>());
 
         await Service.GetList(listParams);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<FiscalPeriodTask>, ListParams>(
+            .GetAsync<ListResponse<FiscalPeriodTask>>(
                 MetaEndpoints.FiscalPeriodTask.List, listParams, Arg.Any<CancellationToken>());
     }
 
@@ -78,8 +77,7 @@ public class FiscalPeriodTaskServiceTests : ServiceTestBase<FiscalPeriodTaskServ
         var listParams = new ListParams { Query = "test" };
         var expected = new ApiResult<ListResponse<FiscalPeriodTask>>();
         ConnectionHandler
-            .GetAsync<ListResponse<FiscalPeriodTask>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<FiscalPeriodTask>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
         var result = await Service.GetList(listParams);

@@ -43,9 +43,7 @@ public class ArticleService(ICashCtrlConnectionHandler connectionHandler) : Conn
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<ArticleListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
-        => listParams is not null
-            ? ConnectionHandler.GetAsync<ListResponse<ArticleListed>, ListParams>(Endpoint.List, listParams, cancellationToken)
-            : ConnectionHandler.GetAsync<ListResponse<ArticleListed>>(Endpoint.List, cancellationToken: cancellationToken);
+        => ConnectionHandler.GetAsync<ListResponse<ArticleListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(ArticleCreate article, [Optional] CancellationToken cancellationToken)

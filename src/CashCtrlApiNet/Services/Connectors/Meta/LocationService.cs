@@ -43,9 +43,7 @@ public class LocationService(ICashCtrlConnectionHandler connectionHandler) : Con
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<LocationListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
-        => listParams is not null
-            ? ConnectionHandler.GetAsync<ListResponse<LocationListed>, ListParams>(Endpoint.List, listParams, cancellationToken)
-            : ConnectionHandler.GetAsync<ListResponse<LocationListed>>(Endpoint.List, cancellationToken: cancellationToken);
+        => ConnectionHandler.GetAsync<ListResponse<LocationListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(LocationCreate location, [Optional] CancellationToken cancellationToken)

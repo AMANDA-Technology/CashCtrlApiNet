@@ -62,14 +62,14 @@ public class FixedAssetCategoryServiceTests : ServiceTestBase<FixedAssetCategory
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<FixedAssetCategory>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<FixedAssetCategory>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<FixedAssetCategory>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<FixedAssetCategory>>(
-                InventoryEndpoints.FixedAssetCategory.List, Arg.Any<CancellationToken>());
+                InventoryEndpoints.FixedAssetCategory.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -77,14 +77,13 @@ public class FixedAssetCategoryServiceTests : ServiceTestBase<FixedAssetCategory
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
         ConnectionHandler
-            .GetAsync<ListResponse<FixedAssetCategory>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<FixedAssetCategory>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<FixedAssetCategory>>());
 
         await Service.GetList(listParams);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<FixedAssetCategory>, ListParams>(
+            .GetAsync<ListResponse<FixedAssetCategory>>(
                 InventoryEndpoints.FixedAssetCategory.List, listParams, Arg.Any<CancellationToken>());
     }
 
@@ -94,8 +93,7 @@ public class FixedAssetCategoryServiceTests : ServiceTestBase<FixedAssetCategory
         var listParams = new ListParams { Query = "test" };
         var expected = new ApiResult<ListResponse<FixedAssetCategory>>();
         ConnectionHandler
-            .GetAsync<ListResponse<FixedAssetCategory>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<FixedAssetCategory>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
         var result = await Service.GetList(listParams);

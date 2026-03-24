@@ -43,9 +43,7 @@ public class FiscalPeriodService(ICashCtrlConnectionHandler connectionHandler) :
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<FiscalPeriodListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
-        => listParams is not null
-            ? ConnectionHandler.GetAsync<ListResponse<FiscalPeriodListed>, ListParams>(Endpoint.List, listParams, cancellationToken)
-            : ConnectionHandler.GetAsync<ListResponse<FiscalPeriodListed>>(Endpoint.List, cancellationToken: cancellationToken);
+        => ConnectionHandler.GetAsync<ListResponse<FiscalPeriodListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(FiscalPeriodCreate fiscalPeriod, [Optional] CancellationToken cancellationToken)

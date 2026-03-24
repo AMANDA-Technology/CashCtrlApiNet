@@ -63,14 +63,14 @@ public class RoundingServiceTests : ServiceTestBase<RoundingService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<RoundingListed>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<RoundingListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<RoundingListed>>());
 
         var result = await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<RoundingListed>>(
-                CommonEndpoints.Rounding.List, Arg.Any<CancellationToken>());
+                CommonEndpoints.Rounding.List, (ListParams?)null, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
@@ -79,14 +79,13 @@ public class RoundingServiceTests : ServiceTestBase<RoundingService>
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
         ConnectionHandler
-            .GetAsync<ListResponse<RoundingListed>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<RoundingListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<RoundingListed>>());
 
         await Service.GetList(listParams);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<RoundingListed>, ListParams>(
+            .GetAsync<ListResponse<RoundingListed>>(
                 CommonEndpoints.Rounding.List, listParams, Arg.Any<CancellationToken>());
     }
 
@@ -96,8 +95,7 @@ public class RoundingServiceTests : ServiceTestBase<RoundingService>
         var listParams = new ListParams { Query = "test" };
         var expected = new ApiResult<ListResponse<RoundingListed>>();
         ConnectionHandler
-            .GetAsync<ListResponse<RoundingListed>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<RoundingListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
         var result = await Service.GetList(listParams);

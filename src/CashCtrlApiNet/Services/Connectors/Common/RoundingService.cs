@@ -43,9 +43,7 @@ public class RoundingService(ICashCtrlConnectionHandler connectionHandler) : Con
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<RoundingListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
-        => listParams is not null
-            ? ConnectionHandler.GetAsync<ListResponse<RoundingListed>, ListParams>(Endpoint.List, listParams, cancellationToken)
-            : ConnectionHandler.GetAsync<ListResponse<RoundingListed>>(Endpoint.List, cancellationToken: cancellationToken);
+        => ConnectionHandler.GetAsync<ListResponse<RoundingListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(RoundingCreate rounding, [Optional] CancellationToken cancellationToken)

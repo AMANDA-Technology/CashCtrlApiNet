@@ -43,9 +43,7 @@ public class JournalService(ICashCtrlConnectionHandler connectionHandler) : Conn
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<JournalListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
-        => listParams is not null
-            ? ConnectionHandler.GetAsync<ListResponse<JournalListed>, ListParams>(Endpoint.List, listParams, cancellationToken)
-            : ConnectionHandler.GetAsync<ListResponse<JournalListed>>(Endpoint.List, cancellationToken: cancellationToken);
+        => ConnectionHandler.GetAsync<ListResponse<JournalListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(JournalCreate journal, [Optional] CancellationToken cancellationToken)

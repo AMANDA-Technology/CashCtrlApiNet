@@ -63,14 +63,14 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<AccountBank>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<AccountBank>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<AccountBank>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<AccountBank>>(
-                AccountEndpoints.Bank.List, Arg.Any<CancellationToken>());
+                AccountEndpoints.Bank.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -78,14 +78,13 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
         ConnectionHandler
-            .GetAsync<ListResponse<AccountBank>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<AccountBank>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<AccountBank>>());
 
         await Service.GetList(listParams);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<AccountBank>, ListParams>(
+            .GetAsync<ListResponse<AccountBank>>(
                 AccountEndpoints.Bank.List, listParams, Arg.Any<CancellationToken>());
     }
 
@@ -95,8 +94,7 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
         var listParams = new ListParams { Query = "test" };
         var expected = new ApiResult<ListResponse<AccountBank>>();
         ConnectionHandler
-            .GetAsync<ListResponse<AccountBank>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<AccountBank>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
         var result = await Service.GetList(listParams);

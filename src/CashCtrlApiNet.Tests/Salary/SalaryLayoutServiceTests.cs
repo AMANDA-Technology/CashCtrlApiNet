@@ -62,14 +62,14 @@ public class SalaryLayoutServiceTests : ServiceTestBase<SalaryLayoutService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<SalaryLayout>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<SalaryLayout>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<SalaryLayout>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<SalaryLayout>>(
-                SalaryEndpoints.Layout.List, Arg.Any<CancellationToken>());
+                SalaryEndpoints.Layout.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -122,14 +122,13 @@ public class SalaryLayoutServiceTests : ServiceTestBase<SalaryLayoutService>
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
         ConnectionHandler
-            .GetAsync<ListResponse<SalaryLayout>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<SalaryLayout>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<SalaryLayout>>());
 
         await Service.GetList(listParams);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<SalaryLayout>, ListParams>(
+            .GetAsync<ListResponse<SalaryLayout>>(
                 SalaryEndpoints.Layout.List, listParams, Arg.Any<CancellationToken>());
     }
 
@@ -139,8 +138,7 @@ public class SalaryLayoutServiceTests : ServiceTestBase<SalaryLayoutService>
         var listParams = new ListParams { Query = "test" };
         var expected = new ApiResult<ListResponse<SalaryLayout>>();
         ConnectionHandler
-            .GetAsync<ListResponse<SalaryLayout>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<SalaryLayout>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
         var result = await Service.GetList(listParams);

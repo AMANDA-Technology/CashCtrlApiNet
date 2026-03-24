@@ -62,14 +62,14 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<OrderListed>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<OrderListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<OrderListed>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<OrderListed>>(
-                OrderEndpoints.Order.List, Arg.Any<CancellationToken>());
+                OrderEndpoints.Order.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -77,14 +77,13 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
         ConnectionHandler
-            .GetAsync<ListResponse<OrderListed>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<OrderListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<OrderListed>>());
 
         await Service.GetList(listParams);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<OrderListed>, ListParams>(
+            .GetAsync<ListResponse<OrderListed>>(
                 OrderEndpoints.Order.List, listParams, Arg.Any<CancellationToken>());
     }
 
@@ -94,8 +93,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
         var listParams = new ListParams { Query = "test" };
         var expected = new ApiResult<ListResponse<OrderListed>>();
         ConnectionHandler
-            .GetAsync<ListResponse<OrderListed>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<OrderListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
         var result = await Service.GetList(listParams);

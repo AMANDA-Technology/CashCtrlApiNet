@@ -43,9 +43,7 @@ public class UnitService(ICashCtrlConnectionHandler connectionHandler) : Connect
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<Unit>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
-        => listParams is not null
-            ? ConnectionHandler.GetAsync<ListResponse<Unit>, ListParams>(Endpoint.List, listParams, cancellationToken)
-            : ConnectionHandler.GetAsync<ListResponse<Unit>>(Endpoint.List, cancellationToken: cancellationToken);
+        => ConnectionHandler.GetAsync<ListResponse<Unit>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(UnitCreate unit, [Optional] CancellationToken cancellationToken)

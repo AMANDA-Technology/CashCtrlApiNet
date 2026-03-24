@@ -43,9 +43,7 @@ public class TextTemplateService(ICashCtrlConnectionHandler connectionHandler) :
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<TextTemplateListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
-        => listParams is not null
-            ? ConnectionHandler.GetAsync<ListResponse<TextTemplateListed>, ListParams>(Endpoint.List, listParams, cancellationToken)
-            : ConnectionHandler.GetAsync<ListResponse<TextTemplateListed>>(Endpoint.List, cancellationToken: cancellationToken);
+        => ConnectionHandler.GetAsync<ListResponse<TextTemplateListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(TextTemplateCreate textTemplate, [Optional] CancellationToken cancellationToken)

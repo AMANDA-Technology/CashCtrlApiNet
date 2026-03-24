@@ -62,14 +62,14 @@ public class OrderLayoutServiceTests : ServiceTestBase<OrderLayoutService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<OrderLayout>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<OrderLayout>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<OrderLayout>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<OrderLayout>>(
-                OrderEndpoints.Layout.List, Arg.Any<CancellationToken>());
+                OrderEndpoints.Layout.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -77,14 +77,13 @@ public class OrderLayoutServiceTests : ServiceTestBase<OrderLayoutService>
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
         ConnectionHandler
-            .GetAsync<ListResponse<OrderLayout>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<OrderLayout>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<OrderLayout>>());
 
         await Service.GetList(listParams);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<OrderLayout>, ListParams>(
+            .GetAsync<ListResponse<OrderLayout>>(
                 OrderEndpoints.Layout.List, listParams, Arg.Any<CancellationToken>());
     }
 
@@ -94,8 +93,7 @@ public class OrderLayoutServiceTests : ServiceTestBase<OrderLayoutService>
         var listParams = new ListParams { Query = "test" };
         var expected = new ApiResult<ListResponse<OrderLayout>>();
         ConnectionHandler
-            .GetAsync<ListResponse<OrderLayout>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<OrderLayout>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
         var result = await Service.GetList(listParams);

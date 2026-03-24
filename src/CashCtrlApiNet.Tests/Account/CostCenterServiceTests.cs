@@ -62,14 +62,14 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<CostCenterListed>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<CostCenterListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<CostCenterListed>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<CostCenterListed>>(
-                AccountEndpoints.CostCenter.List, Arg.Any<CancellationToken>());
+                AccountEndpoints.CostCenter.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -77,14 +77,13 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
         ConnectionHandler
-            .GetAsync<ListResponse<CostCenterListed>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<CostCenterListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<CostCenterListed>>());
 
         await Service.GetList(listParams);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<CostCenterListed>, ListParams>(
+            .GetAsync<ListResponse<CostCenterListed>>(
                 AccountEndpoints.CostCenter.List, listParams, Arg.Any<CancellationToken>());
     }
 
@@ -94,8 +93,7 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
         var listParams = new ListParams { Query = "test" };
         var expected = new ApiResult<ListResponse<CostCenterListed>>();
         ConnectionHandler
-            .GetAsync<ListResponse<CostCenterListed>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<CostCenterListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
         var result = await Service.GetList(listParams);

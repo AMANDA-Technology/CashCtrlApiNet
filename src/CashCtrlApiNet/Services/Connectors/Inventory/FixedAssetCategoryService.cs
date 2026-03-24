@@ -43,9 +43,7 @@ public class FixedAssetCategoryService(ICashCtrlConnectionHandler connectionHand
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<FixedAssetCategory>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
-        => listParams is not null
-            ? ConnectionHandler.GetAsync<ListResponse<FixedAssetCategory>, ListParams>(Endpoint.List, listParams, cancellationToken)
-            : ConnectionHandler.GetAsync<ListResponse<FixedAssetCategory>>(Endpoint.List, cancellationToken: cancellationToken);
+        => ConnectionHandler.GetAsync<ListResponse<FixedAssetCategory>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<FixedAssetCategory>>> GetTree([Optional] CancellationToken cancellationToken)

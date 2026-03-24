@@ -60,14 +60,14 @@ public class ArticleCategoryServiceTests : ServiceTestBase<ArticleCategoryServic
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<ArticleCategory>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<ArticleCategory>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<ArticleCategory>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<ArticleCategory>>(
-                InventoryEndpoints.ArticleCategory.List, Arg.Any<CancellationToken>());
+                InventoryEndpoints.ArticleCategory.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -75,14 +75,13 @@ public class ArticleCategoryServiceTests : ServiceTestBase<ArticleCategoryServic
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
         ConnectionHandler
-            .GetAsync<ListResponse<ArticleCategory>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<ArticleCategory>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<ArticleCategory>>());
 
         await Service.GetList(listParams);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<ArticleCategory>, ListParams>(
+            .GetAsync<ListResponse<ArticleCategory>>(
                 InventoryEndpoints.ArticleCategory.List, listParams, Arg.Any<CancellationToken>());
     }
 
@@ -92,8 +91,7 @@ public class ArticleCategoryServiceTests : ServiceTestBase<ArticleCategoryServic
         var listParams = new ListParams { Query = "test" };
         var expected = new ApiResult<ListResponse<ArticleCategory>>();
         ConnectionHandler
-            .GetAsync<ListResponse<ArticleCategory>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<ArticleCategory>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
         var result = await Service.GetList(listParams);

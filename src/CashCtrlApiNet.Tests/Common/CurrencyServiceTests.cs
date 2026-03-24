@@ -63,14 +63,14 @@ public class CurrencyServiceTests : ServiceTestBase<CurrencyService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<CurrencyListed>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<CurrencyListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<CurrencyListed>>());
 
         var result = await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<CurrencyListed>>(
-                CommonEndpoints.Currency.List, Arg.Any<CancellationToken>());
+                CommonEndpoints.Currency.List, (ListParams?)null, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
@@ -79,14 +79,13 @@ public class CurrencyServiceTests : ServiceTestBase<CurrencyService>
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
         ConnectionHandler
-            .GetAsync<ListResponse<CurrencyListed>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<CurrencyListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<CurrencyListed>>());
 
         await Service.GetList(listParams);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<CurrencyListed>, ListParams>(
+            .GetAsync<ListResponse<CurrencyListed>>(
                 CommonEndpoints.Currency.List, listParams, Arg.Any<CancellationToken>());
     }
 
@@ -96,8 +95,7 @@ public class CurrencyServiceTests : ServiceTestBase<CurrencyService>
         var listParams = new ListParams { Query = "test" };
         var expected = new ApiResult<ListResponse<CurrencyListed>>();
         ConnectionHandler
-            .GetAsync<ListResponse<CurrencyListed>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<CurrencyListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
         var result = await Service.GetList(listParams);

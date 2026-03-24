@@ -62,14 +62,14 @@ public class PersonTitleServiceTests : ServiceTestBase<PersonTitleService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<PersonTitle>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<PersonTitle>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<PersonTitle>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<PersonTitle>>(
-                PersonEndpoints.Title.List, Arg.Any<CancellationToken>());
+                PersonEndpoints.Title.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -77,14 +77,13 @@ public class PersonTitleServiceTests : ServiceTestBase<PersonTitleService>
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
         ConnectionHandler
-            .GetAsync<ListResponse<PersonTitle>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<PersonTitle>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<PersonTitle>>());
 
         await Service.GetList(listParams);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<PersonTitle>, ListParams>(
+            .GetAsync<ListResponse<PersonTitle>>(
                 PersonEndpoints.Title.List, listParams, Arg.Any<CancellationToken>());
     }
 
@@ -94,8 +93,7 @@ public class PersonTitleServiceTests : ServiceTestBase<PersonTitleService>
         var listParams = new ListParams { Query = "test" };
         var expected = new ApiResult<ListResponse<PersonTitle>>();
         ConnectionHandler
-            .GetAsync<ListResponse<PersonTitle>, ListParams>(
-                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<PersonTitle>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
         var result = await Service.GetList(listParams);
