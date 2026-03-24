@@ -106,6 +106,16 @@ internal static class MetaEndpoints
         /// Endpoint to reopen a fiscal period
         /// </summary>
         public const string Reopen = $"{Root}/reopen.json";
+
+        /// <summary>
+        /// Endpoint to complete months of a fiscal period
+        /// </summary>
+        public const string CompleteMonths = $"{Root}/complete_months.json";
+
+        /// <summary>
+        /// Endpoint to reopen months of a fiscal period
+        /// </summary>
+        public const string ReopenMonths = $"{Root}/reopen_months.json";
     }
 
     /// <summary>
@@ -176,7 +186,7 @@ internal static class MetaEndpoints
     public static class Organisation
     {
         /// <summary>
-        /// Endpoint to get organisation log
+        /// Endpoint to get organisation logo
         /// </summary>
         public const string Logo = $"{Api.V1}/domain/current/logo";
     }

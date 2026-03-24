@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,21 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
-using CashCtrlApiNet.Abstractions.Models.Api;
-
-namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
+namespace CashCtrlApiNet.Abstractions.Models.Meta.FiscalPeriod;
 
 /// <summary>
-/// CashCtrl meta organization service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/domain/current">API Doc - Meta/Organization</a>
+/// Fiscal period detail model (read response). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod/read.json">API Doc</a>
 /// </summary>
-public interface IOrganizationService
-{
-    /// <summary>
-    /// Get organization logo. Returns the logo image as binary data.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/domain/current/logo">API Doc - Meta/Get logo</a>
-    /// </summary>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> GetLogo([Optional] CancellationToken cancellationToken);
-}
+public record FiscalPeriod : FiscalPeriodListed;

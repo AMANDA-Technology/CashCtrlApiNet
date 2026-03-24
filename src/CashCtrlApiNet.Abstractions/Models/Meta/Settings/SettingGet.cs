@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,21 +23,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
-using CashCtrlApiNet.Abstractions.Models.Api;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
+namespace CashCtrlApiNet.Abstractions.Models.Meta.Settings;
 
 /// <summary>
-/// CashCtrl meta organization service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/domain/current">API Doc - Meta/Organization</a>
+/// Setting get query model. Used to retrieve a single setting value by name. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/setting/get">API Doc</a>
 /// </summary>
-public interface IOrganizationService
+public record SettingGet : ModelBaseRecord
 {
     /// <summary>
-    /// Get organization logo. Returns the logo image as binary data.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/domain/current/logo">API Doc - Meta/Get logo</a>
+    /// The name of the setting to retrieve.
     /// </summary>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> GetLogo([Optional] CancellationToken cancellationToken);
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 }

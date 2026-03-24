@@ -23,6 +23,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Meta.Settings;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
 
 /// <summary>
@@ -30,5 +34,29 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
 /// </summary>
 public interface ISettingsService
 {
+    /// <summary>
+    /// Read settings. Returns the full settings object.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/setting/read.json">API Doc - Meta/Read settings</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<Settings>>> Read([Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Get setting. Returns a single setting value by name.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/setting/get">API Doc - Meta/Get setting</a>
+    /// </summary>
+    /// <param name="setting">The query containing the name of the setting to retrieve.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<Settings>>> Get(SettingGet setting, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update settings. Updates one or more settings. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/setting/update.json">API Doc - Meta/Update settings</a>
+    /// </summary>
+    /// <param name="settings"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(SettingsUpdate settings, [Optional] CancellationToken cancellationToken);
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Meta.FiscalPeriod.Task;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
 
 /// <summary>
@@ -30,5 +35,29 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
 /// </summary>
 public interface IFiscalPeriodTaskService
 {
+    /// <summary>
+    /// List fiscal period tasks. Returns a list of fiscal period tasks.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod/task/list.json">API Doc - Meta/List fiscal period tasks</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<FiscalPeriodTask>>> GetList([Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Create fiscal period task. Creates a new fiscal period task. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod/task/create.json">API Doc - Meta/Create fiscal period task</a>
+    /// </summary>
+    /// <param name="fiscalPeriodTask"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(FiscalPeriodTaskCreate fiscalPeriodTask, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete fiscal period tasks. Deletes one or multiple fiscal period tasks. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod/task/delete.json">API Doc - Meta/Delete fiscal period tasks</a>
+    /// </summary>
+    /// <param name="fiscalPeriodTasks"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries fiscalPeriodTasks, [Optional] CancellationToken cancellationToken);
 }

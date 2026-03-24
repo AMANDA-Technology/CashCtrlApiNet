@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,21 +23,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
-using CashCtrlApiNet.Abstractions.Models.Api;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
+namespace CashCtrlApiNet.Abstractions.Models.Meta.FiscalPeriod.Task;
 
 /// <summary>
-/// CashCtrl meta organization service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/domain/current">API Doc - Meta/Organization</a>
+/// Fiscal period task create model. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod/task/create.json">API Doc</a>
 /// </summary>
-public interface IOrganizationService
+public record FiscalPeriodTaskCreate : ModelBaseRecord
 {
     /// <summary>
-    /// Get organization logo. Returns the logo image as binary data.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/domain/current/logo">API Doc - Meta/Get logo</a>
+    /// The ID of the fiscal period this task belongs to.
     /// </summary>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> GetLogo([Optional] CancellationToken cancellationToken);
+    [JsonPropertyName("fiscalPeriodId")]
+    public required int FiscalPeriodId { get; init; }
+
+    /// <summary>
+    /// The name of the task.
+    /// </summary>
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 }

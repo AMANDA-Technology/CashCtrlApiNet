@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,37 +23,51 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces.Connectors.Meta;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Converters;
 
-namespace CashCtrlApiNet.Interfaces.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Meta.FiscalPeriod.Task;
 
 /// <summary>
-/// CashCtrl meta service endpoint group. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta</a>
+/// Fiscal period task model. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod/task/list.json">API Doc</a>
 /// </summary>
-public interface IMetaConnector
+public record FiscalPeriodTask : FiscalPeriodTaskCreate
 {
     /// <summary>
-    /// CashCtrl meta fiscal period service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod">API Doc - Meta/Fiscal period</a>
+    /// The ID of the fiscal period task.
     /// </summary>
-    public IFiscalPeriodService FiscalPeriod { get; }
+    [JsonPropertyName("id")]
+    public required int Id { get; init; }
 
     /// <summary>
-    /// CashCtrl meta fiscal period task service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod/task">API Doc - Meta/Fiscal period task</a>
+    /// The date and time the task was created.
     /// </summary>
-    public IFiscalPeriodTaskService FiscalPeriodTask { get; }
+    [JsonPropertyName("created")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? Created { get; init; }
 
     /// <summary>
-    /// CashCtrl meta location service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/location">API Doc - Meta/Location</a>
+    /// The user who created the task.
     /// </summary>
-    public ILocationService Location { get; }
+    [JsonPropertyName("createdBy")]
+    public string? CreatedBy { get; init; }
 
     /// <summary>
-    /// CashCtrl meta organization service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/domain/current">API Doc - Meta/Organization</a>
+    /// The date and time the task was last updated.
     /// </summary>
-    public IOrganizationService Organization { get; }
+    [JsonPropertyName("lastUpdated")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? LastUpdated { get; init; }
 
     /// <summary>
-    /// CashCtrl meta settings service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/setting">API Doc - Meta/Settings</a>
+    /// The user who last updated the task.
     /// </summary>
-    public ISettingsService Settings { get; }
+    [JsonPropertyName("lastUpdatedBy")]
+    public string? LastUpdatedBy { get; init; }
+
+    /// <summary>
+    /// Whether the task is done.
+    /// </summary>
+    [JsonPropertyName("isDone")]
+    public bool? IsDone { get; init; }
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,21 +23,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
-using CashCtrlApiNet.Abstractions.Models.Api;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
+namespace CashCtrlApiNet.Abstractions.Models.Meta.Location;
 
 /// <summary>
-/// CashCtrl meta organization service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/domain/current">API Doc - Meta/Organization</a>
+/// Location create model. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/location/create.json">API Doc</a>
 /// </summary>
-public interface IOrganizationService
+public record LocationCreate : ModelBaseRecord
 {
     /// <summary>
-    /// Get organization logo. Returns the logo image as binary data.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/domain/current/logo">API Doc - Meta/Get logo</a>
+    /// The name of the location.
     /// </summary>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> GetLogo([Optional] CancellationToken cancellationToken);
+    [JsonPropertyName("name")]
+    [MaxLength(100)]
+    public required string Name { get; init; }
+
+    /// <summary>
+    /// The organization name for this location.
+    /// </summary>
+    [JsonPropertyName("orgName")]
+    [MaxLength(100)]
+    public required string OrgName { get; init; }
+
+    /// <summary>
+    /// The ID of the logo file. See File.
+    /// </summary>
+    [JsonPropertyName("logoFileId")]
+    public int? LogoFileId { get; init; }
 }

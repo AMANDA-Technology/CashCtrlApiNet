@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,41 +23,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Meta;
+using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Services.Connectors.Meta;
+using CashCtrlApiNet.Services.Endpoints;
+using NSubstitute;
+using Shouldly;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Tests.Meta;
 
-/// <inheritdoc />
-public class MetaConnector : IMetaConnector
+/// <summary>
+/// Unit tests for <see cref="OrganizationService"/>
+/// </summary>
+public class OrganizationServiceTests : ServiceTestBase<OrganizationService>
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="MetaConnector"/> class with all services using the connection handler.
-    /// </summary>
-    /// <param name="connectionHandler"></param>
-    public MetaConnector(ICashCtrlConnectionHandler connectionHandler)
+    /// <inheritdoc />
+    protected override OrganizationService CreateService()
+        => new(ConnectionHandler);
+
+    [Fact]
+    public async Task GetLogo_ShouldCallGetBinaryAsync()
     {
-        FiscalPeriod = new FiscalPeriodService(connectionHandler);
-        FiscalPeriodTask = new FiscalPeriodTaskService(connectionHandler);
-        Location = new LocationService(connectionHandler);
-        Organization = new OrganizationService(connectionHandler);
-        Settings = new SettingsService(connectionHandler);
+        ConnectionHandler
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+
+        var result = await Service.GetLogo();
+
+        await ConnectionHandler.Received(1)
+            .GetBinaryAsync(MetaEndpoints.Organisation.Logo, Arg.Any<CancellationToken>());
+        result.ShouldNotBeNull();
     }
-
-    /// <inheritdoc />
-    public IFiscalPeriodService FiscalPeriod { get; }
-
-    /// <inheritdoc />
-    public IFiscalPeriodTaskService FiscalPeriodTask { get; }
-
-    /// <inheritdoc />
-    public ILocationService Location { get; }
-
-    /// <inheritdoc />
-    public IOrganizationService Organization { get; }
-
-    /// <inheritdoc />
-    public ISettingsService Settings { get; }
 }
