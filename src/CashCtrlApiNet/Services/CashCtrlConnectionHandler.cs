@@ -31,6 +31,7 @@ using CashCtrlApiNet.Abstractions.Enums.Api;
 using CashCtrlApiNet.Abstractions.Helpers;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Api.Base;
+using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Values;
 using CashCtrlApiNet.Interfaces;
 
@@ -156,6 +157,10 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     /// <inheritdoc />
     public async Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
         => await GetApiResult<TResult>(await GetHttpClient().SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
+
+    /// <inheritdoc />
+    public async Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, ListParams? listParams, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
+        => await GetApiResult<TResult>(await _client.SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, listParams), cancellationToken));
 
     /// <inheritdoc />
     public async Task<ApiResult<TResult>> GetAsync<TResult, TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse

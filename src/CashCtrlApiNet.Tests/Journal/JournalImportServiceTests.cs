@@ -29,6 +29,7 @@ using CashCtrlApiNet.Abstractions.Models.Journal.Import;
 using CashCtrlApiNet.Services.Connectors.Journal;
 using CashCtrlApiNet.Services.Endpoints;
 using NSubstitute;
+using Shouldly;
 
 namespace CashCtrlApiNet.Tests.Journal;
 
@@ -61,14 +62,14 @@ public class JournalImportServiceTests : ServiceTestBase<JournalImportService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<JournalImport>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<JournalImport>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<JournalImport>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<JournalImport>>(
-                JournalEndpoints.Import.List, Arg.Any<CancellationToken>());
+                JournalEndpoints.Import.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -84,6 +85,35 @@ public class JournalImportServiceTests : ServiceTestBase<JournalImportService>
         await ConnectionHandler.Received(1)
             .PostAsync<NoContentResponse, JournalImportCreate>(
                 JournalEndpoints.Import.Create, journalImport, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<JournalImport>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<JournalImport>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<JournalImport>>(
+                JournalEndpoints.Import.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<JournalImport>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<JournalImport>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
     }
 
     [Fact]

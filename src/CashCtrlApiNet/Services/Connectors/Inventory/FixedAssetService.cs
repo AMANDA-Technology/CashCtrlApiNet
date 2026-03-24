@@ -42,8 +42,8 @@ public class FixedAssetService(ICashCtrlConnectionHandler connectionHandler) : C
         => ConnectionHandler.GetAsync<SingleResponse<FixedAsset>, Entry>(Endpoint.Read, fixedAssetId, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<FixedAssetListed>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<FixedAssetListed>>(Endpoint.List, cancellationToken: cancellationToken);
+    public Task<ApiResult<ListResponse<FixedAssetListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetAsync<ListResponse<FixedAssetListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(FixedAssetCreate fixedAsset, [Optional] CancellationToken cancellationToken)

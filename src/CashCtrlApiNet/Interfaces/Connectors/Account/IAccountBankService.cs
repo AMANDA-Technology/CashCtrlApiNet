@@ -45,12 +45,13 @@ public interface IAccountBankService
     public Task<ApiResult<SingleResponse<AccountBank>>> Get(Entry bankAccount, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List bank accounts. Returns a list of bank accounts.
+    /// List bank accounts. Returns a list of bank accounts, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/bank/list.json">API Doc - Account/Bank/List</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<AccountBank>>> GetList([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<AccountBank>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new bank account. Returns either a success or multiple error messages.

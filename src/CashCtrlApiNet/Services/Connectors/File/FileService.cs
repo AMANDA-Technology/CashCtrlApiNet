@@ -46,8 +46,8 @@ public class FileService(ICashCtrlConnectionHandler connectionHandler) : Connect
         => ConnectionHandler.GetAsync<SingleResponse<Abstractions.Models.File.File>, Entry>(Endpoint.Read, file, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<Abstractions.Models.File.File>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<Abstractions.Models.File.File>>(Endpoint.List, cancellationToken: cancellationToken);
+    public Task<ApiResult<ListResponse<Abstractions.Models.File.File>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetAsync<ListResponse<Abstractions.Models.File.File>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Prepare(MultipartFormDataContent content, [Optional] CancellationToken cancellationToken)

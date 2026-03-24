@@ -42,8 +42,8 @@ public class OrderCategoryService(ICashCtrlConnectionHandler connectionHandler) 
         => ConnectionHandler.GetAsync<SingleResponse<OrderCategory>, Entry>(Endpoint.Read, category, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<OrderCategory>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<OrderCategory>>(Endpoint.List, cancellationToken: cancellationToken);
+    public Task<ApiResult<ListResponse<OrderCategory>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetAsync<ListResponse<OrderCategory>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(OrderCategoryCreate category, [Optional] CancellationToken cancellationToken)

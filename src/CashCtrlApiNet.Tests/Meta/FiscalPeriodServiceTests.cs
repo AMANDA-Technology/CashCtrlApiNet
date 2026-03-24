@@ -62,14 +62,43 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<FiscalPeriodListed>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<FiscalPeriodListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<FiscalPeriodListed>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<FiscalPeriodListed>>(
-                MetaEndpoints.FiscalPeriod.List, Arg.Any<CancellationToken>());
+                MetaEndpoints.FiscalPeriod.List, (ListParams?)null, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<FiscalPeriodListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<FiscalPeriodListed>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<FiscalPeriodListed>>(
+                MetaEndpoints.FiscalPeriod.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<FiscalPeriodListed>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<FiscalPeriodListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
     }
 
     [Fact]

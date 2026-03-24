@@ -27,6 +27,7 @@ using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Enums.Api;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Api.Base;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Interfaces;
 
@@ -65,6 +66,15 @@ public interface ICashCtrlConnectionHandler
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse;
+
+    /// <summary>
+    /// Base GET request with optional list parameters
+    /// </summary>
+    /// <param name="requestPath"></param>
+    /// <param name="listParams"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, ListParams? listParams, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse;
 
     /// <summary>
     /// Base GET request

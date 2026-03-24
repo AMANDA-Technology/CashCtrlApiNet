@@ -45,12 +45,13 @@ public interface IJournalImportService
     public Task<ApiResult<SingleResponse<JournalImport>>> Get(Entry journalImport, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List journal imports. Returns a list of journal imports.
+    /// List journal imports. Returns a list of journal imports, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import/list.json">API Doc - Journal/Import/List imports</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<JournalImport>>> GetList([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<JournalImport>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new journal import. Returns either a success or multiple error messages (for each issue).

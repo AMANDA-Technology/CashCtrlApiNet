@@ -62,14 +62,43 @@ public class FileCategoryServiceTests : ServiceTestBase<FileCategoryService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<FileCategory>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<FileCategory>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<FileCategory>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<FileCategory>>(
-                FileEndpoints.FileCategory.List, Arg.Any<CancellationToken>());
+                FileEndpoints.FileCategory.List, (ListParams?)null, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<FileCategory>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<FileCategory>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<FileCategory>>(
+                FileEndpoints.FileCategory.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<FileCategory>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<FileCategory>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
     }
 
     [Fact]

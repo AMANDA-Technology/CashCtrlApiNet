@@ -42,8 +42,8 @@ public class SalaryTemplateService(ICashCtrlConnectionHandler connectionHandler)
         => ConnectionHandler.GetAsync<SingleResponse<SalaryTemplate>, Entry>(Endpoint.Read, template, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SalaryTemplate>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<SalaryTemplate>>(Endpoint.List, cancellationToken: cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryTemplate>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetAsync<ListResponse<SalaryTemplate>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<SalaryTemplate>>> GetTree([Optional] CancellationToken cancellationToken)

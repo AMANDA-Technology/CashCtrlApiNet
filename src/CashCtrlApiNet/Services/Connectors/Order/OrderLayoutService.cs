@@ -42,8 +42,8 @@ public class OrderLayoutService(ICashCtrlConnectionHandler connectionHandler) : 
         => ConnectionHandler.GetAsync<SingleResponse<OrderLayout>, Entry>(Endpoint.Read, layout, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<OrderLayout>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<OrderLayout>>(Endpoint.List, cancellationToken: cancellationToken);
+    public Task<ApiResult<ListResponse<OrderLayout>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetAsync<ListResponse<OrderLayout>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(OrderLayoutCreate layout, [Optional] CancellationToken cancellationToken)

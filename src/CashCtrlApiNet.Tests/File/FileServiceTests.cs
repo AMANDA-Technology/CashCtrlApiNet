@@ -77,14 +77,43 @@ public class FileServiceTests : ServiceTestBase<FileService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<Abstractions.Models.File.File>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<Abstractions.Models.File.File>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<Abstractions.Models.File.File>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<Abstractions.Models.File.File>>(
-                FileEndpoints.File.List, Arg.Any<CancellationToken>());
+                FileEndpoints.File.List, (ListParams?)null, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<Abstractions.Models.File.File>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<Abstractions.Models.File.File>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<Abstractions.Models.File.File>>(
+                FileEndpoints.File.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<Abstractions.Models.File.File>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<Abstractions.Models.File.File>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
     }
 
     [Fact]

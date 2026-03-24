@@ -42,8 +42,8 @@ public class UnitService(ICashCtrlConnectionHandler connectionHandler) : Connect
         => ConnectionHandler.GetAsync<SingleResponse<Unit>, Entry>(Endpoint.Read, unitId, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<Unit>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<Unit>>(Endpoint.List, cancellationToken: cancellationToken);
+    public Task<ApiResult<ListResponse<Unit>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetAsync<ListResponse<Unit>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(UnitCreate unit, [Optional] CancellationToken cancellationToken)

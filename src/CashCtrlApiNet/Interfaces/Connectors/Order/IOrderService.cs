@@ -45,12 +45,13 @@ public interface IOrderService
     public Task<ApiResult<SingleResponse<Abstractions.Models.Order.Order>>> Get(Entry order, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List orders. Returns a list of orders.
+    /// List orders. Returns a list of orders, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/list.json">API Doc - Order/List orders</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<OrderListed>>> GetList([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<OrderListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new order. Returns either a success or multiple error messages (for each issue).

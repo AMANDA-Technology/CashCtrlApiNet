@@ -62,14 +62,14 @@ public class SalaryCertificateTemplateServiceTests : ServiceTestBase<SalaryCerti
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<SalaryCertificateTemplate>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<SalaryCertificateTemplate>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<SalaryCertificateTemplate>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<SalaryCertificateTemplate>>(
-                SalaryEndpoints.CertificateTemplate.List, Arg.Any<CancellationToken>());
+                SalaryEndpoints.CertificateTemplate.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -129,5 +129,34 @@ public class SalaryCertificateTemplateServiceTests : ServiceTestBase<SalaryCerti
         await ConnectionHandler.Received(1)
             .PostAsync<NoContentResponse, Entries>(
                 SalaryEndpoints.CertificateTemplate.Delete, entries, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<SalaryCertificateTemplate>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<SalaryCertificateTemplate>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<SalaryCertificateTemplate>>(
+                SalaryEndpoints.CertificateTemplate.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<SalaryCertificateTemplate>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<SalaryCertificateTemplate>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
     }
 }

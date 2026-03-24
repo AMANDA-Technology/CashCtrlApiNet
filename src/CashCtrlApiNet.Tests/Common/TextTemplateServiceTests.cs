@@ -63,15 +63,44 @@ public class TextTemplateServiceTests : ServiceTestBase<TextTemplateService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<TextTemplateListed>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<TextTemplateListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<TextTemplateListed>>());
 
         var result = await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<TextTemplateListed>>(
-                CommonEndpoints.TextTemplate.List, Arg.Any<CancellationToken>());
+                CommonEndpoints.TextTemplate.List, (ListParams?)null, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<TextTemplateListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<TextTemplateListed>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<TextTemplateListed>>(
+                CommonEndpoints.TextTemplate.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<TextTemplateListed>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<TextTemplateListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
     }
 
     [Fact]

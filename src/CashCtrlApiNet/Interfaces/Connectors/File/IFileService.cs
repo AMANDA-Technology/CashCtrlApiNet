@@ -54,12 +54,13 @@ public interface IFileService
     public Task<ApiResult<SingleResponse<Abstractions.Models.File.File>>> Get(Entry file, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List files. Returns a list of files.
+    /// List files. Returns a list of files, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file/list.json">API Doc - File/List files</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<Abstractions.Models.File.File>>> GetList([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<Abstractions.Models.File.File>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Prepare files. Uploads files using multipart form data. Returns either a success or error message.

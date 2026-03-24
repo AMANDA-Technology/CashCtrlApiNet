@@ -42,8 +42,8 @@ public class TaxRateService(ICashCtrlConnectionHandler connectionHandler) : Conn
         => ConnectionHandler.GetAsync<SingleResponse<TaxRate>, Entry>(Endpoint.Read, taxRate, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<TaxRateListed>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<TaxRateListed>>(Endpoint.List, cancellationToken: cancellationToken);
+    public Task<ApiResult<ListResponse<TaxRateListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetAsync<ListResponse<TaxRateListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(TaxRateCreate taxRate, [Optional] CancellationToken cancellationToken)

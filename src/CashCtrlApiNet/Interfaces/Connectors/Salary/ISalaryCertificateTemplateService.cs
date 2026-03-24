@@ -45,12 +45,13 @@ public interface ISalaryCertificateTemplateService
     public Task<ApiResult<SingleResponse<SalaryCertificateTemplate>>> Get(Entry template, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List salary certificate templates. Returns a list of templates.
+    /// List salary certificate templates. Returns a list of templates, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/template/list.json">API Doc - Salary/Certificate template/List</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<SalaryCertificateTemplate>>> GetList([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryCertificateTemplate>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get salary certificate template tree. Returns a tree of templates.

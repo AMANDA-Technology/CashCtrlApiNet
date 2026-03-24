@@ -42,8 +42,8 @@ public class SalaryStatementService(ICashCtrlConnectionHandler connectionHandler
         => ConnectionHandler.GetAsync<SingleResponse<SalaryStatement>, Entry>(Endpoint.Read, statement, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SalaryStatement>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<SalaryStatement>>(Endpoint.List, cancellationToken: cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryStatement>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetAsync<ListResponse<SalaryStatement>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(SalaryStatementCreate statement, [Optional] CancellationToken cancellationToken)

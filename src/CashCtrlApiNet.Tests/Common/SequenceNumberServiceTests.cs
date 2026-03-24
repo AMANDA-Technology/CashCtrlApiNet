@@ -63,15 +63,44 @@ public class SequenceNumberServiceTests : ServiceTestBase<SequenceNumberService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<SequenceNumberListed>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<SequenceNumberListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<SequenceNumberListed>>());
 
         var result = await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<SequenceNumberListed>>(
-                CommonEndpoints.SequenceNumber.List, Arg.Any<CancellationToken>());
+                CommonEndpoints.SequenceNumber.List, (ListParams?)null, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<SequenceNumberListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<SequenceNumberListed>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<SequenceNumberListed>>(
+                CommonEndpoints.SequenceNumber.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<SequenceNumberListed>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<SequenceNumberListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
     }
 
     [Fact]

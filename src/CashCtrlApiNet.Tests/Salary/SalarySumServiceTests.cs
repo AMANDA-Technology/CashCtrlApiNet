@@ -62,14 +62,14 @@ public class SalarySumServiceTests : ServiceTestBase<SalarySumService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<SalarySum>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<SalarySum>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<SalarySum>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<SalarySum>>(
-                SalaryEndpoints.Sum.List, Arg.Any<CancellationToken>());
+                SalaryEndpoints.Sum.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -115,5 +115,34 @@ public class SalarySumServiceTests : ServiceTestBase<SalarySumService>
         await ConnectionHandler.Received(1)
             .PostAsync<NoContentResponse, Entries>(
                 SalaryEndpoints.Sum.Delete, entries, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<SalarySum>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<SalarySum>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<SalarySum>>(
+                SalaryEndpoints.Sum.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<SalarySum>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<SalarySum>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
     }
 }

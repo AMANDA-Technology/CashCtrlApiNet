@@ -42,8 +42,8 @@ public class PersonTitleService(ICashCtrlConnectionHandler connectionHandler) : 
         => ConnectionHandler.GetAsync<SingleResponse<PersonTitle>, Entry>(Endpoint.Read, title, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<PersonTitle>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<PersonTitle>>(Endpoint.List, cancellationToken: cancellationToken);
+    public Task<ApiResult<ListResponse<PersonTitle>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetAsync<ListResponse<PersonTitle>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(PersonTitleCreate title, [Optional] CancellationToken cancellationToken)
