@@ -73,11 +73,6 @@ internal static class OrderEndpoints
         public const string Delete = $"{Root}/{Default.Delete}";
 
         /// <summary>
-        /// Endpoint to read status of an order
-        /// </summary>
-        public const string ReadStatus = $"{Root}/status_info.json";
-
-        /// <summary>
         /// Endpoint to update status of an order
         /// </summary>
         public const string UpdateStatus = $"{Root}/update_status.json";
@@ -244,42 +239,6 @@ internal static class OrderEndpoints
         /// Endpoint to download an order document as ZIP
         /// </summary>
         public const string ReadZip = $"{Root}/read.zip";
-    }
-
-    /// <summary>
-    /// Api endpoint definitions for order document template
-    /// </summary>
-    public static class DocumentTemplate
-    {
-        /// <summary>
-        /// Root path for order document template
-        /// </summary>
-        private const string Root = $"{GroupRoot}/template";
-
-        /// <summary>
-        /// Endpoint to read an order document template
-        /// </summary>
-        public const string Read = $"{Root}/{Default.Read}";
-
-        /// <summary>
-        /// Endpoint to list order document templates
-        /// </summary>
-        public const string List = $"{Root}/{Default.List}";
-
-        /// <summary>
-        /// Endpoint to create an order document template
-        /// </summary>
-        public const string Create = $"{Root}/{Default.Create}";
-
-        /// <summary>
-        /// Endpoint to update an order document template
-        /// </summary>
-        public const string Update = $"{Root}/{Default.Update}";
-
-        /// <summary>
-        /// Endpoint to delete order document templates
-        /// </summary>
-        public const string Delete = $"{Root}/{Default.Delete}";
     }
 
     /// <summary>

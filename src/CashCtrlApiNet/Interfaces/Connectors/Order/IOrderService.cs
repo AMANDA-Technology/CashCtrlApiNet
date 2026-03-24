@@ -80,15 +80,6 @@ public interface IOrderService
     public Task<ApiResult<NoContentResponse>> Delete(Entries orders, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// Get order status info. Returns the status information of an order.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/status_info.json">API Doc - Order/Status info</a>
-    /// </summary>
-    /// <param name="order">The entry containing the ID of the order.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Order.Order>>> GetStatus(Entry order, [Optional] CancellationToken cancellationToken);
-
-    /// <summary>
     /// Update order status. Updates the status of an order.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/update_status.json">API Doc - Order/Update status</a>
     /// </summary>

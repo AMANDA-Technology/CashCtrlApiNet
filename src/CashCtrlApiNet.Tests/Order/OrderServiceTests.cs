@@ -118,22 +118,6 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
     }
 
     [Fact]
-    public async Task GetStatus_ShouldCallCorrectEndpoint()
-    {
-        var entry = new Entry { Id = 42 };
-        ConnectionHandler
-            .GetAsync<SingleResponse<Abstractions.Models.Order.Order>, Entry>(
-                Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<SingleResponse<Abstractions.Models.Order.Order>>());
-
-        await Service.GetStatus(entry);
-
-        await ConnectionHandler.Received(1)
-            .GetAsync<SingleResponse<Abstractions.Models.Order.Order>, Entry>(
-                OrderEndpoints.Order.ReadStatus, entry, Arg.Any<CancellationToken>());
-    }
-
-    [Fact]
     public async Task UpdateStatus_ShouldPostToCorrectEndpoint()
     {
         var status = new OrderStatusUpdate { Id = 1, StatusId = 5 };

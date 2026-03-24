@@ -53,11 +53,6 @@ public interface IOrderConnector
     public IDocumentService Document { get; }
 
     /// <summary>
-    /// CashCtrl order document template service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/template">API Doc - Order/Document template</a>
-    /// </summary>
-    public IDocumentTemplateService DocumentTemplate { get; }
-
-    /// <summary>
     /// CashCtrl order layout service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/layout">API Doc - Order/Layout</a>
     /// </summary>
     public IOrderLayoutService Layout { get; }
