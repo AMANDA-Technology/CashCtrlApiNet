@@ -12,13 +12,13 @@ C4Container
     Person(developer, ".NET Developer", "Consumes the library")
 
     System_Boundary(lib, "CashCtrlApiNet Library") {
-        Container(abstractions, "CashCtrlApiNet.Abstractions", ".NET 9 Class Library / NuGet", "Models, enums, converters, serialization helpers. Zero external dependencies.")
-        Container(client, "CashCtrlApiNet", ".NET 9 Class Library / NuGet", "API client, connection handler, connectors, endpoints. Core library.")
-        Container(aspnetcore, "CashCtrlApiNet.AspNetCore", ".NET 9 Class Library / NuGet", "ASP.NET Core DI registration extensions. NOT YET IMPLEMENTED.")
+        Container(abstractions, "CashCtrlApiNet.Abstractions", ".NET 10 Class Library / NuGet", "Models, enums, converters, serialization helpers. Zero external dependencies.")
+        Container(client, "CashCtrlApiNet", ".NET 10 Class Library / NuGet", "API client, connection handler, connectors, endpoints. Core library.")
+        Container(aspnetcore, "CashCtrlApiNet.AspNetCore", ".NET 10 Class Library / NuGet", "ASP.NET Core DI registration extensions. NOT YET IMPLEMENTED.")
     }
 
     System_Boundary(tests, "Test Suite") {
-        Container(test, "CashCtrlApiNet.Tests", ".NET 9 / xUnit", "Integration tests against live CashCtrl API.")
+        Container(test, "CashCtrlApiNet.Tests", ".NET 10 / xUnit", "Unit tests (NSubstitute + Shouldly) and integration tests against live CashCtrl API. 393 unit tests covering 375 endpoints.")
     }
 
     System_Ext(cashctrl, "CashCtrl REST API v1", "External API")
@@ -37,7 +37,7 @@ C4Container
 
 | Property        | Value                                              |
 | --------------- | -------------------------------------------------- |
-| Technology      | .NET 9 Class Library                               |
+| Technology      | .NET 10 Class Library                               |
 | NuGet Package   | `CashCtrlApiNet.Abstractions`                      |
 | Repo Path       | `src/CashCtrlApiNet.Abstractions/`                 |
 | Responsibility  | Domain models, API response types, enums, JSON converters, serialization helpers |
@@ -47,9 +47,7 @@ C4Container
 **Key directories:**
 - `Models/Base/` -- `ModelBaseRecord`, `Entry`, `Entries`, `EntriesCategorize`, `EntryAttachments`
 - `Models/Api/` -- `ApiResult`, `ApiResponse`, `ListResponse<T>`, `SingleResponse<T>`, `NoContentResponse`, `ResponseError`
-- `Models/Account/` -- Account domain models (stubs)
-- `Models/Inventory/Article/` -- Article models (fully implemented)
-- `Models/Inventory/ArticleCategory/` -- ArticleCategory models (fully implemented)
+- `Models/{Group}/{Entity}/` -- Domain models for all 10 groups (Account, Common, File, Inventory, Journal, Meta, Order, Person, Report, Salary)
 - `Converters/` -- `CashCtrlDateTimeConverter`, `CashCtrlDateTimeNullableConverter`, `IntArrayAsCsvJsonConverter`
 - `Helpers/` -- `CashCtrlSerialization` (JSON serialize/deserialize, dictionary conversion)
 - `Enums/Api/` -- `Language`, `ApiHeaderNames`
@@ -59,7 +57,7 @@ C4Container
 
 | Property        | Value                                              |
 | --------------- | -------------------------------------------------- |
-| Technology      | .NET 9 Class Library                               |
+| Technology      | .NET 10 Class Library                               |
 | NuGet Package   | `CashCtrlApiNet`                                   |
 | Repo Path       | `src/CashCtrlApiNet/`                              |
 | Responsibility  | HTTP client, API connection handling, typed service interfaces, connector aggregation, endpoint path definitions |
@@ -81,7 +79,7 @@ C4Container
 
 | Property        | Value                                              |
 | --------------- | -------------------------------------------------- |
-| Technology      | .NET 9 Class Library                               |
+| Technology      | .NET 10 Class Library                               |
 | NuGet Package   | `CashCtrlApiNet.AspNetCore`                        |
 | Repo Path       | `src/CashCtrlApiNet.AspNetCore/`                   |
 | Responsibility  | Dependency injection registration for ASP.NET Core |
@@ -92,14 +90,14 @@ C4Container
 
 | Property        | Value                                              |
 | --------------- | -------------------------------------------------- |
-| Technology      | .NET 9, xUnit 2.9, FluentAssertions 6.12, Coverlet |
+| Technology      | .NET 10, xUnit, NSubstitute, Shouldly, FluentAssertions, Coverlet |
 | Repo Path       | `src/CashCtrlApiNet.Tests/`                        |
 | Responsibility  | Integration tests against live CashCtrl API        |
 | Dependencies    | `CashCtrlApiNet` (transitively includes Abstractions) |
 | Not Packaged    | `<IsPackable>false</IsPackable>`                   |
 
 **Key files:**
-- `CashCtrlTestBase.cs` -- Base class that reads env vars and constructs `CashCtrlApiClient` manually
-- `AlphabeticalOrderer.cs` -- Custom xUnit test orderer for sequential test execution
-- `Inventory/ArticleTests.cs` -- Full CRUD + categorize + attachments tests for articles
-- `Inventory/ArticleCategoryTests.cs` -- CRUD tests for article categories
+- `ServiceTestBase.cs` -- Base class for unit tests with mocked `ICashCtrlConnectionHandler` (NSubstitute)
+- `CashCtrlTestBase.cs` -- Base class for integration tests, reads env vars and constructs `CashCtrlApiClient`
+- `AlphabeticalOrderer.cs` -- Custom xUnit test orderer for sequential integration test execution
+- `{Group}/{Entity}ServiceTests.cs` -- Unit tests per service (393 total across all 10 domain groups)

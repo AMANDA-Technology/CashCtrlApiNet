@@ -18,7 +18,7 @@ CashCtrlApiNet is an unofficial .NET client library for the [CashCtrl REST API v
 
 | Constraint                     | Detail                                                                 |
 | ------------------------------ | ---------------------------------------------------------------------- |
-| Target framework               | .NET 9 (C# 13)                                                        |
+| Target framework               | .NET 10                                                                |
 | CashCtrl API version           | v1 only                                                                |
 | Authentication                 | HTTP Basic Auth (API key as username, empty password)                   |
 | POST encoding                  | `application/x-www-form-urlencoded` (not JSON)                         |
@@ -29,15 +29,16 @@ CashCtrlApiNet is an unofficial .NET client library for the [CashCtrl REST API v
 
 ## Tech Stack
 
-| Component          | Technology                       |
-| ------------------ | -------------------------------- |
-| Language/Runtime   | C# 13 / .NET 9                   |
-| HTTP client        | `System.Net.Http.HttpClient`      |
-| JSON               | `System.Text.Json`                |
-| Testing            | xUnit 2.9, FluentAssertions 6.12  |
-| Code coverage      | Coverlet 6.0                      |
-| Build system       | MSBuild (SDK-style)               |
-| Package format     | NuGet                             |
+| Component          | Technology                                   |
+| ------------------ | -------------------------------------------- |
+| Language/Runtime   | C# / .NET 10                                 |
+| HTTP client        | `System.Net.Http.HttpClient`                  |
+| JSON               | `System.Text.Json`                            |
+| Unit testing       | xUnit, NSubstitute 5.3, Shouldly 4.3         |
+| Integration testing| xUnit 2.9, FluentAssertions 6.12             |
+| Code coverage      | Coverlet                                      |
+| Build system       | MSBuild (SDK-style)                           |
+| Package format     | NuGet                                         |
 
 ## Architecture Documentation
 
@@ -50,3 +51,7 @@ CashCtrlApiNet is an unofficial .NET client library for the [CashCtrl REST API v
 - [[decisions/003-form-encoded-post-bodies]] -- ADR: Form-encoded POST instead of JSON
 - [[decisions/004-custom-datetime-converter]] -- ADR: Custom DateTime converter for CashCtrl format
 - [[glossary]] -- Domain terminology
+
+## API Coverage
+
+As of 2026-03-24: **375/375 endpoints (100%)** across 10 domain groups, 58 services, 393 unit tests. See `doc/analysis/2026-03-24-api-completeness-audit.md`.
