@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Order.Document;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Order;
 
 /// <summary>
@@ -30,5 +35,48 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Order;
 /// </summary>
 public interface IDocumentService
 {
+    /// <summary>
+    /// Read document. Returns a single document by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/document/read.json">API Doc - Order/Document/Read</a>
+    /// </summary>
+    /// <param name="document">The entry containing the ID of the document.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<Document>>> Get(Entry document, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Download document as PDF.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/document/read.pdf">API Doc - Order/Document/Read PDF</a>
+    /// </summary>
+    /// <param name="document">The entry containing the ID of the document.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry document, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Download document as ZIP.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/document/read.zip">API Doc - Order/Document/Read ZIP</a>
+    /// </summary>
+    /// <param name="document">The entry containing the ID of the document.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> DownloadZip(Entry document, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Send document per email.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/document/mail.json">API Doc - Order/Document/Mail</a>
+    /// </summary>
+    /// <param name="mail">The mail request containing the document ID, recipient, subject and message.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> SendMail(DocumentMail mail, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update document. Updates an existing document. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/document/update.json">API Doc - Order/Document/Update</a>
+    /// </summary>
+    /// <param name="document"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(DocumentUpdate document, [Optional] CancellationToken cancellationToken);
 }

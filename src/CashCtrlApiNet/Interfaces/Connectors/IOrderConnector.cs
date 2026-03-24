@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -50,10 +50,20 @@ public interface IOrderConnector
     /// <summary>
     /// CashCtrl order document service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/document">API Doc - Order/Document</a>
     /// </summary>
-    public IDocumentService DocumentService { get; }
+    public IDocumentService Document { get; }
 
     /// <summary>
     /// CashCtrl order document template service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/template">API Doc - Order/Document template</a>
     /// </summary>
     public IDocumentTemplateService DocumentTemplate { get; }
+
+    /// <summary>
+    /// CashCtrl order layout service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/layout">API Doc - Order/Layout</a>
+    /// </summary>
+    public IOrderLayoutService Layout { get; }
+
+    /// <summary>
+    /// CashCtrl order payment service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/payment">API Doc - Order/Payment</a>
+    /// </summary>
+    public IOrderPaymentService Payment { get; }
 }

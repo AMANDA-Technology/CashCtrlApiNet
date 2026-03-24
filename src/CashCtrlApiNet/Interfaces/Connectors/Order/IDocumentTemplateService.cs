@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Order.DocumentTemplate;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Order;
 
 /// <summary>
@@ -30,5 +35,47 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Order;
 /// </summary>
 public interface IDocumentTemplateService
 {
+    /// <summary>
+    /// Read document template. Returns a single document template by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/template/read.json">API Doc - Order/Document template/Read</a>
+    /// </summary>
+    /// <param name="template">The entry containing the ID of the document template.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<DocumentTemplate>>> Get(Entry template, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// List document templates. Returns a list of document templates.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/template/list.json">API Doc - Order/Document template/List</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<DocumentTemplate>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates a new document template. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/template/create.json">API Doc - Order/Document template/Create</a>
+    /// </summary>
+    /// <param name="template"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(DocumentTemplateCreate template, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update document template. Updates an existing document template. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/template/update.json">API Doc - Order/Document template/Update</a>
+    /// </summary>
+    /// <param name="template"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(DocumentTemplateUpdate template, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete document templates. Deletes one or multiple document templates. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/template/delete.json">API Doc - Order/Document template/Delete</a>
+    /// </summary>
+    /// <param name="templates"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries templates, [Optional] CancellationToken cancellationToken);
 }
