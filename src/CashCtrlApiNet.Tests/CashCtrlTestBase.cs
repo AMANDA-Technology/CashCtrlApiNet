@@ -78,6 +78,7 @@ public class CashCtrlTestBase
             new MetaConnector(connectionHandler),
             new OrderConnector(connectionHandler),
             new PersonConnector(connectionHandler),
-            new ReportConnector(connectionHandler));
+            new ReportConnector(connectionHandler),
+            new SalaryConnector(connectionHandler));
     }
 }

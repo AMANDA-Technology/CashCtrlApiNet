@@ -781,21 +781,357 @@ These should be tracked and fixed alongside implementation work:
 
 ---
 
-## Salary Module (Future Initiative)
+## Salary Group
 
-The CashCtrl API includes an extensive **Salary** module with approximately 15 sub-resources and 80+ endpoints:
+The Salary domain group manages payroll processing. It contains 16 sub-entities with ~80 endpoints. Requires a new `ISalaryConnector` interface, `SalaryConnector` class, `SalaryEndpoints` constants, and wiring into `ICashCtrlApiClient`.
 
-- Book Entry, Category, Certificate, Certificate Document, Certificate Template, Document, Field, Insurance Type, Layout, Payment, Setting, Statement, Status, Sum, Template, Type
+### Salary > Book Entry
 
-This module is **NOT represented in the current codebase** -- no interfaces, no models, no endpoints, no connector. Implementing it would require:
+Book entries are the journal entries created for a salary statement, either automatically from salary types or manually from payments.
 
-1. A new `ISalaryConnector` interface and `SalaryConnector` class.
-2. ~15 new service interfaces and implementations.
-3. ~15 new endpoint constant classes.
-4. ~45+ new model files.
-5. Adding `ISalaryConnector` to `ICashCtrlApiClient` and `CashCtrlApiClient`.
+**SalaryBookEntryService** (NEW):
 
-This should be treated as a **separate initiative** after all existing 9 domain groups are fully implemented.
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/bookentry/read.json` | GET | Read book entry | YES | NO |
+| `salary/bookentry/list.json` | GET | List book entries | YES | NO |
+| `salary/bookentry/create.json` | POST | Create book entry | YES | NO |
+| `salary/bookentry/update.json` | POST | Update book entry | YES | NO |
+| `salary/bookentry/delete.json` | POST | Delete book entries | YES | NO |
+
+Create parameters: `creditId` (NUMBER, required -- account credit side), `debitId` (NUMBER, required -- account debit side), `statementIds` (CSV, required -- salary statement IDs), `amount` (NUMBER -- leave empty for open amount), `date` (DATE, format YYYY-MM-DD), `description` (TEXT, max 200), `reference` (TEXT), `statusId` (NUMBER -- new status for statements).
+
+Update parameters: Same as create plus `id` (NUMBER, required).
+
+List parameters: `id` (NUMBER, required -- the statement ID to list book entries for).
+
+### Salary > Category
+
+Standard tree-pattern category for organizing salary types.
+
+**SalaryCategoryService** (NEW):
+
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/category/read.json` | GET | Read category | YES | NO |
+| `salary/category/list.json` | GET | List categories | YES | NO |
+| `salary/category/tree.json` | GET | Get category tree | YES | NO |
+| `salary/category/create.json` | POST | Create category | YES | NO |
+| `salary/category/update.json` | POST | Update category | YES | NO |
+| `salary/category/delete.json` | POST | Delete categories | YES | NO |
+
+Create parameters: `name` (TEXT, required, max 50, localized XML), `number` (TEXT, max 20 -- numeric ordering value), `parentId` (NUMBER).
+
+Update parameters: Same as create plus `id` (NUMBER, required).
+
+### Salary > Certificate
+
+Salary certificates (e.g., annual wage statements for tax purposes).
+
+**SalaryCertificateService** (NEW):
+
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/certificate/read.json` | GET | Read certificate | YES | NO |
+| `salary/certificate/list.json` | GET | List certificates | YES | NO |
+| `salary/certificate/update.json` | POST | Update certificate | YES | NO |
+| `salary/certificate/list.xlsx` | GET | Export to Excel | YES | NO |
+| `salary/certificate/list.csv` | GET | Export to CSV | YES | NO |
+| `salary/certificate/list.pdf` | GET | Export to PDF | YES | NO |
+
+Update parameters: `id` (NUMBER, required), `notes` (HTML), `valuesLocal` (JSON -- local value overrides).
+
+List parameters: `dir` (TEXT, ASC/DESC, default DESC), `filter` (JSON), `fiscalPeriodId` (NUMBER), `limit` (NUMBER, default 100), `onlyNotes` (BOOLEAN), `personId` (NUMBER), `query` (TEXT), `sort` (TEXT, default dateEnd), `start` (NUMBER, default 0).
+
+Note: No create or delete -- certificates are generated from statements.
+
+### Salary > Certificate Document
+
+PDF/ZIP generation and mailing for salary certificates.
+
+**SalaryCertificateDocumentService** (NEW):
+
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/certificate/document/read.json` | GET | Read document | YES | NO |
+| `salary/certificate/document/read.pdf` | GET | Download PDF | YES | NO |
+| `salary/certificate/document/read.zip` | GET | Download ZIP | YES | NO |
+| `salary/certificate/document/mail.json` | POST | Mail document | YES | NO |
+
+Read parameters: `id` (NUMBER, required -- salary certificate ID).
+
+Download PDF/ZIP parameters: `ids` (CSV, required -- salary certificate IDs).
+
+Mail parameters: `certificateIds` (CSV, required), `mailFrom` (TEXT, required, max 255), `mailSubject` (TEXT, required, max 255 -- supports variables), `mailText` (TEXT, required -- HTML), `isCopyToMe` (BOOLEAN), `mailBcc` (TEXT), `mailCc` (TEXT), `mailTo` (TEXT -- leave empty for default).
+
+### Salary > Certificate Template
+
+Templates for salary certificate PDF generation.
+
+**SalaryCertificateTemplateService** (NEW):
+
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/certificate/template/read.json` | GET | Read template | YES | NO |
+| `salary/certificate/template/list.json` | GET | List templates | YES | NO |
+| `salary/certificate/template/tree.json` | GET | Get template tree | YES | NO |
+| `salary/certificate/template/create.json` | POST | Create template | YES | NO |
+| `salary/certificate/template/update.json` | POST | Update template | YES | NO |
+| `salary/certificate/template/delete.json` | POST | Delete templates | YES | NO |
+
+Create parameters: `name` (TEXT, required, max 100), `elements` (JSON -- text elements on form), `fileId` (NUMBER -- PDF form file), `isDefault` (BOOLEAN), `isInactive` (BOOLEAN), `mailSubject` (TEXT, max 255 -- supports variables), `mailTemplateId` (NUMBER -- text template for mail body), `orgLocationId` (NUMBER), `parentId` (NUMBER -- inherit from parent).
+
+Update parameters: Same as create plus `id` (NUMBER, required).
+
+### Salary > Document
+
+PDF/ZIP generation and mailing for salary statement documents.
+
+**SalaryDocumentService** (NEW):
+
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/document/read.json` | GET | Read document | YES | NO |
+| `salary/document/read.pdf` | GET | Download PDF | YES | NO |
+| `salary/document/read.zip` | GET | Download ZIP | YES | NO |
+| `salary/document/mail.json` | POST | Mail document | YES | NO |
+| `salary/document/update.json` | POST | Update document | YES | NO |
+
+Read parameters: `id` (NUMBER, required -- salary statement ID).
+
+Download PDF/ZIP parameters: `ids` (CSV, required -- salary statement IDs).
+
+Mail parameters: `statementIds` (CSV, required), `mailFrom` (TEXT, required, max 255), `mailSubject` (TEXT, required, max 255 -- supports variables), `mailText` (TEXT, required -- HTML), `isCopyToMe` (BOOLEAN), `mailBcc` (TEXT), `mailCc` (TEXT), `mailTo` (TEXT -- leave empty for default), `sentStatusId` (NUMBER -- status to set after sending).
+
+Update parameters: `id` (NUMBER, required -- salary statement ID), `fileId` (NUMBER -- appended PDF), `footer` (HTML), `header` (HTML), `layoutId` (NUMBER), `orgAddress` (TEXT, max 255), `orgBankAccountId` (NUMBER), `orgLocationId` (NUMBER), `recipientAddress` (TEXT, max 255), `recipientAddressId` (NUMBER), `recipientBankAccountId` (NUMBER).
+
+### Salary > Field
+
+Read-only salary fields defined on salary types. No create/update/delete.
+
+**SalaryFieldService** (NEW):
+
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/field/read.json` | GET | Read field | YES | NO |
+| `salary/field/list.json` | GET | List fields | YES | NO |
+
+Read parameters: `id` (NUMBER, required -- field ID).
+
+List parameters: `typeId` (NUMBER, required -- salary type ID).
+
+### Salary > Insurance Type
+
+Insurance types used in salary statements (e.g., AHV, ALV, BVG).
+
+**SalaryInsuranceTypeService** (NEW):
+
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/insurance/type/read.json` | GET | Read insurance type | YES | NO |
+| `salary/insurance/type/list.json` | GET | List insurance types | YES | NO |
+| `salary/insurance/type/create.json` | POST | Create insurance type | YES | NO |
+| `salary/insurance/type/update.json` | POST | Update insurance type | YES | NO |
+| `salary/insurance/type/delete.json` | POST | Delete insurance types | YES | NO |
+
+Create parameters: `name` (TEXT, required, max 40, localized XML), `codes` (JSON -- array of `{name (TEXT, max 10, required), description (TEXT, max 100)}`), `description` (TEXT, max 100, localized XML).
+
+Update parameters: Same as create plus `id` (NUMBER, required).
+
+### Salary > Layout
+
+Layouts for salary statement PDF documents, containing HTML/CSS elements.
+
+**SalaryLayoutService** (NEW):
+
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/layout/read.json` | GET | Read layout | YES | NO |
+| `salary/layout/list.json` | GET | List layouts | YES | NO |
+| `salary/layout/create.json` | POST | Create layout | YES | NO |
+| `salary/layout/update.json` | POST | Update layout | YES | NO |
+| `salary/layout/delete.json` | POST | Delete layouts | YES | NO |
+
+Create parameters: `name` (TEXT, required, max 100), `elements` (JSON -- array of `{elementId (TEXT, required), css (TEXT), html (TEXT)}`).
+
+Update parameters: Same as create plus `id` (NUMBER, required).
+
+### Salary > Payment
+
+Create salary payment files (pain.001) and download them.
+
+**SalaryPaymentService** (NEW):
+
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/payment/create.json` | POST | Create payment | YES | NO |
+| `salary/payment/download` | GET | Download payment file | YES | NO |
+
+Create parameters: `date` (DATE, required, format YYYY-MM-DD), `statementIds` (CSV, required), `amount` (NUMBER -- partial payment per statement), `isCombine` (BOOLEAN -- merge payments to same payee), `statusId` (NUMBER -- new status for statements), `type` (TEXT -- PAIN/SEPA_PAIN/WIRE_PDF/CASH_PDF, default PAIN).
+
+Download parameters: Same as create.
+
+### Salary > Setting
+
+Global salary settings (variables used in calculations).
+
+**SalarySettingService** (NEW):
+
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/setting/read.json` | GET | Read setting | YES | NO |
+| `salary/setting/list.json` | GET | List settings | YES | NO |
+| `salary/setting/create.json` | POST | Create setting | YES | NO |
+| `salary/setting/update.json` | POST | Update setting | YES | NO |
+| `salary/setting/delete.json` | POST | Delete settings | YES | NO |
+
+Create parameters: `name` (TEXT, required, max 100, localized XML), `variableName` (TEXT, required, min 2, max 32 -- must start with $), `boolValue` (BOOLEAN -- for BOOLEAN type), `decimalValue` (NUMBER -- for DECIMAL type), `isPercentage` (BOOLEAN -- for DECIMAL type), `textValue` (TEXT, max 255 -- for TEXT type), `type` (TEXT -- TEXT/BOOLEAN/DECIMAL).
+
+Update parameters: Same as create plus `id` (NUMBER, required).
+
+### Salary > Statement
+
+The main salary statement entity -- the central document for each employee's pay period.
+
+**SalaryStatementService** (NEW):
+
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/statement/read.json` | GET | Read statement | YES | NO |
+| `salary/statement/list.json` | GET | List statements | YES | NO |
+| `salary/statement/create.json` | POST | Create statement | YES | NO |
+| `salary/statement/update.json` | POST | Update statement | YES | NO |
+| `salary/statement/update_multiple.json` | POST | Update multiple | YES | NO |
+| `salary/statement/update_status.json` | POST | Update status | YES | NO |
+| `salary/statement/update_recurrence.json` | POST | Update recurrence | YES | NO |
+| `salary/statement/delete.json` | POST | Delete statements | YES | NO |
+| `salary/statement/calculate.json` | POST | Calculate | YES | NO |
+| `salary/statement/update_attachments.json` | POST | Update attachments | YES | NO |
+| `salary/statement/list.xlsx` | GET | Export to Excel | YES | NO |
+| `salary/statement/list.csv` | GET | Export to CSV | YES | NO |
+| `salary/statement/list.pdf` | GET | Export to PDF | YES | NO |
+
+Create parameters: `date` (DATE, required), `datePayment` (DATE, required), `personId` (NUMBER, required), `statusId` (NUMBER, required), `templateId` (NUMBER, required), `currencyId` (NUMBER), `currencyRate` (NUMBER), `custom` (XML), `daysBefore` (NUMBER -- days before start for next recurrence), `endDate` (DATE -- recurrence end), `insurances` (JSON -- insurance list with `contractId` and `codeId`), `message` (TEXT, max 50 -- payment message), `notes` (HTML), `notifyEmail` (TEXT), `notifyPersonId` (NUMBER), `notifyType` (TEXT), `notifyUserId` (NUMBER), `nr` (TEXT, max 50 -- statement number, auto-generated if empty), `recalculate` (BOOLEAN), `recurrence` (TEXT -- repeat interval), `sequenceNumberId` (NUMBER), `startDate` (DATE -- recurrence start), `types` (JSON -- salary type list with `typeId`, `allocations`, `creditId`, `dateEnd`, `dateStart`, `debitId`, `description`, `onlyMonth`, `rowName`, `valuesLocal`).
+
+Update parameters: Same as create plus `id` (NUMBER, required).
+
+Update multiple parameters: `ids` (CSV, required), `attachments` (TEXT), `custom` (XML), `date` (TEXT), `datePayment` (TEXT), `daysBefore` (NUMBER), `endDate` (DATE), `insurancesToAdd` (JSON), `insurancesToRemove` (JSON), `notes` (HTML), `notifyEmail` (TEXT), `notifyPersonId` (NUMBER), `notifyType` (TEXT), `notifyUserId` (NUMBER), `personId` (TEXT), `recurrence` (TEXT), `startDate` (DATE), `statusId` (TEXT).
+
+Update status parameters: `ids` (CSV, required), `statusId` (NUMBER, required).
+
+Update recurrence parameters: `id` (NUMBER, required), `daysBefore` (NUMBER), `endDate` (DATE), `notifyEmail` (TEXT), `notifyPersonId` (NUMBER), `notifyType` (TEXT), `notifyUserId` (NUMBER), `recurrence` (TEXT), `startDate` (DATE).
+
+Calculate parameters: `currencyId` (NUMBER), `custom` (XML), `date` (DATE), `datePayment` (DATE), `id` (NUMBER -- existing statement), `personId` (NUMBER), `recalculate` (BOOLEAN), `templateId` (NUMBER), `types` (JSON -- same structure as create).
+
+Update attachments parameters: `id` (NUMBER, required), `fileIds` (CSV -- empty to remove all).
+
+List parameters: `dir` (TEXT, ASC/DESC, default DESC), `filter` (JSON), `fiscalPeriodId` (NUMBER), `limit` (NUMBER, default 100), `onlyNotes` (BOOLEAN), `onlyOpen` (BOOLEAN), `onlyOverdue` (BOOLEAN), `personId` (NUMBER), `query` (TEXT), `sort` (TEXT, default date), `start` (NUMBER, default 0).
+
+### Salary > Status
+
+Statuses for salary statements (e.g., Open, Paid, Closed).
+
+**SalaryStatusService** (NEW):
+
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/status/read.json` | GET | Read status | YES | NO |
+| `salary/status/list.json` | GET | List statuses | YES | NO |
+| `salary/status/create.json` | POST | Create status | YES | NO |
+| `salary/status/update.json` | POST | Update status | YES | NO |
+| `salary/status/delete.json` | POST | Delete statuses | YES | NO |
+| `salary/status/reorder.json` | POST | Reorder statuses | YES | NO |
+
+Create parameters: `icon` (TEXT, required -- BLUE/GREEN/RED/YELLOW/ORANGE/BLACK/GREY), `name` (TEXT, required, max 40, localized XML), `actionId` (TEXT -- action after status change), `isBook` (BOOLEAN -- create journal entries), `isClosed` (BOOLEAN -- closes/completes statement).
+
+Update parameters: Same as create plus `id` (NUMBER, required).
+
+Reorder parameters: `ids` (CSV, required), `target` (NUMBER, required -- target status ID), `before` (BOOLEAN, default true).
+
+### Salary > Sum
+
+Named calculation sums for salary reporting.
+
+**SalarySumService** (NEW):
+
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/sum/read.json` | GET | Read sum | YES | NO |
+| `salary/sum/list.json` | GET | List sums | YES | NO |
+| `salary/sum/create.json` | POST | Create sum | YES | NO |
+| `salary/sum/update.json` | POST | Update sum | YES | NO |
+| `salary/sum/delete.json` | POST | Delete sums | YES | NO |
+
+Create parameters: `name` (TEXT, required, max 100, localized XML), `variableName` (TEXT, required, max 32 -- must start with $), `isDisplayColumn` (BOOLEAN -- show in type master report), `number` (TEXT, max 20 -- for sorting).
+
+Update parameters: Same as create plus `id` (NUMBER, required).
+
+### Salary > Template
+
+Salary templates define defaults for salary statements including types, insurances, and layout.
+
+**SalaryTemplateService** (NEW):
+
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/template/read.json` | GET | Read template | YES | NO |
+| `salary/template/list.json` | GET | List templates | YES | NO |
+| `salary/template/tree.json` | GET | Get template tree | YES | NO |
+| `salary/template/create.json` | POST | Create template | YES | NO |
+| `salary/template/update.json` | POST | Update template | YES | NO |
+| `salary/template/delete.json` | POST | Delete templates | YES | NO |
+
+Create parameters: `name` (TEXT, required, max 100), `currencyId` (NUMBER), `dayOfMonth` (NUMBER, min 1, max 31), `footerTemplateId` (NUMBER -- text template for footer), `headerTemplateId` (NUMBER -- text template for header), `insurances` (JSON), `isDefault` (BOOLEAN), `isInactive` (BOOLEAN), `layoutId` (NUMBER), `mailSubject` (TEXT, max 255 -- supports variables), `mailTemplateId` (NUMBER -- text template for mail body), `message` (TEXT, max 50 -- payment message), `orgLocationId` (NUMBER), `parentId` (NUMBER -- inherit from parent), `paymentDayOfMonth` (NUMBER, min 1, max 31).
+
+Update parameters: Same as create plus `id` (NUMBER, required).
+
+### Salary > Type
+
+Salary types define individual line items on a salary statement (e.g., base salary, AHV deduction).
+
+**SalaryTypeService** (NEW):
+
+| API Path | Method | Operation | Endpoints Defined | Service Implemented |
+|---|---|---|---|---|
+| `salary/type/read.json` | GET | Read type | YES | NO |
+| `salary/type/list.json` | GET | List types | YES | NO |
+| `salary/type/create.json` | POST | Create type | YES | NO |
+| `salary/type/update.json` | POST | Update type | YES | NO |
+| `salary/type/categorize.json` | POST | Categorize types | YES | NO |
+| `salary/type/delete.json` | POST | Delete types | YES | NO |
+| `salary/type/list.xlsx` | GET | Export to Excel | YES | NO |
+| `salary/type/list.csv` | GET | Export to CSV | YES | NO |
+| `salary/type/list.pdf` | GET | Export to PDF | YES | NO |
+
+Create parameters: `categoryId` (NUMBER, required), `name` (TEXT, required, max 100, localized XML), `number` (TEXT, required, max 20), `type` (TEXT, required -- ADD/SUBTRACT), `allocations` (JSON -- cost center allocations with `share` and `toCostCenterId`), `base` (TEXT, max 32 -- display-only base amount), `calculation` (TEXT -- formula), `certificateCode` (TEXT, max 10), `creditId` (NUMBER -- credit account), `debitId` (NUMBER -- debit account), `description` (TEXT, max 512, localized XML), `fields` (JSON -- form field definitions), `insuranceTypeId` (NUMBER), `isInactive` (BOOLEAN).
+
+Update parameters: Same as create plus `id` (NUMBER, required).
+
+Categorize parameters: `ids` (CSV, required), `target` (NUMBER, required -- target category ID).
+
+List parameters: `categoryId` (NUMBER), `dir` (TEXT, ASC/DESC, default ASC), `filter` (JSON), `limit` (NUMBER, default 100), `onlyActive` (BOOLEAN), `onlyChildren` (BOOLEAN), `onlyCostCenters` (BOOLEAN), `onlyNotes` (BOOLEAN), `query` (TEXT), `sort` (TEXT, default number), `start` (NUMBER, default 0).
+
+### Salary Group Endpoint Summary
+
+| Sub-entity | Service Name | Endpoints | Pattern |
+|---|---|---|---|
+| Book Entry | SalaryBookEntryService | 5 | CRUD (non-standard list by statement ID) |
+| Category | SalaryCategoryService | 6 | Standard tree CRUD |
+| Certificate | SalaryCertificateService | 6 | Read/List/Update + exports (no create/delete) |
+| Certificate Document | SalaryCertificateDocumentService | 4 | Read + PDF/ZIP download + Mail |
+| Certificate Template | SalaryCertificateTemplateService | 6 | Standard tree CRUD |
+| Document | SalaryDocumentService | 5 | Read + PDF/ZIP download + Mail + Update |
+| Field | SalaryFieldService | 2 | Read-only (Read + List) |
+| Insurance Type | SalaryInsuranceTypeService | 5 | Standard CRUD |
+| Layout | SalaryLayoutService | 5 | Standard CRUD |
+| Payment | SalaryPaymentService | 2 | Create + Download (binary) |
+| Setting | SalarySettingService | 5 | Standard CRUD |
+| Statement | SalaryStatementService | 13 | Full CRUD + UpdateMultiple + UpdateStatus + UpdateRecurrence + Calculate + UpdateAttachments + exports |
+| Status | SalaryStatusService | 6 | Standard CRUD + Reorder |
+| Sum | SalarySumService | 5 | Standard CRUD |
+| Template | SalaryTemplateService | 6 | Standard tree CRUD |
+| Type | SalaryTypeService | 9 | CRUD + Categorize + exports |
+| **Total** | **16 services** | **~90 endpoints** | |
 
 ---
 
