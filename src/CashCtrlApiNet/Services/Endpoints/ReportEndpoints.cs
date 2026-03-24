@@ -102,6 +102,21 @@ internal static class ReportEndpoints
         /// Endpoint to read meta data of a report element
         /// </summary>
         public const string ReadMeta = $"{Root}/meta.json";
+
+        /// <summary>
+        /// Endpoint to download a report element as PDF
+        /// </summary>
+        public const string DownloadPdf = $"{Root}/download.pdf";
+
+        /// <summary>
+        /// Endpoint to download a report element as CSV
+        /// </summary>
+        public const string DownloadCsv = $"{Root}/download.csv";
+
+        /// <summary>
+        /// Endpoint to download a report element as Excel
+        /// </summary>
+        public const string DownloadXlsx = $"{Root}/download.xlsx";
     }
 
     /// <summary>
@@ -143,5 +158,25 @@ internal static class ReportEndpoints
         /// Endpoint to read meta data of a report set
         /// </summary>
         public const string ReadMeta = $"{Root}/meta.json";
+
+        /// <summary>
+        /// Endpoint to download a report set as PDF
+        /// </summary>
+        public const string DownloadPdf = $"{Root}/download.pdf";
+
+        /// <summary>
+        /// Endpoint to download a report set as CSV
+        /// </summary>
+        public const string DownloadCsv = $"{Root}/download.csv";
+
+        /// <summary>
+        /// Endpoint to download a report set as Excel
+        /// </summary>
+        public const string DownloadXlsx = $"{Root}/download.xlsx";
+
+        /// <summary>
+        /// Endpoint to download a report set as annual report PDF
+        /// </summary>
+        public const string DownloadAnnualReport = $"{Root}/download_annualreport.pdf";
     }
 }

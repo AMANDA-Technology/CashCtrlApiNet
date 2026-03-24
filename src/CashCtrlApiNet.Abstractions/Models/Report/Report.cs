@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,33 +23,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Report;
-using CashCtrlApiNet.Services.Connectors.Report;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Report;
 
-/// <inheritdoc />
-public class ReportConnector : IReportConnector
+/// <summary>
+/// Report (tree node). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/tree.json">API Doc</a>
+/// </summary>
+public record Report : ModelBaseRecord
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ReportConnector"/> class with all services using the connection handler.
+    /// The ID of the report.
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public ReportConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        Report = new ReportService(connectionHandler);
-        Element = new ReportElementService(connectionHandler);
-        Set = new ReportSetService(connectionHandler);
-    }
+    [JsonPropertyName("id")]
+    public required int Id { get; init; }
 
-    /// <inheritdoc />
-    public IReportService Report { get; }
+    /// <summary>
+    /// The name of the report.
+    /// </summary>
+    [JsonPropertyName("name")]
+    public string? Name { get; init; }
 
-    /// <inheritdoc />
-    public IReportElementService Element { get; }
+    /// <summary>
+    /// The type of the report.
+    /// </summary>
+    [JsonPropertyName("type")]
+    public string? Type { get; init; }
 
-    /// <inheritdoc />
-    public IReportSetService Set { get; }
+    /// <summary>
+    /// The ID of the parent report.
+    /// </summary>
+    [JsonPropertyName("parentId")]
+    public int? ParentId { get; init; }
 }

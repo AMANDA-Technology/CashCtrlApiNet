@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,33 +23,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Report;
-using CashCtrlApiNet.Services.Connectors.Report;
+using System.Collections.Immutable;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Converters;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Report.Element;
 
-/// <inheritdoc />
-public class ReportConnector : IReportConnector
+/// <summary>
+/// Report element reorder. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/reorder.json">API Doc</a>
+/// </summary>
+public record ReportElementReorder : ModelBaseRecord
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ReportConnector"/> class with all services using the connection handler.
+    /// The IDs of the entries to reorder, comma-separated.
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public ReportConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        Report = new ReportService(connectionHandler);
-        Element = new ReportElementService(connectionHandler);
-        Set = new ReportSetService(connectionHandler);
-    }
+    [JsonPropertyName("ids")]
+    [JsonConverter(typeof(IntArrayAsCsvJsonConverter))]
+    public required ImmutableArray<int> Ids { get; init; }
 
-    /// <inheritdoc />
-    public IReportService Report { get; }
+    /// <summary>
+    /// The ID of the target entry.
+    /// </summary>
+    [JsonPropertyName("target")]
+    public required int Target { get; init; }
 
-    /// <inheritdoc />
-    public IReportElementService Element { get; }
-
-    /// <inheritdoc />
-    public IReportSetService Set { get; }
+    /// <summary>
+    /// Whether to insert before the target. Defaults to false (insert after).
+    /// </summary>
+    [JsonPropertyName("before")]
+    public bool? Before { get; init; }
 }

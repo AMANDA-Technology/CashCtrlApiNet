@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Report;
 
 /// <summary>
@@ -30,5 +33,11 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Report;
 /// </summary>
 public interface IReportService
 {
-
+    /// <summary>
+    /// Get report tree. Returns a tree of reports.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/tree.json">API Doc - Report/Tree</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<Abstractions.Models.Report.Report>>> GetTree([Optional] CancellationToken cancellationToken);
 }

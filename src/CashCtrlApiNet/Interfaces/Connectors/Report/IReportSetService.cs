@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Report.Set;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Report;
 
 /// <summary>
@@ -30,5 +35,93 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Report;
 /// </summary>
 public interface IReportSetService
 {
+    /// <summary>
+    /// Read report set. Returns a single report set by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/read.json">API Doc - Report/Set/Read</a>
+    /// </summary>
+    /// <param name="set">The entry containing the ID of the report set.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<ReportSet>>> Get(Entry set, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Creates a new report set. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/create.json">API Doc - Report/Set/Create</a>
+    /// </summary>
+    /// <param name="set"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(ReportSetCreate set, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update report set. Updates an existing report set. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/update.json">API Doc - Report/Set/Update</a>
+    /// </summary>
+    /// <param name="set"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(ReportSetUpdate set, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete report sets. Deletes one or multiple report sets. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/delete.json">API Doc - Report/Set/Delete</a>
+    /// </summary>
+    /// <param name="sets"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries sets, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Reorder report sets. Changes the order of report sets. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/reorder.json">API Doc - Report/Set/Reorder</a>
+    /// </summary>
+    /// <param name="reorder"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Reorder(ReportSetReorder reorder, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Get report set meta data.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/meta.json">API Doc - Report/Set/Meta</a>
+    /// </summary>
+    /// <param name="set">The entry containing the ID of the report set.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<ReportSet>>> GetMeta(Entry set, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Download report set as PDF.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/download.pdf">API Doc - Report/Set/Download PDF</a>
+    /// </summary>
+    /// <param name="set">The entry containing the ID of the report set.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry set, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Download report set as CSV.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/download.csv">API Doc - Report/Set/Download CSV</a>
+    /// </summary>
+    /// <param name="set">The entry containing the ID of the report set.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> DownloadCsv(Entry set, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Download report set as Excel.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/download.xlsx">API Doc - Report/Set/Download Excel</a>
+    /// </summary>
+    /// <param name="set">The entry containing the ID of the report set.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> DownloadExcel(Entry set, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Download annual report as PDF.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/download_annualreport.pdf">API Doc - Report/Set/Download Annual Report</a>
+    /// </summary>
+    /// <param name="set">The entry containing the ID of the report set.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> DownloadAnnualReport(Entry set, [Optional] CancellationToken cancellationToken);
 }

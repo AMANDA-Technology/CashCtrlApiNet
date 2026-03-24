@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,33 +23,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Report;
-using CashCtrlApiNet.Services.Connectors.Report;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Converters;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Report.Set;
 
-/// <inheritdoc />
-public class ReportConnector : IReportConnector
+/// <summary>
+/// Report set. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/read.json">API Doc</a>
+/// </summary>
+public record ReportSet : ReportSetUpdate
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ReportConnector"/> class with all services using the connection handler.
+    /// The date and time the report set was created.
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public ReportConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        Report = new ReportService(connectionHandler);
-        Element = new ReportElementService(connectionHandler);
-        Set = new ReportSetService(connectionHandler);
-    }
+    [JsonPropertyName("created")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? Created { get; init; }
 
-    /// <inheritdoc />
-    public IReportService Report { get; }
+    /// <summary>
+    /// The user who created the report set.
+    /// </summary>
+    [JsonPropertyName("createdBy")]
+    public string? CreatedBy { get; init; }
 
-    /// <inheritdoc />
-    public IReportElementService Element { get; }
+    /// <summary>
+    /// The date and time the report set was last updated.
+    /// </summary>
+    [JsonPropertyName("lastUpdated")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? LastUpdated { get; init; }
 
-    /// <inheritdoc />
-    public IReportSetService Set { get; }
+    /// <summary>
+    /// The user who last updated the report set.
+    /// </summary>
+    [JsonPropertyName("lastUpdatedBy")]
+    public string? LastUpdatedBy { get; init; }
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,33 +23,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Report;
-using CashCtrlApiNet.Services.Connectors.Report;
+using System.Text.Json.Serialization;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Report.Element;
 
-/// <inheritdoc />
-public class ReportConnector : IReportConnector
+/// <summary>
+/// Report element update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/update.json">API Doc</a>
+/// </summary>
+public record ReportElementUpdate : ReportElementCreate
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ReportConnector"/> class with all services using the connection handler.
+    /// The ID of the report element to update.
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public ReportConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        Report = new ReportService(connectionHandler);
-        Element = new ReportElementService(connectionHandler);
-        Set = new ReportSetService(connectionHandler);
-    }
-
-    /// <inheritdoc />
-    public IReportService Report { get; }
-
-    /// <inheritdoc />
-    public IReportElementService Element { get; }
-
-    /// <inheritdoc />
-    public IReportSetService Set { get; }
+    [JsonPropertyName("id")]
+    public required int Id { get; init; }
 }
