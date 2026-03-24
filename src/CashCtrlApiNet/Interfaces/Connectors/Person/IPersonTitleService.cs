@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Person.Title;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Person;
 
 /// <summary>
@@ -30,5 +35,47 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Person;
 /// </summary>
 public interface IPersonTitleService
 {
+    /// <summary>
+    /// Read person title. Returns a single title by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/title/read.json">API Doc - Person/Title/Read</a>
+    /// </summary>
+    /// <param name="title">The entry containing the ID of the title.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<PersonTitle>>> Get(Entry title, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// List person titles. Returns a list of titles.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/title/list.json">API Doc - Person/Title/List</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<PersonTitle>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates a new person title. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/title/create.json">API Doc - Person/Title/Create</a>
+    /// </summary>
+    /// <param name="title"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(PersonTitleCreate title, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update person title. Updates an existing title. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/title/update.json">API Doc - Person/Title/Update</a>
+    /// </summary>
+    /// <param name="title"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(PersonTitleUpdate title, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete person titles. Deletes one or multiple titles. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/title/delete.json">API Doc - Person/Title/Delete</a>
+    /// </summary>
+    /// <param name="titles"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries titles, [Optional] CancellationToken cancellationToken);
 }

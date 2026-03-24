@@ -23,37 +23,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Person;
-using CashCtrlApiNet.Services.Connectors.Person;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Converters;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Person.Title;
 
-/// <inheritdoc />
-public class PersonConnector : IPersonConnector
+/// <summary>
+/// Person title. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/title/read.json">API Doc</a>
+/// </summary>
+public record PersonTitle : PersonTitleUpdate
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PersonConnector"/> class with all services using the connection handler.
+    /// The date and time the title was created.
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public PersonConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        Person = new PersonService(connectionHandler);
-        Category = new PersonCategoryService(connectionHandler);
-        Import = new PersonImportService(connectionHandler);
-        Title = new PersonTitleService(connectionHandler);
-    }
+    [JsonPropertyName("created")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? Created { get; init; }
 
-    /// <inheritdoc />
-    public IPersonService Person { get; }
+    /// <summary>
+    /// The user who created the title.
+    /// </summary>
+    [JsonPropertyName("createdBy")]
+    public string? CreatedBy { get; init; }
 
-    /// <inheritdoc />
-    public IPersonCategoryService Category { get; }
+    /// <summary>
+    /// The date and time the title was last updated.
+    /// </summary>
+    [JsonPropertyName("lastUpdated")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? LastUpdated { get; init; }
 
-    /// <inheritdoc />
-    public IPersonImportService Import { get; }
-
-    /// <inheritdoc />
-    public IPersonTitleService Title { get; }
+    /// <summary>
+    /// The user who last updated the title.
+    /// </summary>
+    [JsonPropertyName("lastUpdatedBy")]
+    public string? LastUpdatedBy { get; init; }
 }

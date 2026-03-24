@@ -23,37 +23,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Person;
-using CashCtrlApiNet.Services.Connectors.Person;
+using System.Text.Json.Serialization;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Person.Title;
 
-/// <inheritdoc />
-public class PersonConnector : IPersonConnector
+/// <summary>
+/// Person title update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/title/update.json">API Doc</a>
+/// </summary>
+public record PersonTitleUpdate : PersonTitleCreate
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PersonConnector"/> class with all services using the connection handler.
+    /// The ID of the title to update.
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public PersonConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        Person = new PersonService(connectionHandler);
-        Category = new PersonCategoryService(connectionHandler);
-        Import = new PersonImportService(connectionHandler);
-        Title = new PersonTitleService(connectionHandler);
-    }
-
-    /// <inheritdoc />
-    public IPersonService Person { get; }
-
-    /// <inheritdoc />
-    public IPersonCategoryService Category { get; }
-
-    /// <inheritdoc />
-    public IPersonImportService Import { get; }
-
-    /// <inheritdoc />
-    public IPersonTitleService Title { get; }
+    [JsonPropertyName("id")]
+    public required int Id { get; init; }
 }

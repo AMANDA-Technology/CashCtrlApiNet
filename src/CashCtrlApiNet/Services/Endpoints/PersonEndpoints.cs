@@ -81,6 +81,26 @@ internal static class PersonEndpoints
         /// Endpoint to update attachments of a person
         /// </summary>
         public const string UpdateAttachments = $"{Root}/update_attachments.json";
+
+        /// <summary>
+        /// Endpoint to export persons as Excel
+        /// </summary>
+        public const string ListXlsx = $"{Root}/list.xlsx";
+
+        /// <summary>
+        /// Endpoint to export persons as CSV
+        /// </summary>
+        public const string ListCsv = $"{Root}/list.csv";
+
+        /// <summary>
+        /// Endpoint to export persons as PDF
+        /// </summary>
+        public const string ListPdf = $"{Root}/list.pdf";
+
+        /// <summary>
+        /// Endpoint to export persons as vCard
+        /// </summary>
+        public const string ListVcf = $"{Root}/list.vcf";
     }
 
     /// <summary>
