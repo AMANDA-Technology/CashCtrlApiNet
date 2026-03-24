@@ -45,14 +45,30 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     private Language _language;
 
     /// <summary>
-    /// Holds the http client with some basic settings, to be used for all connectors
+    /// Optional HTTP client factory for DI environments
     /// </summary>
-    private readonly HttpClient _client;
+    private readonly IHttpClientFactory? _httpClientFactory;
+
+    /// <summary>
+    /// Standalone HTTP client for non-DI usage (null when factory is used)
+    /// </summary>
+    private readonly HttpClient? _httpClient;
+
+    /// <summary>
+    /// Base address for all API requests
+    /// </summary>
+    private readonly Uri _baseAddress;
+
+    /// <summary>
+    /// Authorization header value for API authentication
+    /// </summary>
+    private readonly System.Net.Http.Headers.AuthenticationHeaderValue _authHeader;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CashCtrlConnectionHandler"/> class.
+    /// This constructor creates a standalone <see cref="HttpClient"/> for non-DI environments.
     /// </summary>
-    /// <param name="configuration"></param>
+    /// <param name="configuration">The CashCtrl API configuration</param>
     public CashCtrlConnectionHandler(ICashCtrlConfiguration configuration)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(configuration.BaseUri);
@@ -68,13 +84,61 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
         if (!baseUri.EndsWith('/'))
             baseUri += '/';
 
+        _baseAddress = new Uri(baseUri);
+        _authHeader = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{configuration.ApiKey}:")));
+
         // Create a new http client for instance
-        _client = new(new HttpClientHandler { AllowAutoRedirect = false })
+        _httpClient = new(new HttpClientHandler { AllowAutoRedirect = false })
         {
-            BaseAddress = new(baseUri)
+            BaseAddress = _baseAddress
         };
 
-        _client.DefaultRequestHeaders.Authorization = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{configuration.ApiKey}:")));
+        _httpClient.DefaultRequestHeaders.Authorization = _authHeader;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CashCtrlConnectionHandler"/> class.
+    /// This constructor uses <see cref="IHttpClientFactory"/> for proper connection pooling and lifetime management in DI environments.
+    /// </summary>
+    /// <param name="httpClientFactory">The HTTP client factory for creating clients</param>
+    /// <param name="configuration">The CashCtrl API configuration</param>
+    public CashCtrlConnectionHandler(IHttpClientFactory httpClientFactory, ICashCtrlConfiguration configuration)
+    {
+        ArgumentNullException.ThrowIfNull(httpClientFactory);
+        ArgumentException.ThrowIfNullOrWhiteSpace(configuration.BaseUri);
+        ArgumentException.ThrowIfNullOrWhiteSpace(configuration.ApiKey);
+
+        _httpClientFactory = httpClientFactory;
+
+        // Configure
+        _language = Enum.TryParse<Language>(configuration.DefaultLanguage, out var language)
+            ? language
+            : Language.de;
+
+        // Normalize base urls
+        var baseUri = configuration.BaseUri;
+        if (!baseUri.EndsWith('/'))
+            baseUri += '/';
+
+        _baseAddress = new Uri(baseUri);
+        _authHeader = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{configuration.ApiKey}:")));
+    }
+
+    /// <summary>
+    /// Gets an HTTP client, either from the factory or the standalone instance
+    /// </summary>
+    /// <returns>A configured <see cref="HttpClient"/></returns>
+    private HttpClient GetHttpClient()
+    {
+        if (_httpClientFactory is not null)
+        {
+            var client = _httpClientFactory.CreateClient(nameof(CashCtrlConnectionHandler));
+            client.BaseAddress = _baseAddress;
+            client.DefaultRequestHeaders.Authorization = _authHeader;
+            return client;
+        }
+
+        return _httpClient!;
     }
 
     /// <inheritdoc />
@@ -83,38 +147,38 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
 
     /// <inheritdoc />
     public async Task<ApiResult> GetAsync(string requestPath, [Optional] CancellationToken cancellationToken)
-        => await GetApiResult(await _client.SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
+        => await GetApiResult(await GetHttpClient().SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
 
     /// <inheritdoc />
     public async Task<ApiResult> GetAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken)
-        => await GetApiResult(await _client.SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, queryParameters), cancellationToken));
+        => await GetApiResult(await GetHttpClient().SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, queryParameters), cancellationToken));
 
     /// <inheritdoc />
     public async Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
-        => await GetApiResult<TResult>(await _client.SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
+        => await GetApiResult<TResult>(await GetHttpClient().SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
 
     /// <inheritdoc />
     public async Task<ApiResult<TResult>> GetAsync<TResult, TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
-        => await GetApiResult<TResult>(await _client.SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, queryParameters), cancellationToken));
+        => await GetApiResult<TResult>(await GetHttpClient().SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, queryParameters), cancellationToken));
 
     /// <inheritdoc />
     public async Task<ApiResult<TResult>> PostAsync<TResult, TPost>(string requestPath, TPost payload, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
-        => await GetApiResult<TResult>(await _client.SendAsync(GetHttpRequestMessageWithFormData(HttpMethod.Post, requestPath, payload), cancellationToken));
+        => await GetApiResult<TResult>(await GetHttpClient().SendAsync(GetHttpRequestMessageWithFormData(HttpMethod.Post, requestPath, payload), cancellationToken));
 
     /// <inheritdoc />
     public async Task<ApiResult<BinaryResponse>> GetBinaryAsync(string requestPath, [Optional] CancellationToken cancellationToken)
-        => await GetBinaryApiResult(await _client.SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
+        => await GetBinaryApiResult(await GetHttpClient().SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
 
     /// <inheritdoc />
     public async Task<ApiResult<BinaryResponse>> GetBinaryAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken)
-        => await GetBinaryApiResult(await _client.SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, queryParameters), cancellationToken));
+        => await GetBinaryApiResult(await GetHttpClient().SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, queryParameters), cancellationToken));
 
     /// <inheritdoc />
     public async Task<ApiResult<TResult>> PostMultipartAsync<TResult>(string requestPath, MultipartFormDataContent content, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
     {
         var httpRequestMessage = GetHttpRequestMessage<object>(HttpMethod.Post, requestPath);
         httpRequestMessage.Content = content;
-        return await GetApiResult<TResult>(await _client.SendAsync(httpRequestMessage, cancellationToken));
+        return await GetApiResult<TResult>(await GetHttpClient().SendAsync(httpRequestMessage, cancellationToken));
     }
 
     /// <summary>
@@ -150,10 +214,10 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     {
         var httpRequestMessage = new HttpRequestMessage { Method = httpMethod };
 
-        var uriBuilder = new UriBuilder(new Uri(_client.BaseAddress!, requestPath));
+        var uriBuilder = new UriBuilder(new Uri(_baseAddress, requestPath));
 
         var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-        query["lang "] = Enum.GetName(_language);
+        query["lang"] = Enum.GetName(_language);
 
         if (CashCtrlSerialization.ConvertToDictionary(queryParameters) is { } dictionary)
             foreach (var (key, value) in dictionary)

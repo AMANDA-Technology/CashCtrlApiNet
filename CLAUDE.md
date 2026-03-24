@@ -12,7 +12,7 @@ Unofficial .NET 10 API client library for the [CashCtrl REST API v1](https://app
 | Layer          | Technology                             |
 | -------------- | -------------------------------------- |
 | Runtime        | .NET 10                                |
-| HTTP           | `System.Net.Http.HttpClient`           |
+| HTTP           | `System.Net.Http.HttpClient` via `IHttpClientFactory` |
 | Serialization  | `System.Text.Json`                     |
 | DI integration | ASP.NET Core (placeholder, not yet implemented) |
 | Unit Testing   | xUnit, NSubstitute 5.3, Shouldly 4.3  |
@@ -150,8 +150,8 @@ Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
 1. **Integration tests require a live CashCtrl account** -- 13 integration tests call the real API. They require environment variables `CashCtrlApiNet__BaseUri`, `CashCtrlApiNet__ApiKey`, and optionally `CashCtrlApiNet__Language`. Unit tests (393 of them) run without credentials.
 2. **ASP.NET Core DI project is empty** -- `CashCtrlApiNet.AspNetCore` has only a `.csproj` file, no actual DI registration code.
 3. **Test ordering dependency** -- Integration tests use `AlphabeticalOrderer` and are named `Test1_`, `Test2_`, etc. to enforce execution order (Create before Delete).
-4. **`HttpClient` is created directly in `CashCtrlConnectionHandler`** -- not using `IHttpClientFactory`. This is a limitation for DI/testability.
+4. **`CashCtrlConnectionHandler` supports dual construction** -- Use `IHttpClientFactory` constructor for DI environments (proper connection pooling/lifetime management), or the standalone `ICashCtrlConfiguration`-only constructor for non-DI usage.
 5. **POST uses form-encoded content** -- The CashCtrl API expects `application/x-www-form-urlencoded` for writes, not JSON.
-6. **Language query parameter has a trailing space** -- In `CashCtrlConnectionHandler.GetHttpRequestMessage`, the language key is `"lang "` (with a space). This appears to be a bug.
+6. **Language query parameter** -- Fixed: the `lang` query parameter is correctly set without a trailing space.
 7. **`GeneratePackageOnBuild`** is enabled for all three library projects, so `dotnet build` produces `.nupkg` files in the output.
 8. **`GetList` methods lack filter/pagination parameters** -- Most list endpoints accept optional `filter`, `sort`, `dir`, `query` parameters not yet exposed in the service interfaces.
