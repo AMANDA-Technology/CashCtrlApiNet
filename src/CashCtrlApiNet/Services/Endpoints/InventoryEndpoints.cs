@@ -168,6 +168,21 @@ internal static class InventoryEndpoints
         /// Endpoint to update attachments of an inventory fixed asset
         /// </summary>
         public const string UpdateAttachments = $"{Root}/update_attachments.json";
+
+        /// <summary>
+        /// Endpoint to export fixed assets as Excel
+        /// </summary>
+        public const string ListXlsx = $"{Root}/list.xlsx";
+
+        /// <summary>
+        /// Endpoint to export fixed assets as CSV
+        /// </summary>
+        public const string ListCsv = $"{Root}/list.csv";
+
+        /// <summary>
+        /// Endpoint to export fixed assets as PDF
+        /// </summary>
+        public const string ListPdf = $"{Root}/list.pdf";
     }
 
     /// <summary>
