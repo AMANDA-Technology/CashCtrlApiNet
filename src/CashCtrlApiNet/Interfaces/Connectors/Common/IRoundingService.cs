@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Common.Rounding;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Common;
 
 /// <summary>
@@ -30,5 +35,47 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Common;
 /// </summary>
 public interface IRoundingService
 {
+    /// <summary>
+    /// Read rounding. Returns a single rounding by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/rounding/read.json">API Doc - Common/Read rounding</a>
+    /// </summary>
+    /// <param name="rounding">The entry containing the ID of the rounding.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<Rounding>>> Get(Entry rounding, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// List roundings. Returns a list of roundings.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/rounding/list.json">API Doc - Common/List roundings</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<RoundingListed>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Create rounding. Creates a new rounding. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/rounding/create.json">API Doc - Common/Create rounding</a>
+    /// </summary>
+    /// <param name="rounding"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(RoundingCreate rounding, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update rounding. Updates an existing rounding. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/rounding/update.json">API Doc - Common/Update rounding</a>
+    /// </summary>
+    /// <param name="rounding"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(RoundingUpdate rounding, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete roundings. Deletes one or multiple roundings. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/rounding/delete.json">API Doc - Common/Delete roundings</a>
+    /// </summary>
+    /// <param name="roundings"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries roundings, [Optional] CancellationToken cancellationToken);
 }
