@@ -31,9 +31,9 @@ using CashCtrlApiNet.Services.Connectors;
 namespace CashCtrlApiNet.Tests;
 
 /// <summary>
-/// Base class for all CashCtrl tests
+/// Base class for all CashCtrl E2E tests requiring live API credentials
 /// </summary>
-public class CashCtrlTestBase
+public class CashCtrlE2eTestBase
 {
     /// <summary>
     /// Instance of CashCtrl configuration
@@ -49,7 +49,7 @@ public class CashCtrlTestBase
     /// Setup
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    protected CashCtrlTestBase()
+    protected CashCtrlE2eTestBase()
     {
         _cashCtrlConfiguration = new CashCtrlConfiguration
         {
