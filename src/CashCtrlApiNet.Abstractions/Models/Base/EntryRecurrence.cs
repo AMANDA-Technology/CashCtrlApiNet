@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,33 +23,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Journal;
-using CashCtrlApiNet.Services.Connectors.Journal;
+using System.Text.Json.Serialization;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Base;
 
-/// <inheritdoc />
-public class JournalConnector : IJournalConnector
+/// <summary>
+/// Entry recurrence
+/// </summary>
+public record EntryRecurrence : Entry
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="JournalConnector"/> class with all services using the connection handler.
+    /// A JSON string describing the recurrence configuration.
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public JournalConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        Journal = new JournalService(connectionHandler);
-        Import = new JournalImportService(connectionHandler);
-        ImportEntry = new JournalImportEntryService(connectionHandler);
-    }
-
-    /// <inheritdoc />
-    public IJournalService Journal { get; }
-
-    /// <inheritdoc />
-    public IJournalImportService Import { get; }
-
-    /// <inheritdoc />
-    public IJournalImportEntryService ImportEntry { get; }
+    [JsonPropertyName("recurrence")]
+    public string? Recurrence { get; init; }
 }

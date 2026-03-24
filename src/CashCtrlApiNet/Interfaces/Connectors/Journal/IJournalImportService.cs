@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Journal.Import;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Journal;
 
 /// <summary>
@@ -30,5 +35,38 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Journal;
 /// </summary>
 public interface IJournalImportService
 {
+    /// <summary>
+    /// Read journal import. Returns a single journal import by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import/read.json">API Doc - Journal/Import/Read import</a>
+    /// </summary>
+    /// <param name="journalImport">The entry containing the ID of the journal import.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<JournalImport>>> Get(Entry journalImport, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// List journal imports. Returns a list of journal imports.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import/list.json">API Doc - Journal/Import/List imports</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<JournalImport>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates a new journal import. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import/create.json">API Doc - Journal/Import/Create import</a>
+    /// </summary>
+    /// <param name="journalImport"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(JournalImportCreate journalImport, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Execute journal import. Executes an existing journal import. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import/execute.json">API Doc - Journal/Import/Execute import</a>
+    /// </summary>
+    /// <param name="journalImport">The entry containing the ID of the journal import to execute.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Execute(Entry journalImport, [Optional] CancellationToken cancellationToken);
 }

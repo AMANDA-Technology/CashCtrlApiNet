@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,33 +23,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Journal;
-using CashCtrlApiNet.Services.Connectors.Journal;
+using System.Collections.Immutable;
+using System.Text.Json.Serialization;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Journal;
 
-/// <inheritdoc />
-public class JournalConnector : IJournalConnector
+/// <summary>
+/// Journal entry (detail response). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/read.json">API Doc</a>
+/// </summary>
+public record Journal : JournalListed
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="JournalConnector"/> class with all services using the connection handler.
+    /// The file attachments of the journal entry.
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public JournalConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        Journal = new JournalService(connectionHandler);
-        Import = new JournalImportService(connectionHandler);
-        ImportEntry = new JournalImportEntryService(connectionHandler);
-    }
-
-    /// <inheritdoc />
-    public IJournalService Journal { get; }
-
-    /// <inheritdoc />
-    public IJournalImportService Import { get; }
-
-    /// <inheritdoc />
-    public IJournalImportEntryService ImportEntry { get; }
+    [JsonPropertyName("attachments")]
+    public ImmutableArray<int>? Attachments { get; init; }
 }

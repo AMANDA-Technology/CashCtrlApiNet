@@ -81,6 +81,21 @@ internal static class JournalEndpoints
         /// Endpoint to update recurrence of a journal entry
         /// </summary>
         public const string UpdateRecurrence = $"{Root}/update_recurrence.json";
+
+        /// <summary>
+        /// Endpoint to export journal entries as Excel
+        /// </summary>
+        public const string ListXlsx = $"{Root}/list.xlsx";
+
+        /// <summary>
+        /// Endpoint to export journal entries as CSV
+        /// </summary>
+        public const string ListCsv = $"{Root}/list.csv";
+
+        /// <summary>
+        /// Endpoint to export journal entries as PDF
+        /// </summary>
+        public const string ListPdf = $"{Root}/list.pdf";
     }
 
     /// <summary>
@@ -158,5 +173,20 @@ internal static class JournalEndpoints
         /// Endpoint to unconfirm journal import entries
         /// </summary>
         public const string Unconfirm = $"{Root}/unconfirm.json";
+
+        /// <summary>
+        /// Endpoint to export journal import entries as Excel
+        /// </summary>
+        public const string ListXlsx = $"{Root}/list.xlsx";
+
+        /// <summary>
+        /// Endpoint to export journal import entries as CSV
+        /// </summary>
+        public const string ListCsv = $"{Root}/list.csv";
+
+        /// <summary>
+        /// Endpoint to export journal import entries as PDF
+        /// </summary>
+        public const string ListPdf = $"{Root}/list.pdf";
     }
 }

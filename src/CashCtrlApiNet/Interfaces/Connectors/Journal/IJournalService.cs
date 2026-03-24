@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Journal;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Journal;
 
 /// <summary>
@@ -30,5 +35,89 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Journal;
 /// </summary>
 public interface IJournalService
 {
+    /// <summary>
+    /// Read journal entry. Returns a single journal entry by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/read.json">API Doc - Journal/Read journal entry</a>
+    /// </summary>
+    /// <param name="journal">The entry containing the ID of the journal entry.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<Abstractions.Models.Journal.Journal>>> Get(Entry journal, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// List journal entries. Returns a list of journal entries.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/list.json">API Doc - Journal/List journal entries</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<JournalListed>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates a new journal entry. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/create.json">API Doc - Journal/Create journal entry</a>
+    /// </summary>
+    /// <param name="journal"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(JournalCreate journal, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update journal entry. Updates an existing journal entry. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/update.json">API Doc - Journal/Update journal entry</a>
+    /// </summary>
+    /// <param name="journal"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(JournalUpdate journal, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete journal entries. Deletes one or multiple journal entries. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/delete.json">API Doc - Journal/Delete journal entries</a>
+    /// </summary>
+    /// <param name="journals"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries journals, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update attachments. Updates the file attachments of a journal entry. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/update_attachments.json">API Doc - Journal/Update attachments</a>
+    /// </summary>
+    /// <param name="journalAttachments"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments journalAttachments, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update recurrence. Updates the recurrence of a journal entry. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/update_recurrence.json">API Doc - Journal/Update recurrence</a>
+    /// </summary>
+    /// <param name="journalRecurrence"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> UpdateRecurrence(EntryRecurrence journalRecurrence, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export journal entries as Excel file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/list.xlsx">API Doc - Journal/Export Excel</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export journal entries as CSV file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/list.csv">API Doc - Journal/Export CSV</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export journal entries as PDF file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/list.pdf">API Doc - Journal/Export PDF</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
 }
