@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Common.CustomFieldGroup;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Common;
 
 /// <summary>
@@ -30,5 +35,57 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Common;
 /// </summary>
 public interface ICustomFieldGroupService
 {
+    /// <summary>
+    /// Read custom field group. Returns a single custom field group by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield/group/read.json">API Doc - Common/Read custom field group</a>
+    /// </summary>
+    /// <param name="customFieldGroup">The entry containing the ID of the custom field group.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<CustomFieldGroup>>> Get(Entry customFieldGroup, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// List custom field groups. Returns a list of custom field groups filtered by type.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield/group/list.json">API Doc - Common/List custom field groups</a>
+    /// </summary>
+    /// <param name="listRequest">The list request containing the type filter.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<CustomFieldGroupListed>>> GetList(CustomFieldGroupListRequest listRequest, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Create custom field group. Creates a new custom field group. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield/group/create.json">API Doc - Common/Create custom field group</a>
+    /// </summary>
+    /// <param name="customFieldGroup"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(CustomFieldGroupCreate customFieldGroup, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update custom field group. Updates an existing custom field group. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield/group/update.json">API Doc - Common/Update custom field group</a>
+    /// </summary>
+    /// <param name="customFieldGroup"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(CustomFieldGroupUpdate customFieldGroup, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete custom field groups. Deletes one or multiple custom field groups. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield/group/delete.json">API Doc - Common/Delete custom field groups</a>
+    /// </summary>
+    /// <param name="customFieldGroups"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries customFieldGroups, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Reorder custom field groups. Reorders custom field groups relative to a target. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield/group/reorder.json">API Doc - Common/Reorder custom field groups</a>
+    /// </summary>
+    /// <param name="reorder"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Reorder(CustomFieldGroupReorder reorder, [Optional] CancellationToken cancellationToken);
 }

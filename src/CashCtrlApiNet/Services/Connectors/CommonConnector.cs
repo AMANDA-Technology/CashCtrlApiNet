@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -26,6 +26,7 @@ SOFTWARE.
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors;
 using CashCtrlApiNet.Interfaces.Connectors.Common;
+using CashCtrlApiNet.Services.Connectors.Common;
 
 namespace CashCtrlApiNet.Services.Connectors;
 
@@ -38,13 +39,14 @@ public class CommonConnector : ICommonConnector
     /// <param name="connectionHandler"></param>
     public CommonConnector(ICashCtrlConnectionHandler connectionHandler)
     {
-        // Currency = new CurrencyService(connectionHandler);
-        // CustomField = new CustomFieldService(connectionHandler);
-        // CustomFieldGroup = new CustomFieldGroupService(connectionHandler);
-        // Rounding = new RoundingService(connectionHandler);
-        // SequenceNumber = new SequenceNumberService(connectionHandler);
-        // TaxRate = new TaxRateService(connectionHandler);
-        // TextTemplate = new TextTemplateService(connectionHandler);
+        Currency = new CurrencyService(connectionHandler);
+        CustomField = new CustomFieldService(connectionHandler);
+        CustomFieldGroup = new CustomFieldGroupService(connectionHandler);
+        Rounding = new RoundingService(connectionHandler);
+        SequenceNumber = new SequenceNumberService(connectionHandler);
+        TaxRate = new TaxRateService(connectionHandler);
+        TextTemplate = new TextTemplateService(connectionHandler);
+        History = new HistoryService(connectionHandler);
     }
 
     /// <inheritdoc />
@@ -67,4 +69,7 @@ public class CommonConnector : ICommonConnector
 
     /// <inheritdoc />
     public ITextTemplateService TextTemplate { get; }
+
+    /// <inheritdoc />
+    public IHistoryService History { get; }
 }

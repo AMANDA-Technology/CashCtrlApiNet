@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Common.Currency;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Common;
 
 /// <summary>
@@ -30,5 +35,56 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Common;
 /// </summary>
 public interface ICurrencyService
 {
+    /// <summary>
+    /// Read currency. Returns a single currency by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/currency/read.json">API Doc - Common/Read currency</a>
+    /// </summary>
+    /// <param name="currency">The entry containing the ID of the currency.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<Currency>>> Get(Entry currency, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// List currencies. Returns a list of currencies.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/currency/list.json">API Doc - Common/List currencies</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<CurrencyListed>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Create currency. Creates a new currency. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/currency/create.json">API Doc - Common/Create currency</a>
+    /// </summary>
+    /// <param name="currency"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(CurrencyCreate currency, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update currency. Updates an existing currency. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/currency/update.json">API Doc - Common/Update currency</a>
+    /// </summary>
+    /// <param name="currency"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(CurrencyUpdate currency, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete currencies. Deletes one or multiple currencies. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/currency/delete.json">API Doc - Common/Delete currencies</a>
+    /// </summary>
+    /// <param name="currencies"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries currencies, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Get exchange rate. Returns the exchange rate between two currencies.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/currency/exchangerate">API Doc - Common/Get exchange rate</a>
+    /// </summary>
+    /// <param name="exchangeRateRequest">The exchange rate request parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<CurrencyExchangeRate>>> GetExchangeRate(CurrencyExchangeRateRequest exchangeRateRequest, [Optional] CancellationToken cancellationToken);
 }
