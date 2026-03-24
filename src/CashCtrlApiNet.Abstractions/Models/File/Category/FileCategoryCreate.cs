@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,29 +23,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.File;
-using CashCtrlApiNet.Services.Connectors.File;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.File.Category;
 
-/// <inheritdoc />
-public class FileConnector : IFileConnector
+/// <summary>
+/// File category create. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file/category/create.json">API Doc</a>
+/// </summary>
+public record FileCategoryCreate : ModelBaseRecord
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="FileConnector"/> class with all services using the connection handler.
+    /// The name of the category.
+    /// <br/>This can contain localized text. To add values in multiple languages, use the XML format like this: &lt;values&gt;&lt;de&gt;German text&lt;/de&gt;&lt;en&gt;English text&lt;/en&gt;&lt;/values&gt;
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public FileConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        File = new FileService(connectionHandler);
-        FileCategory = new FileCategoryService(connectionHandler);
-    }
+    [JsonPropertyName("name")]
+    [MaxLength(100)]
+    public required string Name { get; init; }
 
-    /// <inheritdoc />
-    public IFileService File { get; }
-
-    /// <inheritdoc />
-    public IFileCategoryService FileCategory { get; }
+    /// <summary>
+    /// The ID of the parent category.
+    /// </summary>
+    [JsonPropertyName("parentId")]
+    public int? ParentId { get; init; }
 }

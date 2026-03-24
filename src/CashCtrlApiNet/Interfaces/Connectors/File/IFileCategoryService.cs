@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.File.Category;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.File;
 
 /// <summary>
@@ -30,5 +35,55 @@ namespace CashCtrlApiNet.Interfaces.Connectors.File;
 /// </summary>
 public interface IFileCategoryService
 {
+    /// <summary>
+    /// Read file category. Returns a single category by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file/category/read.json">API Doc - File/Category/Read</a>
+    /// </summary>
+    /// <param name="category">The entry containing the ID of the category.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<FileCategory>>> Get(Entry category, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// List file categories. Returns a list of categories.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file/category/list.json">API Doc - File/Category/List</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<FileCategory>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Get file category tree. Returns a tree of categories.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file/category/tree.json">API Doc - File/Category/Tree</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<FileCategory>>> GetTree([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates a new file category. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file/category/create.json">API Doc - File/Category/Create</a>
+    /// </summary>
+    /// <param name="category"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(FileCategoryCreate category, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update file category. Updates an existing category. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file/category/update.json">API Doc - File/Category/Update</a>
+    /// </summary>
+    /// <param name="category"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(FileCategoryUpdate category, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete file categories. Deletes one or multiple categories. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file/category/delete.json">API Doc - File/Category/Delete</a>
+    /// </summary>
+    /// <param name="categories"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries categories, [Optional] CancellationToken cancellationToken);
 }
