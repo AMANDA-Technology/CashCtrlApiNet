@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,33 +23,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Journal;
-using CashCtrlApiNet.Services.Connectors.Journal;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Converters;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Journal;
 
-/// <inheritdoc />
-public class JournalConnector : IJournalConnector
+/// <summary>
+/// Journal entry listed (list response). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/list.json">API Doc</a>
+/// </summary>
+public record JournalListed : JournalUpdate
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="JournalConnector"/> class with all services using the connection handler.
+    /// The date and time the journal entry was created.
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public JournalConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        Journal = new JournalService(connectionHandler);
-        Import = new JournalImportService(connectionHandler);
-        ImportEntry = new JournalImportEntryService(connectionHandler);
-    }
+    [JsonPropertyName("created")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? Created { get; init; }
 
-    /// <inheritdoc />
-    public IJournalService Journal { get; }
+    /// <summary>
+    /// The user who created the journal entry.
+    /// </summary>
+    [JsonPropertyName("createdBy")]
+    public string? CreatedBy { get; init; }
 
-    /// <inheritdoc />
-    public IJournalImportService Import { get; }
+    /// <summary>
+    /// The date and time the journal entry was last updated.
+    /// </summary>
+    [JsonPropertyName("lastUpdated")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? LastUpdated { get; init; }
 
-    /// <inheritdoc />
-    public IJournalImportEntryService ImportEntry { get; }
+    /// <summary>
+    /// The user who last updated the journal entry.
+    /// </summary>
+    [JsonPropertyName("lastUpdatedBy")]
+    public string? LastUpdatedBy { get; init; }
 }
