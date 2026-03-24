@@ -28,7 +28,10 @@ using System.Text.Json.Serialization;
 namespace CashCtrlApiNet.Abstractions.Models.Base;
 
 /// <summary>
-/// Optional filter and pagination parameters for list endpoints.
+/// Common subset of optional filter and pagination parameters applicable to many (but not all) CashCtrl API list endpoints.
+/// Not all properties apply to every endpoint; properties left as <c>null</c> are safely omitted from the request.
+/// Some endpoints accept additional endpoint-specific parameters not covered by this record.
+/// Endpoints with mandatory parameters (e.g., <c>importId</c>, <c>id</c>) use dedicated request types instead of <see cref="ListParams"/>.
 /// <a href="https://app.cashctrl.com/static/help/en/api/index.html">API Doc</a>
 /// </summary>
 public record ListParams : ModelBaseRecord
