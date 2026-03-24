@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Meta.Location;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
 
 /// <summary>
@@ -30,5 +35,47 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
 /// </summary>
 public interface ILocationService
 {
+    /// <summary>
+    /// Read location. Returns a single location by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/location/read.json">API Doc - Meta/Read location</a>
+    /// </summary>
+    /// <param name="location">The entry containing the ID of the location.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<Abstractions.Models.Meta.Location.Location>>> Get(Entry location, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// List locations. Returns a list of locations.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/location/list.json">API Doc - Meta/List locations</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<LocationListed>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Create location. Creates a new location. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/location/create.json">API Doc - Meta/Create location</a>
+    /// </summary>
+    /// <param name="location"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(LocationCreate location, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update location. Updates an existing location. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/location/update.json">API Doc - Meta/Update location</a>
+    /// </summary>
+    /// <param name="location"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(LocationUpdate location, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete locations. Deletes one or multiple locations. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/location/delete.json">API Doc - Meta/Delete locations</a>
+    /// </summary>
+    /// <param name="locations"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries locations, [Optional] CancellationToken cancellationToken);
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,41 +23,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
 using CashCtrlApiNet.Interfaces.Connectors.Meta;
-using CashCtrlApiNet.Services.Connectors.Meta;
+using CashCtrlApiNet.Services.Connectors.Base;
+using Endpoint = CashCtrlApiNet.Services.Endpoints.MetaEndpoints.Organisation;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Services.Connectors.Meta;
 
-/// <inheritdoc />
-public class MetaConnector : IMetaConnector
+/// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Meta.IOrganizationService" />
+public class OrganizationService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IOrganizationService
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="MetaConnector"/> class with all services using the connection handler.
-    /// </summary>
-    /// <param name="connectionHandler"></param>
-    public MetaConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        FiscalPeriod = new FiscalPeriodService(connectionHandler);
-        FiscalPeriodTask = new FiscalPeriodTaskService(connectionHandler);
-        Location = new LocationService(connectionHandler);
-        Organization = new OrganizationService(connectionHandler);
-        Settings = new SettingsService(connectionHandler);
-    }
-
     /// <inheritdoc />
-    public IFiscalPeriodService FiscalPeriod { get; }
-
-    /// <inheritdoc />
-    public IFiscalPeriodTaskService FiscalPeriodTask { get; }
-
-    /// <inheritdoc />
-    public ILocationService Location { get; }
-
-    /// <inheritdoc />
-    public IOrganizationService Organization { get; }
-
-    /// <inheritdoc />
-    public ISettingsService Settings { get; }
+    public Task<ApiResult<BinaryResponse>> GetLogo([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.Logo, cancellationToken: cancellationToken);
 }

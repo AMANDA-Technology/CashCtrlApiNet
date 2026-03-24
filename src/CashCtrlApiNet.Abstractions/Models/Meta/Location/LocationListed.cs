@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,21 +23,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
-using CashCtrlApiNet.Abstractions.Models.Api;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Converters;
 
-namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
+namespace CashCtrlApiNet.Abstractions.Models.Meta.Location;
 
 /// <summary>
-/// CashCtrl meta organization service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/domain/current">API Doc - Meta/Organization</a>
+/// Location listed (list response). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/location/list.json">API Doc</a>
 /// </summary>
-public interface IOrganizationService
+public record LocationListed : LocationUpdate
 {
     /// <summary>
-    /// Get organization logo. Returns the logo image as binary data.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/domain/current/logo">API Doc - Meta/Get logo</a>
+    /// The date and time the location was created.
     /// </summary>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> GetLogo([Optional] CancellationToken cancellationToken);
+    [JsonPropertyName("created")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? Created { get; init; }
+
+    /// <summary>
+    /// The user who created the location.
+    /// </summary>
+    [JsonPropertyName("createdBy")]
+    public string? CreatedBy { get; init; }
+
+    /// <summary>
+    /// The date and time the location was last updated.
+    /// </summary>
+    [JsonPropertyName("lastUpdated")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? LastUpdated { get; init; }
+
+    /// <summary>
+    /// The user who last updated the location.
+    /// </summary>
+    [JsonPropertyName("lastUpdatedBy")]
+    public string? LastUpdatedBy { get; init; }
 }

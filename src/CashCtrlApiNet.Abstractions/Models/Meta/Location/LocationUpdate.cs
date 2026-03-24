@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,21 +23,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
-using CashCtrlApiNet.Abstractions.Models.Api;
+using System.Text.Json.Serialization;
 
-namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
+namespace CashCtrlApiNet.Abstractions.Models.Meta.Location;
 
 /// <summary>
-/// CashCtrl meta organization service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/domain/current">API Doc - Meta/Organization</a>
+/// Location update model. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/location/update.json">API Doc</a>
 /// </summary>
-public interface IOrganizationService
+public record LocationUpdate : LocationCreate
 {
     /// <summary>
-    /// Get organization logo. Returns the logo image as binary data.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/domain/current/logo">API Doc - Meta/Get logo</a>
+    /// The ID of the location.
     /// </summary>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> GetLogo([Optional] CancellationToken cancellationToken);
+    [JsonPropertyName("id")]
+    public required int Id { get; init; }
 }

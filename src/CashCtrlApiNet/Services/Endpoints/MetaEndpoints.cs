@@ -186,7 +186,7 @@ internal static class MetaEndpoints
     public static class Organisation
     {
         /// <summary>
-        /// Endpoint to get organisation log
+        /// Endpoint to get organisation logo
         /// </summary>
         public const string Logo = $"{Api.V1}/domain/current/logo";
     }
