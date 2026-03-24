@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.BookEntry;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 
 /// <summary>
@@ -30,4 +35,48 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 /// </summary>
 public interface ISalaryBookEntryService
 {
+    /// <summary>
+    /// Read salary book entry. Returns a single book entry by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/bookentry/read.json">API Doc - Salary/Book entry/Read</a>
+    /// </summary>
+    /// <param name="bookEntry">The entry containing the ID of the book entry.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<SalaryBookEntry>>> Get(Entry bookEntry, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// List salary book entries. Returns a list of book entries for the specified statement.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/bookentry/list.json">API Doc - Salary/Book entry/List</a>
+    /// </summary>
+    /// <param name="statement">The entry containing the ID of the statement to list book entries for.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalaryBookEntry>>> GetList(Entry statement, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates a new salary book entry. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/bookentry/create.json">API Doc - Salary/Book entry/Create</a>
+    /// </summary>
+    /// <param name="bookEntry"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(SalaryBookEntryCreate bookEntry, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update salary book entry. Updates an existing book entry. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/bookentry/update.json">API Doc - Salary/Book entry/Update</a>
+    /// </summary>
+    /// <param name="bookEntry"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(SalaryBookEntryUpdate bookEntry, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete salary book entries. Deletes one or multiple book entries. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/bookentry/delete.json">API Doc - Salary/Book entry/Delete</a>
+    /// </summary>
+    /// <param name="bookEntries"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries bookEntries, [Optional] CancellationToken cancellationToken);
 }

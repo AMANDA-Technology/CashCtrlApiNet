@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.Document;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 
 /// <summary>
@@ -30,4 +35,48 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 /// </summary>
 public interface ISalaryDocumentService
 {
+    /// <summary>
+    /// Read salary document. Returns a single document by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/document/read.json">API Doc - Salary/Document/Read</a>
+    /// </summary>
+    /// <param name="document">The entry containing the ID of the document.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<SalaryDocument>>> Get(Entry document, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Download salary document as PDF.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/document/read.pdf">API Doc - Salary/Document/Read PDF</a>
+    /// </summary>
+    /// <param name="documents">The entries containing the IDs of the documents.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entries documents, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Download salary documents as ZIP.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/document/read.zip">API Doc - Salary/Document/Read ZIP</a>
+    /// </summary>
+    /// <param name="documents">The entries containing the IDs of the documents.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> DownloadZip(Entries documents, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Send salary document per email.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/document/mail.json">API Doc - Salary/Document/Mail</a>
+    /// </summary>
+    /// <param name="mail">The mail request containing the statement IDs, sender, subject and text.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> SendMail(SalaryDocumentMail mail, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update salary document. Updates an existing document. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/document/update.json">API Doc - Salary/Document/Update</a>
+    /// </summary>
+    /// <param name="document"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(SalaryDocumentUpdate document, [Optional] CancellationToken cancellationToken);
 }

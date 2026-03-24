@@ -23,13 +23,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.Document;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors.Salary;
 using CashCtrlApiNet.Services.Connectors.Base;
+using Endpoint = CashCtrlApiNet.Services.Endpoints.SalaryEndpoints.Document;
 
 namespace CashCtrlApiNet.Services.Connectors.Salary;
 
 /// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalaryDocumentService" />
 public class SalaryDocumentService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryDocumentService
 {
+    /// <inheritdoc />
+    public Task<ApiResult<SingleResponse<SalaryDocument>>> Get(Entry document, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<SingleResponse<SalaryDocument>, Entry>(Endpoint.Read, document, cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entries documents, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ReadPdf, documents, cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<BinaryResponse>> DownloadZip(Entries documents, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ReadZip, documents, cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> SendMail(SalaryDocumentMail mail, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, SalaryDocumentMail>(Endpoint.Mail, mail, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
+    public Task<ApiResult<NoContentResponse>> Update(SalaryDocumentUpdate document, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, SalaryDocumentUpdate>(Endpoint.Update, document, cancellationToken: cancellationToken);
 }

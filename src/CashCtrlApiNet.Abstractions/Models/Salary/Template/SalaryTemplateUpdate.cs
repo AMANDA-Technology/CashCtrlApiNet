@@ -23,24 +23,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
-using CashCtrlApiNet.Abstractions.Models.Api;
-using CashCtrlApiNet.Abstractions.Models.Salary.Payment;
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors.Salary;
-using CashCtrlApiNet.Services.Connectors.Base;
-using Endpoint = CashCtrlApiNet.Services.Endpoints.SalaryEndpoints.Payment;
+using System.Text.Json.Serialization;
 
-namespace CashCtrlApiNet.Services.Connectors.Salary;
+namespace CashCtrlApiNet.Abstractions.Models.Salary.Template;
 
-/// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalaryPaymentService" />
-public class SalaryPaymentService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryPaymentService
+/// <summary>
+/// Salary template update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/template/update.json">API Doc</a>
+/// </summary>
+public record SalaryTemplateUpdate : SalaryTemplateCreate
 {
-    /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(SalaryPaymentCreate payment, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, SalaryPaymentCreate>(Endpoint.Create, payment, cancellationToken: cancellationToken);
-
-    /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> Download(SalaryPaymentCreate payment, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetBinaryAsync(Endpoint.Download, payment, cancellationToken);
+    /// <summary>
+    /// The ID of the template to update.
+    /// </summary>
+    [JsonPropertyName("id")]
+    public required int Id { get; init; }
 }

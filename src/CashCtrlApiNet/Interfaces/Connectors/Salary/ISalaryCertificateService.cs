@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.Certificate;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 
 /// <summary>
@@ -30,4 +35,53 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 /// </summary>
 public interface ISalaryCertificateService
 {
+    /// <summary>
+    /// Read salary certificate. Returns a single certificate by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/read.json">API Doc - Salary/Certificate/Read</a>
+    /// </summary>
+    /// <param name="certificate">The entry containing the ID of the certificate.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<SalaryCertificate>>> Get(Entry certificate, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// List salary certificates. Returns a list of certificates.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/list.json">API Doc - Salary/Certificate/List</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalaryCertificate>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update salary certificate. Updates an existing certificate. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/update.json">API Doc - Salary/Certificate/Update</a>
+    /// </summary>
+    /// <param name="certificate"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(SalaryCertificateUpdate certificate, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export salary certificates as Excel file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/list.xlsx">API Doc - Salary/Certificate/Export Excel</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export salary certificates as CSV file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/list.csv">API Doc - Salary/Certificate/Export CSV</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export salary certificates as PDF file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/list.pdf">API Doc - Salary/Certificate/Export PDF</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
 }

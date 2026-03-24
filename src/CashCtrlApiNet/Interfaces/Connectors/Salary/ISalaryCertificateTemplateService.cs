@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Salary.CertificateTemplate;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 
 /// <summary>
@@ -30,4 +35,55 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 /// </summary>
 public interface ISalaryCertificateTemplateService
 {
+    /// <summary>
+    /// Read salary certificate template. Returns a single template by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/template/read.json">API Doc - Salary/Certificate template/Read</a>
+    /// </summary>
+    /// <param name="template">The entry containing the ID of the template.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<SalaryCertificateTemplate>>> Get(Entry template, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// List salary certificate templates. Returns a list of templates.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/template/list.json">API Doc - Salary/Certificate template/List</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalaryCertificateTemplate>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Get salary certificate template tree. Returns a tree of templates.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/template/tree.json">API Doc - Salary/Certificate template/Tree</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalaryCertificateTemplate>>> GetTree([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates a new salary certificate template. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/template/create.json">API Doc - Salary/Certificate template/Create</a>
+    /// </summary>
+    /// <param name="template"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(SalaryCertificateTemplateCreate template, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update salary certificate template. Updates an existing template. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/template/update.json">API Doc - Salary/Certificate template/Update</a>
+    /// </summary>
+    /// <param name="template"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(SalaryCertificateTemplateUpdate template, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete salary certificate templates. Deletes one or multiple templates. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/template/delete.json">API Doc - Salary/Certificate template/Delete</a>
+    /// </summary>
+    /// <param name="templates"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries templates, [Optional] CancellationToken cancellationToken);
 }

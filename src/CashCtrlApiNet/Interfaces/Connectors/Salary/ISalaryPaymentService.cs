@@ -23,6 +23,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Salary.Payment;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 
 /// <summary>
@@ -30,4 +34,21 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Salary;
 /// </summary>
 public interface ISalaryPaymentService
 {
+    /// <summary>
+    /// Creates a new salary payment. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/payment/create.json">API Doc - Salary/Payment/Create</a>
+    /// </summary>
+    /// <param name="payment">The payment to create.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(SalaryPaymentCreate payment, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Download salary payment file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/payment/download">API Doc - Salary/Payment/Download</a>
+    /// </summary>
+    /// <param name="payment">The payment parameters for the file to download.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> Download(SalaryPaymentCreate payment, [Optional] CancellationToken cancellationToken);
 }

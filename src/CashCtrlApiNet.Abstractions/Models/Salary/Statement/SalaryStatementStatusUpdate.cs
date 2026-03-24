@@ -23,24 +23,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
-using CashCtrlApiNet.Abstractions.Models.Api;
-using CashCtrlApiNet.Abstractions.Models.Salary.Payment;
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors.Salary;
-using CashCtrlApiNet.Services.Connectors.Base;
-using Endpoint = CashCtrlApiNet.Services.Endpoints.SalaryEndpoints.Payment;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Services.Connectors.Salary;
+namespace CashCtrlApiNet.Abstractions.Models.Salary.Statement;
 
-/// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalaryPaymentService" />
-public class SalaryPaymentService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryPaymentService
+/// <summary>
+/// Salary statement status update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/statement/update_status.json">API Doc</a>
+/// </summary>
+public record SalaryStatementStatusUpdate : ModelBaseRecord
 {
-    /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(SalaryPaymentCreate payment, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, SalaryPaymentCreate>(Endpoint.Create, payment, cancellationToken: cancellationToken);
+    /// <summary>
+    /// The IDs of the statements to update (comma-separated).
+    /// </summary>
+    [JsonPropertyName("ids")]
+    public required string Ids { get; init; }
 
-    /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> Download(SalaryPaymentCreate payment, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetBinaryAsync(Endpoint.Download, payment, cancellationToken);
+    /// <summary>
+    /// The ID of the new status.
+    /// </summary>
+    [JsonPropertyName("statusId")]
+    public required int StatusId { get; init; }
 }

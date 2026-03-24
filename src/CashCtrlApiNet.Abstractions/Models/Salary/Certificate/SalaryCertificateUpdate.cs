@@ -23,24 +23,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
-using CashCtrlApiNet.Abstractions.Models.Api;
-using CashCtrlApiNet.Abstractions.Models.Salary.Payment;
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors.Salary;
-using CashCtrlApiNet.Services.Connectors.Base;
-using Endpoint = CashCtrlApiNet.Services.Endpoints.SalaryEndpoints.Payment;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Services.Connectors.Salary;
+namespace CashCtrlApiNet.Abstractions.Models.Salary.Certificate;
 
-/// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalaryPaymentService" />
-public class SalaryPaymentService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryPaymentService
+/// <summary>
+/// Salary certificate update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/update.json">API Doc</a>
+/// </summary>
+public record SalaryCertificateUpdate : ModelBaseRecord
 {
-    /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(SalaryPaymentCreate payment, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, SalaryPaymentCreate>(Endpoint.Create, payment, cancellationToken: cancellationToken);
+    /// <summary>
+    /// The ID of the certificate to update.
+    /// </summary>
+    [JsonPropertyName("id")]
+    public required int Id { get; init; }
 
-    /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> Download(SalaryPaymentCreate payment, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetBinaryAsync(Endpoint.Download, payment, cancellationToken);
+    /// <summary>
+    /// Some optional notes.
+    /// <br/>This can contain limited HTML for styling.
+    /// </summary>
+    [JsonPropertyName("notes")]
+    public string? Notes { get; init; }
+
+    /// <summary>
+    /// The local values of the certificate as JSON.
+    /// </summary>
+    [JsonPropertyName("valuesLocal")]
+    public string? ValuesLocal { get; init; }
 }
