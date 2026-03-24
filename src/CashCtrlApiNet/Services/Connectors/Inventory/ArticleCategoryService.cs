@@ -54,6 +54,10 @@ public class ArticleCategoryService(ICashCtrlConnectionHandler connectionHandler
         => ConnectionHandler.PostAsync<NoContentResponse, ArticleCategoryUpdate>(Endpoint.Update, articleCategory, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
+    public Task<ApiResult<ListResponse<ArticleCategory>>> GetTree([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<ArticleCategory>>(Endpoint.Tree, cancellationToken: cancellationToken);
+
+    /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Delete(Entries articleCategories, [Optional] CancellationToken cancellationToken)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, articleCategories, cancellationToken: cancellationToken);
 }

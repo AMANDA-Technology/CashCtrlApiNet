@@ -81,6 +81,21 @@ internal static class InventoryEndpoints
         /// Endpoint to update attachments of an inventory article
         /// </summary>
         public const string UpdateAttachments = $"{Root}/update_attachments.json";
+
+        /// <summary>
+        /// Endpoint to export articles as Excel
+        /// </summary>
+        public const string ListXlsx = $"{Root}/list.xlsx";
+
+        /// <summary>
+        /// Endpoint to export articles as CSV
+        /// </summary>
+        public const string ListCsv = $"{Root}/list.csv";
+
+        /// <summary>
+        /// Endpoint to export articles as PDF
+        /// </summary>
+        public const string ListPdf = $"{Root}/list.pdf";
     }
 
     /// <summary>
@@ -125,7 +140,7 @@ internal static class InventoryEndpoints
     }
 
     /// <summary>
-    /// pi endpoint definitions for inventory fixed asset
+    /// Api endpoint definitions for inventory fixed asset
     /// </summary>
     public static class FixedAsset
     {
@@ -168,6 +183,21 @@ internal static class InventoryEndpoints
         /// Endpoint to update attachments of an inventory fixed asset
         /// </summary>
         public const string UpdateAttachments = $"{Root}/update_attachments.json";
+
+        /// <summary>
+        /// Endpoint to export fixed assets as Excel
+        /// </summary>
+        public const string ListXlsx = $"{Root}/list.xlsx";
+
+        /// <summary>
+        /// Endpoint to export fixed assets as CSV
+        /// </summary>
+        public const string ListCsv = $"{Root}/list.csv";
+
+        /// <summary>
+        /// Endpoint to export fixed assets as PDF
+        /// </summary>
+        public const string ListPdf = $"{Root}/list.pdf";
     }
 
     /// <summary>

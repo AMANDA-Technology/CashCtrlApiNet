@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Inventory.Unit;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Inventory;
 
 /// <summary>
@@ -30,5 +35,47 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Inventory;
 /// </summary>
 public interface IUnitService
 {
+    /// <summary>
+    /// Read unit. Returns a single unit by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/unit/read.json">API Doc - Inventory/Unit/Read unit</a>
+    /// </summary>
+    /// <param name="unitId">The ID of the entry.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<Unit>>> Get(Entry unitId, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// List units. Returns a list of all units.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/unit/list.json">API Doc - Inventory/Unit/List units</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<Unit>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Create unit. Creates a new unit. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/unit/create.json">API Doc - Inventory/Unit/Create unit</a>
+    /// </summary>
+    /// <param name="unit"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(UnitCreate unit, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update unit. Updates an existing unit. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/unit/update.json">API Doc - Inventory/Unit/Update unit</a>
+    /// </summary>
+    /// <param name="unit"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(UnitUpdate unit, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete units. Deletes one or multiple units. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/unit/delete.json">API Doc - Inventory/Unit/Delete units</a>
+    /// </summary>
+    /// <param name="units"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries units, [Optional] CancellationToken cancellationToken);
 }

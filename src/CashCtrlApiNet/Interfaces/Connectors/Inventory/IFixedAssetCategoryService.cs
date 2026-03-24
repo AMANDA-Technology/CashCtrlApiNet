@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Inventory.FixedAssetCategory;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Inventory;
 
 /// <summary>
@@ -30,5 +35,55 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Inventory;
 /// </summary>
 public interface IFixedAssetCategoryService
 {
+    /// <summary>
+    /// Read fixed asset category. Returns a single category by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset/category/read.json">API Doc - Inventory/Fixed asset category/Read</a>
+    /// </summary>
+    /// <param name="category">The entry containing the ID of the category.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<FixedAssetCategory>>> Get(Entry category, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// List fixed asset categories. Returns a list of categories.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset/category/list.json">API Doc - Inventory/Fixed asset category/List</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<FixedAssetCategory>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Get fixed asset category tree. Returns a tree of categories.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset/category/tree.json">API Doc - Inventory/Fixed asset category/Tree</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<FixedAssetCategory>>> GetTree([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates a new fixed asset category. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset/category/create.json">API Doc - Inventory/Fixed asset category/Create</a>
+    /// </summary>
+    /// <param name="category"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(FixedAssetCategoryCreate category, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update fixed asset category. Updates an existing category. Returns either a success or multiple error messages.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset/category/update.json">API Doc - Inventory/Fixed asset category/Update</a>
+    /// </summary>
+    /// <param name="category"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(FixedAssetCategoryUpdate category, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete fixed asset categories. Deletes one or multiple categories. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset/category/delete.json">API Doc - Inventory/Fixed asset category/Delete</a>
+    /// </summary>
+    /// <param name="categories"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries categories, [Optional] CancellationToken cancellationToken);
 }

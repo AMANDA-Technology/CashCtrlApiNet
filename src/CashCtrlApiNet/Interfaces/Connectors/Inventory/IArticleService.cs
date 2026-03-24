@@ -95,4 +95,28 @@ public interface IArticleService
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments articleAttachments, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export articles as Excel file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/list.xlsx">API Doc - Inventory/Article/Export Excel</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export articles as CSV file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/list.csv">API Doc - Inventory/Article/Export CSV</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export articles as PDF file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/list.pdf">API Doc - Inventory/Article/Export PDF</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
 }

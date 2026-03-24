@@ -70,6 +70,14 @@ public interface IArticleCategoryService
     public Task<ApiResult<NoContentResponse>> Update(ArticleCategoryUpdate articleCategory, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// Get article category tree. Returns the full category tree.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/category/tree.json">API Doc - Inventory/Article category/Tree</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<ArticleCategory>>> GetTree([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Delete categories. Deletes one or multiple existing categories. Note that you can only delete empty categories. Returns either a success or error message.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/category/delete.json">API Doc - Inventory/Article category/Delete categories</a>
     /// </summary>

@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Inventory.Import;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Inventory;
 
 /// <summary>
@@ -30,5 +34,47 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Inventory;
 /// </summary>
 public interface IInventoryImportService
 {
+    /// <summary>
+    /// Create a new inventory import. Requires a file ID of an uploaded file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/import/create.json">API Doc - Inventory/Import/Create</a>
+    /// </summary>
+    /// <param name="importCreate"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(InventoryImportCreate importCreate, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Define the mapping for an inventory import.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/import/mapping.json">API Doc - Inventory/Import/Mapping</a>
+    /// </summary>
+    /// <param name="importMapping"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Mapping(InventoryImportMapping importMapping, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Get available mapping fields for an inventory import.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/import/mapping_combo.json">API Doc - Inventory/Import/Mapping fields</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult> GetMappingFields([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Get a preview of an inventory import.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/import/preview.json">API Doc - Inventory/Import/Preview</a>
+    /// </summary>
+    /// <param name="importPreview"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Preview(InventoryImportPreview importPreview, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Execute an inventory import.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/import/execute.json">API Doc - Inventory/Import/Execute</a>
+    /// </summary>
+    /// <param name="importExecute"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Execute(InventoryImportExecute importExecute, [Optional] CancellationToken cancellationToken);
 }

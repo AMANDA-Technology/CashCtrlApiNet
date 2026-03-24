@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -26,44 +26,44 @@ SOFTWARE.
 using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Inventory.Article;
+using CashCtrlApiNet.Abstractions.Models.Inventory.FixedAsset;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors.Inventory;
 using CashCtrlApiNet.Services.Connectors.Base;
-using Endpoint = CashCtrlApiNet.Services.Endpoints.InventoryEndpoints.Article;
+using Endpoint = CashCtrlApiNet.Services.Endpoints.InventoryEndpoints.FixedAsset;
 
 namespace CashCtrlApiNet.Services.Connectors.Inventory;
 
-/// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Inventory.IArticleService" />
-public class ArticleService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IArticleService
+/// <inheritdoc cref="CashCtrlApiNet.Interfaces.Connectors.Inventory.IFixedAssetService" />
+public class FixedAssetService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IFixedAssetService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Article>>> Get(Entry articleId, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<SingleResponse<Article>, Entry>(Endpoint.Read, articleId, cancellationToken);
+    public Task<ApiResult<SingleResponse<FixedAsset>>> Get(Entry fixedAssetId, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<SingleResponse<FixedAsset>, Entry>(Endpoint.Read, fixedAssetId, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<ArticleListed>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<ArticleListed>>(Endpoint.List, cancellationToken: cancellationToken);
+    public Task<ApiResult<ListResponse<FixedAssetListed>>> GetList([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<FixedAssetListed>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(ArticleCreate article, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, ArticleCreate>(Endpoint.Create, article, cancellationToken: cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(FixedAssetCreate fixedAsset, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, FixedAssetCreate>(Endpoint.Create, fixedAsset, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(ArticleUpdate article, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, ArticleUpdate>(Endpoint.Update, article, cancellationToken: cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(FixedAssetUpdate fixedAsset, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, FixedAssetUpdate>(Endpoint.Update, fixedAsset, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries articles, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, articles, cancellationToken: cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries fixedAssets, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, fixedAssets, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize articlesCategorize, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, EntriesCategorize>(Endpoint.Categorize, articlesCategorize, cancellationToken: cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize fixedAssetsCategorize, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, EntriesCategorize>(Endpoint.Categorize, fixedAssetsCategorize, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments articleAttachments, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.PostAsync<NoContentResponse, EntryAttachments>(Endpoint.UpdateAttachments, articleAttachments, cancellationToken: cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments fixedAssetAttachments, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.PostAsync<NoContentResponse, EntryAttachments>(Endpoint.UpdateAttachments, fixedAssetAttachments, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken)

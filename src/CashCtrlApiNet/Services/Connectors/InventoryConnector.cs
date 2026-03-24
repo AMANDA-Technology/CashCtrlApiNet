@@ -41,10 +41,10 @@ public class InventoryConnector : IInventoryConnector
     {
         Article = new ArticleService(connectionHandler);
         ArticleCategory = new ArticleCategoryService(connectionHandler);
-        // FixedAsset = new FixedAssetService(connectionHandler);
-        // FixedAssetCategory = new FixedAssetCategoryService(connectionHandler);
-        // Import = new InventoryImportService(connectionHandler);
-        // Unit = new UnitService(connectionHandler);
+        FixedAsset = new FixedAssetService(connectionHandler);
+        FixedAssetCategory = new FixedAssetCategoryService(connectionHandler);
+        Import = new InventoryImportService(connectionHandler);
+        Unit = new UnitService(connectionHandler);
     }
 
     /// <inheritdoc />
