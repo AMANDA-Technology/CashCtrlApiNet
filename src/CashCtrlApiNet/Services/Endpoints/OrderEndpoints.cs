@@ -103,14 +103,29 @@ internal static class OrderEndpoints
         public const string DossierAdd = $"{Root}/dossier_add.json";
 
         /// <summary>
-        /// Endpoint to remove orders to a dossier
+        /// Endpoint to remove orders from a dossier
         /// </summary>
         public const string DossierRemove = $"{Root}/dossier_remove.json";
 
         /// <summary>
-        /// Endpoint to update attachments of a dossier
+        /// Endpoint to update attachments of an order
         /// </summary>
         public const string UpdateAttachments = $"{Root}/update_attachments.json";
+
+        /// <summary>
+        /// Endpoint to export orders as Excel
+        /// </summary>
+        public const string ListXlsx = $"{Root}/list.xlsx";
+
+        /// <summary>
+        /// Endpoint to export orders as CSV
+        /// </summary>
+        public const string ListCsv = $"{Root}/list.csv";
+
+        /// <summary>
+        /// Endpoint to export orders as PDF
+        /// </summary>
+        public const string ListPdf = $"{Root}/list.pdf";
     }
 
     /// <summary>
