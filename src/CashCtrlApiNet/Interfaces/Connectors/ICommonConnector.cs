@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -58,12 +58,17 @@ public interface ICommonConnector
     public ISequenceNumberService SequenceNumber { get; }
 
     /// <summary>
-    /// CashCtrl common sequence number service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/tax">API Doc - Common/Tax rate</a>
+    /// CashCtrl common tax rate service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/tax">API Doc - Common/Tax rate</a>
     /// </summary>
     public ITaxRateService TaxRate { get; }
 
     /// <summary>
-    /// CashCtrl common sequence number service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/text">API Doc - Common/Text template</a>
+    /// CashCtrl common text template service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/text">API Doc - Common/Text template</a>
     /// </summary>
     public ITextTemplateService TextTemplate { get; }
+
+    /// <summary>
+    /// CashCtrl common history service endpoint. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/history">API Doc - Common/History</a>
+    /// </summary>
+    public IHistoryService History { get; }
 }

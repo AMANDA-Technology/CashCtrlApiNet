@@ -230,6 +230,11 @@ internal static class CommonEndpoints
         /// Endpoint to delete sequence numbers
         /// </summary>
         public const string Delete = $"{Root}/{Default.Delete}";
+
+        /// <summary>
+        /// Endpoint to get a generated sequence number
+        /// </summary>
+        public const string Get = $"{Root}/get";
     }
 
     /// <summary>
@@ -302,5 +307,21 @@ internal static class CommonEndpoints
         /// Endpoint to delete text templates
         /// </summary>
         public const string Delete = $"{Root}/{Default.Delete}";
+    }
+
+    /// <summary>
+    /// Api endpoint definitions for history
+    /// </summary>
+    public static class History
+    {
+        /// <summary>
+        /// Root path for history
+        /// </summary>
+        private const string Root = $"{Api.V1}/history";
+
+        /// <summary>
+        /// Endpoint to list history entries
+        /// </summary>
+        public const string List = $"{Root}/{Default.List}";
     }
 }
