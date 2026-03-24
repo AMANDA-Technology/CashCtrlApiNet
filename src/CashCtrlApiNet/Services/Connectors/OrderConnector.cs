@@ -43,7 +43,6 @@ public class OrderConnector : IOrderConnector
         BookEntry = new BookEntryService(connectionHandler);
         Category = new OrderCategoryService(connectionHandler);
         Document = new DocumentService(connectionHandler);
-        DocumentTemplate = new DocumentTemplateService(connectionHandler);
         Layout = new OrderLayoutService(connectionHandler);
         Payment = new OrderPaymentService(connectionHandler);
     }
@@ -59,9 +58,6 @@ public class OrderConnector : IOrderConnector
 
     /// <inheritdoc />
     public IDocumentService Document { get; }
-
-    /// <inheritdoc />
-    public IDocumentTemplateService DocumentTemplate { get; }
 
     /// <inheritdoc />
     public IOrderLayoutService Layout { get; }

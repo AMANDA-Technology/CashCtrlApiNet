@@ -58,10 +58,6 @@ public class OrderService(ICashCtrlConnectionHandler connectionHandler) : Connec
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, orders, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Order.Order>>> GetStatus(Entry order, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<SingleResponse<Abstractions.Models.Order.Order>, Entry>(Endpoint.ReadStatus, order, cancellationToken);
-
-    /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> UpdateStatus(OrderStatusUpdate status, [Optional] CancellationToken cancellationToken)
         => ConnectionHandler.PostAsync<NoContentResponse, OrderStatusUpdate>(Endpoint.UpdateStatus, status, cancellationToken: cancellationToken);
 
