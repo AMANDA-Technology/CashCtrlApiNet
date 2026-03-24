@@ -53,6 +53,15 @@ public interface ISalarySumService
     public Task<ApiResult<ListResponse<SalarySum>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List salary sums with filter and pagination parameters. Returns a list of sums.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/sum/list.json">API Doc - Salary/Sum/List</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalarySum>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Creates a new salary sum. Returns either a success or multiple error messages.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/sum/create.json">API Doc - Salary/Sum/Create</a>
     /// </summary>

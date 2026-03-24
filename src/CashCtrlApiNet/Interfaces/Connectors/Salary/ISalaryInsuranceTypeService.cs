@@ -53,6 +53,15 @@ public interface ISalaryInsuranceTypeService
     public Task<ApiResult<ListResponse<SalaryInsuranceType>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List salary insurance types with filter and pagination parameters. Returns a list of insurance types.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/insurance/type/list.json">API Doc - Salary/Insurance type/List</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalaryInsuranceType>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Creates a new salary insurance type. Returns either a success or multiple error messages.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/insurance/type/create.json">API Doc - Salary/Insurance type/Create</a>
     /// </summary>

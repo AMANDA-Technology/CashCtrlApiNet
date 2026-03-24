@@ -53,6 +53,15 @@ public interface ISalaryCategoryService
     public Task<ApiResult<ListResponse<SalaryCategory>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List salary categories with filter and pagination parameters. Returns a list of categories.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/category/list.json">API Doc - Salary/Category/List</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalaryCategory>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Get salary category tree. Returns a tree of categories.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/category/tree.json">API Doc - Salary/Category/Tree</a>
     /// </summary>

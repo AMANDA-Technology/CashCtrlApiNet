@@ -53,6 +53,15 @@ public interface ISalarySettingService
     public Task<ApiResult<ListResponse<SalarySetting>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List salary settings with filter and pagination parameters. Returns a list of settings.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/setting/list.json">API Doc - Salary/Setting/List</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalarySetting>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Creates a new salary setting. Returns either a success or multiple error messages.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/setting/create.json">API Doc - Salary/Setting/Create</a>
     /// </summary>

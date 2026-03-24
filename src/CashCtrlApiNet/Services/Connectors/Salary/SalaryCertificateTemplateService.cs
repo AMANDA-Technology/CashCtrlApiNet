@@ -46,6 +46,10 @@ public class SalaryCertificateTemplateService(ICashCtrlConnectionHandler connect
         => ConnectionHandler.GetAsync<ListResponse<SalaryCertificateTemplate>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
+    public Task<ApiResult<ListResponse<SalaryCertificateTemplate>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<SalaryCertificateTemplate>, ListParams>(Endpoint.List, listParams, cancellationToken);
+
+    /// <inheritdoc />
     public Task<ApiResult<ListResponse<SalaryCertificateTemplate>>> GetTree([Optional] CancellationToken cancellationToken)
         => ConnectionHandler.GetAsync<ListResponse<SalaryCertificateTemplate>>(Endpoint.Tree, cancellationToken: cancellationToken);
 

@@ -46,6 +46,10 @@ public class SalaryCategoryService(ICashCtrlConnectionHandler connectionHandler)
         => ConnectionHandler.GetAsync<ListResponse<SalaryCategory>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
+    public Task<ApiResult<ListResponse<SalaryCategory>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<SalaryCategory>, ListParams>(Endpoint.List, listParams, cancellationToken);
+
+    /// <inheritdoc />
     public Task<ApiResult<ListResponse<SalaryCategory>>> GetTree([Optional] CancellationToken cancellationToken)
         => ConnectionHandler.GetAsync<ListResponse<SalaryCategory>>(Endpoint.Tree, cancellationToken: cancellationToken);
 

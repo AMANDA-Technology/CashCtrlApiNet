@@ -46,6 +46,10 @@ public class SalaryLayoutService(ICashCtrlConnectionHandler connectionHandler) :
         => ConnectionHandler.GetAsync<ListResponse<SalaryLayout>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
+    public Task<ApiResult<ListResponse<SalaryLayout>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<SalaryLayout>, ListParams>(Endpoint.List, listParams, cancellationToken);
+
+    /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(SalaryLayoutCreate layout, [Optional] CancellationToken cancellationToken)
         => ConnectionHandler.PostAsync<NoContentResponse, SalaryLayoutCreate>(Endpoint.Create, layout, cancellationToken: cancellationToken);
 

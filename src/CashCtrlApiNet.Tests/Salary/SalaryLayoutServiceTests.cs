@@ -116,4 +116,35 @@ public class SalaryLayoutServiceTests : ServiceTestBase<SalaryLayoutService>
             .PostAsync<NoContentResponse, Entries>(
                 SalaryEndpoints.Layout.Delete, entries, Arg.Any<CancellationToken>());
     }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<SalaryLayout>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<SalaryLayout>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<SalaryLayout>, ListParams>(
+                SalaryEndpoints.Layout.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<SalaryLayout>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<SalaryLayout>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
+    }
 }

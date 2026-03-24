@@ -116,4 +116,35 @@ public class SalaryInsuranceTypeServiceTests : ServiceTestBase<SalaryInsuranceTy
             .PostAsync<NoContentResponse, Entries>(
                 SalaryEndpoints.InsuranceType.Delete, entries, Arg.Any<CancellationToken>());
     }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<SalaryInsuranceType>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<SalaryInsuranceType>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<SalaryInsuranceType>, ListParams>(
+                SalaryEndpoints.InsuranceType.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<SalaryInsuranceType>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<SalaryInsuranceType>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
+    }
 }

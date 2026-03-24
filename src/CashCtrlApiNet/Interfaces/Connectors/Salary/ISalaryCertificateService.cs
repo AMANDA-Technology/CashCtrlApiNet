@@ -53,6 +53,15 @@ public interface ISalaryCertificateService
     public Task<ApiResult<ListResponse<SalaryCertificate>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List salary certificates with filter and pagination parameters. Returns a list of certificates.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/list.json">API Doc - Salary/Certificate/List</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SalaryCertificate>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Update salary certificate. Updates an existing certificate. Returns either a success or multiple error messages.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/certificate/update.json">API Doc - Salary/Certificate/Update</a>
     /// </summary>

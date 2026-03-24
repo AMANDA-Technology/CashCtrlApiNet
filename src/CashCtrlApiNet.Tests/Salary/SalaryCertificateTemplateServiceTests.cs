@@ -130,4 +130,35 @@ public class SalaryCertificateTemplateServiceTests : ServiceTestBase<SalaryCerti
             .PostAsync<NoContentResponse, Entries>(
                 SalaryEndpoints.CertificateTemplate.Delete, entries, Arg.Any<CancellationToken>());
     }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<SalaryCertificateTemplate>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<SalaryCertificateTemplate>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<SalaryCertificateTemplate>, ListParams>(
+                SalaryEndpoints.CertificateTemplate.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<SalaryCertificateTemplate>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<SalaryCertificateTemplate>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
+    }
 }
