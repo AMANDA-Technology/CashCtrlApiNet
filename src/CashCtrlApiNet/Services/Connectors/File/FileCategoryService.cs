@@ -42,12 +42,10 @@ public class FileCategoryService(ICashCtrlConnectionHandler connectionHandler) :
         => ConnectionHandler.GetAsync<SingleResponse<FileCategory>, Entry>(Endpoint.Read, category, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<FileCategory>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<FileCategory>>(Endpoint.List, cancellationToken: cancellationToken);
-
-    /// <inheritdoc />
-    public Task<ApiResult<ListResponse<FileCategory>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<FileCategory>, ListParams>(Endpoint.List, listParams, cancellationToken);
+    public Task<ApiResult<ListResponse<FileCategory>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => listParams is not null
+            ? ConnectionHandler.GetAsync<ListResponse<FileCategory>, ListParams>(Endpoint.List, listParams, cancellationToken)
+            : ConnectionHandler.GetAsync<ListResponse<FileCategory>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<FileCategory>>> GetTree([Optional] CancellationToken cancellationToken)

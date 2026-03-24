@@ -45,21 +45,13 @@ public interface ISalaryTypeService
     public Task<ApiResult<SingleResponse<SalaryType>>> Get(Entry salaryType, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List salary types. Returns a list of salary types.
+    /// List salary types. Returns a list of salary types, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/type/list.json">API Doc - Salary/Type/List</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<SalaryType>>> GetList([Optional] CancellationToken cancellationToken);
-
-    /// <summary>
-    /// List salary types with filter and pagination parameters. Returns a list of salary types.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/type/list.json">API Doc - Salary/Type/List</a>
-    /// </summary>
-    /// <param name="listParams">The filter and pagination parameters.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<ListResponse<SalaryType>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryType>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new salary type. Returns either a success or multiple error messages.

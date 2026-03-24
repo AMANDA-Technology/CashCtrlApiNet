@@ -38,12 +38,10 @@ namespace CashCtrlApiNet.Services.Connectors.Meta;
 public class FiscalPeriodTaskService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IFiscalPeriodTaskService
 {
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<FiscalPeriodTask>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<FiscalPeriodTask>>(Endpoint.List, cancellationToken: cancellationToken);
-
-    /// <inheritdoc />
-    public Task<ApiResult<ListResponse<FiscalPeriodTask>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<FiscalPeriodTask>, ListParams>(Endpoint.List, listParams, cancellationToken);
+    public Task<ApiResult<ListResponse<FiscalPeriodTask>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => listParams is not null
+            ? ConnectionHandler.GetAsync<ListResponse<FiscalPeriodTask>, ListParams>(Endpoint.List, listParams, cancellationToken)
+            : ConnectionHandler.GetAsync<ListResponse<FiscalPeriodTask>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(FiscalPeriodTaskCreate fiscalPeriodTask, [Optional] CancellationToken cancellationToken)

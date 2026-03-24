@@ -160,7 +160,7 @@ public class ArticleTests : CashCtrlTestBase
 
         // Local function to get article
         async Task<ArticleListed?> Get(CancellationToken cancellationToken)
-            => (await CashCtrlApiClient.Inventory.Article.GetList(cancellationToken)).ResponseData?.Data.SingleOrDefault(a => a.Nr.Equals("A-00005"));
+            => (await CashCtrlApiClient.Inventory.Article.GetList(cancellationToken: cancellationToken)).ResponseData?.Data.SingleOrDefault(a => a.Nr.Equals("A-00005"));
     }
 
     [Fact]

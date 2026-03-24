@@ -42,12 +42,10 @@ public class AccountCategoryService(ICashCtrlConnectionHandler connectionHandler
         => ConnectionHandler.GetAsync<SingleResponse<AccountCategory>, Entry>(Endpoint.Read, category, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<AccountCategory>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<AccountCategory>>(Endpoint.List, cancellationToken: cancellationToken);
-
-    /// <inheritdoc />
-    public Task<ApiResult<ListResponse<AccountCategory>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<AccountCategory>, ListParams>(Endpoint.List, listParams, cancellationToken);
+    public Task<ApiResult<ListResponse<AccountCategory>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => listParams is not null
+            ? ConnectionHandler.GetAsync<ListResponse<AccountCategory>, ListParams>(Endpoint.List, listParams, cancellationToken)
+            : ConnectionHandler.GetAsync<ListResponse<AccountCategory>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<AccountCategory>>> GetTree([Optional] CancellationToken cancellationToken)

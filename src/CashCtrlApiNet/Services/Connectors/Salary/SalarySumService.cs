@@ -42,12 +42,10 @@ public class SalarySumService(ICashCtrlConnectionHandler connectionHandler) : Co
         => ConnectionHandler.GetAsync<SingleResponse<SalarySum>, Entry>(Endpoint.Read, sum, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SalarySum>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<SalarySum>>(Endpoint.List, cancellationToken: cancellationToken);
-
-    /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SalarySum>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<SalarySum>, ListParams>(Endpoint.List, listParams, cancellationToken);
+    public Task<ApiResult<ListResponse<SalarySum>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => listParams is not null
+            ? ConnectionHandler.GetAsync<ListResponse<SalarySum>, ListParams>(Endpoint.List, listParams, cancellationToken)
+            : ConnectionHandler.GetAsync<ListResponse<SalarySum>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(SalarySumCreate sum, [Optional] CancellationToken cancellationToken)

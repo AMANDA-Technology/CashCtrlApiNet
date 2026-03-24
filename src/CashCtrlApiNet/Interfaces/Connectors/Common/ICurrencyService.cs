@@ -45,21 +45,13 @@ public interface ICurrencyService
     public Task<ApiResult<SingleResponse<Currency>>> Get(Entry currency, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List currencies. Returns a list of currencies.
+    /// List currencies. Returns a list of currencies, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/currency/list.json">API Doc - Common/List currencies</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<CurrencyListed>>> GetList([Optional] CancellationToken cancellationToken);
-
-    /// <summary>
-    /// List currencies with filter and pagination parameters. Returns a list of currencies.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/currency/list.json">API Doc - Common/List currencies</a>
-    /// </summary>
-    /// <param name="listParams">The filter and pagination parameters.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<ListResponse<CurrencyListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<CurrencyListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create currency. Creates a new currency. Returns either a success or multiple error messages (for each issue).

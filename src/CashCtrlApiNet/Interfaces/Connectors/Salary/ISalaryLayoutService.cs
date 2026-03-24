@@ -45,21 +45,13 @@ public interface ISalaryLayoutService
     public Task<ApiResult<SingleResponse<SalaryLayout>>> Get(Entry layout, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List salary layouts. Returns a list of layouts.
+    /// List salary layouts. Returns a list of layouts, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/layout/list.json">API Doc - Salary/Layout/List</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<SalaryLayout>>> GetList([Optional] CancellationToken cancellationToken);
-
-    /// <summary>
-    /// List salary layouts with filter and pagination parameters. Returns a list of layouts.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/layout/list.json">API Doc - Salary/Layout/List</a>
-    /// </summary>
-    /// <param name="listParams">The filter and pagination parameters.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<ListResponse<SalaryLayout>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryLayout>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new salary layout. Returns either a success or multiple error messages.

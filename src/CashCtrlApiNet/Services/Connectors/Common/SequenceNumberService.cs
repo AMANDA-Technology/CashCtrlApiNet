@@ -42,12 +42,10 @@ public class SequenceNumberService(ICashCtrlConnectionHandler connectionHandler)
         => ConnectionHandler.GetAsync<SingleResponse<SequenceNumber>, Entry>(Endpoint.Read, sequenceNumber, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SequenceNumberListed>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<SequenceNumberListed>>(Endpoint.List, cancellationToken: cancellationToken);
-
-    /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SequenceNumberListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<SequenceNumberListed>, ListParams>(Endpoint.List, listParams, cancellationToken);
+    public Task<ApiResult<ListResponse<SequenceNumberListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => listParams is not null
+            ? ConnectionHandler.GetAsync<ListResponse<SequenceNumberListed>, ListParams>(Endpoint.List, listParams, cancellationToken)
+            : ConnectionHandler.GetAsync<ListResponse<SequenceNumberListed>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(SequenceNumberCreate sequenceNumber, [Optional] CancellationToken cancellationToken)

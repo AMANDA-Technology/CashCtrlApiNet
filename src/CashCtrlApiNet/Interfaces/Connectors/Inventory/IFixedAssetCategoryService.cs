@@ -45,21 +45,13 @@ public interface IFixedAssetCategoryService
     public Task<ApiResult<SingleResponse<FixedAssetCategory>>> Get(Entry category, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List fixed asset categories. Returns a list of categories.
+    /// List fixed asset categories. Returns a list of categories, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset/category/list.json">API Doc - Inventory/Fixed asset category/List</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<FixedAssetCategory>>> GetList([Optional] CancellationToken cancellationToken);
-
-    /// <summary>
-    /// List fixed asset categories with filter and pagination parameters. Returns a list of categories.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset/category/list.json">API Doc - Inventory/Fixed asset category/List</a>
-    /// </summary>
-    /// <param name="listParams">The filter and pagination parameters.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<ListResponse<FixedAssetCategory>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<FixedAssetCategory>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get fixed asset category tree. Returns a tree of categories.

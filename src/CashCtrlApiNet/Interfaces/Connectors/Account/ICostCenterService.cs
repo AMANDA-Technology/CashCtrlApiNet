@@ -45,21 +45,13 @@ public interface ICostCenterService
     public Task<ApiResult<SingleResponse<CostCenter>>> Get(Entry costCenter, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List cost centers. Returns a list of cost centers.
+    /// List cost centers. Returns a list of cost centers, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/list.json">API Doc - Account/Cost center/List</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<CostCenterListed>>> GetList([Optional] CancellationToken cancellationToken);
-
-    /// <summary>
-    /// List cost centers with filter and pagination parameters. Returns a list of cost centers.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/list.json">API Doc - Account/Cost center/List</a>
-    /// </summary>
-    /// <param name="listParams">The filter and pagination parameters.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<ListResponse<CostCenterListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<CostCenterListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get cost center balance. Returns the balance of a single cost center.

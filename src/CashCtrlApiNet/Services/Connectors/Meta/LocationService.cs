@@ -42,12 +42,10 @@ public class LocationService(ICashCtrlConnectionHandler connectionHandler) : Con
         => ConnectionHandler.GetAsync<SingleResponse<Abstractions.Models.Meta.Location.Location>, Entry>(Endpoint.Read, location, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<LocationListed>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<LocationListed>>(Endpoint.List, cancellationToken: cancellationToken);
-
-    /// <inheritdoc />
-    public Task<ApiResult<ListResponse<LocationListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<LocationListed>, ListParams>(Endpoint.List, listParams, cancellationToken);
+    public Task<ApiResult<ListResponse<LocationListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => listParams is not null
+            ? ConnectionHandler.GetAsync<ListResponse<LocationListed>, ListParams>(Endpoint.List, listParams, cancellationToken)
+            : ConnectionHandler.GetAsync<ListResponse<LocationListed>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(LocationCreate location, [Optional] CancellationToken cancellationToken)

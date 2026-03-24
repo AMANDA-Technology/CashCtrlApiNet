@@ -42,12 +42,10 @@ public class SalaryCertificateService(ICashCtrlConnectionHandler connectionHandl
         => ConnectionHandler.GetAsync<SingleResponse<SalaryCertificate>, Entry>(Endpoint.Read, certificate, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SalaryCertificate>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<SalaryCertificate>>(Endpoint.List, cancellationToken: cancellationToken);
-
-    /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SalaryCertificate>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<SalaryCertificate>, ListParams>(Endpoint.List, listParams, cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryCertificate>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => listParams is not null
+            ? ConnectionHandler.GetAsync<ListResponse<SalaryCertificate>, ListParams>(Endpoint.List, listParams, cancellationToken)
+            : ConnectionHandler.GetAsync<ListResponse<SalaryCertificate>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Update(SalaryCertificateUpdate certificate, [Optional] CancellationToken cancellationToken)

@@ -57,6 +57,20 @@ public class ArticleCategoryServiceTests : ServiceTestBase<ArticleCategoryServic
     }
 
     [Fact]
+    public async Task GetList_ShouldCallCorrectEndpoint()
+    {
+        ConnectionHandler
+            .GetAsync<ListResponse<ArticleCategory>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<ArticleCategory>>());
+
+        await Service.GetList();
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<ArticleCategory>>(
+                InventoryEndpoints.ArticleCategory.List, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };

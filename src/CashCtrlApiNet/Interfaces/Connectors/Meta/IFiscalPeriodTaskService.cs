@@ -36,21 +36,13 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
 public interface IFiscalPeriodTaskService
 {
     /// <summary>
-    /// List fiscal period tasks. Returns a list of fiscal period tasks.
+    /// List fiscal period tasks. Returns a list of fiscal period tasks, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod/task/list.json">API Doc - Meta/List fiscal period tasks</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<FiscalPeriodTask>>> GetList([Optional] CancellationToken cancellationToken);
-
-    /// <summary>
-    /// List fiscal period tasks with filter and pagination parameters. Returns a list of fiscal period tasks.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod/task/list.json">API Doc - Meta/List fiscal period tasks</a>
-    /// </summary>
-    /// <param name="listParams">The filter and pagination parameters.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<ListResponse<FiscalPeriodTask>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<FiscalPeriodTask>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create fiscal period task. Creates a new fiscal period task. Returns either a success or multiple error messages (for each issue).

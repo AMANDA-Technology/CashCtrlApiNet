@@ -45,21 +45,13 @@ public interface ISalaryStatusService
     public Task<ApiResult<SingleResponse<SalaryStatus>>> Get(Entry status, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List salary statuses. Returns a list of statuses.
+    /// List salary statuses. Returns a list of statuses, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/status/list.json">API Doc - Salary/Status/List</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<SalaryStatus>>> GetList([Optional] CancellationToken cancellationToken);
-
-    /// <summary>
-    /// List salary statuses with filter and pagination parameters. Returns a list of statuses.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/status/list.json">API Doc - Salary/Status/List</a>
-    /// </summary>
-    /// <param name="listParams">The filter and pagination parameters.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<ListResponse<SalaryStatus>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryStatus>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new salary status. Returns either a success or multiple error messages.

@@ -42,12 +42,10 @@ public class TextTemplateService(ICashCtrlConnectionHandler connectionHandler) :
         => ConnectionHandler.GetAsync<SingleResponse<TextTemplate>, Entry>(Endpoint.Read, textTemplate, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<TextTemplateListed>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<TextTemplateListed>>(Endpoint.List, cancellationToken: cancellationToken);
-
-    /// <inheritdoc />
-    public Task<ApiResult<ListResponse<TextTemplateListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<TextTemplateListed>, ListParams>(Endpoint.List, listParams, cancellationToken);
+    public Task<ApiResult<ListResponse<TextTemplateListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => listParams is not null
+            ? ConnectionHandler.GetAsync<ListResponse<TextTemplateListed>, ListParams>(Endpoint.List, listParams, cancellationToken)
+            : ConnectionHandler.GetAsync<ListResponse<TextTemplateListed>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(TextTemplateCreate textTemplate, [Optional] CancellationToken cancellationToken)

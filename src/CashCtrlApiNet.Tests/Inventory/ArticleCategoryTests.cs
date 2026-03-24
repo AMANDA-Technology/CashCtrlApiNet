@@ -136,6 +136,6 @@ public class ArticleCategoryTests : CashCtrlTestBase
 
         // Local function to get article
         async Task<ArticleCategory?> Get(CancellationToken cancellationToken)
-            => (await CashCtrlApiClient.Inventory.ArticleCategory.GetList(cancellationToken)).ResponseData?.Data.SingleOrDefault(a => a.Name.Equals("Test created"));
+            => (await CashCtrlApiClient.Inventory.ArticleCategory.GetList(cancellationToken: cancellationToken)).ResponseData?.Data.SingleOrDefault(a => a.Name.Equals("Test created"));
     }
 }

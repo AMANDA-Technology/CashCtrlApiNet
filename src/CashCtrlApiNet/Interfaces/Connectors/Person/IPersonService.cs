@@ -45,21 +45,13 @@ public interface IPersonService
     public Task<ApiResult<SingleResponse<Abstractions.Models.Person.Person>>> Get(Entry person, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List persons. Returns a list of persons.
+    /// List persons. Returns a list of persons, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/list.json">API Doc - Person/List persons</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<PersonListed>>> GetList([Optional] CancellationToken cancellationToken);
-
-    /// <summary>
-    /// List persons with filter and pagination parameters. Returns a list of persons.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/list.json">API Doc - Person/List persons</a>
-    /// </summary>
-    /// <param name="listParams">The filter and pagination parameters.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<ListResponse<PersonListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<PersonListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new person. Returns either a success or multiple error messages (for each issue).

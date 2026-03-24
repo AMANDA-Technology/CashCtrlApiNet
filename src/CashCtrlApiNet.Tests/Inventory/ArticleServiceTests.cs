@@ -43,6 +43,20 @@ public class ArticleServiceTests : ServiceTestBase<ArticleService>
         => new(ConnectionHandler);
 
     [Fact]
+    public async Task GetList_ShouldCallCorrectEndpoint()
+    {
+        ConnectionHandler
+            .GetAsync<ListResponse<ArticleListed>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<ArticleListed>>());
+
+        await Service.GetList();
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<ArticleListed>>(
+                InventoryEndpoints.Article.List, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };

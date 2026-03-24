@@ -42,12 +42,10 @@ public class AccountBankService(ICashCtrlConnectionHandler connectionHandler) : 
         => ConnectionHandler.GetAsync<SingleResponse<AccountBank>, Entry>(Endpoint.Read, bankAccount, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<AccountBank>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<AccountBank>>(Endpoint.List, cancellationToken: cancellationToken);
-
-    /// <inheritdoc />
-    public Task<ApiResult<ListResponse<AccountBank>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<AccountBank>, ListParams>(Endpoint.List, listParams, cancellationToken);
+    public Task<ApiResult<ListResponse<AccountBank>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => listParams is not null
+            ? ConnectionHandler.GetAsync<ListResponse<AccountBank>, ListParams>(Endpoint.List, listParams, cancellationToken)
+            : ConnectionHandler.GetAsync<ListResponse<AccountBank>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(AccountBankCreate bankAccount, [Optional] CancellationToken cancellationToken)

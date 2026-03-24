@@ -42,12 +42,10 @@ public class SalaryInsuranceTypeService(ICashCtrlConnectionHandler connectionHan
         => ConnectionHandler.GetAsync<SingleResponse<SalaryInsuranceType>, Entry>(Endpoint.Read, insuranceType, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SalaryInsuranceType>>> GetList([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<SalaryInsuranceType>>(Endpoint.List, cancellationToken: cancellationToken);
-
-    /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SalaryInsuranceType>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<SalaryInsuranceType>, ListParams>(Endpoint.List, listParams, cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryInsuranceType>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
+        => listParams is not null
+            ? ConnectionHandler.GetAsync<ListResponse<SalaryInsuranceType>, ListParams>(Endpoint.List, listParams, cancellationToken)
+            : ConnectionHandler.GetAsync<ListResponse<SalaryInsuranceType>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(SalaryInsuranceTypeCreate insuranceType, [Optional] CancellationToken cancellationToken)

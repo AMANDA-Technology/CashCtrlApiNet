@@ -45,21 +45,13 @@ public interface ITextTemplateService
     public Task<ApiResult<SingleResponse<TextTemplate>>> Get(Entry textTemplate, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List text templates. Returns a list of text templates.
+    /// List text templates. Returns a list of text templates, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/text/list.json">API Doc - Common/List text templates</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<TextTemplateListed>>> GetList([Optional] CancellationToken cancellationToken);
-
-    /// <summary>
-    /// List text templates with filter and pagination parameters. Returns a list of text templates.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/text/list.json">API Doc - Common/List text templates</a>
-    /// </summary>
-    /// <param name="listParams">The filter and pagination parameters.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<ListResponse<TextTemplateListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<TextTemplateListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create text template. Creates a new text template. Returns either a success or multiple error messages (for each issue).

@@ -45,21 +45,13 @@ public interface IJournalService
     public Task<ApiResult<SingleResponse<Abstractions.Models.Journal.Journal>>> Get(Entry journal, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List journal entries. Returns a list of journal entries.
+    /// List journal entries. Returns a list of journal entries, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/list.json">API Doc - Journal/List journal entries</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<JournalListed>>> GetList([Optional] CancellationToken cancellationToken);
-
-    /// <summary>
-    /// List journal entries with filter and pagination parameters. Returns a list of journal entries.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/list.json">API Doc - Journal/List journal entries</a>
-    /// </summary>
-    /// <param name="listParams">The filter and pagination parameters.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<ListResponse<JournalListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<JournalListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new journal entry. Returns either a success or multiple error messages (for each issue).

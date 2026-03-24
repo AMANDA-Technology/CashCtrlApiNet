@@ -45,21 +45,13 @@ public interface IOrderCategoryService
     public Task<ApiResult<SingleResponse<OrderCategory>>> Get(Entry category, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List order categories. Returns a list of categories.
+    /// List order categories. Returns a list of categories, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/category/list.json">API Doc - Order/Category/List</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<OrderCategory>>> GetList([Optional] CancellationToken cancellationToken);
-
-    /// <summary>
-    /// List order categories with filter and pagination parameters. Returns a list of categories.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/category/list.json">API Doc - Order/Category/List</a>
-    /// </summary>
-    /// <param name="listParams">The filter and pagination parameters.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<ListResponse<OrderCategory>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<OrderCategory>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new order category. Returns either a success or multiple error messages.
