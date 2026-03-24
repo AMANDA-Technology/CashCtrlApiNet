@@ -1,3 +1,10 @@
+> **SUPERSEDED** — This document was written during initial development when the library had partial API coverage. As of 2026-03-24, all 375 endpoints are implemented (100% coverage). For the current authoritative reference, see:
+> - **API completeness audit:** [`doc/analysis/2026-03-24-api-completeness-audit.md`](analysis/2026-03-24-api-completeness-audit.md)
+> - **Implementation design spec:** [`doc/specs/2026-03-23-full-api-implementation-design.md`](specs/2026-03-23-full-api-implementation-design.md)
+> - **Project overview:** [`CLAUDE.md`](../CLAUDE.md)
+>
+> This file is retained for historical context only. The implementation status tables below are outdated.
+
 # CashCtrl API Reference & Development Instructions
 
 This document maps every CashCtrl REST API endpoint to the codebase, tracks implementation status, and provides step-by-step instructions for completing the client library. It is the authoritative bridge between the [CashCtrl API documentation](https://app.cashctrl.com/static/help/en/api/index.html) (the sole source of truth) and this codebase.
