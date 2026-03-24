@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,29 +23,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.File;
-using CashCtrlApiNet.Services.Connectors.File;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Converters;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.File;
 
-/// <inheritdoc />
-public class FileConnector : IFileConnector
+/// <summary>
+/// File (detail/list response). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file/read.json">API Doc</a>
+/// </summary>
+public record File : FileUpdate
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="FileConnector"/> class with all services using the connection handler.
+    /// The date and time the file was created.
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public FileConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        File = new FileService(connectionHandler);
-        FileCategory = new FileCategoryService(connectionHandler);
-    }
+    [JsonPropertyName("created")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? Created { get; init; }
 
-    /// <inheritdoc />
-    public IFileService File { get; }
+    /// <summary>
+    /// The user who created the file.
+    /// </summary>
+    [JsonPropertyName("createdBy")]
+    public string? CreatedBy { get; init; }
 
-    /// <inheritdoc />
-    public IFileCategoryService FileCategory { get; }
+    /// <summary>
+    /// The date and time the file was last updated.
+    /// </summary>
+    [JsonPropertyName("lastUpdated")]
+    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
+    public DateTime? LastUpdated { get; init; }
+
+    /// <summary>
+    /// The user who last updated the file.
+    /// </summary>
+    [JsonPropertyName("lastUpdatedBy")]
+    public string? LastUpdatedBy { get; init; }
 }

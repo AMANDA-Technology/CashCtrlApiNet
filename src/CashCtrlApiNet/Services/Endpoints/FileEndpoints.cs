@@ -101,6 +101,21 @@ internal static class FileEndpoints
         /// Endpoint to restore files
         /// </summary>
         public const string Restore = $"{Root}/restore.json";
+
+        /// <summary>
+        /// Endpoint to export files as Excel
+        /// </summary>
+        public const string ListXlsx = $"{Root}/list.xlsx";
+
+        /// <summary>
+        /// Endpoint to export files as CSV
+        /// </summary>
+        public const string ListCsv = $"{Root}/list.csv";
+
+        /// <summary>
+        /// Endpoint to export files as PDF
+        /// </summary>
+        public const string ListPdf = $"{Root}/list.pdf";
     }
 
     /// <summary>
@@ -114,7 +129,7 @@ internal static class FileEndpoints
         private const string Root = $"{GroupRoot}/category";
 
         /// <summary>
-        /// Endpoint to read an file category
+        /// Endpoint to read a file category
         /// </summary>
         public const string Read = $"{Root}/{Default.Read}";
 
@@ -129,7 +144,7 @@ internal static class FileEndpoints
         public const string Tree = $"{Root}/tree.json";
 
         /// <summary>
-        /// Endpoint to create an file category
+        /// Endpoint to create a file category
         /// </summary>
         public const string Create = $"{Root}/{Default.Create}";
 
