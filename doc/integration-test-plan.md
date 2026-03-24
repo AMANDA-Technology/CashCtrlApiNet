@@ -10,7 +10,7 @@ CashCtrlApiNet.sln
     CashCtrlApiNet.Abstractions/   -- Models, enums, converters, serialization (net10.0)
     CashCtrlApiNet/                -- API client, connection handler, connectors, endpoints (net10.0)
     CashCtrlApiNet.AspNetCore/     -- ASP.NET Core DI registration (net10.0)
-    CashCtrlApiNet.Tests/          -- Unit tests + e2e tests (net10.0, xUnit 2.9, NSubstitute 5.3, Shouldly 4.3, FluentAssertions 6.12)
+    CashCtrlApiNet.UnitTests/          -- Unit tests + e2e tests (net10.0, xUnit 2.9, NSubstitute 5.3, Shouldly 4.3, FluentAssertions 6.12)
 ```
 
 Dependency chain: `Tests --> AspNetCore --> CashCtrlApiNet --> Abstractions`
@@ -54,8 +54,8 @@ Dependency chain: `Tests --> AspNetCore --> CashCtrlApiNet --> Abstractions`
 | `src/CashCtrlApiNet/Services/Connectors/Base/ConnectorService.cs` | Base class for all services |
 | `src/CashCtrlApiNet.Abstractions/Helpers/CashCtrlSerialization.cs` | JSON serialization/deserialization helper |
 | `src/CashCtrlApiNet.Abstractions/Models/Api/` | Response types: ApiResult, SingleResponse, ListResponse, NoContentResponse, BinaryResponse |
-| `src/CashCtrlApiNet.Tests/ServiceTestBase.cs` | Unit test base (NSubstitute-mocked connection handler) |
-| `src/CashCtrlApiNet.Tests/CashCtrlTestBase.cs` | E2e test base (real API calls) |
+| `src/CashCtrlApiNet.UnitTests/ServiceTestBase.cs` | Unit test base (NSubstitute-mocked connection handler) |
+| `src/CashCtrlApiNet.UnitTests/CashCtrlTestBase.cs` | E2e test base (real API calls) |
 
 ---
 
@@ -66,15 +66,15 @@ The existing "integration tests" in `ArticleTests.cs` and `ArticleCategoryTests.
 ### Changes Required
 
 1. **Rename files**:
-   - `src/CashCtrlApiNet.Tests/Inventory/ArticleTests.cs` --> `src/CashCtrlApiNet.Tests/Inventory/ArticleE2eTests.cs`
-   - `src/CashCtrlApiNet.Tests/Inventory/ArticleCategoryTests.cs` --> `src/CashCtrlApiNet.Tests/Inventory/ArticleCategoryE2eTests.cs`
+   - `src/CashCtrlApiNet.UnitTests/Inventory/ArticleTests.cs` --> `src/CashCtrlApiNet.UnitTests/Inventory/ArticleE2eTests.cs`
+   - `src/CashCtrlApiNet.UnitTests/Inventory/ArticleCategoryTests.cs` --> `src/CashCtrlApiNet.UnitTests/Inventory/ArticleCategoryE2eTests.cs`
 
 2. **Rename classes** (inside the files):
    - `ArticleTests` --> `ArticleE2eTests`
    - `ArticleCategoryTests` --> `ArticleCategoryE2eTests`
 
 3. **Rename base class**:
-   - `src/CashCtrlApiNet.Tests/CashCtrlTestBase.cs` --> `src/CashCtrlApiNet.Tests/CashCtrlE2eTestBase.cs`
+   - `src/CashCtrlApiNet.UnitTests/CashCtrlTestBase.cs` --> `src/CashCtrlApiNet.UnitTests/CashCtrlE2eTestBase.cs`
    - Class: `CashCtrlTestBase` --> `CashCtrlE2eTestBase`
    - Update the two e2e test files to inherit from `CashCtrlE2eTestBase`
 
@@ -86,10 +86,10 @@ The existing "integration tests" in `ArticleTests.cs` and `ArticleCategoryTests.
 5. **Update CLAUDE.md** test filter command:
    ```bash
    # Run unit tests only (no credentials needed)
-   dotnet test src/CashCtrlApiNet.Tests/CashCtrlApiNet.Tests.csproj --filter "Category!=E2e"
+   dotnet test src/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj --filter "Category!=E2e"
    ```
 
-No namespace changes needed -- the e2e tests remain in `CashCtrlApiNet.Tests.Inventory`.
+No namespace changes needed -- the e2e tests remain in `CashCtrlApiNet.UnitTests.Inventory`.
 
 ---
 
@@ -97,7 +97,7 @@ No namespace changes needed -- the e2e tests remain in `CashCtrlApiNet.Tests.Inv
 
 ### Architecture Decision
 
-Create a **new test project** `CashCtrlApiNet.IntegrationTests` rather than adding to the existing `CashCtrlApiNet.Tests` project.
+Create a **new test project** `CashCtrlApiNet.IntegrationTests` rather than adding to the existing `CashCtrlApiNet.UnitTests` project.
 
 **Rationale**:
 - Clean separation between unit tests (mock ICashCtrlConnectionHandler) and integration tests (real HTTP through WireMock).
@@ -631,7 +631,7 @@ Each factory file covers the Create, Update, and Read/Listed variants for its en
 **Acceptance criteria**:
 - `dotnet build CashCtrlApiNet.sln` succeeds
 - `dotnet test src/CashCtrlApiNet.IntegrationTests/` runs at least one smoke test
-- `dotnet test src/CashCtrlApiNet.Tests/ --filter "Category!=E2e"` runs only unit tests
+- `dotnet test src/CashCtrlApiNet.UnitTests/ --filter "Category!=E2e"` runs only unit tests
 - Existing unit tests pass (393 tests)
 - E2e test classes have `[Trait("Category", "E2e")]`
 

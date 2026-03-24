@@ -46,7 +46,7 @@ The CLAUDE.md and architecture docs are strong foundations that make AI-assisted
 ### Test framework and commands
 
 - **Framework:** xUnit 2.9.2 with FluentAssertions 6.12.2 and Coverlet 6.0.2
-- **Run command:** `dotnet test src/CashCtrlApiNet.Tests/CashCtrlApiNet.Tests.csproj`
+- **Run command:** `dotnet test src/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj`
 - **Prerequisite:** Requires live CashCtrl API credentials via environment variables:
   - `CashCtrlApiNet__BaseUri` (e.g., `https://yourorg.cashctrl.com/`)
   - `CashCtrlApiNet__ApiKey`

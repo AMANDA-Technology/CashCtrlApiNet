@@ -214,7 +214,7 @@ Every service follows this checklist (derived from `doc/api-reference.md`):
 
 ### Step 6: Unit Tests
 
-`src/CashCtrlApiNet.Tests/{Group}/{Entity}ServiceTests.cs`
+`src/CashCtrlApiNet.UnitTests/{Group}/{Entity}ServiceTests.cs`
 
 - Mock `ICashCtrlConnectionHandler` via NSubstitute
 - Per method: correct endpoint, correct HTTP method, request serialization, response deserialization

@@ -31,14 +31,14 @@ CashCtrlApiNet.sln
     CashCtrlApiNet.Abstractions/   -- Models, enums, converters, serialization helpers (NuGet package)
     CashCtrlApiNet/                -- API client, connection handler, connectors, endpoints (NuGet package)
     CashCtrlApiNet.AspNetCore/     -- ASP.NET Core DI registration (NuGet package)
-    CashCtrlApiNet.Tests/          -- Unit tests (NSubstitute + Shouldly) and E2E tests (xUnit + FluentAssertions)
+    CashCtrlApiNet.UnitTests/          -- Unit tests (NSubstitute + Shouldly) and E2E tests (xUnit + FluentAssertions)
     CashCtrlApiNet.IntegrationTests/ -- Integration tests (WireMock + Shouldly, no live API needed)
 ```
 
 ### Dependency Graph
 
 ```
-CashCtrlApiNet.Tests --> CashCtrlApiNet --> CashCtrlApiNet.Abstractions
+CashCtrlApiNet.UnitTests --> CashCtrlApiNet --> CashCtrlApiNet.Abstractions
 CashCtrlApiNet.IntegrationTests --> CashCtrlApiNet --> CashCtrlApiNet.Abstractions
 CashCtrlApiNet.AspNetCore --> CashCtrlApiNet --> CashCtrlApiNet.Abstractions
 ```
@@ -56,7 +56,7 @@ dotnet build CashCtrlApiNet.sln
 dotnet build CashCtrlApiNet.sln -c Release
 
 # Run unit tests only (no credentials needed)
-dotnet test src/CashCtrlApiNet.Tests/CashCtrlApiNet.Tests.csproj --filter "Category!=E2e"
+dotnet test src/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj --filter "Category!=E2e"
 
 # Run integration tests (WireMock-based, no credentials needed)
 dotnet test src/CashCtrlApiNet.IntegrationTests/CashCtrlApiNet.IntegrationTests.csproj
@@ -65,7 +65,7 @@ dotnet test src/CashCtrlApiNet.IntegrationTests/CashCtrlApiNet.IntegrationTests.
 export CashCtrlApiNet__BaseUri="https://yourorg.cashctrl.com/"
 export CashCtrlApiNet__ApiKey="your-api-key"
 export CashCtrlApiNet__Language="de"
-dotnet test src/CashCtrlApiNet.Tests/CashCtrlApiNet.Tests.csproj --filter "Category=E2e"
+dotnet test src/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj --filter "Category=E2e"
 ```
 
 ## API Completeness
@@ -153,8 +153,8 @@ Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
 | Domain model base types          | `src/CashCtrlApiNet.Abstractions/Models/Base/`                        |
 | JSON serialization helper        | `src/CashCtrlApiNet.Abstractions/Helpers/CashCtrlSerialization.cs`    |
 | Custom JSON converters           | `src/CashCtrlApiNet.Abstractions/Converters/`                         |
-| Unit test base class             | `src/CashCtrlApiNet.Tests/ServiceTestBase.cs`                         |
-| E2E test base class              | `src/CashCtrlApiNet.Tests/CashCtrlE2eTestBase.cs`                     |
+| Unit test base class             | `src/CashCtrlApiNet.UnitTests/ServiceTestBase.cs`                         |
+| E2E test base class              | `src/CashCtrlApiNet.UnitTests/CashCtrlE2eTestBase.cs`                     |
 | Integration test base class      | `src/CashCtrlApiNet.IntegrationTests/IntegrationTestBase.cs`          |
 | WireMock helpers                 | `src/CashCtrlApiNet.IntegrationTests/Helpers/WireMockExtensions.cs`   |
 | Response factory                 | `src/CashCtrlApiNet.IntegrationTests/Helpers/CashCtrlResponseFactory.cs` |
