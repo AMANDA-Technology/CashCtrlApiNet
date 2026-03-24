@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,6 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Runtime.InteropServices;
+using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Person;
+
 namespace CashCtrlApiNet.Interfaces.Connectors.Person;
 
 /// <summary>
@@ -30,5 +35,97 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Person;
 /// </summary>
 public interface IPersonService
 {
+    /// <summary>
+    /// Read person. Returns a single person by ID.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/read.json">API Doc - Person/Read person</a>
+    /// </summary>
+    /// <param name="person">The entry containing the ID of the person.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<Abstractions.Models.Person.Person>>> Get(Entry person, [Optional] CancellationToken cancellationToken);
 
+    /// <summary>
+    /// List persons. Returns a list of persons.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/list.json">API Doc - Person/List persons</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<PersonListed>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Creates a new person. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/create.json">API Doc - Person/Create person</a>
+    /// </summary>
+    /// <param name="person"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Create(PersonCreate person, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update person. Updates an existing person. Returns either a success or multiple error messages (for each issue).
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/update.json">API Doc - Person/Update person</a>
+    /// </summary>
+    /// <param name="person"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Update(PersonUpdate person, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete persons. Deletes one or multiple persons. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/delete.json">API Doc - Person/Delete persons</a>
+    /// </summary>
+    /// <param name="persons"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Delete(Entries persons, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Categorize persons. Assigns one or multiple persons to the desired category. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/categorize.json">API Doc - Person/Categorize persons</a>
+    /// </summary>
+    /// <param name="personsCategorize"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize personsCategorize, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Update attachments. Updates the file attachments of a person. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/update_attachments.json">API Doc - Person/Update attachments</a>
+    /// </summary>
+    /// <param name="personAttachments"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments personAttachments, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export persons as Excel file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/list.xlsx">API Doc - Person/Export Excel</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export persons as CSV file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/list.csv">API Doc - Person/Export CSV</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export persons as PDF file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/list.pdf">API Doc - Person/Export PDF</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export persons as vCard file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/list.vcf">API Doc - Person/Export vCard</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportVcard([Optional] CancellationToken cancellationToken);
 }

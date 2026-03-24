@@ -23,37 +23,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Person;
-using CashCtrlApiNet.Services.Connectors.Person;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Person.Category;
 
-/// <inheritdoc />
-public class PersonConnector : IPersonConnector
+/// <summary>
+/// Person category create. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/category/create.json">API Doc</a>
+/// </summary>
+public record PersonCategoryCreate : ModelBaseRecord
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PersonConnector"/> class with all services using the connection handler.
+    /// The name of the category.
+    /// <br/>This can contain localized text. To add values in multiple languages, use the XML format like this: &lt;values&gt;&lt;de&gt;German text&lt;/de&gt;&lt;en&gt;English text&lt;/en&gt;&lt;/values&gt;
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public PersonConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        Person = new PersonService(connectionHandler);
-        Category = new PersonCategoryService(connectionHandler);
-        Import = new PersonImportService(connectionHandler);
-        Title = new PersonTitleService(connectionHandler);
-    }
+    [JsonPropertyName("name")]
+    [MaxLength(100)]
+    public required string Name { get; init; }
 
-    /// <inheritdoc />
-    public IPersonService Person { get; }
+    /// <summary>
+    /// The number of the category.
+    /// </summary>
+    [JsonPropertyName("number")]
+    [MaxLength(20)]
+    public string? Number { get; init; }
 
-    /// <inheritdoc />
-    public IPersonCategoryService Category { get; }
-
-    /// <inheritdoc />
-    public IPersonImportService Import { get; }
-
-    /// <inheritdoc />
-    public IPersonTitleService Title { get; }
+    /// <summary>
+    /// The ID of the parent category.
+    /// </summary>
+    [JsonPropertyName("parentId")]
+    public int? ParentId { get; init; }
 }

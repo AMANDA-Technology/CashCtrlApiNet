@@ -23,37 +23,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Person;
-using CashCtrlApiNet.Services.Connectors.Person;
+using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Person.Import;
 
-/// <inheritdoc />
-public class PersonConnector : IPersonConnector
+/// <summary>
+/// Person import create. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/import/create.json">API Doc</a>
+/// </summary>
+public record PersonImportCreate : ModelBaseRecord
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PersonConnector"/> class with all services using the connection handler.
+    /// The ID of the uploaded vCard (.vcf) file.
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public PersonConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        Person = new PersonService(connectionHandler);
-        Category = new PersonCategoryService(connectionHandler);
-        Import = new PersonImportService(connectionHandler);
-        Title = new PersonTitleService(connectionHandler);
-    }
-
-    /// <inheritdoc />
-    public IPersonService Person { get; }
-
-    /// <inheritdoc />
-    public IPersonCategoryService Category { get; }
-
-    /// <inheritdoc />
-    public IPersonImportService Import { get; }
-
-    /// <inheritdoc />
-    public IPersonTitleService Title { get; }
+    [JsonPropertyName("fileId")]
+    public required int FileId { get; init; }
 }

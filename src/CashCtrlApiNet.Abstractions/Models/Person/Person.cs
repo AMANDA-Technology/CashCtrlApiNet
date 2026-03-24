@@ -23,37 +23,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Interfaces;
-using CashCtrlApiNet.Interfaces.Connectors;
-using CashCtrlApiNet.Interfaces.Connectors.Person;
-using CashCtrlApiNet.Services.Connectors.Person;
+using System.Collections.Immutable;
+using System.Text.Json.Serialization;
 
-namespace CashCtrlApiNet.Services.Connectors;
+namespace CashCtrlApiNet.Abstractions.Models.Person;
 
-/// <inheritdoc />
-public class PersonConnector : IPersonConnector
+/// <summary>
+/// Person (detail response). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/read.json">API Doc</a>
+/// </summary>
+public record Person : PersonListed
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PersonConnector"/> class with all services using the connection handler.
+    /// The file attachments of the person.
     /// </summary>
-    /// <param name="connectionHandler"></param>
-    public PersonConnector(ICashCtrlConnectionHandler connectionHandler)
-    {
-        Person = new PersonService(connectionHandler);
-        Category = new PersonCategoryService(connectionHandler);
-        Import = new PersonImportService(connectionHandler);
-        Title = new PersonTitleService(connectionHandler);
-    }
-
-    /// <inheritdoc />
-    public IPersonService Person { get; }
-
-    /// <inheritdoc />
-    public IPersonCategoryService Category { get; }
-
-    /// <inheritdoc />
-    public IPersonImportService Import { get; }
-
-    /// <inheritdoc />
-    public IPersonTitleService Title { get; }
+    [JsonPropertyName("attachments")]
+    public ImmutableArray<int>? Attachments { get; init; }
 }
