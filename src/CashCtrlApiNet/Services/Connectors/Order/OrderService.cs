@@ -46,6 +46,10 @@ public class OrderService(ICashCtrlConnectionHandler connectionHandler) : Connec
         => ConnectionHandler.GetAsync<ListResponse<OrderListed>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
+    public Task<ApiResult<ListResponse<OrderListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<OrderListed>, ListParams>(Endpoint.List, listParams, cancellationToken);
+
+    /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(OrderCreate order, [Optional] CancellationToken cancellationToken)
         => ConnectionHandler.PostAsync<NoContentResponse, OrderCreate>(Endpoint.Create, order, cancellationToken: cancellationToken);
 

@@ -46,6 +46,10 @@ public class BookEntryService(ICashCtrlConnectionHandler connectionHandler) : Co
         => ConnectionHandler.GetAsync<ListResponse<BookEntry>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
+    public Task<ApiResult<ListResponse<BookEntry>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<BookEntry>, ListParams>(Endpoint.List, listParams, cancellationToken);
+
+    /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(BookEntryCreate bookEntry, [Optional] CancellationToken cancellationToken)
         => ConnectionHandler.PostAsync<NoContentResponse, BookEntryCreate>(Endpoint.Create, bookEntry, cancellationToken: cancellationToken);
 

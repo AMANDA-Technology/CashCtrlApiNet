@@ -53,6 +53,15 @@ public interface IOrderLayoutService
     public Task<ApiResult<ListResponse<OrderLayout>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List layouts with filter and pagination parameters. Returns a list of layouts.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/layout/list.json">API Doc - Order/Layout/List</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<OrderLayout>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Creates a new layout. Returns either a success or multiple error messages (for each issue).
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/layout/create.json">API Doc - Order/Layout/Create</a>
     /// </summary>

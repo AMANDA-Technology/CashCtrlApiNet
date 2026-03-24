@@ -46,6 +46,10 @@ public class JournalImportEntryService(ICashCtrlConnectionHandler connectionHand
         => ConnectionHandler.GetAsync<ListResponse<JournalImportEntryListed>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
+    public Task<ApiResult<ListResponse<JournalImportEntryListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<JournalImportEntryListed>, ListParams>(Endpoint.List, listParams, cancellationToken);
+
+    /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Update(JournalImportEntryUpdate journalImportEntry, [Optional] CancellationToken cancellationToken)
         => ConnectionHandler.PostAsync<NoContentResponse, JournalImportEntryUpdate>(Endpoint.Update, journalImportEntry, cancellationToken: cancellationToken);
 

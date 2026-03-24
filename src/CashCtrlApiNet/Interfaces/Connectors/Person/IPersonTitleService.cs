@@ -53,6 +53,15 @@ public interface IPersonTitleService
     public Task<ApiResult<ListResponse<PersonTitle>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List person titles with filter and pagination parameters. Returns a list of titles.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/title/list.json">API Doc - Person/Title/List</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<PersonTitle>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Creates a new person title. Returns either a success or multiple error messages.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/title/create.json">API Doc - Person/Title/Create</a>
     /// </summary>

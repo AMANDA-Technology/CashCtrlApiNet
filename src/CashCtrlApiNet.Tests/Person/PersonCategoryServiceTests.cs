@@ -73,6 +73,37 @@ public class PersonCategoryServiceTests : ServiceTestBase<PersonCategoryService>
     }
 
     [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<PersonCategory>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<PersonCategory>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<PersonCategory>, ListParams>(
+                PersonEndpoints.Category.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<PersonCategory>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<PersonCategory>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
+    }
+
+    [Fact]
     public async Task GetTree_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler

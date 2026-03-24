@@ -53,6 +53,15 @@ public interface IPersonCategoryService
     public Task<ApiResult<ListResponse<PersonCategory>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List person categories with filter and pagination parameters. Returns a list of categories.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/category/list.json">API Doc - Person/Category/List</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<PersonCategory>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Get person category tree. Returns a tree of categories.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/person/category/tree.json">API Doc - Person/Category/Tree</a>
     /// </summary>

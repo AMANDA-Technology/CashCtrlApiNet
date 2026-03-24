@@ -29,6 +29,7 @@ using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Services.Connectors.Order;
 using CashCtrlApiNet.Services.Endpoints;
 using NSubstitute;
+using Shouldly;
 
 namespace CashCtrlApiNet.Tests.Order;
 
@@ -69,6 +70,37 @@ public class OrderCategoryServiceTests : ServiceTestBase<OrderCategoryService>
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<OrderCategory>>(
                 OrderEndpoints.Category.List, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<OrderCategory>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<OrderCategory>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<OrderCategory>, ListParams>(
+                OrderEndpoints.Category.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<OrderCategory>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<OrderCategory>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
     }
 
     [Fact]
