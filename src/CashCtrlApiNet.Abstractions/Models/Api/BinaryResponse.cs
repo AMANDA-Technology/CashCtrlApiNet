@@ -23,18 +23,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Api.Base;
 
-namespace CashCtrlApiNet.Abstractions.Models.Account;
+namespace CashCtrlApiNet.Abstractions.Models.Api;
 
 /// <summary>
-/// Account update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/update.json">API Doc</a>
+/// Response containing binary data from the CashCtrl API (e.g., file downloads, PDF exports)
 /// </summary>
-public record AccountUpdate : AccountCreate
+public record BinaryResponse : ApiResponse
 {
     /// <summary>
-    /// The ID of the account to update.
+    /// The binary content of the response
     /// </summary>
-    [JsonPropertyName("id")]
-    public required int Id { get; init; }
+    public required byte[] Data { get; init; }
+
+    /// <summary>
+    /// The MIME content type of the response (e.g., application/pdf, image/png)
+    /// </summary>
+    public string? ContentType { get; init; }
+
+    /// <summary>
+    /// The suggested file name from the Content-Disposition header, if available
+    /// </summary>
+    public string? FileName { get; init; }
 }

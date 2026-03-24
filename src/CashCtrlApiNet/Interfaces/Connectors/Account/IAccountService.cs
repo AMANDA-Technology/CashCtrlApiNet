@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -37,23 +37,33 @@ public interface IAccountService
 {
     /// <summary>
     /// Read account. Returns a single account by ID.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/read.json">API Doc - Inventory/Account/Read account</a>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/read.json">API Doc - Account/Read account</a>
     /// </summary>
-    /// <param name="accountId">The ID of the entry.</param>
+    /// <param name="account">The entry containing the ID of the account.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Account.Account>>> Get(int accountId, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Abstractions.Models.Account.Account>>> Get(Entry account, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// List accounts. Returns a list of accounts.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/list.json">API Doc - Inventory/Account/List accounts</a>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/list.json">API Doc - Account/List accounts</a>
     /// </summary>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<Abstractions.Models.Account.Account>>> GetList([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<AccountListed>>> GetList([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Get account balance. Returns the balance of a single account.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/balance">API Doc - Account/Get balance</a>
+    /// </summary>
+    /// <param name="account">The entry containing the ID of the account.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<SingleResponse<Abstractions.Models.Account.Account>>> GetBalance(Entry account, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// Creates a new account. Returns either a success or multiple error messages (for each issue).
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/create.json">API Doc - Inventory/Account/Create account</a>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/create.json">API Doc - Account/Create account</a>
     /// </summary>
     /// <param name="account"></param>
     /// <param name="cancellationToken"></param>
@@ -62,7 +72,7 @@ public interface IAccountService
 
     /// <summary>
     /// Update account. Updates an existing account. Returns either a success or multiple error messages (for each issue).
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/update.json">API Doc - Inventory/Account/Update account</a>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/update.json">API Doc - Account/Update account</a>
     /// </summary>
     /// <param name="account"></param>
     /// <param name="cancellationToken"></param>
@@ -71,7 +81,7 @@ public interface IAccountService
 
     /// <summary>
     /// Delete accounts. Deletes one or multiple accounts. Returns either a success or error message.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/delete.json">API Doc - Inventory/Account/Delete accounts</a>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/delete.json">API Doc - Account/Delete accounts</a>
     /// </summary>
     /// <param name="accounts"></param>
     /// <param name="cancellationToken"></param>
@@ -80,7 +90,7 @@ public interface IAccountService
 
     /// <summary>
     /// Categorize accounts. Assigns one or multiple accounts to the desired category. Returns either a success or error message.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/categorize.json">API Doc - Inventory/Account/Categorize accounts</a>
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/categorize.json">API Doc - Account/Categorize accounts</a>
     /// </summary>
     /// <param name="accountsCategorize"></param>
     /// <param name="cancellationToken"></param>
@@ -88,11 +98,35 @@ public interface IAccountService
     public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize accountsCategorize, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// Update attachments. Updates the file attachments of an account. Use the File API to upload a file and then use the file ID here. Returns either a success or error message.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/account/update_attachments.json">API Doc - Inventory/Account/Update attachments</a>
+    /// Update attachments. Updates the file attachments of an account. Returns either a success or error message.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/update_attachments.json">API Doc - Account/Update attachments</a>
     /// </summary>
     /// <param name="accountAttachments"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments accountAttachments, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export accounts as Excel file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/list.xlsx">API Doc - Account/Export Excel</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export accounts as CSV file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/list.csv">API Doc - Account/Export CSV</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Export accounts as PDF file.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/list.pdf">API Doc - Account/Export PDF</a>
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
 }

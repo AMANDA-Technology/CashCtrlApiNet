@@ -101,6 +101,22 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     public async Task<ApiResult<TResult>> PostAsync<TResult, TPost>(string requestPath, TPost payload, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
         => await GetApiResult<TResult>(await _client.SendAsync(GetHttpRequestMessageWithFormData(HttpMethod.Post, requestPath, payload), cancellationToken));
 
+    /// <inheritdoc />
+    public async Task<ApiResult<BinaryResponse>> GetBinaryAsync(string requestPath, [Optional] CancellationToken cancellationToken)
+        => await GetBinaryApiResult(await _client.SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
+
+    /// <inheritdoc />
+    public async Task<ApiResult<BinaryResponse>> GetBinaryAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken)
+        => await GetBinaryApiResult(await _client.SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, queryParameters), cancellationToken));
+
+    /// <inheritdoc />
+    public async Task<ApiResult<TResult>> PostMultipartAsync<TResult>(string requestPath, MultipartFormDataContent content, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
+    {
+        var httpRequestMessage = GetHttpRequestMessage<object>(HttpMethod.Post, requestPath);
+        httpRequestMessage.Content = content;
+        return await GetApiResult<TResult>(await _client.SendAsync(httpRequestMessage, cancellationToken));
+    }
+
     /// <summary>
     /// Get http request message to send to the API (with body as json from data with type TForms)
     /// </summary>
@@ -156,6 +172,32 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     /// <returns></returns>
     private static async Task<ApiResult> GetApiResult(HttpResponseMessage httpResponseMessage)
         => CreateApiResult<ApiResponse>(await GetData(httpResponseMessage));
+
+    /// <summary>
+    /// Get API result with binary data from http response
+    /// </summary>
+    /// <param name="httpResponseMessage"></param>
+    /// <returns></returns>
+    private static async Task<ApiResult<BinaryResponse>> GetBinaryApiResult(HttpResponseMessage httpResponseMessage)
+    {
+        var responseHeaders = GetResponseHeaders(httpResponseMessage);
+
+        var binaryResponse = new BinaryResponse
+        {
+            Data = await httpResponseMessage.Content.ReadAsByteArrayAsync(),
+            ContentType = httpResponseMessage.Content.Headers.ContentType?.MediaType,
+            FileName = httpResponseMessage.Content.Headers.ContentDisposition?.FileName?.Trim('"')
+        };
+
+        return new ApiResult<BinaryResponse>
+        {
+            IsHttpSuccess = httpResponseMessage.IsSuccessStatusCode,
+            HttpStatusCode = httpResponseMessage.StatusCode,
+            CashCtrlHttpStatusCodeDescription = HttpStatusCodeMapping.GetDescription(httpResponseMessage.StatusCode),
+            RequestsLeft = (int?)responseHeaders[ApiHeaderNames.RequestsLeft],
+            ResponseData = binaryResponse
+        };
+    }
 
     /// <summary>
     /// Get API result with data from http response

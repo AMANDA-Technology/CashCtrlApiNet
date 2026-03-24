@@ -40,7 +40,7 @@ internal static class PersonEndpoints
     /// <summary>
     /// Api endpoint definitions for person
     /// </summary>
-    public static class Order
+    public static class Person
     {
         /// <summary>
         /// Root path for person

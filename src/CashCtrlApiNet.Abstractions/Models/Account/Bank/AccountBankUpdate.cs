@@ -25,15 +25,15 @@ SOFTWARE.
 
 using System.Text.Json.Serialization;
 
-namespace CashCtrlApiNet.Abstractions.Models.Account;
+namespace CashCtrlApiNet.Abstractions.Models.Account.Bank;
 
 /// <summary>
-/// Account update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/update.json">API Doc</a>
+/// Bank account update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/bank/update.json">API Doc</a>
 /// </summary>
-public record AccountUpdate : AccountCreate
+public record AccountBankUpdate : AccountBankCreate
 {
     /// <summary>
-    /// The ID of the account to update.
+    /// The ID of the bank account to update.
     /// </summary>
     [JsonPropertyName("id")]
     public required int Id { get; init; }

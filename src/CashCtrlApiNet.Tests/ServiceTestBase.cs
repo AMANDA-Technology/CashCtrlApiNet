@@ -23,18 +23,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Text.Json.Serialization;
+using CashCtrlApiNet.Interfaces;
+using NSubstitute;
 
-namespace CashCtrlApiNet.Abstractions.Models.Account;
+namespace CashCtrlApiNet.Tests;
 
 /// <summary>
-/// Account update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/update.json">API Doc</a>
+/// Base class for unit tests of connector services using a mocked <see cref="ICashCtrlConnectionHandler"/>
 /// </summary>
-public record AccountUpdate : AccountCreate
+/// <typeparam name="TService">The service type under test</typeparam>
+public abstract class ServiceTestBase<TService> where TService : class
 {
     /// <summary>
-    /// The ID of the account to update.
+    /// Mocked connection handler for isolating service logic from HTTP calls
     /// </summary>
-    [JsonPropertyName("id")]
-    public required int Id { get; init; }
+    protected readonly ICashCtrlConnectionHandler ConnectionHandler;
+
+    /// <summary>
+    /// The service instance under test
+    /// </summary>
+    protected readonly TService Service;
+
+    /// <summary>
+    /// Initializes the mocked connection handler and creates the service under test
+    /// </summary>
+    protected ServiceTestBase()
+    {
+        ConnectionHandler = Substitute.For<ICashCtrlConnectionHandler>();
+        Service = CreateService();
+    }
+
+    /// <summary>
+    /// Creates an instance of the service under test using the mocked connection handler
+    /// </summary>
+    /// <returns>A new instance of <typeparamref name="TService"/></returns>
+    protected abstract TService CreateService();
 }

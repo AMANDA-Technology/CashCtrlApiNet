@@ -23,18 +23,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Abstractions.Models.Account;
+namespace CashCtrlApiNet.Abstractions.Models.Account.CostCenterCategory;
 
 /// <summary>
-/// Account update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/update.json">API Doc</a>
+/// Cost center category create. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/category/create.json">API Doc</a>
 /// </summary>
-public record AccountUpdate : AccountCreate
+public record CostCenterCategoryCreate : ModelBaseRecord
 {
     /// <summary>
-    /// The ID of the account to update.
+    /// The name of the category.
+    /// <br/>This can contain localized text. To add values in multiple languages, use the XML format like this: &lt;values&gt;&lt;de&gt;German text&lt;/de&gt;&lt;en&gt;English text&lt;/en&gt;&lt;/values&gt;
     /// </summary>
-    [JsonPropertyName("id")]
-    public required int Id { get; init; }
+    [JsonPropertyName("name")]
+    [MaxLength(100)]
+    public required string Name { get; init; }
+
+    /// <summary>
+    /// The ID of the parent category.
+    /// </summary>
+    [JsonPropertyName("parentId")]
+    public int? ParentId { get; init; }
 }

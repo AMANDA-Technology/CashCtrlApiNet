@@ -76,11 +76,37 @@ public interface ICashCtrlConnectionHandler
     public Task<ApiResult<TResult>> GetAsync<TResult, TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse;
 
     /// <summary>
-    /// Base GET request
+    /// Base POST request
     /// </summary>
     /// <param name="requestPath"></param>
     /// <param name="payload"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public Task<ApiResult<TResult>> PostAsync<TResult, TPost>(string requestPath, TPost payload, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse;
+
+    /// <summary>
+    /// GET request returning binary data (e.g., file downloads, PDF exports)
+    /// </summary>
+    /// <param name="requestPath"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> GetBinaryAsync(string requestPath, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// GET request returning binary data with query parameters (e.g., file downloads, PDF exports)
+    /// </summary>
+    /// <param name="requestPath"></param>
+    /// <param name="queryParameters"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BinaryResponse>> GetBinaryAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// POST request with multipart form data content (e.g., file uploads)
+    /// </summary>
+    /// <param name="requestPath"></param>
+    /// <param name="content"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<TResult>> PostMultipartAsync<TResult>(string requestPath, MultipartFormDataContent content, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse;
 }

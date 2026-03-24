@@ -38,9 +38,9 @@ public class ReportConnector : IReportConnector
     /// <param name="connectionHandler"></param>
     public ReportConnector(ICashCtrlConnectionHandler connectionHandler)
     {
-        // Report = new IReportService(connectionHandler);
-        // Element = new IReportElementService(connectionHandler);
-        // Set = new IReportSetService(connectionHandler);
+        // Report = new ReportService(connectionHandler);
+        // Element = new ReportElementService(connectionHandler);
+        // Set = new ReportSetService(connectionHandler);
     }
 
     /// <inheritdoc />

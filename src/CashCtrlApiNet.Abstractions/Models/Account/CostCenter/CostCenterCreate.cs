@@ -27,21 +27,21 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Abstractions.Models.Account;
+namespace CashCtrlApiNet.Abstractions.Models.Account.CostCenter;
 
 /// <summary>
-/// Account create. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/create.json">API Doc</a>
+/// Cost center create. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/create.json">API Doc</a>
 /// </summary>
-public record AccountCreate : ModelBaseRecord
+public record CostCenterCreate : ModelBaseRecord
 {
     /// <summary>
-    /// The ID of the category. See Account category.
+    /// The ID of the category. See Cost center category.
     /// </summary>
     [JsonPropertyName("categoryId")]
-    public required int CategoryId { get; init; }
+    public int? CategoryId { get; init; }
 
     /// <summary>
-    /// The name of the account.
+    /// The name of the cost center.
     /// <br/>This can contain localized text. To add values in multiple languages, use the XML format like this: &lt;values&gt;&lt;de&gt;German text&lt;/de&gt;&lt;en&gt;English text&lt;/en&gt;&lt;/values&gt;
     /// </summary>
     [JsonPropertyName("name")]
@@ -49,28 +49,11 @@ public record AccountCreate : ModelBaseRecord
     public required string Name { get; init; }
 
     /// <summary>
-    /// The account number.
+    /// The number of the cost center.
     /// </summary>
     [JsonPropertyName("number")]
-    public required int Number { get; init; }
-
-    /// <summary>
-    /// The ID of the currency. Leave empty to use the default currency. See Currency.
-    /// </summary>
-    [JsonPropertyName("currencyId")]
-    public int? CurrencyId { get; init; }
-
-    /// <summary>
-    /// The ID of the tax rate. See Tax rate.
-    /// </summary>
-    [JsonPropertyName("taxId")]
-    public int? TaxId { get; init; }
-
-    /// <summary>
-    /// Allocations to cost centers. This is a JSON array.
-    /// </summary>
-    [JsonPropertyName("allocations")]
-    public string? AllocationsJson { get; init; }
+    [MaxLength(20)]
+    public string? Number { get; init; }
 
     /// <summary>
     /// Custom field values. They are stored as XML in this parameter.
@@ -86,19 +69,7 @@ public record AccountCreate : ModelBaseRecord
     public string? NotesHtml { get; init; }
 
     /// <summary>
-    /// The target minimum balance of the account.
-    /// </summary>
-    [JsonPropertyName("targetMin")]
-    public double? TargetMin { get; init; }
-
-    /// <summary>
-    /// The target maximum balance of the account.
-    /// </summary>
-    [JsonPropertyName("targetMax")]
-    public double? TargetMax { get; init; }
-
-    /// <summary>
-    /// Mark the account as inactive. Defaults to false.
+    /// Mark the cost center as inactive. Defaults to false.
     /// </summary>
     [JsonPropertyName("isInactive")]
     public bool? IsInactive { get; init; }

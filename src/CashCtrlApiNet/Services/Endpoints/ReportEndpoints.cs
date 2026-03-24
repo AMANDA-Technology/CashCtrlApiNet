@@ -4,11 +4,11 @@ MIT License
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
 Copyright (c) 2022 Manuel Gysin <manuel.gysin@amanda-technology.ch>
 
-Permission is hereby granted, free of charge, to any report element obtaining a copy
+Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit report elements to whom the Software is
+copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
@@ -112,7 +112,7 @@ internal static class ReportEndpoints
         /// <summary>
         /// Root path for report set
         /// </summary>
-        private const string Root = $"{GroupRoot}/set";
+        private const string Root = $"{GroupRoot}/collection";
 
         /// <summary>
         /// Endpoint to read a report set
