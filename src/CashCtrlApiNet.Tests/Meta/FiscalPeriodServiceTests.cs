@@ -73,6 +73,37 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
     }
 
     [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<FiscalPeriodListed>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<FiscalPeriodListed>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<FiscalPeriodListed>, ListParams>(
+                MetaEndpoints.FiscalPeriod.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<FiscalPeriodListed>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<FiscalPeriodListed>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
+    }
+
+    [Fact]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var fiscalPeriod = new FiscalPeriodCreate { StartDate = "2024-01-01", EndDate = "2024-12-31" };

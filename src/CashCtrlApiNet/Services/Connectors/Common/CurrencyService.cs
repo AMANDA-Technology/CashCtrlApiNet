@@ -46,6 +46,10 @@ public class CurrencyService(ICashCtrlConnectionHandler connectionHandler) : Con
         => ConnectionHandler.GetAsync<ListResponse<CurrencyListed>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
+    public Task<ApiResult<ListResponse<CurrencyListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<CurrencyListed>, ListParams>(Endpoint.List, listParams, cancellationToken);
+
+    /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(CurrencyCreate currency, [Optional] CancellationToken cancellationToken)
         => ConnectionHandler.PostAsync<NoContentResponse, CurrencyCreate>(Endpoint.Create, currency, cancellationToken: cancellationToken);
 

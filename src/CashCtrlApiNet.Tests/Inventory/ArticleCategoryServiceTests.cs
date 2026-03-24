@@ -24,10 +24,12 @@ SOFTWARE.
 */
 
 using CashCtrlApiNet.Abstractions.Models.Api;
+using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Inventory.ArticleCategory;
 using CashCtrlApiNet.Services.Connectors.Inventory;
 using CashCtrlApiNet.Services.Endpoints;
 using NSubstitute;
+using Shouldly;
 
 namespace CashCtrlApiNet.Tests.Inventory;
 
@@ -52,5 +54,36 @@ public class ArticleCategoryServiceTests : ServiceTestBase<ArticleCategoryServic
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<ArticleCategory>>(
                 InventoryEndpoints.ArticleCategory.Tree, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<ArticleCategory>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<ArticleCategory>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<ArticleCategory>, ListParams>(
+                InventoryEndpoints.ArticleCategory.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<ArticleCategory>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<ArticleCategory>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
     }
 }

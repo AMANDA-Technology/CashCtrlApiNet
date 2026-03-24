@@ -53,6 +53,15 @@ public interface IUnitService
     public Task<ApiResult<ListResponse<Unit>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List units with filter and pagination parameters. Returns a list of all units.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/unit/list.json">API Doc - Inventory/Unit/List units</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<Unit>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Create unit. Creates a new unit. Returns either a success or multiple error messages (for each issue).
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/unit/create.json">API Doc - Inventory/Unit/Create unit</a>
     /// </summary>

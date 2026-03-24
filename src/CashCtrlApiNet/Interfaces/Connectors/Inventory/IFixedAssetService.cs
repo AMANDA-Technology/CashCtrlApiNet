@@ -53,6 +53,15 @@ public interface IFixedAssetService
     public Task<ApiResult<ListResponse<FixedAssetListed>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List fixed assets with filter and pagination parameters. Returns a list of fixed assets.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset/list.json">API Doc - Inventory/Fixed asset/List fixed assets</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<FixedAssetListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Create fixed asset. Creates a new fixed asset. Returns either a success or multiple error messages (for each issue).
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/asset/create.json">API Doc - Inventory/Fixed asset/Create fixed asset</a>
     /// </summary>

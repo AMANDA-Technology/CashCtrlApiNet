@@ -75,6 +75,37 @@ public class CurrencyServiceTests : ServiceTestBase<CurrencyService>
     }
 
     [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<CurrencyListed>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<CurrencyListed>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<CurrencyListed>, ListParams>(
+                CommonEndpoints.Currency.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<CurrencyListed>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<CurrencyListed>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
+    }
+
+    [Fact]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var currency = new CurrencyCreate { Code = "USD" };

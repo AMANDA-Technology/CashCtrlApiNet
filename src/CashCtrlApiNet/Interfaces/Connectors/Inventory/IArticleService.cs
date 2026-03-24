@@ -52,6 +52,15 @@ public interface IArticleService
     public Task<ApiResult<ListResponse<ArticleListed>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List articles with filter and pagination parameters. Returns a list of articles.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/list.json">API Doc - Inventory/Article/List articles</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<ArticleListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Create article. Creates a new article. Returns either a success or multiple error messages (for each issue).
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/create.json">API Doc - Inventory/Article/Create article</a>
     /// </summary>

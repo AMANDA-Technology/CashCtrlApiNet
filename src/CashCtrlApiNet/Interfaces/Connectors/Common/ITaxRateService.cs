@@ -53,6 +53,15 @@ public interface ITaxRateService
     public Task<ApiResult<ListResponse<TaxRateListed>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List tax rates with filter and pagination parameters. Returns a list of tax rates.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/tax/list.json">API Doc - Common/List tax rates</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<TaxRateListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Create tax rate. Creates a new tax rate. Returns either a success or multiple error messages (for each issue).
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/tax/create.json">API Doc - Common/Create tax rate</a>
     /// </summary>

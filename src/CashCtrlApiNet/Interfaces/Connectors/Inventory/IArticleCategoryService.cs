@@ -52,6 +52,15 @@ public interface IArticleCategoryService
     public Task<ApiResult<ListResponse<ArticleCategory>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List categories with filter and pagination parameters. Returns a list of all categories.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/category/list.json">API Doc - Inventory/Article category/List articles</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<ArticleCategory>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Create category. Creates a new category. Returns either a success or multiple error messages (for each issue).
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/inventory/article/category/create.json">API Doc - Inventory/Article category/Create category</a>
     /// </summary>

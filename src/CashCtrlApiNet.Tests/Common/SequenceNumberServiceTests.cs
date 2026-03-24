@@ -75,6 +75,37 @@ public class SequenceNumberServiceTests : ServiceTestBase<SequenceNumberService>
     }
 
     [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<SequenceNumberListed>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<SequenceNumberListed>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<SequenceNumberListed>, ListParams>(
+                CommonEndpoints.SequenceNumber.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<SequenceNumberListed>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<SequenceNumberListed>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
+    }
+
+    [Fact]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var sequenceNumber = new SequenceNumberCreate { Name = "Test", Pattern = "{0000}" };

@@ -53,6 +53,15 @@ public interface IFileCategoryService
     public Task<ApiResult<ListResponse<FileCategory>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List file categories with filter and pagination parameters. Returns a list of categories.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file/category/list.json">API Doc - File/Category/List</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<FileCategory>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Get file category tree. Returns a tree of categories.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file/category/tree.json">API Doc - File/Category/Tree</a>
     /// </summary>

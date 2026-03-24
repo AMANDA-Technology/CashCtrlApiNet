@@ -57,6 +57,37 @@ public class FiscalPeriodTaskServiceTests : ServiceTestBase<FiscalPeriodTaskServ
     }
 
     [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<FiscalPeriodTask>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<FiscalPeriodTask>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<FiscalPeriodTask>, ListParams>(
+                MetaEndpoints.FiscalPeriodTask.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<FiscalPeriodTask>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<FiscalPeriodTask>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
+    }
+
+    [Fact]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var task = new FiscalPeriodTaskCreate { FiscalPeriodId = 1, Name = "Test Task" };

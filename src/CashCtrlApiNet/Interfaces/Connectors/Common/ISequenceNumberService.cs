@@ -53,6 +53,15 @@ public interface ISequenceNumberService
     public Task<ApiResult<ListResponse<SequenceNumberListed>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List sequence numbers with filter and pagination parameters. Returns a list of sequence numbers.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/sequencenumber/list.json">API Doc - Common/List sequence numbers</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<SequenceNumberListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Create sequence number. Creates a new sequence number. Returns either a success or multiple error messages (for each issue).
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/sequencenumber/create.json">API Doc - Common/Create sequence number</a>
     /// </summary>
