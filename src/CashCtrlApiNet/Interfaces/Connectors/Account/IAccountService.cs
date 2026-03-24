@@ -53,6 +53,15 @@ public interface IAccountService
     public Task<ApiResult<ListResponse<AccountListed>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List accounts with filter and pagination parameters. Returns a list of accounts.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/list.json">API Doc - Account/List accounts</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<AccountListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Get account balance. Returns the balance of a single account.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/balance">API Doc - Account/Get balance</a>
     /// </summary>

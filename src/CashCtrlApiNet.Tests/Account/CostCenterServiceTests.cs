@@ -73,6 +73,37 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
     }
 
     [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<CostCenterListed>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<CostCenterListed>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<CostCenterListed>, ListParams>(
+                AccountEndpoints.CostCenter.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<CostCenterListed>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<CostCenterListed>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
+    }
+
+    [Fact]
     public async Task GetBalance_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };

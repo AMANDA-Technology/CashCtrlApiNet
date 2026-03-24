@@ -53,6 +53,15 @@ public interface IAccountCategoryService
     public Task<ApiResult<ListResponse<AccountCategory>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List account categories with filter and pagination parameters. Returns a list of categories.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/category/list.json">API Doc - Account/Category/List</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<AccountCategory>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Get account category tree. Returns a tree of categories.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/category/tree.json">API Doc - Account/Category/Tree</a>
     /// </summary>

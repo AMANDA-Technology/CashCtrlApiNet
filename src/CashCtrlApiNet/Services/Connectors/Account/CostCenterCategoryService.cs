@@ -46,6 +46,10 @@ public class CostCenterCategoryService(ICashCtrlConnectionHandler connectionHand
         => ConnectionHandler.GetAsync<ListResponse<CostCenterCategory>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
+    public Task<ApiResult<ListResponse<CostCenterCategory>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<CostCenterCategory>, ListParams>(Endpoint.List, listParams, cancellationToken);
+
+    /// <inheritdoc />
     public Task<ApiResult<ListResponse<CostCenterCategory>>> GetTree([Optional] CancellationToken cancellationToken)
         => ConnectionHandler.GetAsync<ListResponse<CostCenterCategory>>(Endpoint.Tree, cancellationToken: cancellationToken);
 

@@ -74,6 +74,37 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
     }
 
     [Fact]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<AccountBank>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<AccountBank>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<AccountBank>, ListParams>(
+                AccountEndpoints.Bank.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<AccountBank>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<AccountBank>, ListParams>(
+                Arg.Any<string>(), Arg.Any<ListParams>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
+    }
+
+    [Fact]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var bankAccount = new AccountBankCreate { Bic = "TESTBIC", Iban = "CH1234", Name = "Test Bank", Type = BankAccountType.DEFAULT };

@@ -53,6 +53,15 @@ public interface ICostCenterCategoryService
     public Task<ApiResult<ListResponse<CostCenterCategory>>> GetList([Optional] CancellationToken cancellationToken);
 
     /// <summary>
+    /// List cost center categories with filter and pagination parameters. Returns a list of categories.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/category/list.json">API Doc - Account/Cost center category/List</a>
+    /// </summary>
+    /// <param name="listParams">The filter and pagination parameters.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<ListResponse<CostCenterCategory>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// Get cost center category tree. Returns a tree of categories.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/costcenter/category/tree.json">API Doc - Account/Cost center category/Tree</a>
     /// </summary>

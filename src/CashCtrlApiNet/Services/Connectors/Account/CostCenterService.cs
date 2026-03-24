@@ -46,6 +46,10 @@ public class CostCenterService(ICashCtrlConnectionHandler connectionHandler) : C
         => ConnectionHandler.GetAsync<ListResponse<CostCenterListed>>(Endpoint.List, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
+    public Task<ApiResult<ListResponse<CostCenterListed>>> GetList(ListParams listParams, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<CostCenterListed>, ListParams>(Endpoint.List, listParams, cancellationToken);
+
+    /// <inheritdoc />
     public Task<ApiResult<SingleResponse<CostCenter>>> GetBalance(Entry costCenter, [Optional] CancellationToken cancellationToken)
         => ConnectionHandler.GetAsync<SingleResponse<CostCenter>, Entry>(Endpoint.Balance, costCenter, cancellationToken);
 
