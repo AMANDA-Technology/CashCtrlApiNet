@@ -106,6 +106,16 @@ internal static class MetaEndpoints
         /// Endpoint to reopen a fiscal period
         /// </summary>
         public const string Reopen = $"{Root}/reopen.json";
+
+        /// <summary>
+        /// Endpoint to complete months of a fiscal period
+        /// </summary>
+        public const string CompleteMonths = $"{Root}/complete_months.json";
+
+        /// <summary>
+        /// Endpoint to reopen months of a fiscal period
+        /// </summary>
+        public const string ReopenMonths = $"{Root}/reopen_months.json";
     }
 
     /// <summary>
