@@ -71,4 +71,29 @@ public static class CashCtrlResponseFactory
             success = false,
             errors = new[] { new { field, message } }
         });
+
+    /// <summary>
+    /// Create a multi-error response JSON (for write endpoints with multiple validation errors)
+    /// </summary>
+    /// <param name="errors">Tuples of (Field, Message) for each validation error</param>
+    /// <returns>JSON string matching CashCtrl NoContentResponse error format</returns>
+    public static string ErrorResponse(params (string Field, string Message)[] errors)
+        => JsonSerializer.Serialize(new
+        {
+            success = false,
+            errors = errors.Select(e => new { field = e.Field, message = e.Message }).ToArray()
+        });
+
+    /// <summary>
+    /// Create a single error response JSON (for read endpoints returning SingleResponse format)
+    /// </summary>
+    /// <param name="errorMessage">The error message</param>
+    /// <returns>JSON string matching CashCtrl SingleResponse error format</returns>
+    public static string SingleErrorResponse(string errorMessage)
+        => JsonSerializer.Serialize(new
+        {
+            success = false,
+            errorMessage,
+            data = (object?)null
+        });
 }
