@@ -160,7 +160,7 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
 
     /// <inheritdoc />
     public async Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, ListParams? listParams, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
-        => await GetApiResult<TResult>(await _client.SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, listParams), cancellationToken));
+        => await GetApiResult<TResult>(await GetHttpClient().SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, listParams), cancellationToken));
 
     /// <inheritdoc />
     public async Task<ApiResult<TResult>> GetAsync<TResult, TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse

@@ -781,7 +781,7 @@ These should be tracked and fixed alongside implementation work:
 ## Testing Strategy
 
 - Follow the existing `ArticleTests.cs` pattern for each new service.
-- Test file location: `src/CashCtrlApiNet.Tests/{Group}/{Entity}Tests.cs`.
+- Test file location: `src/CashCtrlApiNet.UnitTests/{Group}/{Entity}Tests.cs`.
 - Use `[TestCaseOrderer]` and `Test1_`, `Test2_` naming for ordered execution.
 - Minimum tests per CRUD service: Get, GetList, Create, Update, Delete.
 - All tests are integration tests requiring live API credentials.

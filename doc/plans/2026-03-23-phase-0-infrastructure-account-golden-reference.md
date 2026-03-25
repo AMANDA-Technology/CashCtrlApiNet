@@ -25,14 +25,14 @@
 
 | File | Purpose |
 |------|---------|
-| `src/CashCtrlApiNet.Tests/ServiceTestBase.cs` | Base class for unit tests with mocked ICashCtrlConnectionHandler |
-| `src/CashCtrlApiNet.Tests/Infrastructure/ConnectionHandlerBinaryTests.cs` | Tests for GetBinaryAsync interface declaration |
-| `src/CashCtrlApiNet.Tests/Infrastructure/ConnectionHandlerMultipartTests.cs` | Tests for PostMultipartAsync interface declaration |
-| `src/CashCtrlApiNet.Tests/Account/AccountServiceTests.cs` | Unit tests for AccountService |
-| `src/CashCtrlApiNet.Tests/Account/AccountBankServiceTests.cs` | Unit tests for AccountBankService |
-| `src/CashCtrlApiNet.Tests/Account/AccountCategoryServiceTests.cs` | Unit tests for AccountCategoryService |
-| `src/CashCtrlApiNet.Tests/Account/CostCenterServiceTests.cs` | Unit tests for CostCenterService |
-| `src/CashCtrlApiNet.Tests/Account/CostCenterCategoryServiceTests.cs` | Unit tests for CostCenterCategoryService |
+| `src/CashCtrlApiNet.UnitTests/ServiceTestBase.cs` | Base class for unit tests with mocked ICashCtrlConnectionHandler |
+| `src/CashCtrlApiNet.UnitTests/Infrastructure/ConnectionHandlerBinaryTests.cs` | Tests for GetBinaryAsync interface declaration |
+| `src/CashCtrlApiNet.UnitTests/Infrastructure/ConnectionHandlerMultipartTests.cs` | Tests for PostMultipartAsync interface declaration |
+| `src/CashCtrlApiNet.UnitTests/Account/AccountServiceTests.cs` | Unit tests for AccountService |
+| `src/CashCtrlApiNet.UnitTests/Account/AccountBankServiceTests.cs` | Unit tests for AccountBankService |
+| `src/CashCtrlApiNet.UnitTests/Account/AccountCategoryServiceTests.cs` | Unit tests for AccountCategoryService |
+| `src/CashCtrlApiNet.UnitTests/Account/CostCenterServiceTests.cs` | Unit tests for CostCenterService |
+| `src/CashCtrlApiNet.UnitTests/Account/CostCenterCategoryServiceTests.cs` | Unit tests for CostCenterCategoryService |
 | `src/CashCtrlApiNet.Abstractions/Models/Account/AccountListed.cs` | Account list response model |
 | `src/CashCtrlApiNet.Abstractions/Models/Account/Bank/AccountBankCreate.cs` | Bank account create model |
 | `src/CashCtrlApiNet.Abstractions/Models/Account/Bank/AccountBankUpdate.cs` | Bank account update model |
@@ -59,7 +59,7 @@
 
 | File | Changes |
 |------|---------|
-| `src/CashCtrlApiNet.Tests/CashCtrlApiNet.Tests.csproj` | Add NSubstitute + Shouldly packages |
+| `src/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj` | Add NSubstitute + Shouldly packages |
 | `src/CashCtrlApiNet/Interfaces/ICashCtrlConnectionHandler.cs` | Add `GetBinaryAsync`, `PostMultipartAsync` methods |
 | `src/CashCtrlApiNet/Services/CashCtrlConnectionHandler.cs` | Implement `GetBinaryAsync`, `PostMultipartAsync` |
 | `src/CashCtrlApiNet.Abstractions/Models/Account/AccountCreate.cs` | Populate with properties |
@@ -83,23 +83,23 @@
 ## Task 1: Add NSubstitute + Shouldly to Test Project
 
 **Files:**
-- Modify: `src/CashCtrlApiNet.Tests/CashCtrlApiNet.Tests.csproj`
+- Modify: `src/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj`
 
 - [ ] **Step 1: Add NSubstitute and Shouldly packages**
 
-Run: `dotnet add src/CashCtrlApiNet.Tests/CashCtrlApiNet.Tests.csproj package NSubstitute && dotnet add src/CashCtrlApiNet.Tests/CashCtrlApiNet.Tests.csproj package Shouldly`
+Run: `dotnet add src/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj package NSubstitute && dotnet add src/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj package Shouldly`
 
 This installs the latest stable versions.
 
 - [ ] **Step 2: Restore and verify build**
 
-Run: `dotnet build src/CashCtrlApiNet.Tests/CashCtrlApiNet.Tests.csproj`
+Run: `dotnet build src/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj`
 Expected: Build succeeded.
 
 - [ ] **Step 3: Commit**
 
 ```bash
-git add src/CashCtrlApiNet.Tests/CashCtrlApiNet.Tests.csproj
+git add src/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj
 git commit -m "chore: add NSubstitute and Shouldly test packages"
 ```
 
@@ -108,7 +108,7 @@ git commit -m "chore: add NSubstitute and Shouldly test packages"
 ## Task 2: Create Unit Test Infrastructure
 
 **Files:**
-- Create: `src/CashCtrlApiNet.Tests/ServiceTestBase.cs`
+- Create: `src/CashCtrlApiNet.UnitTests/ServiceTestBase.cs`
 
 - [ ] **Step 1: Create ServiceTestBase**
 
@@ -118,7 +118,7 @@ git commit -m "chore: add NSubstitute and Shouldly test packages"
 using CashCtrlApiNet.Interfaces;
 using NSubstitute;
 
-namespace CashCtrlApiNet.Tests;
+namespace CashCtrlApiNet.UnitTests;
 
 /// <summary>
 /// Base class for unit tests with mocked ICashCtrlConnectionHandler
@@ -155,13 +155,13 @@ public abstract class ServiceTestBase<TService> where TService : class
 
 - [ ] **Step 2: Verify build**
 
-Run: `dotnet build src/CashCtrlApiNet.Tests/CashCtrlApiNet.Tests.csproj`
+Run: `dotnet build src/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj`
 Expected: Build succeeded.
 
 - [ ] **Step 3: Commit**
 
 ```bash
-git add src/CashCtrlApiNet.Tests/ServiceTestBase.cs
+git add src/CashCtrlApiNet.UnitTests/ServiceTestBase.cs
 git commit -m "feat: add ServiceTestBase for unit tests with mocked connection handler"
 ```
 
@@ -216,7 +216,7 @@ git commit -m "fix: correct naming bugs in PersonEndpoints, FileEndpoints, Repor
 
 **Files:**
 - Create: `src/CashCtrlApiNet.Abstractions/Models/Api/BinaryResponse.cs`
-- Create: `src/CashCtrlApiNet.Tests/Infrastructure/ConnectionHandlerBinaryTests.cs`
+- Create: `src/CashCtrlApiNet.UnitTests/Infrastructure/ConnectionHandlerBinaryTests.cs`
 - Modify: `src/CashCtrlApiNet/Interfaces/ICashCtrlConnectionHandler.cs`
 - Modify: `src/CashCtrlApiNet/Services/CashCtrlConnectionHandler.cs`
 
@@ -253,7 +253,7 @@ public record BinaryResponse : ApiResponse
 
 - [ ] **Step 2: Write failing tests for GetBinaryAsync**
 
-Create `src/CashCtrlApiNet.Tests/Infrastructure/ConnectionHandlerBinaryTests.cs`:
+Create `src/CashCtrlApiNet.UnitTests/Infrastructure/ConnectionHandlerBinaryTests.cs`:
 
 ```csharp
 // MIT License header
@@ -263,7 +263,7 @@ using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Interfaces;
 using Shouldly;
 
-namespace CashCtrlApiNet.Tests.Infrastructure;
+namespace CashCtrlApiNet.UnitTests.Infrastructure;
 
 /// <summary>
 /// Tests for binary HTTP support on ICashCtrlConnectionHandler
@@ -298,7 +298,7 @@ public class ConnectionHandlerBinaryTests
 
 - [ ] **Step 3: Run tests to verify they fail**
 
-Run: `dotnet test src/CashCtrlApiNet.Tests/ --filter "ConnectionHandlerBinaryTests"`
+Run: `dotnet test src/CashCtrlApiNet.UnitTests/ --filter "ConnectionHandlerBinaryTests"`
 Expected: FAIL -- methods not found on interface.
 
 - [ ] **Step 4: Add GetBinaryAsync to ICashCtrlConnectionHandler**
@@ -373,7 +373,7 @@ private static async Task<ApiResult<BinaryResponse>> GetBinaryApiResult(HttpResp
 
 - [ ] **Step 6: Run tests to verify they pass**
 
-Run: `dotnet test src/CashCtrlApiNet.Tests/ --filter "ConnectionHandlerBinaryTests"`
+Run: `dotnet test src/CashCtrlApiNet.UnitTests/ --filter "ConnectionHandlerBinaryTests"`
 Expected: PASS.
 
 - [ ] **Step 7: Commit**
@@ -382,7 +382,7 @@ Expected: PASS.
 git add src/CashCtrlApiNet.Abstractions/Models/Api/BinaryResponse.cs \
        src/CashCtrlApiNet/Interfaces/ICashCtrlConnectionHandler.cs \
        src/CashCtrlApiNet/Services/CashCtrlConnectionHandler.cs \
-       src/CashCtrlApiNet.Tests/Infrastructure/ConnectionHandlerBinaryTests.cs
+       src/CashCtrlApiNet.UnitTests/Infrastructure/ConnectionHandlerBinaryTests.cs
 git commit -m "feat: add GetBinaryAsync returning ApiResult<BinaryResponse> for export/download endpoints"
 ```
 
@@ -391,7 +391,7 @@ git commit -m "feat: add GetBinaryAsync returning ApiResult<BinaryResponse> for 
 ## Task 4b: Add Multipart Form Data Support
 
 **Files:**
-- Create: `src/CashCtrlApiNet.Tests/Infrastructure/ConnectionHandlerMultipartTests.cs`
+- Create: `src/CashCtrlApiNet.UnitTests/Infrastructure/ConnectionHandlerMultipartTests.cs`
 - Modify: `src/CashCtrlApiNet/Interfaces/ICashCtrlConnectionHandler.cs`
 - Modify: `src/CashCtrlApiNet/Services/CashCtrlConnectionHandler.cs`
 
@@ -399,7 +399,7 @@ This adds `PostMultipartAsync` for file uploads (needed by File group's `file/pr
 
 - [ ] **Step 1: Write failing test**
 
-Create `src/CashCtrlApiNet.Tests/Infrastructure/ConnectionHandlerMultipartTests.cs`:
+Create `src/CashCtrlApiNet.UnitTests/Infrastructure/ConnectionHandlerMultipartTests.cs`:
 
 ```csharp
 // MIT License header
@@ -409,7 +409,7 @@ using CashCtrlApiNet.Abstractions.Models.Api.Base;
 using CashCtrlApiNet.Interfaces;
 using Shouldly;
 
-namespace CashCtrlApiNet.Tests.Infrastructure;
+namespace CashCtrlApiNet.UnitTests.Infrastructure;
 
 /// <summary>
 /// Tests for multipart form data support on ICashCtrlConnectionHandler
@@ -431,7 +431,7 @@ public class ConnectionHandlerMultipartTests
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `dotnet test src/CashCtrlApiNet.Tests/ --filter "ConnectionHandlerMultipartTests"`
+Run: `dotnet test src/CashCtrlApiNet.UnitTests/ --filter "ConnectionHandlerMultipartTests"`
 Expected: FAIL.
 
 - [ ] **Step 3: Add PostMultipartAsync to ICashCtrlConnectionHandler**
@@ -465,7 +465,7 @@ public async Task<ApiResult<TResult>> PostMultipartAsync<TResult>(string request
 
 - [ ] **Step 5: Run test to verify it passes**
 
-Run: `dotnet test src/CashCtrlApiNet.Tests/ --filter "ConnectionHandlerMultipartTests"`
+Run: `dotnet test src/CashCtrlApiNet.UnitTests/ --filter "ConnectionHandlerMultipartTests"`
 Expected: PASS.
 
 - [ ] **Step 6: Commit**
@@ -473,7 +473,7 @@ Expected: PASS.
 ```bash
 git add src/CashCtrlApiNet/Interfaces/ICashCtrlConnectionHandler.cs \
        src/CashCtrlApiNet/Services/CashCtrlConnectionHandler.cs \
-       src/CashCtrlApiNet.Tests/Infrastructure/ConnectionHandlerMultipartTests.cs
+       src/CashCtrlApiNet.UnitTests/Infrastructure/ConnectionHandlerMultipartTests.cs
 git commit -m "feat: add PostMultipartAsync for file upload support"
 ```
 
@@ -550,7 +550,7 @@ git commit -m "feat: populate Account models with properties from API docs"
 - Modify: `src/CashCtrlApiNet/Services/Endpoints/AccountEndpoints.cs` (add export constants FIRST)
 - Modify: `src/CashCtrlApiNet/Interfaces/Connectors/Account/IAccountService.cs`
 - Modify: `src/CashCtrlApiNet/Services/Connectors/Account/AccountService.cs`
-- Create: `src/CashCtrlApiNet.Tests/Account/AccountServiceTests.cs`
+- Create: `src/CashCtrlApiNet.UnitTests/Account/AccountServiceTests.cs`
 
 - [ ] **Step 1: Add export endpoint constants to AccountEndpoints.cs**
 
@@ -622,7 +622,7 @@ public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken ca
 
 - [ ] **Step 4: Write unit tests**
 
-Create `src/CashCtrlApiNet.Tests/Account/AccountServiceTests.cs` with tests for ALL methods (including preserved ones):
+Create `src/CashCtrlApiNet.UnitTests/Account/AccountServiceTests.cs` with tests for ALL methods (including preserved ones):
 
 ```csharp
 // MIT License header
@@ -636,7 +636,7 @@ using CashCtrlApiNet.Services.Endpoints;
 using NSubstitute;
 using Shouldly;
 
-namespace CashCtrlApiNet.Tests.Account;
+namespace CashCtrlApiNet.UnitTests.Account;
 
 /// <summary>
 /// Unit tests for AccountService
@@ -771,7 +771,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
 
 - [ ] **Step 5: Run tests to verify they pass**
 
-Run: `dotnet test src/CashCtrlApiNet.Tests/ --filter "AccountServiceTests"`
+Run: `dotnet test src/CashCtrlApiNet.UnitTests/ --filter "AccountServiceTests"`
 Expected: All PASS.
 
 - [ ] **Step 6: Commit**
@@ -780,7 +780,7 @@ Expected: All PASS.
 git add src/CashCtrlApiNet/Interfaces/Connectors/Account/IAccountService.cs \
        src/CashCtrlApiNet/Services/Connectors/Account/AccountService.cs \
        src/CashCtrlApiNet/Services/Endpoints/AccountEndpoints.cs \
-       src/CashCtrlApiNet.Tests/Account/AccountServiceTests.cs
+       src/CashCtrlApiNet.UnitTests/Account/AccountServiceTests.cs
 git commit -m "fix: fix AccountService Get() to use Entry, add GetBalance and export methods"
 ```
 
@@ -794,7 +794,7 @@ git commit -m "fix: fix AccountService Get() to use Entry, add GetBalance and ex
 - Create: `src/CashCtrlApiNet.Abstractions/Models/Account/Category/AccountCategory.cs`
 - Modify: `src/CashCtrlApiNet/Interfaces/Connectors/Account/IAccountCategoryService.cs`
 - Create: `src/CashCtrlApiNet/Services/Connectors/Account/AccountCategoryService.cs`
-- Create: `src/CashCtrlApiNet.Tests/Account/AccountCategoryServiceTests.cs`
+- Create: `src/CashCtrlApiNet.UnitTests/Account/AccountCategoryServiceTests.cs`
 
 Refer to `doc/api-reference.md` section "Account > Category" for parameters:
 - Create: `name` (required, max 100, localized), `number` (max 20), `parentId`
@@ -848,7 +848,7 @@ Create `AccountCategoryServiceTests.cs` following the `AccountServiceTests` patt
 
 - [ ] **Step 5: Run tests to verify they pass**
 
-Run: `dotnet test src/CashCtrlApiNet.Tests/ --filter "AccountCategoryServiceTests"`
+Run: `dotnet test src/CashCtrlApiNet.UnitTests/ --filter "AccountCategoryServiceTests"`
 Expected: All PASS.
 
 - [ ] **Step 6: Commit**
@@ -857,7 +857,7 @@ Expected: All PASS.
 git add src/CashCtrlApiNet.Abstractions/Models/Account/Category/ \
        src/CashCtrlApiNet/Interfaces/Connectors/Account/IAccountCategoryService.cs \
        src/CashCtrlApiNet/Services/Connectors/Account/AccountCategoryService.cs \
-       src/CashCtrlApiNet.Tests/Account/AccountCategoryServiceTests.cs
+       src/CashCtrlApiNet.UnitTests/Account/AccountCategoryServiceTests.cs
 git commit -m "feat: implement AccountCategoryService with models and unit tests"
 ```
 
@@ -873,7 +873,7 @@ git commit -m "feat: implement AccountCategoryService with models and unit tests
 - Create: `src/CashCtrlApiNet/Interfaces/Connectors/Account/IAccountBankService.cs`
 - Create: `src/CashCtrlApiNet/Services/Connectors/Account/AccountBankService.cs`
 - Modify: `src/CashCtrlApiNet/Services/Endpoints/AccountEndpoints.cs` (add Bank inner class)
-- Create: `src/CashCtrlApiNet.Tests/Account/AccountBankServiceTests.cs`
+- Create: `src/CashCtrlApiNet.UnitTests/Account/AccountBankServiceTests.cs`
 
 Refer to `doc/api-reference.md` section "Account > Bank Account" for parameters:
 - Create: `bic` (required, max 11), `iban` (required, max 32), `name` (required, max 100, localized), `type` (required: DEFAULT/ORDER/SALARY/HISTORICAL/OTHER), `accountId`, `currencyId`, `isInactive`, `notes` (HTML), `qrFirstDigits` (max 8), `qrIban` (max 32), `url` (max 255)
@@ -938,7 +938,7 @@ Create `AccountBankServiceTests.cs` with tests for all 9 methods.
 
 - [ ] **Step 7: Run tests to verify they pass**
 
-Run: `dotnet test src/CashCtrlApiNet.Tests/ --filter "AccountBankServiceTests"`
+Run: `dotnet test src/CashCtrlApiNet.UnitTests/ --filter "AccountBankServiceTests"`
 Expected: All PASS.
 
 - [ ] **Step 8: Commit**
@@ -949,7 +949,7 @@ git add src/CashCtrlApiNet.Abstractions/Models/Account/Bank/ \
        src/CashCtrlApiNet/Interfaces/Connectors/Account/IAccountBankService.cs \
        src/CashCtrlApiNet/Services/Connectors/Account/AccountBankService.cs \
        src/CashCtrlApiNet/Services/Endpoints/AccountEndpoints.cs \
-       src/CashCtrlApiNet.Tests/Account/AccountBankServiceTests.cs
+       src/CashCtrlApiNet.UnitTests/Account/AccountBankServiceTests.cs
 git commit -m "feat: implement AccountBankService with models, endpoints, and unit tests"
 ```
 
@@ -964,7 +964,7 @@ git commit -m "feat: implement AccountBankService with models, endpoints, and un
 - Create: `src/CashCtrlApiNet.Abstractions/Models/Account/CostCenter/CostCenter.cs`
 - Modify: `src/CashCtrlApiNet/Interfaces/Connectors/Account/ICostCenterService.cs`
 - Create: `src/CashCtrlApiNet/Services/Connectors/Account/CostCenterService.cs`
-- Create: `src/CashCtrlApiNet.Tests/Account/CostCenterServiceTests.cs`
+- Create: `src/CashCtrlApiNet.UnitTests/Account/CostCenterServiceTests.cs`
 
 Refer to `doc/api-reference.md` section "Account > Cost Center" for parameters. Note: CostCenter has `GetBalance`, `Categorize`, `UpdateAttachments`, and exports beyond standard CRUD.
 
@@ -990,7 +990,7 @@ Create `CostCenterServiceTests.cs` with tests for all 11 methods.
 
 - [ ] **Step 6: Run tests to verify they pass**
 
-Run: `dotnet test src/CashCtrlApiNet.Tests/ --filter "CostCenterServiceTests"`
+Run: `dotnet test src/CashCtrlApiNet.UnitTests/ --filter "CostCenterServiceTests"`
 Expected: All PASS.
 
 - [ ] **Step 7: Commit**
@@ -999,7 +999,7 @@ Expected: All PASS.
 git add src/CashCtrlApiNet.Abstractions/Models/Account/CostCenter/ \
        src/CashCtrlApiNet/Interfaces/Connectors/Account/ICostCenterService.cs \
        src/CashCtrlApiNet/Services/Connectors/Account/CostCenterService.cs \
-       src/CashCtrlApiNet.Tests/Account/CostCenterServiceTests.cs
+       src/CashCtrlApiNet.UnitTests/Account/CostCenterServiceTests.cs
 git commit -m "feat: implement CostCenterService with models and unit tests"
 ```
 
@@ -1013,7 +1013,7 @@ git commit -m "feat: implement CostCenterService with models and unit tests"
 - Create: `src/CashCtrlApiNet.Abstractions/Models/Account/CostCenterCategory/CostCenterCategory.cs`
 - Modify: `src/CashCtrlApiNet/Interfaces/Connectors/Account/ICostCenterCategoryService.cs`
 - Create: `src/CashCtrlApiNet/Services/Connectors/Account/CostCenterCategoryService.cs`
-- Create: `src/CashCtrlApiNet.Tests/Account/CostCenterCategoryServiceTests.cs`
+- Create: `src/CashCtrlApiNet.UnitTests/Account/CostCenterCategoryServiceTests.cs`
 
 Refer to `doc/api-reference.md` section "Account > Cost Center Category". Standard tree pattern (Get, GetList, GetTree, Create, Update, Delete).
 
@@ -1035,7 +1035,7 @@ Create `CostCenterCategoryServiceTests.cs` with tests for all 6 methods.
 
 - [ ] **Step 5: Run tests to verify they pass**
 
-Run: `dotnet test src/CashCtrlApiNet.Tests/ --filter "CostCenterCategoryServiceTests"`
+Run: `dotnet test src/CashCtrlApiNet.UnitTests/ --filter "CostCenterCategoryServiceTests"`
 Expected: All PASS.
 
 - [ ] **Step 6: Commit**
@@ -1044,7 +1044,7 @@ Expected: All PASS.
 git add src/CashCtrlApiNet.Abstractions/Models/Account/CostCenterCategory/ \
        src/CashCtrlApiNet/Interfaces/Connectors/Account/ICostCenterCategoryService.cs \
        src/CashCtrlApiNet/Services/Connectors/Account/CostCenterCategoryService.cs \
-       src/CashCtrlApiNet.Tests/Account/CostCenterCategoryServiceTests.cs
+       src/CashCtrlApiNet.UnitTests/Account/CostCenterCategoryServiceTests.cs
 git commit -m "feat: implement CostCenterCategoryService with models and unit tests"
 ```
 
@@ -1091,7 +1091,7 @@ Expected: Build succeeded with no warnings.
 
 - [ ] **Step 4: Run all tests**
 
-Run: `dotnet test src/CashCtrlApiNet.Tests/`
+Run: `dotnet test src/CashCtrlApiNet.UnitTests/`
 Expected: All tests pass.
 
 - [ ] **Step 5: Commit**
@@ -1113,7 +1113,7 @@ Expected: Build succeeded, 0 warnings.
 
 - [ ] **Step 2: Run all tests**
 
-Run: `dotnet test src/CashCtrlApiNet.Tests/ --verbosity normal`
+Run: `dotnet test src/CashCtrlApiNet.UnitTests/ --verbosity normal`
 Expected: All tests pass. Count should be 35+ (5 services x ~6-8 tests each + infrastructure tests).
 
 - [ ] **Step 3: Verify endpoint coverage**

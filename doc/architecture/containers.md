@@ -18,7 +18,7 @@ C4Container
     }
 
     System_Boundary(tests, "Test Suite") {
-        Container(test, "CashCtrlApiNet.Tests", ".NET 10 / xUnit", "Unit tests (NSubstitute + Shouldly) and integration tests against live CashCtrl API. 393 unit tests covering 375 endpoints.")
+        Container(test, "CashCtrlApiNet.UnitTests", ".NET 10 / xUnit", "Unit tests (NSubstitute + Shouldly) and integration tests against live CashCtrl API. 393 unit tests covering 375 endpoints.")
     }
 
     System_Ext(cashctrl, "CashCtrl REST API v1", "External API")
@@ -86,12 +86,12 @@ C4Container
 | Dependencies    | `CashCtrlApiNet`                                   |
 | Status          | **EMPTY** -- only `.csproj` exists, no C# code     |
 
-### CashCtrlApiNet.Tests
+### CashCtrlApiNet.UnitTests
 
 | Property        | Value                                              |
 | --------------- | -------------------------------------------------- |
 | Technology      | .NET 10, xUnit, NSubstitute, Shouldly, FluentAssertions, Coverlet |
-| Repo Path       | `src/CashCtrlApiNet.Tests/`                        |
+| Repo Path       | `src/CashCtrlApiNet.UnitTests/`                        |
 | Responsibility  | Integration tests against live CashCtrl API        |
 | Dependencies    | `CashCtrlApiNet` (transitively includes Abstractions) |
 | Not Packaged    | `<IsPackable>false</IsPackable>`                   |

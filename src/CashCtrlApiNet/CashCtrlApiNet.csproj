@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <InternalsVisibleTo Include="CashCtrlApiNet.Tests" />
+      <InternalsVisibleTo Include="CashCtrlApiNet.UnitTests" />
     </ItemGroup>
 
     <ItemGroup>
