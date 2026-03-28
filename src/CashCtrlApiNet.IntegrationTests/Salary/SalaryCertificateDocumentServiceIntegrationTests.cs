@@ -39,7 +39,7 @@ public class SalaryCertificateDocumentServiceIntegrationTests : IntegrationTestB
     /// <summary>
     /// Verify Get returns a single salary certificate document with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -60,7 +60,7 @@ public class SalaryCertificateDocumentServiceIntegrationTests : IntegrationTestB
     /// <summary>
     /// Verify DownloadPdf returns binary PDF data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task DownloadPdf_ReturnsExpectedResult()
     {
         // Arrange
@@ -80,7 +80,7 @@ public class SalaryCertificateDocumentServiceIntegrationTests : IntegrationTestB
     /// <summary>
     /// Verify DownloadZip returns binary ZIP data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task DownloadZip_ReturnsExpectedResult()
     {
         // Arrange
@@ -100,7 +100,7 @@ public class SalaryCertificateDocumentServiceIntegrationTests : IntegrationTestB
     /// <summary>
     /// Verify SendMail sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task SendMail_ReturnsExpectedResult()
     {
         // Arrange

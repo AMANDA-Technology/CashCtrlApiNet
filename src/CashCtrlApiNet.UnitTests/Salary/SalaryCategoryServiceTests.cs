@@ -42,7 +42,7 @@ public class SalaryCategoryServiceTests : ServiceTestBase<SalaryCategoryService>
     protected override SalaryCategoryService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class SalaryCategoryServiceTests : ServiceTestBase<SalaryCategoryService>
                 SalaryEndpoints.Category.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class SalaryCategoryServiceTests : ServiceTestBase<SalaryCategoryService>
                 SalaryEndpoints.Category.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetTree_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -86,7 +86,7 @@ public class SalaryCategoryServiceTests : ServiceTestBase<SalaryCategoryService>
                 SalaryEndpoints.Category.Tree, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var category = new SalaryCategoryCreate { Name = "Test" };
@@ -101,7 +101,7 @@ public class SalaryCategoryServiceTests : ServiceTestBase<SalaryCategoryService>
                 SalaryEndpoints.Category.Create, category, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var category = new SalaryCategoryUpdate { Id = 1, Name = "Test" };
@@ -116,7 +116,7 @@ public class SalaryCategoryServiceTests : ServiceTestBase<SalaryCategoryService>
                 SalaryEndpoints.Category.Update, category, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -131,7 +131,7 @@ public class SalaryCategoryServiceTests : ServiceTestBase<SalaryCategoryService>
                 SalaryEndpoints.Category.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -146,7 +146,7 @@ public class SalaryCategoryServiceTests : ServiceTestBase<SalaryCategoryService>
                 SalaryEndpoints.Category.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };

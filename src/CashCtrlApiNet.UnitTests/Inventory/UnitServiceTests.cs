@@ -42,7 +42,7 @@ public class UnitServiceTests : ServiceTestBase<UnitService>
     protected override UnitService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class UnitServiceTests : ServiceTestBase<UnitService>
                 InventoryEndpoints.Unit.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class UnitServiceTests : ServiceTestBase<UnitService>
                 InventoryEndpoints.Unit.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -87,7 +87,7 @@ public class UnitServiceTests : ServiceTestBase<UnitService>
                 InventoryEndpoints.Unit.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -101,7 +101,7 @@ public class UnitServiceTests : ServiceTestBase<UnitService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var unit = new UnitCreate { Name = "pcs." };
@@ -116,7 +116,7 @@ public class UnitServiceTests : ServiceTestBase<UnitService>
                 InventoryEndpoints.Unit.Create, unit, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var unit = new UnitUpdate { Id = 1, Name = "meters" };
@@ -131,7 +131,7 @@ public class UnitServiceTests : ServiceTestBase<UnitService>
                 InventoryEndpoints.Unit.Update, unit, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2] };

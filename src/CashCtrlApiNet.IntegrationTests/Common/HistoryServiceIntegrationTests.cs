@@ -38,7 +38,7 @@ public class HistoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList returns a list of history entries
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_ReturnsExpectedResult()
     {
         // Arrange

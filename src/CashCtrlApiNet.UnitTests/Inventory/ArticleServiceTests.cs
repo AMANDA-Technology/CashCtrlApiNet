@@ -42,7 +42,7 @@ public class ArticleServiceTests : ServiceTestBase<ArticleService>
     protected override ArticleService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -56,7 +56,7 @@ public class ArticleServiceTests : ServiceTestBase<ArticleService>
                 InventoryEndpoints.Article.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -71,7 +71,7 @@ public class ArticleServiceTests : ServiceTestBase<ArticleService>
                 InventoryEndpoints.Article.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -85,7 +85,7 @@ public class ArticleServiceTests : ServiceTestBase<ArticleService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task ExportExcel_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -99,7 +99,7 @@ public class ArticleServiceTests : ServiceTestBase<ArticleService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportCsv_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -113,7 +113,7 @@ public class ArticleServiceTests : ServiceTestBase<ArticleService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportPdf_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler

@@ -60,7 +60,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that <see cref="ICashCtrlApiClient"/> is registered and resolvable
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_ShouldRegister_ICashCtrlApiClient()
     {
         var services = CreateServiceCollectionWithValidOptions();
@@ -74,7 +74,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that <see cref="ICashCtrlConnectionHandler"/> is registered and resolvable
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_ShouldRegister_ICashCtrlConnectionHandler()
     {
         var services = CreateServiceCollectionWithValidOptions();
@@ -88,7 +88,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that <see cref="ICashCtrlConfiguration"/> is registered and resolvable
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_ShouldRegister_ICashCtrlConfiguration()
     {
         var services = CreateServiceCollectionWithValidOptions();
@@ -102,7 +102,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that all 10 connector interfaces are registered and resolvable
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_ShouldRegister_AllConnectors()
     {
         var services = CreateServiceCollectionWithValidOptions();
@@ -123,7 +123,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that <see cref="CashCtrlServiceCollectionExtensions.AddCashCtrl"/> returns the same service collection for fluent chaining
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_ShouldReturnSameServiceCollection()
     {
         var services = new ServiceCollection();
@@ -140,7 +140,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that the BaseUri option is correctly mapped to <see cref="ICashCtrlConfiguration.BaseUri"/>
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_Configuration_ShouldMapBaseUri()
     {
         var services = CreateServiceCollectionWithValidOptions(baseUri: "https://myorg.cashctrl.com/");
@@ -154,7 +154,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that the ApiKey option is correctly mapped to <see cref="ICashCtrlConfiguration.ApiKey"/>
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_Configuration_ShouldMapApiKey()
     {
         var services = CreateServiceCollectionWithValidOptions(apiKey: "my-secret-key");
@@ -168,7 +168,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that the Language option is correctly mapped to <see cref="ICashCtrlConfiguration.DefaultLanguage"/>
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_Configuration_ShouldMapLanguage()
     {
         var services = CreateServiceCollectionWithValidOptions(language: Language.en);
@@ -182,7 +182,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that Language defaults to <see cref="Language.de"/> when not explicitly set
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_Configuration_ShouldDefaultLanguageToDe()
     {
         var services = new ServiceCollection();
@@ -201,7 +201,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that <see cref="CashCtrlServiceCollectionExtensions.AddCashCtrl"/> throws when services parameter is null
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_ShouldThrow_WhenServicesIsNull()
     {
         IServiceCollection services = null!;
@@ -216,7 +216,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that <see cref="CashCtrlServiceCollectionExtensions.AddCashCtrl"/> throws when configureOptions parameter is null
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_ShouldThrow_WhenConfigureOptionsIsNull()
     {
         var services = new ServiceCollection();
@@ -227,7 +227,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that options validation fails when BaseUri is not set
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_Validation_ShouldFail_WhenBaseUriIsMissing()
     {
         var services = new ServiceCollection();
@@ -243,7 +243,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that options validation fails when ApiKey is not set
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_Validation_ShouldFail_WhenApiKeyIsMissing()
     {
         var services = new ServiceCollection();
@@ -259,7 +259,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that options validation fails when BaseUri is an empty string
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_Validation_ShouldFail_WhenBaseUriIsEmpty()
     {
         var services = new ServiceCollection();
@@ -276,7 +276,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that options validation fails when ApiKey is whitespace only
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_Validation_ShouldFail_WhenApiKeyIsWhitespace()
     {
         var services = new ServiceCollection();
@@ -293,7 +293,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that IHttpClientFactory is registered by AddCashCtrl
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_ShouldRegister_IHttpClientFactory()
     {
         var services = CreateServiceCollectionWithValidOptions();
@@ -307,7 +307,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that scoped services return the same instance within a single scope
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_ScopedServices_ShouldReturnSameInstanceWithinScope()
     {
         var services = CreateServiceCollectionWithValidOptions();
@@ -323,7 +323,7 @@ public class AspNetCoreDependencyInjectionTests
     /// <summary>
     /// Verifies that scoped services return different instances across different scopes
     /// </summary>
-    [Fact]
+    [Test]
     public void AddCashCtrl_ScopedServices_ShouldReturnDifferentInstancesAcrossScopes()
     {
         var services = CreateServiceCollectionWithValidOptions();

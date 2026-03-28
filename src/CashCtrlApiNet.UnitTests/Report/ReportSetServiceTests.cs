@@ -43,7 +43,7 @@ public class ReportSetServiceTests : ServiceTestBase<ReportSetService>
     protected override ReportSetService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -59,7 +59,7 @@ public class ReportSetServiceTests : ServiceTestBase<ReportSetService>
                 ReportEndpoints.Set.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var set = new ReportSetCreate { Name = "Test" };
@@ -74,7 +74,7 @@ public class ReportSetServiceTests : ServiceTestBase<ReportSetService>
                 ReportEndpoints.Set.Create, set, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var set = new ReportSetUpdate { Id = 1, Name = "Test" };
@@ -89,7 +89,7 @@ public class ReportSetServiceTests : ServiceTestBase<ReportSetService>
                 ReportEndpoints.Set.Update, set, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -104,7 +104,7 @@ public class ReportSetServiceTests : ServiceTestBase<ReportSetService>
                 ReportEndpoints.Set.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Reorder_ShouldPostToCorrectEndpoint()
     {
         var reorder = new ReportSetReorder { Ids = [1, 2], Target = 3 };
@@ -119,7 +119,7 @@ public class ReportSetServiceTests : ServiceTestBase<ReportSetService>
                 ReportEndpoints.Set.Reorder, reorder, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetMeta_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -135,7 +135,7 @@ public class ReportSetServiceTests : ServiceTestBase<ReportSetService>
                 ReportEndpoints.Set.ReadMeta, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task DownloadPdf_ShouldCallGetBinaryAsync()
     {
         var entry = new Entry { Id = 42 };
@@ -150,7 +150,7 @@ public class ReportSetServiceTests : ServiceTestBase<ReportSetService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task DownloadCsv_ShouldCallGetBinaryAsync()
     {
         var entry = new Entry { Id = 42 };
@@ -165,7 +165,7 @@ public class ReportSetServiceTests : ServiceTestBase<ReportSetService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task DownloadExcel_ShouldCallGetBinaryAsync()
     {
         var entry = new Entry { Id = 42 };
@@ -180,7 +180,7 @@ public class ReportSetServiceTests : ServiceTestBase<ReportSetService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task DownloadAnnualReport_ShouldCallGetBinaryAsync()
     {
         var entry = new Entry { Id = 42 };

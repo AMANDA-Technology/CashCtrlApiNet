@@ -37,7 +37,7 @@ namespace CashCtrlApiNet.IntegrationTests;
 /// </summary>
 public class CancellationTokenIntegrationTests : IntegrationTestBase
 {
-    [Fact]
+    [Test]
     public async Task Get_WithCancelledToken_ShouldThrowTaskCanceledException()
     {
         // Arrange: stub a delayed response so cancellation has time to fire
@@ -58,7 +58,7 @@ public class CancellationTokenIntegrationTests : IntegrationTestBase
             () => Client.Account.Account.Get(new Entry { Id = 1 }, cts.Token));
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithCancelledToken_ShouldThrowTaskCanceledException()
     {
         // Arrange
@@ -79,7 +79,7 @@ public class CancellationTokenIntegrationTests : IntegrationTestBase
             () => Client.Account.Account.GetList(cancellationToken: cts.Token));
     }
 
-    [Fact]
+    [Test]
     public async Task Post_WithCancelledToken_ShouldThrowTaskCanceledException()
     {
         // Arrange
@@ -100,7 +100,7 @@ public class CancellationTokenIntegrationTests : IntegrationTestBase
             () => Client.Account.Account.Create(AccountFakers.AccountCreate.Generate(), cts.Token));
     }
 
-    [Fact]
+    [Test]
     public async Task GetBinary_WithCancelledToken_ShouldThrowTaskCanceledException()
     {
         // Arrange
@@ -121,7 +121,7 @@ public class CancellationTokenIntegrationTests : IntegrationTestBase
             () => Client.Account.Account.ExportExcel(cts.Token));
     }
 
-    [Fact]
+    [Test]
     public async Task Get_WithLiveToken_ShouldSucceed()
     {
         // Arrange

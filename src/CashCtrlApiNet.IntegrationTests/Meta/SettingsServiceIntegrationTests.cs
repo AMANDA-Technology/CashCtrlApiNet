@@ -38,7 +38,7 @@ public class SettingsServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Read returns settings with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Read_ReturnsExpectedResult()
     {
         // Arrange
@@ -60,7 +60,7 @@ public class SettingsServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single setting value
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -80,7 +80,7 @@ public class SettingsServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_ReturnsExpectedResult()
     {
         // Arrange

@@ -38,7 +38,7 @@ public class OrderLayoutServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single order layout with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -60,7 +60,7 @@ public class OrderLayoutServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList returns a list of order layouts
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_ReturnsExpectedResult()
     {
         // Arrange
@@ -80,7 +80,7 @@ public class OrderLayoutServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -102,7 +102,7 @@ public class OrderLayoutServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_ReturnsExpectedResult()
     {
         // Arrange
@@ -123,7 +123,7 @@ public class OrderLayoutServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Delete sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Delete_ReturnsExpectedResult()
     {
         // Arrange

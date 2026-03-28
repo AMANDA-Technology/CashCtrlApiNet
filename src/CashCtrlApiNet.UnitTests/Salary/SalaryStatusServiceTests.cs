@@ -43,7 +43,7 @@ public class SalaryStatusServiceTests : ServiceTestBase<SalaryStatusService>
     protected override SalaryStatusService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -59,7 +59,7 @@ public class SalaryStatusServiceTests : ServiceTestBase<SalaryStatusService>
                 SalaryEndpoints.Status.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -73,7 +73,7 @@ public class SalaryStatusServiceTests : ServiceTestBase<SalaryStatusService>
                 SalaryEndpoints.Status.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var status = new SalaryStatusCreate { Icon = SalaryStatusIcon.BLUE, Name = "Test" };
@@ -88,7 +88,7 @@ public class SalaryStatusServiceTests : ServiceTestBase<SalaryStatusService>
                 SalaryEndpoints.Status.Create, status, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var status = new SalaryStatusUpdate { Id = 1, Icon = SalaryStatusIcon.GREEN, Name = "Test" };
@@ -103,7 +103,7 @@ public class SalaryStatusServiceTests : ServiceTestBase<SalaryStatusService>
                 SalaryEndpoints.Status.Update, status, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -118,7 +118,7 @@ public class SalaryStatusServiceTests : ServiceTestBase<SalaryStatusService>
                 SalaryEndpoints.Status.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Reorder_ShouldPostToCorrectEndpoint()
     {
         var reorder = new SalaryStatusReorder { Ids = "1,2,3", Target = 5 };
@@ -133,7 +133,7 @@ public class SalaryStatusServiceTests : ServiceTestBase<SalaryStatusService>
                 SalaryEndpoints.Status.Reorder, reorder, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -148,7 +148,7 @@ public class SalaryStatusServiceTests : ServiceTestBase<SalaryStatusService>
                 SalaryEndpoints.Status.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };

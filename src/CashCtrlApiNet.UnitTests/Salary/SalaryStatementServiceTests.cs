@@ -42,7 +42,7 @@ public class SalaryStatementServiceTests : ServiceTestBase<SalaryStatementServic
     protected override SalaryStatementService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class SalaryStatementServiceTests : ServiceTestBase<SalaryStatementServic
                 SalaryEndpoints.Statement.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class SalaryStatementServiceTests : ServiceTestBase<SalaryStatementServic
                 SalaryEndpoints.Statement.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var statement = new SalaryStatementCreate
@@ -94,7 +94,7 @@ public class SalaryStatementServiceTests : ServiceTestBase<SalaryStatementServic
                 SalaryEndpoints.Statement.Create, statement, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var statement = new SalaryStatementUpdate
@@ -117,7 +117,7 @@ public class SalaryStatementServiceTests : ServiceTestBase<SalaryStatementServic
                 SalaryEndpoints.Statement.Update, statement, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task UpdateMultiple_ShouldPostToCorrectEndpoint()
     {
         var statements = new SalaryStatementUpdateMultiple { Ids = "1,2,3" };
@@ -132,7 +132,7 @@ public class SalaryStatementServiceTests : ServiceTestBase<SalaryStatementServic
                 SalaryEndpoints.Statement.UpdateMultiple, statements, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task UpdateStatus_ShouldPostToCorrectEndpoint()
     {
         var status = new SalaryStatementStatusUpdate { Ids = "1,2", StatusId = 5 };
@@ -147,7 +147,7 @@ public class SalaryStatementServiceTests : ServiceTestBase<SalaryStatementServic
                 SalaryEndpoints.Statement.UpdateStatus, status, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task UpdateRecurrence_ShouldPostToCorrectEndpoint()
     {
         var recurrence = new SalaryStatementRecurrenceUpdate { Id = 1, Recurrence = "MONTHLY" };
@@ -162,7 +162,7 @@ public class SalaryStatementServiceTests : ServiceTestBase<SalaryStatementServic
                 SalaryEndpoints.Statement.UpdateRecurrence, recurrence, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -177,7 +177,7 @@ public class SalaryStatementServiceTests : ServiceTestBase<SalaryStatementServic
                 SalaryEndpoints.Statement.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Calculate_ShouldPostToCorrectEndpoint()
     {
         var calculation = new SalaryStatementCalculate { Id = 1, PersonId = 1, TemplateId = 1 };
@@ -192,7 +192,7 @@ public class SalaryStatementServiceTests : ServiceTestBase<SalaryStatementServic
                 SalaryEndpoints.Statement.Calculate, calculation, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task UpdateAttachments_ShouldPostToCorrectEndpoint()
     {
         var attachments = new EntryAttachments { Id = 1, AttachedFileIds = [10, 20] };
@@ -207,7 +207,7 @@ public class SalaryStatementServiceTests : ServiceTestBase<SalaryStatementServic
                 SalaryEndpoints.Statement.UpdateAttachments, attachments, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task ExportExcel_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -221,7 +221,7 @@ public class SalaryStatementServiceTests : ServiceTestBase<SalaryStatementServic
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportCsv_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -235,7 +235,7 @@ public class SalaryStatementServiceTests : ServiceTestBase<SalaryStatementServic
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportPdf_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -249,7 +249,7 @@ public class SalaryStatementServiceTests : ServiceTestBase<SalaryStatementServic
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -264,7 +264,7 @@ public class SalaryStatementServiceTests : ServiceTestBase<SalaryStatementServic
                 SalaryEndpoints.Statement.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };

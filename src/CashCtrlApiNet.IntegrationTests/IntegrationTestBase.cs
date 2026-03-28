@@ -33,7 +33,8 @@ namespace CashCtrlApiNet.IntegrationTests;
 /// <summary>
 /// Base class for integration tests using WireMock to simulate the CashCtrl API
 /// </summary>
-public abstract class IntegrationTestBase : IAsyncLifetime
+[TestFixture]
+public abstract class IntegrationTestBase
 {
     /// <summary>
     /// Fake API key used for integration tests
@@ -43,20 +44,23 @@ public abstract class IntegrationTestBase : IAsyncLifetime
     /// <summary>
     /// WireMock server instance
     /// </summary>
-    protected WireMockServer Server { get; private set; } = null!;
+    protected WireMockServer Server = null!;
 
     /// <summary>
     /// CashCtrl API client wired to the WireMock server
     /// </summary>
-    protected ICashCtrlApiClient Client { get; private set; } = null!;
+    protected ICashCtrlApiClient Client = null!;
 
     /// <summary>
     /// CashCtrl connection handler wired to the WireMock server
     /// </summary>
-    protected ICashCtrlConnectionHandler ConnectionHandler { get; private set; } = null!;
+    protected ICashCtrlConnectionHandler ConnectionHandler = null!;
 
-    /// <inheritdoc />
-    public Task InitializeAsync()
+    /// <summary>
+    /// Initializes the WireMock server and creates the CashCtrl client before each test
+    /// </summary>
+    [SetUp]
+    public void SetUp()
     {
         Server = WireMockServer.Start();
 
@@ -81,15 +85,15 @@ public abstract class IntegrationTestBase : IAsyncLifetime
             new PersonConnector(ConnectionHandler),
             new ReportConnector(ConnectionHandler),
             new SalaryConnector(ConnectionHandler));
-
-        return Task.CompletedTask;
     }
 
-    /// <inheritdoc />
-    public Task DisposeAsync()
+    /// <summary>
+    /// Stops and disposes the WireMock server after each test
+    /// </summary>
+    [TearDown]
+    public void TearDown()
     {
         Server?.Stop();
         Server?.Dispose();
-        return Task.CompletedTask;
     }
 }

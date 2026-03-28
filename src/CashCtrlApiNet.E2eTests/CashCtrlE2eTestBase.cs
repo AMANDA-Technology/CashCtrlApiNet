@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests;
 /// <summary>
 /// Base class for all CashCtrl E2E tests requiring live API credentials
 /// </summary>
+[TestFixture]
 public class CashCtrlE2eTestBase
 {
     /// <summary>

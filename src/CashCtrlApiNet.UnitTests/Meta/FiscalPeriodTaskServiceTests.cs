@@ -42,7 +42,7 @@ public class FiscalPeriodTaskServiceTests : ServiceTestBase<FiscalPeriodTaskServ
     protected override FiscalPeriodTaskService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -56,7 +56,7 @@ public class FiscalPeriodTaskServiceTests : ServiceTestBase<FiscalPeriodTaskServ
                 MetaEndpoints.FiscalPeriodTask.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -71,7 +71,7 @@ public class FiscalPeriodTaskServiceTests : ServiceTestBase<FiscalPeriodTaskServ
                 MetaEndpoints.FiscalPeriodTask.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -85,7 +85,7 @@ public class FiscalPeriodTaskServiceTests : ServiceTestBase<FiscalPeriodTaskServ
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var task = new FiscalPeriodTaskCreate { FiscalPeriodId = 1, Name = "Test Task" };
@@ -100,7 +100,7 @@ public class FiscalPeriodTaskServiceTests : ServiceTestBase<FiscalPeriodTaskServ
                 MetaEndpoints.FiscalPeriodTask.Create, task, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };

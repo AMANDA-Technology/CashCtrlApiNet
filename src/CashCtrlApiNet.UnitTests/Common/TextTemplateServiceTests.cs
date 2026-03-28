@@ -42,7 +42,7 @@ public class TextTemplateServiceTests : ServiceTestBase<TextTemplateService>
     protected override TextTemplateService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -59,7 +59,7 @@ public class TextTemplateServiceTests : ServiceTestBase<TextTemplateService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -74,7 +74,7 @@ public class TextTemplateServiceTests : ServiceTestBase<TextTemplateService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -89,7 +89,7 @@ public class TextTemplateServiceTests : ServiceTestBase<TextTemplateService>
                 CommonEndpoints.TextTemplate.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -103,7 +103,7 @@ public class TextTemplateServiceTests : ServiceTestBase<TextTemplateService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var textTemplate = new TextTemplateCreate { Name = "Test Template" };
@@ -118,7 +118,7 @@ public class TextTemplateServiceTests : ServiceTestBase<TextTemplateService>
                 CommonEndpoints.TextTemplate.Create, textTemplate, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var textTemplate = new TextTemplateUpdate { Id = 1, Name = "Test Template" };
@@ -133,7 +133,7 @@ public class TextTemplateServiceTests : ServiceTestBase<TextTemplateService>
                 CommonEndpoints.TextTemplate.Update, textTemplate, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };

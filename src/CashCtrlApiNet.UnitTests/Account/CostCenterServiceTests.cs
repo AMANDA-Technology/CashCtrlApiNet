@@ -42,7 +42,7 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
     protected override CostCenterService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
                 AccountEndpoints.CostCenter.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
                 AccountEndpoints.CostCenter.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -87,7 +87,7 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
                 AccountEndpoints.CostCenter.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -101,7 +101,7 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task GetBalance_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -117,7 +117,7 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
                 AccountEndpoints.CostCenter.Balance, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var costCenter = new CostCenterCreate { Name = "Test Cost Center" };
@@ -132,7 +132,7 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
                 AccountEndpoints.CostCenter.Create, costCenter, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var costCenter = new CostCenterUpdate { Id = 1, Name = "Updated Cost Center" };
@@ -147,7 +147,7 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
                 AccountEndpoints.CostCenter.Update, costCenter, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2] };
@@ -162,7 +162,7 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
                 AccountEndpoints.CostCenter.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Categorize_ShouldPostToCorrectEndpoint()
     {
         var categorize = new EntriesCategorize { Ids = [1], TargetCategoryId = 5 };
@@ -177,7 +177,7 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
                 AccountEndpoints.CostCenter.Categorize, categorize, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task UpdateAttachments_ShouldPostToCorrectEndpoint()
     {
         var attachments = new EntryAttachments { Id = 1, AttachedFileIds = [10, 20] };
@@ -192,7 +192,7 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
                 AccountEndpoints.CostCenter.UpdateAttachments, attachments, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task ExportExcel_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -206,7 +206,7 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportCsv_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -220,7 +220,7 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportPdf_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler

@@ -39,7 +39,7 @@ public class ArticleCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single article category with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -61,7 +61,7 @@ public class ArticleCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList returns a list of article categories
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_ReturnsExpectedResult()
     {
         // Arrange
@@ -81,7 +81,7 @@ public class ArticleCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetTree returns the category tree
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetTree_ReturnsExpectedResult()
     {
         // Arrange
@@ -101,7 +101,7 @@ public class ArticleCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -123,7 +123,7 @@ public class ArticleCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_ReturnsExpectedResult()
     {
         // Arrange
@@ -144,7 +144,7 @@ public class ArticleCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Delete sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Delete_ReturnsExpectedResult()
     {
         // Arrange

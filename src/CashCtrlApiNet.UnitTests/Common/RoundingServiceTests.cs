@@ -42,7 +42,7 @@ public class RoundingServiceTests : ServiceTestBase<RoundingService>
     protected override RoundingService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -59,7 +59,7 @@ public class RoundingServiceTests : ServiceTestBase<RoundingService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -74,7 +74,7 @@ public class RoundingServiceTests : ServiceTestBase<RoundingService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -89,7 +89,7 @@ public class RoundingServiceTests : ServiceTestBase<RoundingService>
                 CommonEndpoints.Rounding.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -103,7 +103,7 @@ public class RoundingServiceTests : ServiceTestBase<RoundingService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var rounding = new RoundingCreate { AccountId = 100, Name = "Test Rounding" };
@@ -118,7 +118,7 @@ public class RoundingServiceTests : ServiceTestBase<RoundingService>
                 CommonEndpoints.Rounding.Create, rounding, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var rounding = new RoundingUpdate { Id = 1, AccountId = 100, Name = "Test Rounding" };
@@ -133,7 +133,7 @@ public class RoundingServiceTests : ServiceTestBase<RoundingService>
                 CommonEndpoints.Rounding.Update, rounding, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };

@@ -42,7 +42,7 @@ public class SalaryCertificateDocumentServiceTests : ServiceTestBase<SalaryCerti
     protected override SalaryCertificateDocumentService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class SalaryCertificateDocumentServiceTests : ServiceTestBase<SalaryCerti
                 SalaryEndpoints.CertificateDocument.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task DownloadPdf_ShouldCallGetBinaryAsync_WithEntriesParameter()
     {
         var entries = new Entries { Ids = [1, 2] };
@@ -73,7 +73,7 @@ public class SalaryCertificateDocumentServiceTests : ServiceTestBase<SalaryCerti
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task DownloadZip_ShouldCallGetBinaryAsync_WithEntriesParameter()
     {
         var entries = new Entries { Ids = [1, 2] };
@@ -88,7 +88,7 @@ public class SalaryCertificateDocumentServiceTests : ServiceTestBase<SalaryCerti
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task SendMail_ShouldPostToCorrectEndpoint()
     {
         var mail = new SalaryCertificateDocumentMail

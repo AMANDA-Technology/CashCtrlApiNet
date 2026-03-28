@@ -42,7 +42,7 @@ public class BookEntryServiceTests : ServiceTestBase<BookEntryService>
     protected override BookEntryService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class BookEntryServiceTests : ServiceTestBase<BookEntryService>
                 OrderEndpoints.BookEntry.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class BookEntryServiceTests : ServiceTestBase<BookEntryService>
                 OrderEndpoints.BookEntry.List, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var bookEntry = new BookEntryCreate { OrderId = 1, AccountId = 2, Amount = 100.50 };
@@ -87,7 +87,7 @@ public class BookEntryServiceTests : ServiceTestBase<BookEntryService>
                 OrderEndpoints.BookEntry.Create, bookEntry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var bookEntry = new BookEntryUpdate { Id = 1, OrderId = 1, AccountId = 2, Amount = 200.00 };
@@ -102,7 +102,7 @@ public class BookEntryServiceTests : ServiceTestBase<BookEntryService>
                 OrderEndpoints.BookEntry.Update, bookEntry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2] };

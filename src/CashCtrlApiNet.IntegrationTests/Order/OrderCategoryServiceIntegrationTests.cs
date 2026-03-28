@@ -40,7 +40,7 @@ public class OrderCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single order category with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -62,7 +62,7 @@ public class OrderCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList returns a list of order categories
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_ReturnsExpectedResult()
     {
         // Arrange
@@ -82,7 +82,7 @@ public class OrderCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList with list params works correctly
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_WithParams_ReturnsExpectedResult()
     {
         // Arrange
@@ -103,7 +103,7 @@ public class OrderCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -125,7 +125,7 @@ public class OrderCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_ReturnsExpectedResult()
     {
         // Arrange
@@ -146,7 +146,7 @@ public class OrderCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Delete sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Delete_ReturnsExpectedResult()
     {
         // Arrange
@@ -166,7 +166,7 @@ public class OrderCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Reorder sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Reorder_ReturnsExpectedResult()
     {
         // Arrange
@@ -190,7 +190,7 @@ public class OrderCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetStatus returns a single order category with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetStatus_ReturnsExpectedResult()
     {
         // Arrange

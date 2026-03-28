@@ -42,7 +42,7 @@ public class JournalServiceTests : ServiceTestBase<JournalService>
     protected override JournalService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class JournalServiceTests : ServiceTestBase<JournalService>
                 JournalEndpoints.Journal.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class JournalServiceTests : ServiceTestBase<JournalService>
                 JournalEndpoints.Journal.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var journal = new JournalCreate { DateAdded = "2024-01-01", Title = "Test", SequenceNumberId = 1 };
@@ -87,7 +87,7 @@ public class JournalServiceTests : ServiceTestBase<JournalService>
                 JournalEndpoints.Journal.Create, journal, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var journal = new JournalUpdate { Id = 1, DateAdded = "2024-01-01", Title = "Test", SequenceNumberId = 1 };
@@ -102,7 +102,7 @@ public class JournalServiceTests : ServiceTestBase<JournalService>
                 JournalEndpoints.Journal.Update, journal, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -117,7 +117,7 @@ public class JournalServiceTests : ServiceTestBase<JournalService>
                 JournalEndpoints.Journal.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task UpdateAttachments_ShouldPostToCorrectEndpoint()
     {
         var attachments = new EntryAttachments { Id = 1, AttachedFileIds = [10, 20] };
@@ -132,7 +132,7 @@ public class JournalServiceTests : ServiceTestBase<JournalService>
                 JournalEndpoints.Journal.UpdateAttachments, attachments, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task UpdateRecurrence_ShouldPostToCorrectEndpoint()
     {
         var recurrence = new EntryRecurrence { Id = 1, Recurrence = "{}" };
@@ -147,7 +147,7 @@ public class JournalServiceTests : ServiceTestBase<JournalService>
                 JournalEndpoints.Journal.UpdateRecurrence, recurrence, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -162,7 +162,7 @@ public class JournalServiceTests : ServiceTestBase<JournalService>
                 JournalEndpoints.Journal.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -176,7 +176,7 @@ public class JournalServiceTests : ServiceTestBase<JournalService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task ExportExcel_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -190,7 +190,7 @@ public class JournalServiceTests : ServiceTestBase<JournalService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportCsv_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -204,7 +204,7 @@ public class JournalServiceTests : ServiceTestBase<JournalService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportPdf_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler

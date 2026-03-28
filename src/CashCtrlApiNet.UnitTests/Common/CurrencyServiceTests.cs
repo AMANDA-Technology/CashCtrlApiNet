@@ -42,7 +42,7 @@ public class CurrencyServiceTests : ServiceTestBase<CurrencyService>
     protected override CurrencyService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -59,7 +59,7 @@ public class CurrencyServiceTests : ServiceTestBase<CurrencyService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -74,7 +74,7 @@ public class CurrencyServiceTests : ServiceTestBase<CurrencyService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -89,7 +89,7 @@ public class CurrencyServiceTests : ServiceTestBase<CurrencyService>
                 CommonEndpoints.Currency.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -103,7 +103,7 @@ public class CurrencyServiceTests : ServiceTestBase<CurrencyService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var currency = new CurrencyCreate { Code = "USD" };
@@ -118,7 +118,7 @@ public class CurrencyServiceTests : ServiceTestBase<CurrencyService>
                 CommonEndpoints.Currency.Create, currency, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var currency = new CurrencyUpdate { Id = 1, Code = "USD" };
@@ -133,7 +133,7 @@ public class CurrencyServiceTests : ServiceTestBase<CurrencyService>
                 CommonEndpoints.Currency.Update, currency, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -148,7 +148,7 @@ public class CurrencyServiceTests : ServiceTestBase<CurrencyService>
                 CommonEndpoints.Currency.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetExchangeRate_ShouldCallCorrectEndpoint()
     {
         var request = new CurrencyExchangeRateRequest { From = "CHF", To = "EUR" };

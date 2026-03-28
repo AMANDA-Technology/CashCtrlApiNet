@@ -42,7 +42,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
     protected override OrderService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
                 OrderEndpoints.Order.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
                 OrderEndpoints.Order.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -87,7 +87,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
                 OrderEndpoints.Order.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -101,7 +101,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var order = new OrderCreate { AccountId = 1, CategoryId = 2, Date = "2024-01-01", SequenceNumberId = 3 };
@@ -116,7 +116,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
                 OrderEndpoints.Order.Create, order, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var order = new OrderUpdate { Id = 1, AccountId = 1, CategoryId = 2, Date = "2024-01-01", SequenceNumberId = 3 };
@@ -131,7 +131,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
                 OrderEndpoints.Order.Update, order, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -146,7 +146,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
                 OrderEndpoints.Order.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task UpdateStatus_ShouldPostToCorrectEndpoint()
     {
         var status = new OrderStatusUpdate { Id = 1, StatusId = 5 };
@@ -161,7 +161,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
                 OrderEndpoints.Order.UpdateStatus, status, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task UpdateRecurrence_ShouldPostToCorrectEndpoint()
     {
         var recurrence = new OrderRecurrenceUpdate { Id = 1, Recurrence = "MONTHLY" };
@@ -176,7 +176,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
                 OrderEndpoints.Order.UpdateRecurrence, recurrence, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Continue_ShouldPostToCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -191,7 +191,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
                 OrderEndpoints.Order.Continue, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetDossier_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -207,7 +207,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
                 OrderEndpoints.Order.ReadDossier, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task DossierAdd_ShouldPostToCorrectEndpoint()
     {
         var dossier = new OrderDossierModify { Id = 1, DossierId = 10 };
@@ -222,7 +222,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
                 OrderEndpoints.Order.DossierAdd, dossier, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task DossierRemove_ShouldPostToCorrectEndpoint()
     {
         var dossier = new OrderDossierModify { Id = 1, DossierId = 10 };
@@ -237,7 +237,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
                 OrderEndpoints.Order.DossierRemove, dossier, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task UpdateAttachments_ShouldPostToCorrectEndpoint()
     {
         var attachments = new EntryAttachments { Id = 1, AttachedFileIds = [10, 20] };
@@ -252,7 +252,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
                 OrderEndpoints.Order.UpdateAttachments, attachments, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task ExportExcel_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -266,7 +266,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportCsv_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -280,7 +280,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportPdf_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler

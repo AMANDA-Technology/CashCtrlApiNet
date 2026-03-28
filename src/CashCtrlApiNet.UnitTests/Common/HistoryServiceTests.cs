@@ -41,7 +41,7 @@ public class HistoryServiceTests : ServiceTestBase<HistoryService>
     protected override HistoryService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint_WithRequestParameter()
     {
         var request = new HistoryListRequest { Id = 42, Type = "JOURNAL" };

@@ -38,7 +38,7 @@ public class SalaryTypeServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single salary type with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -62,7 +62,7 @@ public class SalaryTypeServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList returns a list of salary types
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_ReturnsExpectedResult()
     {
         // Arrange
@@ -82,7 +82,7 @@ public class SalaryTypeServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -104,7 +104,7 @@ public class SalaryTypeServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_ReturnsExpectedResult()
     {
         // Arrange
@@ -125,7 +125,7 @@ public class SalaryTypeServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Categorize sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Categorize_ReturnsExpectedResult()
     {
         // Arrange
@@ -149,7 +149,7 @@ public class SalaryTypeServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Delete sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Delete_ReturnsExpectedResult()
     {
         // Arrange
@@ -169,7 +169,7 @@ public class SalaryTypeServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ExportExcel returns binary Excel data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ExportExcel_ReturnsExpectedResult()
     {
         // Arrange
@@ -189,7 +189,7 @@ public class SalaryTypeServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ExportCsv returns binary CSV data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ExportCsv_ReturnsExpectedResult()
     {
         // Arrange
@@ -209,7 +209,7 @@ public class SalaryTypeServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ExportPdf returns binary PDF data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ExportPdf_ReturnsExpectedResult()
     {
         // Arrange

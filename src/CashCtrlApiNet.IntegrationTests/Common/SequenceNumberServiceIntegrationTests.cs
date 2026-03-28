@@ -38,7 +38,7 @@ public class SequenceNumberServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single sequence number with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -61,7 +61,7 @@ public class SequenceNumberServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList returns a list of sequence numbers
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_ReturnsExpectedResult()
     {
         // Arrange
@@ -81,7 +81,7 @@ public class SequenceNumberServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList with list params works correctly
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_WithParams_ReturnsExpectedResult()
     {
         // Arrange
@@ -102,7 +102,7 @@ public class SequenceNumberServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -124,7 +124,7 @@ public class SequenceNumberServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_ReturnsExpectedResult()
     {
         // Arrange
@@ -145,7 +145,7 @@ public class SequenceNumberServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Delete sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Delete_ReturnsExpectedResult()
     {
         // Arrange
@@ -165,7 +165,7 @@ public class SequenceNumberServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetGeneratedNumber returns a generated sequence number
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetGeneratedNumber_ReturnsExpectedResult()
     {
         // Arrange

@@ -36,7 +36,7 @@ namespace CashCtrlApiNet.UnitTests.Infrastructure;
 /// </summary>
 public class ConnectionHandlerBinaryTests
 {
-    [Fact]
+    [Test]
     public void Interface_ShouldDeclare_GetBinaryAsync_WithoutQueryParams()
     {
         var method = typeof(ICashCtrlConnectionHandler).GetMethod(
@@ -47,7 +47,7 @@ public class ConnectionHandlerBinaryTests
         method.ReturnType.ShouldBe(typeof(Task<ApiResult<BinaryResponse>>));
     }
 
-    [Fact]
+    [Test]
     public void Interface_ShouldDeclare_GetBinaryAsync_WithQueryParams()
     {
         var methods = typeof(ICashCtrlConnectionHandler).GetMethods()
@@ -59,7 +59,7 @@ public class ConnectionHandlerBinaryTests
         methods[0].ReturnType.GetGenericTypeDefinition().ShouldBe(typeof(Task<>));
     }
 
-    [Fact]
+    [Test]
     public void Implementation_ShouldDeclare_GetBinaryAsync_WithoutQueryParams()
     {
         var method = typeof(CashCtrlConnectionHandler).GetMethod(
@@ -70,7 +70,7 @@ public class ConnectionHandlerBinaryTests
         method.ReturnType.ShouldBe(typeof(Task<ApiResult<BinaryResponse>>));
     }
 
-    [Fact]
+    [Test]
     public void Implementation_ShouldDeclare_GetBinaryAsync_WithQueryParams()
     {
         var methods = typeof(CashCtrlConnectionHandler).GetMethods()
@@ -81,7 +81,7 @@ public class ConnectionHandlerBinaryTests
         methods[0].GetGenericArguments().Length.ShouldBe(1);
     }
 
-    [Fact]
+    [Test]
     public void BinaryResponse_ShouldHave_RequiredDataProperty()
     {
         var dataProperty = typeof(BinaryResponse).GetProperty(nameof(BinaryResponse.Data));
@@ -91,7 +91,7 @@ public class ConnectionHandlerBinaryTests
         dataProperty.GetCustomAttribute<System.Runtime.CompilerServices.RequiredMemberAttribute>().ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public void BinaryResponse_ShouldHave_ContentTypeProperty()
     {
         var contentTypeProperty = typeof(BinaryResponse).GetProperty(nameof(BinaryResponse.ContentType));
@@ -100,7 +100,7 @@ public class ConnectionHandlerBinaryTests
         contentTypeProperty.PropertyType.ShouldBe(typeof(string));
     }
 
-    [Fact]
+    [Test]
     public void BinaryResponse_ShouldHave_FileNameProperty()
     {
         var fileNameProperty = typeof(BinaryResponse).GetProperty(nameof(BinaryResponse.FileName));
@@ -109,7 +109,7 @@ public class ConnectionHandlerBinaryTests
         fileNameProperty.PropertyType.ShouldBe(typeof(string));
     }
 
-    [Fact]
+    [Test]
     public void BinaryResponse_ShouldInheritFrom_ApiResponse()
     {
         typeof(BinaryResponse).BaseType.ShouldBe(typeof(Abstractions.Models.Api.Base.ApiResponse));

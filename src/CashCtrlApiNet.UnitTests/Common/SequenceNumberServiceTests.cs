@@ -42,7 +42,7 @@ public class SequenceNumberServiceTests : ServiceTestBase<SequenceNumberService>
     protected override SequenceNumberService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -59,7 +59,7 @@ public class SequenceNumberServiceTests : ServiceTestBase<SequenceNumberService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -74,7 +74,7 @@ public class SequenceNumberServiceTests : ServiceTestBase<SequenceNumberService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -89,7 +89,7 @@ public class SequenceNumberServiceTests : ServiceTestBase<SequenceNumberService>
                 CommonEndpoints.SequenceNumber.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -103,7 +103,7 @@ public class SequenceNumberServiceTests : ServiceTestBase<SequenceNumberService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var sequenceNumber = new SequenceNumberCreate { Name = "Test", Pattern = "{0000}" };
@@ -118,7 +118,7 @@ public class SequenceNumberServiceTests : ServiceTestBase<SequenceNumberService>
                 CommonEndpoints.SequenceNumber.Create, sequenceNumber, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var sequenceNumber = new SequenceNumberUpdate { Id = 1, Name = "Test", Pattern = "{0000}" };
@@ -133,7 +133,7 @@ public class SequenceNumberServiceTests : ServiceTestBase<SequenceNumberService>
                 CommonEndpoints.SequenceNumber.Update, sequenceNumber, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -148,7 +148,7 @@ public class SequenceNumberServiceTests : ServiceTestBase<SequenceNumberService>
                 CommonEndpoints.SequenceNumber.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetGeneratedNumber_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };

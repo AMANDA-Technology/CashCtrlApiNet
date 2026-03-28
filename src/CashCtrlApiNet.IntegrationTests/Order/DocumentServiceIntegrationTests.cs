@@ -39,7 +39,7 @@ public class DocumentServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single document with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -61,7 +61,7 @@ public class DocumentServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify DownloadPdf returns binary PDF data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task DownloadPdf_ReturnsExpectedResult()
     {
         // Arrange
@@ -81,7 +81,7 @@ public class DocumentServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify DownloadZip returns binary ZIP data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task DownloadZip_ReturnsExpectedResult()
     {
         // Arrange
@@ -101,7 +101,7 @@ public class DocumentServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify SendMail sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task SendMail_ReturnsExpectedResult()
     {
         // Arrange
@@ -127,7 +127,7 @@ public class DocumentServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_ReturnsExpectedResult()
     {
         // Arrange

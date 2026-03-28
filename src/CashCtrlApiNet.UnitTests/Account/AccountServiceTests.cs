@@ -42,7 +42,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
     protected override AccountService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
                 AccountEndpoints.Account.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
                 AccountEndpoints.Account.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -87,7 +87,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
                 AccountEndpoints.Account.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -101,7 +101,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task GetBalance_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -117,7 +117,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
                 AccountEndpoints.Account.Balance, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var account = new AccountCreate { CategoryId = 1, Name = "Test", Number = 1000 };
@@ -132,7 +132,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
                 AccountEndpoints.Account.Create, account, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var account = new AccountUpdate { Id = 1, CategoryId = 1, Name = "Test", Number = 1000 };
@@ -147,7 +147,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
                 AccountEndpoints.Account.Update, account, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -162,7 +162,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
                 AccountEndpoints.Account.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Categorize_ShouldPostToCorrectEndpoint()
     {
         var categorize = new EntriesCategorize { Ids = [1], TargetCategoryId = 5 };
@@ -177,7 +177,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
                 AccountEndpoints.Account.Categorize, categorize, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task UpdateAttachments_ShouldPostToCorrectEndpoint()
     {
         var attachments = new EntryAttachments { Id = 1, AttachedFileIds = [10, 20] };
@@ -192,7 +192,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
                 AccountEndpoints.Account.UpdateAttachments, attachments, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task ExportExcel_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -206,7 +206,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportCsv_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -220,7 +220,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportPdf_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -234,7 +234,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldReturnExpectedResult()
     {
         var entry = new Entry { Id = 42 };
@@ -255,7 +255,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         result.RequestsLeft.ShouldBe(100);
     }
 
-    [Fact]
+    [Test]
     public async Task GetBalance_ShouldReturnExpectedResult()
     {
         var entry = new Entry { Id = 1 };
@@ -273,7 +273,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldReturnExpectedResult()
     {
         var account = new AccountCreate { CategoryId = 1, Name = "Test", Number = 1000 };
@@ -294,7 +294,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         result.ResponseData.InsertId.ShouldBe(42);
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldReturnExpectedResult()
     {
         var account = new AccountUpdate { Id = 1, CategoryId = 1, Name = "Test", Number = 1000 };
@@ -315,7 +315,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         result.ResponseData.Message.ShouldBe("Account updated");
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldReturnExpectedResult()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -335,7 +335,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         result.ResponseData.Success.ShouldBeTrue();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportExcel_ShouldReturnBinaryData()
     {
         byte[] expectedData = [1, 2, 3, 4, 5];
@@ -356,7 +356,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         result.ResponseData.ContentType.ShouldBe("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldReturnResult()
     {
         var expected = new ApiResult<ListResponse<AccountListed>>
@@ -372,7 +372,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldPassCancellationToken()
     {
         using var cts = new CancellationTokenSource();
@@ -390,7 +390,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
                 Arg.Any<string>(), Arg.Any<Entry>(), token);
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPassCancellationToken()
     {
         using var cts = new CancellationTokenSource();
@@ -407,7 +407,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
                 Arg.Any<string>(), Arg.Any<AccountCreate>(), token);
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldPassCancellationToken()
     {
         using var cts = new CancellationTokenSource();
@@ -424,7 +424,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
                 Arg.Any<string>(), Arg.Any<ListParams?>(), token);
     }
 
-    [Fact]
+    [Test]
     public async Task ExportExcel_ShouldPassCancellationToken()
     {
         using var cts = new CancellationTokenSource();

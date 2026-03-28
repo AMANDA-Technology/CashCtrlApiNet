@@ -39,7 +39,7 @@ public class CashCtrlSerializationTests
     /// </summary>
     private record TestModel(DateTime CreatedAt, string? Name);
 
-    [Fact]
+    [Test]
     public void Serialize_ShouldUseCashCtrlDateTimeFormat()
     {
         // Arrange
@@ -54,7 +54,7 @@ public class CashCtrlSerializationTests
         result.ShouldNotContain("2024-01-07T");
     }
 
-    [Fact]
+    [Test]
     public void Serialize_ShouldOmitNullProperties()
     {
         // Arrange

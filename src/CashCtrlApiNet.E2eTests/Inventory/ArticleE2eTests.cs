@@ -31,14 +31,13 @@ namespace CashCtrlApiNet.E2eTests.Inventory;
 /// <summary>
 /// E2E tests for inventory article service
 /// </summary>
-[Trait("Category", "E2e")]
-[TestCaseOrderer("CashCtrlApiNet.E2eTests.AlphabeticalOrderer", "CashCtrlApiNet.E2eTests")]
+[Category("E2e")]
 public class ArticleE2eTests : CashCtrlE2eTestBase
 {
     /// <summary>
     /// Get an article successfully
     /// </summary>
-    [Fact]
+    [Test, Order(1)]
     public async Task Test1_Get_Success()
     {
         var res = await CashCtrlApiClient.Inventory.Article.Get(new(){ Id = 1 });
@@ -48,20 +47,21 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
         res.RequestsLeft.Value.ShouldBeGreaterThan(0);
         res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
 
-        Assert.NotNull(res.ResponseData?.Data);
+        res.ResponseData.ShouldNotBeNull();
+        res.ResponseData.Data.ShouldNotBeNull();
         res.ResponseData.Data.Name.ShouldNotBeNullOrEmpty();
     }
 
     /// <summary>
     /// Get list of articles successfully
     /// </summary>
-    [Fact]
+    [Test, Order(2)]
     public async Task Test2_GetList_Success()
     {
         var res = await CashCtrlApiClient.Inventory.Article.GetList();
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
         res.ResponseData.Data.Length.ShouldBe(res.ResponseData.Total);
     }
@@ -69,7 +69,7 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
     /// <summary>
     /// Try to create article with duplicated Nr and fail
     /// </summary>
-    [Fact]
+    [Test, Order(3)]
     public async Task Test3_Create_DuplicateNrFail()
     {
         var res = await CashCtrlApiClient.Inventory.Article.Create(new()
@@ -79,11 +79,11 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
         });
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Success.ShouldBeFalse();
         res.ResponseData.InsertId.ShouldBeNull();
 
-        Assert.NotNull(res.ResponseData.Errors);
+        res.ResponseData.Errors.ShouldNotBeNull();
         res.ResponseData.Errors.Value.ShouldContain(apiError
             => apiError.Field.Equals("nr")
                && apiError.Message.Equals("This article no. is already used by another article."));
@@ -92,7 +92,7 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
     /// <summary>
     /// Create an article successfully
     /// </summary>
-    [Fact]
+    [Test, Order(4)]
     public async Task Test4_Create_Success()
     {
         var res = await CashCtrlApiClient.Inventory.Article.Create(new()
@@ -102,7 +102,7 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
         });
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Success.ShouldBeTrue();
         res.ResponseData.Errors.ShouldBeNull();
         res.ResponseData.InsertId.ShouldNotBeNull();
@@ -113,7 +113,7 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
     /// <summary>
     /// Update an article successfully
     /// </summary>
-    [Fact]
+    [Test, Order(5)]
     public async Task? Test5_Update_Success()
     {
         var get = await CashCtrlApiClient.Inventory.Article.Get(new(){ Id = 1 });
@@ -125,7 +125,7 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
         });
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Success.ShouldBeTrue();
         res.ResponseData.Errors.ShouldBeNull();
         res.ResponseData.InsertId.ShouldNotBeNull();
@@ -136,7 +136,7 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
     /// <summary>
     /// Delete an article successfully
     /// </summary>
-    [Fact]
+    [Test, Order(6)]
     public async Task Test6_Delete_Success()
     {
         // Wait until test article created
@@ -151,13 +151,13 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
             }
         }
 
-        Assert.NotNull(article);
+        article.ShouldNotBeNull();
 
         // Then delete it
         var res = await CashCtrlApiClient.Inventory.Article.Delete(new() { Ids = [article.Id] });
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Success.ShouldBeTrue();
         res.ResponseData.Errors.ShouldBeNull();
         res.ResponseData.Message.ShouldBe("1 article deleted");
@@ -168,7 +168,7 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
             => (await CashCtrlApiClient.Inventory.Article.GetList(cancellationToken: cancellationToken)).ResponseData?.Data.SingleOrDefault(a => a.Nr.Equals("A-00005"));
     }
 
-    [Fact]
+    [Test, Order(7)]
     public async Task Test7_Categorize_Success()
     {
         var res = await CashCtrlApiClient.Inventory.Article.Categorize(new()
@@ -178,14 +178,14 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
         });
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Success.ShouldBeTrue();
         res.ResponseData.Errors.ShouldBeNull();
         res.ResponseData.InsertId.ShouldBeNull();
         res.ResponseData.Message.ShouldBe("1 article assigned to category 'Dienstleistungen'");
     }
 
-    [Fact]
+    [Test, Order(8)]
     public async Task Test8_UpdateAttachments_Success()
     {
         var res = await CashCtrlApiClient.Inventory.Article.UpdateAttachments(new()
@@ -195,7 +195,7 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
         });
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Success.ShouldBeTrue();
         res.ResponseData.Errors.ShouldBeNull();
         res.ResponseData.InsertId.ShouldBeNull();

@@ -42,7 +42,7 @@ public class DocumentServiceTests : ServiceTestBase<DocumentService>
     protected override DocumentService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class DocumentServiceTests : ServiceTestBase<DocumentService>
                 OrderEndpoints.Document.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task DownloadPdf_ShouldCallGetBinaryAsync()
     {
         var entry = new Entry { Id = 42 };
@@ -73,7 +73,7 @@ public class DocumentServiceTests : ServiceTestBase<DocumentService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task DownloadZip_ShouldCallGetBinaryAsync()
     {
         var entry = new Entry { Id = 42 };
@@ -88,7 +88,7 @@ public class DocumentServiceTests : ServiceTestBase<DocumentService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task SendMail_ShouldPostToCorrectEndpoint()
     {
         var mail = new DocumentMail { Id = 1, RecipientEmail = "test@example.com" };
@@ -103,7 +103,7 @@ public class DocumentServiceTests : ServiceTestBase<DocumentService>
                 OrderEndpoints.Document.SendMail, mail, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var document = new DocumentUpdate { Id = 1, Text = "Updated text" };

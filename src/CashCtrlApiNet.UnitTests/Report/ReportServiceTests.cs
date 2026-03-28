@@ -40,7 +40,7 @@ public class ReportServiceTests : ServiceTestBase<ReportService>
     protected override ReportService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task GetTree_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler

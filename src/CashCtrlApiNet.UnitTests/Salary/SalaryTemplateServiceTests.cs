@@ -42,7 +42,7 @@ public class SalaryTemplateServiceTests : ServiceTestBase<SalaryTemplateService>
     protected override SalaryTemplateService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class SalaryTemplateServiceTests : ServiceTestBase<SalaryTemplateService>
                 SalaryEndpoints.Template.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class SalaryTemplateServiceTests : ServiceTestBase<SalaryTemplateService>
                 SalaryEndpoints.Template.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetTree_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -86,7 +86,7 @@ public class SalaryTemplateServiceTests : ServiceTestBase<SalaryTemplateService>
                 SalaryEndpoints.Template.Tree, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var template = new SalaryTemplateCreate { Name = "Test" };
@@ -101,7 +101,7 @@ public class SalaryTemplateServiceTests : ServiceTestBase<SalaryTemplateService>
                 SalaryEndpoints.Template.Create, template, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var template = new SalaryTemplateUpdate { Id = 1, Name = "Test" };
@@ -116,7 +116,7 @@ public class SalaryTemplateServiceTests : ServiceTestBase<SalaryTemplateService>
                 SalaryEndpoints.Template.Update, template, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -131,7 +131,7 @@ public class SalaryTemplateServiceTests : ServiceTestBase<SalaryTemplateService>
                 SalaryEndpoints.Template.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -146,7 +146,7 @@ public class SalaryTemplateServiceTests : ServiceTestBase<SalaryTemplateService>
                 SalaryEndpoints.Template.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };

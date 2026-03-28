@@ -42,7 +42,7 @@ public class JournalImportServiceTests : ServiceTestBase<JournalImportService>
     protected override JournalImportService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class JournalImportServiceTests : ServiceTestBase<JournalImportService>
                 JournalEndpoints.Import.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class JournalImportServiceTests : ServiceTestBase<JournalImportService>
                 JournalEndpoints.Import.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var journalImport = new JournalImportCreate { FileId = 1 };
@@ -87,7 +87,7 @@ public class JournalImportServiceTests : ServiceTestBase<JournalImportService>
                 JournalEndpoints.Import.Create, journalImport, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -102,7 +102,7 @@ public class JournalImportServiceTests : ServiceTestBase<JournalImportService>
                 JournalEndpoints.Import.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -116,7 +116,7 @@ public class JournalImportServiceTests : ServiceTestBase<JournalImportService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Execute_ShouldPostToCorrectEndpoint()
     {
         var entry = new Entry { Id = 1 };

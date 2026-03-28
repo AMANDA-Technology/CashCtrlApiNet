@@ -37,7 +37,7 @@ public class PersonImportServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -59,7 +59,7 @@ public class PersonImportServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Mapping sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Mapping_ReturnsExpectedResult()
     {
         // Arrange
@@ -80,7 +80,7 @@ public class PersonImportServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetMappingFields returns available mapping fields
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetMappingFields_ReturnsExpectedResult()
     {
         // Arrange
@@ -97,7 +97,7 @@ public class PersonImportServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Preview sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Preview_ReturnsExpectedResult()
     {
         // Arrange
@@ -118,7 +118,7 @@ public class PersonImportServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Execute sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Execute_ReturnsExpectedResult()
     {
         // Arrange
