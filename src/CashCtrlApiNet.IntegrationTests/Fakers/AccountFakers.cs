@@ -50,7 +50,7 @@ public static class AccountFakers
             Id = f.Random.Int(1, 9999),
             CategoryId = f.Random.Int(1, 100),
             Name = f.Finance.AccountName(),
-            Number = f.Random.Int(1000, 9999),
+            Number = f.Random.Int(1000, 9999).ToString(),
             CreatedBy = f.Person.UserName,
             LastUpdatedBy = f.Person.UserName
         });
@@ -64,7 +64,7 @@ public static class AccountFakers
             Id = f.Random.Int(1, 9999),
             CategoryId = f.Random.Int(1, 100),
             Name = f.Finance.AccountName(),
-            Number = f.Random.Int(1000, 9999),
+            Number = f.Random.Int(1000, 9999).ToString(),
             CreatedBy = f.Person.UserName,
             LastUpdatedBy = f.Person.UserName
         });
@@ -77,7 +77,7 @@ public static class AccountFakers
         {
             CategoryId = f.Random.Int(1, 100),
             Name = f.Finance.AccountName(),
-            Number = f.Random.Int(1000, 9999)
+            Number = f.Random.Int(1000, 9999).ToString()
         });
 
     /// <summary>
@@ -89,7 +89,7 @@ public static class AccountFakers
             Id = f.Random.Int(1, 9999),
             CategoryId = f.Random.Int(1, 100),
             Name = f.Finance.AccountName(),
-            Number = f.Random.Int(1000, 9999)
+            Number = f.Random.Int(1000, 9999).ToString()
         });
 
     /// <summary>

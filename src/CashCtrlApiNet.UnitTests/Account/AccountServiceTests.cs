@@ -120,7 +120,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
     [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
-        var account = new AccountCreate { CategoryId = 1, Name = "Test", Number = 1000 };
+        var account = new AccountCreate { CategoryId = 1, Name = "Test", Number = "1000" };
         ConnectionHandler
             .PostAsync<NoContentResponse, AccountCreate>(Arg.Any<string>(), Arg.Any<AccountCreate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -135,7 +135,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
     [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
-        var account = new AccountUpdate { Id = 1, CategoryId = 1, Name = "Test", Number = 1000 };
+        var account = new AccountUpdate { Id = 1, CategoryId = 1, Name = "Test", Number = "1000" };
         ConnectionHandler
             .PostAsync<NoContentResponse, AccountUpdate>(Arg.Any<string>(), Arg.Any<AccountUpdate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -276,7 +276,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
     [Test]
     public async Task Create_ShouldReturnExpectedResult()
     {
-        var account = new AccountCreate { CategoryId = 1, Name = "Test", Number = 1000 };
+        var account = new AccountCreate { CategoryId = 1, Name = "Test", Number = "1000" };
         var expected = new ApiResult<NoContentResponse>
         {
             IsHttpSuccess = true,
@@ -297,7 +297,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
     [Test]
     public async Task Update_ShouldReturnExpectedResult()
     {
-        var account = new AccountUpdate { Id = 1, CategoryId = 1, Name = "Test", Number = 1000 };
+        var account = new AccountUpdate { Id = 1, CategoryId = 1, Name = "Test", Number = "1000" };
         var expected = new ApiResult<NoContentResponse>
         {
             IsHttpSuccess = true,
@@ -400,7 +400,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
             .PostAsync<NoContentResponse, AccountCreate>(Arg.Any<string>(), Arg.Any<AccountCreate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
 
-        await Service.Create(new AccountCreate { CategoryId = 1, Name = "Test", Number = 1000 }, token);
+        await Service.Create(new AccountCreate { CategoryId = 1, Name = "Test", Number = "1000" }, token);
 
         await ConnectionHandler.Received(1)
             .PostAsync<NoContentResponse, AccountCreate>(

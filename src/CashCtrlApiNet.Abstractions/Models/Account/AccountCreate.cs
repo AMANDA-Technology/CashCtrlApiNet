@@ -52,7 +52,7 @@ public record AccountCreate : ModelBaseRecord
     /// The account number.
     /// </summary>
     [JsonPropertyName("number")]
-    public required int Number { get; init; }
+    public required string Number { get; init; }
 
     /// <summary>
     /// The ID of the currency. Leave empty to use the default currency. See Currency.
@@ -70,7 +70,7 @@ public record AccountCreate : ModelBaseRecord
     /// Allocations to cost centers. This is a JSON array.
     /// </summary>
     [JsonPropertyName("allocations")]
-    public string? AllocationsJson { get; init; }
+    public List<object>? AllocationsJson { get; init; }
 
     /// <summary>
     /// Custom field values. They are stored as XML in this parameter.

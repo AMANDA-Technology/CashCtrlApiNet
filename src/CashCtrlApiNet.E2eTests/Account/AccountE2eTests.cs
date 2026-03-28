@@ -50,7 +50,7 @@ public class AccountE2eTests : CashCtrlE2eTestBase
         res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Data.ShouldNotBeNull();
         res.ResponseData.Data.Name.ShouldNotBeNullOrEmpty();
-        res.ResponseData.Data.Number.ShouldBeGreaterThan(0);
+        res.ResponseData.Data.Number.ShouldBeGreaterThan("0");
     }
 
     /// <summary>
@@ -91,7 +91,7 @@ public class AccountE2eTests : CashCtrlE2eTestBase
         {
             CategoryId = 1,
             Name = "Test E2E Account",
-            Number = 9990
+            Number = "9990"
         });
         res.IsHttpSuccess.ShouldBeTrue();
 
@@ -174,5 +174,5 @@ public class AccountE2eTests : CashCtrlE2eTestBase
 
     private async Task<AccountListed?> GetTestAccount(CancellationToken cancellationToken)
         => (await CashCtrlApiClient.Account.Account.GetList(cancellationToken: cancellationToken))
-            .ResponseData?.Data.SingleOrDefault(a => a.Number == 9990);
+            .ResponseData?.Data.SingleOrDefault(a => a.Number == "9990");
 }

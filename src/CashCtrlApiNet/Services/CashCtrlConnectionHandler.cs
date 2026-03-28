@@ -277,9 +277,10 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     private static async Task<ApiResult<T>> GetApiResult<T>(HttpResponseMessage httpResponseMessage) where T : ApiResponse
     {
         var data = await GetData(httpResponseMessage);
+        var responseData = CashCtrlSerialization.Deserialize<T>(data.Content);
         return CreateApiResult<T>(data) with
         {
-            ResponseData = CashCtrlSerialization.Deserialize<T>(data.Content)
+            ResponseData = responseData
         };
     }
 
