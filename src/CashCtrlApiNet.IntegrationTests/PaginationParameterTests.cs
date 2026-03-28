@@ -39,7 +39,7 @@ public class PaginationParameterTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList sends both start and limit pagination query parameters
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_WithStartAndLimit_SendsPaginationQueryParams()
     {
         // Arrange
@@ -59,7 +59,7 @@ public class PaginationParameterTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList with only Limit sends limit query parameter with correct value
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_WithOnlyLimit_SendsLimitQueryParam()
     {
         // Arrange
@@ -79,7 +79,7 @@ public class PaginationParameterTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList with only Start sends start query parameter with correct value
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_WithOnlyStart_SendsStartQueryParam()
     {
         // Arrange
@@ -99,7 +99,7 @@ public class PaginationParameterTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList with all ListParams fields sends all query parameters with correct values
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_WithAllListParams_SendsAllQueryParams()
     {
         // Arrange
@@ -137,7 +137,7 @@ public class PaginationParameterTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList with no ListParams sends only the default lang query parameter
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_WithNullListParams_SendsNoExtraQueryParams()
     {
         // Arrange
@@ -165,7 +165,7 @@ public class PaginationParameterTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList with Start=0 sends start=0 (not omitted because value is 0, not null)
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_WithZeroStart_SendsStartAsZero()
     {
         // Arrange
@@ -184,7 +184,7 @@ public class PaginationParameterTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList with large pagination values serializes correctly
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_WithLargeValues_SendsCorrectValues()
     {
         // Arrange
@@ -204,7 +204,7 @@ public class PaginationParameterTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList with boolean params sends correct boolean string format (True/False)
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_WithBooleanParams_SendsCorrectValues()
     {
         // Arrange
@@ -230,7 +230,7 @@ public class PaginationParameterTests : IntegrationTestBase
     /// <summary>
     /// Verify pagination parameters work consistently across multiple domain endpoints
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_Pagination_AcrossMultipleDomains()
     {
         // Arrange

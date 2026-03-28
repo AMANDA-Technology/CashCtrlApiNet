@@ -35,7 +35,7 @@ namespace CashCtrlApiNet.IntegrationTests;
 /// </summary>
 public class ConcurrencyIntegrationTests : IntegrationTestBase
 {
-    [Fact]
+    [Test]
     public async Task ConcurrentGetRequests_ShouldAllSucceed()
     {
         // Arrange
@@ -63,7 +63,7 @@ public class ConcurrencyIntegrationTests : IntegrationTestBase
         }
     }
 
-    [Fact]
+    [Test]
     public async Task ConcurrentMixedRequests_ShouldAllSucceed()
     {
         // Arrange
@@ -98,7 +98,7 @@ public class ConcurrencyIntegrationTests : IntegrationTestBase
         // Assert: if we got here without exceptions, concurrency is handled correctly
     }
 
-    [Fact]
+    [Test]
     public async Task ConcurrentRequestsAcrossDomains_ShouldNotInterfere()
     {
         // Arrange: stub different domain endpoints

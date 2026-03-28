@@ -39,7 +39,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single account with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -63,7 +63,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList returns a list of accounts
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_ReturnsExpectedResult()
     {
         // Arrange
@@ -83,7 +83,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList with list params works correctly
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_WithParams_ReturnsExpectedResult()
     {
         // Arrange
@@ -104,7 +104,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetBalance returns account with balance data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetBalance_ReturnsExpectedResult()
     {
         // Arrange
@@ -126,7 +126,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -148,7 +148,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_ReturnsExpectedResult()
     {
         // Arrange
@@ -169,7 +169,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Delete sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Delete_ReturnsExpectedResult()
     {
         // Arrange
@@ -189,7 +189,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Categorize sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Categorize_ReturnsExpectedResult()
     {
         // Arrange
@@ -212,7 +212,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify UpdateAttachments sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task UpdateAttachments_ReturnsExpectedResult()
     {
         // Arrange
@@ -235,7 +235,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ExportExcel returns binary data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ExportExcel_ReturnsExpectedResult()
     {
         // Arrange
@@ -255,7 +255,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ExportCsv returns binary data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ExportCsv_ReturnsExpectedResult()
     {
         // Arrange
@@ -274,7 +274,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ExportPdf returns binary data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ExportPdf_ReturnsExpectedResult()
     {
         // Arrange

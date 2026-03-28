@@ -39,7 +39,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single report set with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -62,7 +62,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -84,7 +84,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_ReturnsExpectedResult()
     {
         // Arrange
@@ -105,7 +105,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Delete sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Delete_ReturnsExpectedResult()
     {
         // Arrange
@@ -125,7 +125,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Reorder sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Reorder_ReturnsExpectedResult()
     {
         // Arrange
@@ -149,7 +149,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetMeta returns a single report set with metadata
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetMeta_ReturnsExpectedResult()
     {
         // Arrange
@@ -170,7 +170,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify DownloadPdf returns binary PDF data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task DownloadPdf_ReturnsExpectedResult()
     {
         // Arrange
@@ -190,7 +190,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify DownloadCsv returns binary CSV data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task DownloadCsv_ReturnsExpectedResult()
     {
         // Arrange
@@ -210,7 +210,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify DownloadExcel returns binary Excel data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task DownloadExcel_ReturnsExpectedResult()
     {
         // Arrange
@@ -230,7 +230,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify DownloadAnnualReport returns binary PDF data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task DownloadAnnualReport_ReturnsExpectedResult()
     {
         // Arrange

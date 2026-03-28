@@ -38,7 +38,7 @@ public class FiscalPeriodTaskServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList returns a list of fiscal period tasks
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_ReturnsExpectedResult()
     {
         // Arrange
@@ -58,7 +58,7 @@ public class FiscalPeriodTaskServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList with list params works correctly
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_WithParams_ReturnsExpectedResult()
     {
         // Arrange
@@ -79,7 +79,7 @@ public class FiscalPeriodTaskServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -101,7 +101,7 @@ public class FiscalPeriodTaskServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Delete sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Delete_ReturnsExpectedResult()
     {
         // Arrange

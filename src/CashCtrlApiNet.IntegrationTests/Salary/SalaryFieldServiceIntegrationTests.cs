@@ -38,7 +38,7 @@ public class SalaryFieldServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single salary field with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -61,7 +61,7 @@ public class SalaryFieldServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList returns a list of salary fields
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_ReturnsExpectedResult()
     {
         // Arrange

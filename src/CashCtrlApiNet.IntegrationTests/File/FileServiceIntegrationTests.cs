@@ -41,7 +41,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetContent returns binary file content
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetContent_ReturnsExpectedResult()
     {
         // Arrange
@@ -60,7 +60,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single file with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -84,7 +84,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList returns a list of files
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_ReturnsExpectedResult()
     {
         // Arrange
@@ -104,7 +104,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList with params returns filtered results
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_WithParams_ReturnsExpectedResult()
     {
         // Arrange
@@ -125,7 +125,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Prepare uploads multipart content and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Prepare_ReturnsExpectedResult()
     {
         // Arrange
@@ -148,7 +148,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Persist sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Persist_ReturnsExpectedResult()
     {
         // Arrange
@@ -168,7 +168,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -190,7 +190,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_ReturnsExpectedResult()
     {
         // Arrange
@@ -211,7 +211,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Delete sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Delete_ReturnsExpectedResult()
     {
         // Arrange
@@ -231,7 +231,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Categorize sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Categorize_ReturnsExpectedResult()
     {
         // Arrange
@@ -251,7 +251,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify EmptyArchive sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task EmptyArchive_ReturnsExpectedResult()
     {
         // Arrange
@@ -271,7 +271,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Restore sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Restore_ReturnsExpectedResult()
     {
         // Arrange
@@ -291,7 +291,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ExportExcel returns binary Excel data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ExportExcel_ReturnsExpectedResult()
     {
         // Arrange
@@ -311,7 +311,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ExportCsv returns binary CSV data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ExportCsv_ReturnsExpectedResult()
     {
         // Arrange
@@ -330,7 +330,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ExportPdf returns binary PDF data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ExportPdf_ReturnsExpectedResult()
     {
         // Arrange

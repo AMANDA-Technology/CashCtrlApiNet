@@ -41,7 +41,7 @@ public class ErrorResponseHandlingTests : IntegrationTestBase
     /// <summary>
     /// Verify that a 404 response sets correct HTTP status and CashCtrl description
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_Returns404_SetsCorrectHttpStatus()
     {
         // Arrange
@@ -59,7 +59,7 @@ public class ErrorResponseHandlingTests : IntegrationTestBase
     /// <summary>
     /// Verify that a 404 response with a JSON body deserializes the error message
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_Returns404_WithJsonBody_DeserializesResponse()
     {
         // Arrange
@@ -80,7 +80,7 @@ public class ErrorResponseHandlingTests : IntegrationTestBase
     /// <summary>
     /// Verify that a 422 response with validation errors deserializes the error fields
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Post_Returns422_WithValidationErrors_DeserializesErrorFields()
     {
         // Arrange
@@ -111,7 +111,7 @@ public class ErrorResponseHandlingTests : IntegrationTestBase
     /// <summary>
     /// Verify that a 200 response with success: false deserializes error fields (CashCtrl's actual pattern)
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Post_Returns200_WithValidationErrors_DeserializesErrorFields()
     {
         // Arrange
@@ -135,7 +135,7 @@ public class ErrorResponseHandlingTests : IntegrationTestBase
     /// <summary>
     /// Verify that a 401 response sets correct status and description
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_Returns401_SetsCorrectStatusAndDescription()
     {
         // Arrange
@@ -153,7 +153,7 @@ public class ErrorResponseHandlingTests : IntegrationTestBase
     /// <summary>
     /// Verify that a 429 response sets correct status and rate-limiting description
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_Returns429_SetsCorrectStatusAndDescription()
     {
         // Arrange
@@ -172,7 +172,7 @@ public class ErrorResponseHandlingTests : IntegrationTestBase
     /// <summary>
     /// Verify that a 500 response sets correct status and description
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_Returns500_SetsCorrectStatusAndDescription()
     {
         // Arrange
@@ -191,7 +191,7 @@ public class ErrorResponseHandlingTests : IntegrationTestBase
     /// <summary>
     /// Verify that the X-CashCtrl-Requests-Left header is preserved on GET error responses
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ErrorResponse_PreservesRequestsLeftHeader()
     {
         // Arrange
@@ -213,7 +213,7 @@ public class ErrorResponseHandlingTests : IntegrationTestBase
     /// <summary>
     /// Verify that the X-CashCtrl-Requests-Left header is preserved on POST error responses
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Post_ErrorResponse_PreservesRequestsLeftHeader()
     {
         // Arrange

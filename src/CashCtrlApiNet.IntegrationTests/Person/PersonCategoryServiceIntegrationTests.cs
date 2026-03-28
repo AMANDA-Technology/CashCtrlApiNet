@@ -38,7 +38,7 @@ public class PersonCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single person category with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -60,7 +60,7 @@ public class PersonCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList returns a list of person categories
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_ReturnsExpectedResult()
     {
         // Arrange
@@ -80,7 +80,7 @@ public class PersonCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetTree returns the category tree
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetTree_ReturnsExpectedResult()
     {
         // Arrange
@@ -100,7 +100,7 @@ public class PersonCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -122,7 +122,7 @@ public class PersonCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_ReturnsExpectedResult()
     {
         // Arrange
@@ -143,7 +143,7 @@ public class PersonCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Delete sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Delete_ReturnsExpectedResult()
     {
         // Arrange

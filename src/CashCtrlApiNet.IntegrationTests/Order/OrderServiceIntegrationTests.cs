@@ -40,7 +40,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single order with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -64,7 +64,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList returns a list of orders
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_ReturnsExpectedResult()
     {
         // Arrange
@@ -84,7 +84,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList with list params works correctly
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_WithParams_ReturnsExpectedResult()
     {
         // Arrange
@@ -105,7 +105,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -127,7 +127,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_ReturnsExpectedResult()
     {
         // Arrange
@@ -148,7 +148,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Delete sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Delete_ReturnsExpectedResult()
     {
         // Arrange
@@ -168,7 +168,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify UpdateStatus sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task UpdateStatus_ReturnsExpectedResult()
     {
         // Arrange
@@ -192,7 +192,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify UpdateRecurrence sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task UpdateRecurrence_ReturnsExpectedResult()
     {
         // Arrange
@@ -216,7 +216,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Continue sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Continue_ReturnsExpectedResult()
     {
         // Arrange
@@ -236,7 +236,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetDossier returns a list of orders in the dossier
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetDossier_ReturnsExpectedResult()
     {
         // Arrange
@@ -256,7 +256,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify DossierAdd sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task DossierAdd_ReturnsExpectedResult()
     {
         // Arrange
@@ -280,7 +280,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify DossierRemove sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task DossierRemove_ReturnsExpectedResult()
     {
         // Arrange
@@ -304,7 +304,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify UpdateAttachments sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task UpdateAttachments_ReturnsExpectedResult()
     {
         // Arrange
@@ -327,7 +327,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ExportExcel returns binary data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ExportExcel_ReturnsExpectedResult()
     {
         // Arrange
@@ -347,7 +347,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ExportCsv returns binary data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ExportCsv_ReturnsExpectedResult()
     {
         // Arrange
@@ -366,7 +366,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ExportPdf returns binary data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ExportPdf_ReturnsExpectedResult()
     {
         // Arrange

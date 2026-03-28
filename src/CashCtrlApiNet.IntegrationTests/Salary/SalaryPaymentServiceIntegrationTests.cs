@@ -37,7 +37,7 @@ public class SalaryPaymentServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -59,7 +59,7 @@ public class SalaryPaymentServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Download returns binary payment file data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Download_ReturnsExpectedResult()
     {
         // Arrange

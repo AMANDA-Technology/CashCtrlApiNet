@@ -38,7 +38,7 @@ public class OrderPaymentServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -60,7 +60,7 @@ public class OrderPaymentServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Download returns binary data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Download_ReturnsExpectedResult()
     {
         // Arrange

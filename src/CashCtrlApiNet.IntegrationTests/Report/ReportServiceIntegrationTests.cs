@@ -37,7 +37,7 @@ public class ReportServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetTree returns the report tree
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetTree_ReturnsExpectedResult()
     {
         // Arrange

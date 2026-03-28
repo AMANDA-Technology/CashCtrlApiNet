@@ -39,7 +39,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single salary statement with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -63,7 +63,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList returns a list of salary statements
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_ReturnsExpectedResult()
     {
         // Arrange
@@ -83,7 +83,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -105,7 +105,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_ReturnsExpectedResult()
     {
         // Arrange
@@ -126,7 +126,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify UpdateMultiple sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task UpdateMultiple_ReturnsExpectedResult()
     {
         // Arrange
@@ -151,7 +151,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify UpdateStatus sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task UpdateStatus_ReturnsExpectedResult()
     {
         // Arrange
@@ -175,7 +175,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify UpdateRecurrence sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task UpdateRecurrence_ReturnsExpectedResult()
     {
         // Arrange
@@ -202,7 +202,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Delete sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Delete_ReturnsExpectedResult()
     {
         // Arrange
@@ -222,7 +222,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Calculate sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Calculate_ReturnsExpectedResult()
     {
         // Arrange
@@ -248,7 +248,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify UpdateAttachments sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task UpdateAttachments_ReturnsExpectedResult()
     {
         // Arrange
@@ -272,7 +272,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ExportExcel returns binary Excel data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ExportExcel_ReturnsExpectedResult()
     {
         // Arrange
@@ -292,7 +292,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ExportCsv returns binary CSV data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ExportCsv_ReturnsExpectedResult()
     {
         // Arrange
@@ -312,7 +312,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ExportPdf returns binary PDF data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ExportPdf_ReturnsExpectedResult()
     {
         // Arrange

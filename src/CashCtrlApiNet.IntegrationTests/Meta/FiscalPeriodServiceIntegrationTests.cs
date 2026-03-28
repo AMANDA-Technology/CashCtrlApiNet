@@ -38,7 +38,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single fiscal period with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -62,7 +62,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList returns a list of fiscal periods
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_ReturnsExpectedResult()
     {
         // Arrange
@@ -82,7 +82,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList with list params works correctly
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_WithParams_ReturnsExpectedResult()
     {
         // Arrange
@@ -103,7 +103,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -125,7 +125,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_ReturnsExpectedResult()
     {
         // Arrange
@@ -146,7 +146,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Switch sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Switch_ReturnsExpectedResult()
     {
         // Arrange
@@ -166,7 +166,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Delete sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Delete_ReturnsExpectedResult()
     {
         // Arrange
@@ -186,7 +186,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetResult returns a single fiscal period result
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetResult_ReturnsExpectedResult()
     {
         // Arrange
@@ -207,7 +207,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetDepreciations returns a list of depreciations
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetDepreciations_ReturnsExpectedResult()
     {
         // Arrange
@@ -227,7 +227,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify BookDepreciations sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task BookDepreciations_ReturnsExpectedResult()
     {
         // Arrange
@@ -247,7 +247,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetExchangeDiff returns a list of exchange differences
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetExchangeDiff_ReturnsExpectedResult()
     {
         // Arrange
@@ -267,7 +267,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify BookExchangeDiff sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task BookExchangeDiff_ReturnsExpectedResult()
     {
         // Arrange
@@ -287,7 +287,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Complete sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Complete_ReturnsExpectedResult()
     {
         // Arrange
@@ -307,7 +307,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Reopen sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Reopen_ReturnsExpectedResult()
     {
         // Arrange
@@ -327,7 +327,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify CompleteMonths sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task CompleteMonths_ReturnsExpectedResult()
     {
         // Arrange
@@ -347,7 +347,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify ReopenMonths sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task ReopenMonths_ReturnsExpectedResult()
     {
         // Arrange

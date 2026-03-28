@@ -36,7 +36,7 @@ public class OrganizationServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetLogo returns binary data
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetLogo_ReturnsExpectedResult()
     {
         // Arrange

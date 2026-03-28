@@ -39,7 +39,7 @@ public class CostCenterCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get returns a single cost center category with correct deserialization
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_ReturnsExpectedResult()
     {
         // Arrange
@@ -63,7 +63,7 @@ public class CostCenterCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList returns a list of cost center categories
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_ReturnsExpectedResult()
     {
         // Arrange
@@ -83,7 +83,7 @@ public class CostCenterCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetTree returns the cost center category tree
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetTree_ReturnsExpectedResult()
     {
         // Arrange
@@ -103,7 +103,7 @@ public class CostCenterCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
@@ -125,7 +125,7 @@ public class CostCenterCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_ReturnsExpectedResult()
     {
         // Arrange
@@ -146,7 +146,7 @@ public class CostCenterCategoryServiceIntegrationTests : IntegrationTestBase
     /// <summary>
     /// Verify Delete sends correct request and returns success
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Delete_ReturnsExpectedResult()
     {
         // Arrange

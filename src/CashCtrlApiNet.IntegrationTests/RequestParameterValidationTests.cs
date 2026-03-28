@@ -39,7 +39,7 @@ public class RequestParameterValidationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get Article sends correct id query parameter and lang parameter, and deserializes response fields
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_Article_SendsCorrectIdQueryParameter()
     {
         // Arrange
@@ -69,7 +69,7 @@ public class RequestParameterValidationTests : IntegrationTestBase
     /// <summary>
     /// Verify Get Person sends correct id query parameter and deserializes response fields
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Get_Person_SendsCorrectIdQueryParameter()
     {
         // Arrange
@@ -100,7 +100,7 @@ public class RequestParameterValidationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create Article sends correct form parameters and deserializes success response
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_Article_SendsCorrectFormParameters()
     {
         // Arrange
@@ -128,7 +128,7 @@ public class RequestParameterValidationTests : IntegrationTestBase
     /// <summary>
     /// Verify Create Person sends correct form parameters
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Create_Person_SendsCorrectFormParameters()
     {
         // Arrange
@@ -155,7 +155,7 @@ public class RequestParameterValidationTests : IntegrationTestBase
     /// <summary>
     /// Verify Update Article sends correct form parameters including id
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Update_Article_SendsCorrectFormParameters()
     {
         // Arrange
@@ -181,7 +181,7 @@ public class RequestParameterValidationTests : IntegrationTestBase
     /// <summary>
     /// Verify Delete Article sends correct form parameters with CSV-encoded ids
     /// </summary>
-    [Fact]
+    [Test]
     public async Task Delete_Article_SendsCorrectFormParameters()
     {
         // Arrange
@@ -204,7 +204,7 @@ public class RequestParameterValidationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList Account deserializes all fields from a list response
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_Account_DeserializesAllFields()
     {
         // Arrange
@@ -233,7 +233,7 @@ public class RequestParameterValidationTests : IntegrationTestBase
     /// <summary>
     /// Verify GetList Order deserializes all fields from a list response
     /// </summary>
-    [Fact]
+    [Test]
     public async Task GetList_Order_DeserializesAllFields()
     {
         // Arrange

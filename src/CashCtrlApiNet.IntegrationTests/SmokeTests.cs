@@ -36,7 +36,7 @@ public class SmokeTests : IntegrationTestBase
     /// <summary>
     /// Verify that the WireMock server starts and the client can reach it
     /// </summary>
-    [Fact]
+    [Test]
     public async Task WireMockServer_StartsAndClientCanConnect()
     {
         // Arrange
@@ -67,7 +67,7 @@ public class SmokeTests : IntegrationTestBase
     /// <summary>
     /// Verify that the response factory creates valid JSON that deserializes correctly
     /// </summary>
-    [Fact]
+    [Test]
     public async Task CashCtrlResponseFactory_SuccessResponse_DeserializesCorrectly()
     {
         // Arrange
@@ -88,7 +88,7 @@ public class SmokeTests : IntegrationTestBase
     /// <summary>
     /// Verify that binary response stubbing works
     /// </summary>
-    [Fact]
+    [Test]
     public async Task WireMockServer_BinaryResponseWorks()
     {
         // Arrange

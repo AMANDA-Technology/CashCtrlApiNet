@@ -38,7 +38,7 @@ namespace CashCtrlApiNet.IntegrationTests;
 /// </summary>
 public class EdgeCaseIntegrationTests : IntegrationTestBase
 {
-    [Fact]
+    [Test]
     public async Task Get_WithTimeout_ShouldThrowWhenCancelled()
     {
         // Arrange: WireMock responds with a 5-second delay
@@ -59,7 +59,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
             () => Client.Account.Account.Get(new Entry { Id = 1 }, cts.Token));
     }
 
-    [Fact]
+    [Test]
     public async Task Get_WithMalformedJson_ShouldThrowJsonException()
     {
         // Arrange: respond with invalid JSON
@@ -70,7 +70,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
             () => Client.Account.Account.Get(new Entry { Id = 1 }));
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithMalformedJson_ShouldThrowJsonException()
     {
         // Arrange: respond with invalid JSON
@@ -81,7 +81,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
             () => Client.Account.Account.GetList());
     }
 
-    [Fact]
+    [Test]
     public async Task Get_WithEmptyJsonResponse_ShouldReturnNullData()
     {
         // Arrange: respond with valid JSON but null data
@@ -99,7 +99,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
         result.ResponseData.Data.ShouldBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task Get_WithHttp404_ShouldReturnNotSuccess()
     {
         // Arrange: return 404
@@ -114,7 +114,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
         result.HttpStatusCode.ShouldBe(System.Net.HttpStatusCode.NotFound);
     }
 
-    [Fact]
+    [Test]
     public async Task Get_WithHttp500_ShouldReturnNotSuccess()
     {
         // Arrange: return 500
@@ -129,7 +129,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
         result.HttpStatusCode.ShouldBe(System.Net.HttpStatusCode.InternalServerError);
     }
 
-    [Fact]
+    [Test]
     public async Task Create_WithValidationError_ShouldReturnErrorDetails()
     {
         // Arrange: return a validation error
@@ -149,7 +149,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
         result.ResponseData.Errors.Value[0].Message.ShouldBe("Name is required");
     }
 
-    [Fact]
+    [Test]
     public async Task Create_WithMultipleValidationErrors_ShouldReturnAllErrors()
     {
         // Arrange: return multiple validation errors
@@ -169,7 +169,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
         result.ResponseData.Errors!.Value.Length.ShouldBe(2);
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithEmptyList_ShouldReturnEmptyData()
     {
         // Arrange: return empty list
@@ -186,7 +186,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
         result.ResponseData.Data.Length.ShouldBe(0);
     }
 
-    [Fact]
+    [Test]
     public async Task GetBinary_WithEmptyContent_ShouldReturnEmptyData()
     {
         // Arrange: return empty binary response
@@ -201,7 +201,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
         result.ResponseData.Data.Length.ShouldBe(0);
     }
 
-    [Fact]
+    [Test]
     public async Task Get_WithMissingRequestsLeftHeader_ShouldReturnNullRequestsLeft()
     {
         // Arrange: respond without the X-CashCtrl-Requests-Left header
