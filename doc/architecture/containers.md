@@ -91,7 +91,7 @@ C4Container
 | Property        | Value                                              |
 | --------------- | -------------------------------------------------- |
 | Technology      | .NET 10, xUnit, NSubstitute, Shouldly, FluentAssertions, Coverlet |
-| Repo Path       | `src/CashCtrlApiNet.UnitTests/`                        |
+| Repo Path       | `tests/CashCtrlApiNet.UnitTests/`                      |
 | Responsibility  | Integration tests against live CashCtrl API        |
 | Dependencies    | `CashCtrlApiNet` (transitively includes Abstractions) |
 | Not Packaged    | `<IsPackable>false</IsPackable>`                   |

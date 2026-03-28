@@ -29,8 +29,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CashCtrlApiNet\CashCtrlApiNet.csproj" />
-      <ProjectReference Include="..\CashCtrlApiNet.AspNetCore\CashCtrlApiNet.AspNetCore.csproj" />
+      <ProjectReference Include="..\..\src\CashCtrlApiNet\CashCtrlApiNet.csproj" />
+      <ProjectReference Include="..\..\src\CashCtrlApiNet.AspNetCore\CashCtrlApiNet.AspNetCore.csproj" />
     </ItemGroup>
 
 </Project>

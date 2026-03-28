@@ -31,6 +31,7 @@ CashCtrlApiNet.sln
     CashCtrlApiNet.Abstractions/   -- Models, enums, converters, serialization helpers (NuGet package)
     CashCtrlApiNet/                -- API client, connection handler, connectors, endpoints (NuGet package)
     CashCtrlApiNet.AspNetCore/     -- ASP.NET Core DI registration (NuGet package)
+  tests/
     CashCtrlApiNet.UnitTests/          -- Unit tests (NSubstitute + Shouldly)
     CashCtrlApiNet.IntegrationTests/ -- Integration tests (WireMock + Shouldly, no live API needed)
     CashCtrlApiNet.E2eTests/         -- E2E tests (NUnit + Shouldly, requires live CashCtrl API credentials)
@@ -58,16 +59,16 @@ dotnet build CashCtrlApiNet.sln
 dotnet build CashCtrlApiNet.sln -c Release
 
 # Run unit tests only (no credentials needed)
-dotnet test src/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj
+dotnet test tests/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj
 
 # Run integration tests (WireMock-based, no credentials needed)
-dotnet test src/CashCtrlApiNet.IntegrationTests/CashCtrlApiNet.IntegrationTests.csproj
+dotnet test tests/CashCtrlApiNet.IntegrationTests/CashCtrlApiNet.IntegrationTests.csproj
 
 # Run E2E tests (requires live CashCtrl API credentials)
 export CashCtrlApiNet__BaseUri="https://yourorg.cashctrl.com/"
 export CashCtrlApiNet__ApiKey="your-api-key"
 export CashCtrlApiNet__Language="de"
-dotnet test src/CashCtrlApiNet.E2eTests/CashCtrlApiNet.E2eTests.csproj
+dotnet test tests/CashCtrlApiNet.E2eTests/CashCtrlApiNet.E2eTests.csproj
 ```
 
 ## API Completeness
@@ -155,11 +156,11 @@ Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
 | Domain model base types          | `src/CashCtrlApiNet.Abstractions/Models/Base/`                        |
 | JSON serialization helper        | `src/CashCtrlApiNet.Abstractions/Helpers/CashCtrlSerialization.cs`    |
 | Custom JSON converters           | `src/CashCtrlApiNet.Abstractions/Converters/`                         |
-| Unit test base class             | `src/CashCtrlApiNet.UnitTests/ServiceTestBase.cs`                         |
-| E2E test base class              | `src/CashCtrlApiNet.E2eTests/CashCtrlE2eTestBase.cs`                      |
-| Integration test base class      | `src/CashCtrlApiNet.IntegrationTests/IntegrationTestBase.cs`          |
-| WireMock helpers                 | `src/CashCtrlApiNet.IntegrationTests/Helpers/WireMockExtensions.cs`   |
-| Response factory                 | `src/CashCtrlApiNet.IntegrationTests/Helpers/CashCtrlResponseFactory.cs` |
+| Unit test base class             | `tests/CashCtrlApiNet.UnitTests/ServiceTestBase.cs`                         |
+| E2E test base class              | `tests/CashCtrlApiNet.E2eTests/CashCtrlE2eTestBase.cs`                      |
+| Integration test base class      | `tests/CashCtrlApiNet.IntegrationTests/IntegrationTestBase.cs`          |
+| WireMock helpers                 | `tests/CashCtrlApiNet.IntegrationTests/Helpers/WireMockExtensions.cs`   |
+| Response factory                 | `tests/CashCtrlApiNet.IntegrationTests/Helpers/CashCtrlResponseFactory.cs` |
 | DI registration extensions       | `src/CashCtrlApiNet.AspNetCore/CashCtrlServiceCollectionExtensions.cs`|
 | DI options model                 | `src/CashCtrlApiNet.AspNetCore/CashCtrlOptions.cs`                    |
 | DI options validator             | `src/CashCtrlApiNet.AspNetCore/CashCtrlOptionsValidator.cs`           |
