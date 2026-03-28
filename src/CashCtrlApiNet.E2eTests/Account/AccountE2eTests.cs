@@ -47,8 +47,9 @@ public class AccountE2eTests : CashCtrlE2eTestBase
         res.RequestsLeft.Value.ShouldBeGreaterThan(0);
         res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
 
-        res.ResponseData?.Data.ShouldNotBeNull();
-        res.ResponseData!.Data!.Name.ShouldNotBeNullOrEmpty();
+        res.ResponseData.ShouldNotBeNull();
+        res.ResponseData.Data.ShouldNotBeNull();
+        res.ResponseData.Data.Name.ShouldNotBeNullOrEmpty();
         res.ResponseData.Data.Number.ShouldBeGreaterThan(0);
     }
 
@@ -75,8 +76,9 @@ public class AccountE2eTests : CashCtrlE2eTestBase
         var res = await CashCtrlApiClient.Account.Account.GetBalance(new() { Id = 1 });
         res.IsHttpSuccess.ShouldBeTrue();
 
-        res.ResponseData?.Data.ShouldNotBeNull();
-        res.ResponseData!.Data!.Name.ShouldNotBeNullOrEmpty();
+        res.ResponseData.ShouldNotBeNull();
+        res.ResponseData.Data.ShouldNotBeNull();
+        res.ResponseData.Data.Name.ShouldNotBeNullOrEmpty();
     }
 
     /// <summary>

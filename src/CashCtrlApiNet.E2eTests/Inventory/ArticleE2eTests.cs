@@ -47,8 +47,9 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
         res.RequestsLeft.Value.ShouldBeGreaterThan(0);
         res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
 
-        res.ResponseData?.Data.ShouldNotBeNull();
-        res.ResponseData!.Data!.Name.ShouldNotBeNullOrEmpty();
+        res.ResponseData.ShouldNotBeNull();
+        res.ResponseData.Data.ShouldNotBeNull();
+        res.ResponseData.Data.Name.ShouldNotBeNullOrEmpty();
     }
 
     /// <summary>
