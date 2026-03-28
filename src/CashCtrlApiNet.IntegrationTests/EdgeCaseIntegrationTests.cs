@@ -119,7 +119,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
     {
         // Arrange: return 500
         Server.StubGetJson("/api/v1/account/read.json",
-            """{"success":false,"errorMessage":"Internal server error"}""", statusCode: 500);
+            "{\"success\":false,\"errorMessage\":\"Internal server error\"}", statusCode: 500);
 
         // Act
         var result = await Client.Account.Account.Get(new Entry { Id = 1 });
@@ -174,7 +174,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
     {
         // Arrange: return empty list
         Server.StubGetJson("/api/v1/account/list.json",
-            """{"total":0,"data":[]}""");
+            "{\"total\":0,\"data\":[]}");
 
         // Act
         var result = await Client.Account.Account.GetList();
