@@ -233,4 +233,210 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
             .GetBinaryAsync(AccountEndpoints.Account.ListPdf, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
+
+    [Fact]
+    public async Task Get_ShouldReturnExpectedResult()
+    {
+        var entry = new Entry { Id = 42 };
+        var expected = new ApiResult<SingleResponse<Abstractions.Models.Account.Account>>
+        {
+            IsHttpSuccess = true,
+            RequestsLeft = 100
+        };
+        ConnectionHandler
+            .GetAsync<SingleResponse<Abstractions.Models.Account.Account>, Entry>(
+                Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.Get(entry);
+
+        result.ShouldBe(expected);
+        result.IsHttpSuccess.ShouldBeTrue();
+        result.RequestsLeft.ShouldBe(100);
+    }
+
+    [Fact]
+    public async Task GetBalance_ShouldReturnExpectedResult()
+    {
+        var entry = new Entry { Id = 1 };
+        var expected = new ApiResult<SingleResponse<Abstractions.Models.Account.Account>>
+        {
+            IsHttpSuccess = true
+        };
+        ConnectionHandler
+            .GetAsync<SingleResponse<Abstractions.Models.Account.Account>, Entry>(
+                Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetBalance(entry);
+
+        result.ShouldBe(expected);
+    }
+
+    [Fact]
+    public async Task Create_ShouldReturnExpectedResult()
+    {
+        var account = new AccountCreate { CategoryId = 1, Name = "Test", Number = 1000 };
+        var expected = new ApiResult<NoContentResponse>
+        {
+            IsHttpSuccess = true,
+            ResponseData = new NoContentResponse(true, null, "Account created", 42)
+        };
+        ConnectionHandler
+            .PostAsync<NoContentResponse, AccountCreate>(Arg.Any<string>(), Arg.Any<AccountCreate>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.Create(account);
+
+        result.ShouldBe(expected);
+        result.ResponseData.ShouldNotBeNull();
+        result.ResponseData.Success.ShouldBeTrue();
+        result.ResponseData.InsertId.ShouldBe(42);
+    }
+
+    [Fact]
+    public async Task Update_ShouldReturnExpectedResult()
+    {
+        var account = new AccountUpdate { Id = 1, CategoryId = 1, Name = "Test", Number = 1000 };
+        var expected = new ApiResult<NoContentResponse>
+        {
+            IsHttpSuccess = true,
+            ResponseData = new NoContentResponse(true, null, "Account updated", null)
+        };
+        ConnectionHandler
+            .PostAsync<NoContentResponse, AccountUpdate>(Arg.Any<string>(), Arg.Any<AccountUpdate>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.Update(account);
+
+        result.ShouldBe(expected);
+        result.ResponseData.ShouldNotBeNull();
+        result.ResponseData.Success.ShouldBeTrue();
+        result.ResponseData.Message.ShouldBe("Account updated");
+    }
+
+    [Fact]
+    public async Task Delete_ShouldReturnExpectedResult()
+    {
+        var entries = new Entries { Ids = [1, 2, 3] };
+        var expected = new ApiResult<NoContentResponse>
+        {
+            IsHttpSuccess = true,
+            ResponseData = new NoContentResponse(true, null, "3 accounts deleted", null)
+        };
+        ConnectionHandler
+            .PostAsync<NoContentResponse, Entries>(Arg.Any<string>(), Arg.Any<Entries>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.Delete(entries);
+
+        result.ShouldBe(expected);
+        result.ResponseData.ShouldNotBeNull();
+        result.ResponseData.Success.ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task ExportExcel_ShouldReturnBinaryData()
+    {
+        byte[] expectedData = [1, 2, 3, 4, 5];
+        var expected = new ApiResult<BinaryResponse>
+        {
+            IsHttpSuccess = true,
+            ResponseData = new BinaryResponse { Data = expectedData, ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
+        };
+        ConnectionHandler
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.ExportExcel();
+
+        result.ShouldBe(expected);
+        result.ResponseData.ShouldNotBeNull();
+        result.ResponseData.Data.ShouldBe(expectedData);
+        result.ResponseData.ContentType.ShouldBe("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    }
+
+    [Fact]
+    public async Task GetList_ShouldReturnResult()
+    {
+        var expected = new ApiResult<ListResponse<AccountListed>>
+        {
+            IsHttpSuccess = true
+        };
+        ConnectionHandler
+            .GetAsync<ListResponse<AccountListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList();
+
+        result.ShouldBe(expected);
+    }
+
+    [Fact]
+    public async Task Get_ShouldPassCancellationToken()
+    {
+        using var cts = new CancellationTokenSource();
+        var token = cts.Token;
+
+        ConnectionHandler
+            .GetAsync<SingleResponse<Abstractions.Models.Account.Account>, Entry>(
+                Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<SingleResponse<Abstractions.Models.Account.Account>>());
+
+        await Service.Get(new Entry { Id = 1 }, token);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<SingleResponse<Abstractions.Models.Account.Account>, Entry>(
+                Arg.Any<string>(), Arg.Any<Entry>(), token);
+    }
+
+    [Fact]
+    public async Task Create_ShouldPassCancellationToken()
+    {
+        using var cts = new CancellationTokenSource();
+        var token = cts.Token;
+
+        ConnectionHandler
+            .PostAsync<NoContentResponse, AccountCreate>(Arg.Any<string>(), Arg.Any<AccountCreate>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<NoContentResponse>());
+
+        await Service.Create(new AccountCreate { CategoryId = 1, Name = "Test", Number = 1000 }, token);
+
+        await ConnectionHandler.Received(1)
+            .PostAsync<NoContentResponse, AccountCreate>(
+                Arg.Any<string>(), Arg.Any<AccountCreate>(), token);
+    }
+
+    [Fact]
+    public async Task GetList_ShouldPassCancellationToken()
+    {
+        using var cts = new CancellationTokenSource();
+        var token = cts.Token;
+
+        ConnectionHandler
+            .GetAsync<ListResponse<AccountListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<AccountListed>>());
+
+        await Service.GetList(cancellationToken: token);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<AccountListed>>(
+                Arg.Any<string>(), Arg.Any<ListParams?>(), token);
+    }
+
+    [Fact]
+    public async Task ExportExcel_ShouldPassCancellationToken()
+    {
+        using var cts = new CancellationTokenSource();
+        var token = cts.Token;
+
+        ConnectionHandler
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1] } });
+
+        await Service.ExportExcel(token);
+
+        await ConnectionHandler.Received(1)
+            .GetBinaryAsync(Arg.Any<string>(), token);
+    }
 }
