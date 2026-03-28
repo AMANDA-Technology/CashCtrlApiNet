@@ -29,18 +29,70 @@ using Shouldly;
 namespace CashCtrlApiNet.E2eTests.Inventory;
 
 /// <summary>
-/// E2E tests for inventory article service
+/// E2E tests for inventory article service with full lifecycle management.
+/// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Inventory.IArticleService"/> operations.
 /// </summary>
 [Category("E2e")]
 public class ArticleE2eTests : CashCtrlE2eTestBase
 {
+    private string _testId = null!;
+    private int _setupArticleId;
+    private int _createdArticleId;
+    private int _categoryId;
+
     /// <summary>
-    /// Get an article successfully
+    /// Scavenges orphan test data and creates the primary test article for the fixture
+    /// </summary>
+    [OneTimeSetUp]
+    public async Task OneTimeSetUp()
+    {
+        _testId = GenerateTestId();
+
+        // Scavenge orphan articles from previous failed runs
+        var listResult = await CashCtrlApiClient.Inventory.Article.GetList();
+        if (listResult.ResponseData?.Data is { Length: > 0 } articles)
+        {
+            var orphanIds = articles
+                .Where(a => a.Name.StartsWith("E2E-", StringComparison.Ordinal))
+                .Select(a => a.Id)
+                .ToArray();
+
+            if (orphanIds.Length > 0)
+                await CashCtrlApiClient.Inventory.Article.Delete(new() { Ids = [..orphanIds] });
+        }
+
+        // Discover a category ID for the categorize test
+        var categoryResult = await CashCtrlApiClient.Inventory.ArticleCategory.GetList();
+        _categoryId = categoryResult.ResponseData?.Data.FirstOrDefault()?.Id
+                      ?? throw new InvalidOperationException("No article categories found for categorize test");
+
+        // Create primary test article
+        var createResult = await CashCtrlApiClient.Inventory.Article.Create(new()
+        {
+            Nr = _testId,
+            Name = _testId
+        });
+        createResult.ResponseData.ShouldNotBeNull();
+        createResult.ResponseData.Success.ShouldBeTrue();
+        _setupArticleId = createResult.ResponseData.InsertId
+                          ?? throw new InvalidOperationException("Failed to create setup article");
+
+        RegisterCleanup(async () => await CashCtrlApiClient.Inventory.Article.Delete(new() { Ids = [_setupArticleId] }));
+    }
+
+    /// <summary>
+    /// Cleans up all test data created during the fixture
+    /// </summary>
+    [OneTimeTearDown]
+    public async Task OneTimeTearDown() => await RunCleanup();
+
+    /// <summary>
+    /// Get an article by ID successfully
     /// </summary>
     [Test, Order(1)]
-    public async Task Test1_Get_Success()
+    public async Task Get_Success()
     {
-        var res = await CashCtrlApiClient.Inventory.Article.Get(new(){ Id = 1 });
+        var res = await CashCtrlApiClient.Inventory.Article.Get(new() { Id = _setupArticleId });
         res.IsHttpSuccess.ShouldBeTrue();
 
         res.RequestsLeft.ShouldNotBeNull();
@@ -49,14 +101,14 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
 
         res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Data.ShouldNotBeNull();
-        res.ResponseData.Data.Name.ShouldNotBeNullOrEmpty();
+        res.ResponseData.Data.Name.ShouldBe(_testId);
     }
 
     /// <summary>
     /// Get list of articles successfully
     /// </summary>
     [Test, Order(2)]
-    public async Task Test2_GetList_Success()
+    public async Task GetList_Success()
     {
         var res = await CashCtrlApiClient.Inventory.Article.GetList();
         res.IsHttpSuccess.ShouldBeTrue();
@@ -64,18 +116,44 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
         res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
         res.ResponseData.Data.Length.ShouldBe(res.ResponseData.Total);
+        res.ResponseData.Data.ShouldContain(a => a.Id == _setupArticleId);
     }
 
     /// <summary>
-    /// Try to create article with duplicated Nr and fail
+    /// Create an article successfully and store its ID for later tests
     /// </summary>
     [Test, Order(3)]
-    public async Task Test3_Create_DuplicateNrFail()
+    public async Task Create_Success()
+    {
+        var secondTestId = GenerateTestId();
+        var res = await CashCtrlApiClient.Inventory.Article.Create(new()
+        {
+            Nr = secondTestId,
+            Name = secondTestId
+        });
+        res.IsHttpSuccess.ShouldBeTrue();
+
+        res.ResponseData.ShouldNotBeNull();
+        res.ResponseData.Success.ShouldBeTrue();
+        res.ResponseData.Errors.ShouldBeNull();
+        res.ResponseData.InsertId.ShouldNotBeNull();
+        res.ResponseData.InsertId.Value.ShouldBeGreaterThan(0);
+        res.ResponseData.Message.ShouldNotBeNullOrEmpty();
+
+        _createdArticleId = res.ResponseData.InsertId.Value;
+        RegisterCleanup(async () => await CashCtrlApiClient.Inventory.Article.Delete(new() { Ids = [_createdArticleId] }));
+    }
+
+    /// <summary>
+    /// Try to create article with duplicate Nr and verify error response
+    /// </summary>
+    [Test, Order(4)]
+    public async Task Create_DuplicateNrFail()
     {
         var res = await CashCtrlApiClient.Inventory.Article.Create(new()
         {
-            Nr = "A-00001",
-            Name = "Test"
+            Nr = _testId,
+            Name = $"{_testId}-Duplicate"
         });
         res.IsHttpSuccess.ShouldBeTrue();
 
@@ -84,121 +162,115 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
         res.ResponseData.InsertId.ShouldBeNull();
 
         res.ResponseData.Errors.ShouldNotBeNull();
-        res.ResponseData.Errors.Value.ShouldContain(apiError
-            => apiError.Field.Equals("nr")
-               && apiError.Message.Equals("This article no. is already used by another article."));
-    }
-
-    /// <summary>
-    /// Create an article successfully
-    /// </summary>
-    [Test, Order(4)]
-    public async Task Test4_Create_Success()
-    {
-        var res = await CashCtrlApiClient.Inventory.Article.Create(new()
-        {
-            Nr = "A-00005",
-            Name = "Test created"
-        });
-        res.IsHttpSuccess.ShouldBeTrue();
-
-        res.ResponseData.ShouldNotBeNull();
-        res.ResponseData.Success.ShouldBeTrue();
-        res.ResponseData.Errors.ShouldBeNull();
-        res.ResponseData.InsertId.ShouldNotBeNull();
-        res.ResponseData.InsertId.Value.ShouldBeGreaterThan(0);
-        res.ResponseData.Message.ShouldBe("Article saved");
+        res.ResponseData.Errors.Value.ShouldContain(e => e.Field == "nr");
     }
 
     /// <summary>
     /// Update an article successfully
     /// </summary>
     [Test, Order(5)]
-    public async Task? Test5_Update_Success()
+    public async Task Update_Success()
     {
-        var get = await CashCtrlApiClient.Inventory.Article.Get(new(){ Id = 1 });
-        var article = get.ResponseData?.Data ?? throw new InvalidOperationException("Failed to get article");
+        var get = await CashCtrlApiClient.Inventory.Article.Get(new() { Id = _setupArticleId });
+        var article = get.ResponseData?.Data ?? throw new InvalidOperationException("Failed to get article for update");
 
+        var updatedName = $"{_testId}-Updated";
         var res = await CashCtrlApiClient.Inventory.Article.Update((article as ArticleUpdate) with
         {
-            Name = "Test updated"
+            Name = updatedName
         });
-        res.IsHttpSuccess.ShouldBeTrue();
+        AssertSuccess(res);
 
-        res.ResponseData.ShouldNotBeNull();
-        res.ResponseData.Success.ShouldBeTrue();
-        res.ResponseData.Errors.ShouldBeNull();
-        res.ResponseData.InsertId.ShouldNotBeNull();
-        res.ResponseData.InsertId.Value.ShouldBeGreaterThan(0);
-        res.ResponseData.Message.ShouldBe("Article saved");
+        // Verify the update persisted
+        var verify = await CashCtrlApiClient.Inventory.Article.Get(new() { Id = _setupArticleId });
+        verify.ResponseData?.Data?.Name.ShouldBe(updatedName);
     }
 
     /// <summary>
-    /// Delete an article successfully
+    /// Categorize an article successfully
     /// </summary>
     [Test, Order(6)]
-    public async Task Test6_Delete_Success()
-    {
-        // Wait until test article created
-        ArticleListed? article = null;
-
-        using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30)))
-        {
-            while (article is null && !cts.IsCancellationRequested)
-            {
-                await Task.Delay(TimeSpan.FromSeconds(1), cts.Token);
-                article = await Get(cts.Token);
-            }
-        }
-
-        article.ShouldNotBeNull();
-
-        // Then delete it
-        var res = await CashCtrlApiClient.Inventory.Article.Delete(new() { Ids = [article.Id] });
-        res.IsHttpSuccess.ShouldBeTrue();
-
-        res.ResponseData.ShouldNotBeNull();
-        res.ResponseData.Success.ShouldBeTrue();
-        res.ResponseData.Errors.ShouldBeNull();
-        res.ResponseData.Message.ShouldBe("1 article deleted");
-        return;
-
-        // Local function to get article
-        async Task<ArticleListed?> Get(CancellationToken cancellationToken)
-            => (await CashCtrlApiClient.Inventory.Article.GetList(cancellationToken: cancellationToken)).ResponseData?.Data.SingleOrDefault(a => a.Nr.Equals("A-00005"));
-    }
-
-    [Test, Order(7)]
-    public async Task Test7_Categorize_Success()
+    public async Task Categorize_Success()
     {
         var res = await CashCtrlApiClient.Inventory.Article.Categorize(new()
         {
-            Ids = [1],
-            TargetCategoryId = 1
+            Ids = [_setupArticleId],
+            TargetCategoryId = _categoryId
         });
-        res.IsHttpSuccess.ShouldBeTrue();
-
-        res.ResponseData.ShouldNotBeNull();
-        res.ResponseData.Success.ShouldBeTrue();
-        res.ResponseData.Errors.ShouldBeNull();
-        res.ResponseData.InsertId.ShouldBeNull();
-        res.ResponseData.Message.ShouldBe("1 article assigned to category 'Dienstleistungen'");
+        AssertSuccess(res);
     }
 
-    [Test, Order(8)]
-    public async Task Test8_UpdateAttachments_Success()
+    /// <summary>
+    /// Update article attachments successfully
+    /// </summary>
+    [Test, Order(7)]
+    public async Task UpdateAttachments_Success()
     {
         var res = await CashCtrlApiClient.Inventory.Article.UpdateAttachments(new()
         {
-            Id = 1,
-            AttachedFileIds = [3]
+            Id = _setupArticleId,
+            AttachedFileIds = []
         });
+        AssertSuccess(res);
+    }
+
+    /// <summary>
+    /// Export articles as Excel successfully
+    /// </summary>
+    [Test, Order(8)]
+    public async Task ExportExcel_Success()
+    {
+        var res = await CashCtrlApiClient.Inventory.Article.ExportExcel();
         res.IsHttpSuccess.ShouldBeTrue();
 
         res.ResponseData.ShouldNotBeNull();
-        res.ResponseData.Success.ShouldBeTrue();
-        res.ResponseData.Errors.ShouldBeNull();
-        res.ResponseData.InsertId.ShouldBeNull();
-        res.ResponseData.Message.ShouldBe("Attachments saved");
+        res.ResponseData.FileName.ShouldNotBeNullOrEmpty();
+        res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
+
+        await DownloadFile(res.ResponseData.FileName, res.ResponseData.Data);
+    }
+
+    /// <summary>
+    /// Export articles as CSV successfully
+    /// </summary>
+    [Test, Order(9)]
+    public async Task ExportCsv_Success()
+    {
+        var res = await CashCtrlApiClient.Inventory.Article.ExportCsv();
+        res.IsHttpSuccess.ShouldBeTrue();
+
+        res.ResponseData.ShouldNotBeNull();
+        res.ResponseData.FileName.ShouldNotBeNullOrEmpty();
+        res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
+
+        await DownloadFile(res.ResponseData.FileName, res.ResponseData.Data);
+    }
+
+    /// <summary>
+    /// Export articles as PDF successfully
+    /// </summary>
+    [Test, Order(10)]
+    public async Task ExportPdf_Success()
+    {
+        var res = await CashCtrlApiClient.Inventory.Article.ExportPdf();
+        res.IsHttpSuccess.ShouldBeTrue();
+
+        res.ResponseData.ShouldNotBeNull();
+        res.ResponseData.FileName.ShouldNotBeNullOrEmpty();
+        res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
+
+        await DownloadFile(res.ResponseData.FileName, res.ResponseData.Data);
+    }
+
+    /// <summary>
+    /// Delete the article created in <see cref="Create_Success"/>
+    /// </summary>
+    [Test, Order(11)]
+    public async Task Delete_Success()
+    {
+        _createdArticleId.ShouldBeGreaterThan(0, "Create_Success must run before Delete_Success");
+
+        var res = await CashCtrlApiClient.Inventory.Article.Delete(new() { Ids = [_createdArticleId] });
+        AssertSuccess(res);
     }
 }

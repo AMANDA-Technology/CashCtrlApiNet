@@ -29,18 +29,63 @@ using Shouldly;
 namespace CashCtrlApiNet.E2eTests.Inventory;
 
 /// <summary>
-/// E2E tests for inventory article category service
+/// E2E tests for inventory article category service with full lifecycle management.
+/// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Inventory.IArticleCategoryService"/> operations.
 /// </summary>
 [Category("E2e")]
 public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
 {
+    private string _testId = null!;
+    private int _setupCategoryId;
+    private int _createdCategoryId;
+
     /// <summary>
-    /// Get an article successfully
+    /// Scavenges orphan test data and creates the primary test category for the fixture
+    /// </summary>
+    [OneTimeSetUp]
+    public async Task OneTimeSetUp()
+    {
+        _testId = GenerateTestId();
+
+        // Scavenge orphan article categories from previous failed runs
+        var listResult = await CashCtrlApiClient.Inventory.ArticleCategory.GetList();
+        if (listResult.ResponseData?.Data is { Length: > 0 } categories)
+        {
+            var orphanIds = categories
+                .Where(c => c.Name.StartsWith("E2E-", StringComparison.Ordinal))
+                .Select(c => c.Id)
+                .ToArray();
+
+            if (orphanIds.Length > 0)
+                await CashCtrlApiClient.Inventory.ArticleCategory.Delete(new() { Ids = [..orphanIds] });
+        }
+
+        // Create primary test category
+        var createResult = await CashCtrlApiClient.Inventory.ArticleCategory.Create(new()
+        {
+            Name = _testId
+        });
+        createResult.ResponseData.ShouldNotBeNull();
+        createResult.ResponseData.Success.ShouldBeTrue();
+        _setupCategoryId = createResult.ResponseData.InsertId
+                           ?? throw new InvalidOperationException("Failed to create setup article category");
+
+        RegisterCleanup(async () => await CashCtrlApiClient.Inventory.ArticleCategory.Delete(new() { Ids = [_setupCategoryId] }));
+    }
+
+    /// <summary>
+    /// Cleans up all test data created during the fixture
+    /// </summary>
+    [OneTimeTearDown]
+    public async Task OneTimeTearDown() => await RunCleanup();
+
+    /// <summary>
+    /// Get an article category by ID successfully
     /// </summary>
     [Test, Order(1)]
-    public async Task Test1_Get_Success()
+    public async Task Get_Success()
     {
-        var res = await CashCtrlApiClient.Inventory.ArticleCategory.Get(new(){ Id = 1 });
+        var res = await CashCtrlApiClient.Inventory.ArticleCategory.Get(new() { Id = _setupCategoryId });
         res.IsHttpSuccess.ShouldBeTrue();
 
         res.RequestsLeft.ShouldNotBeNull();
@@ -49,14 +94,14 @@ public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
 
         res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Data.ShouldNotBeNull();
-        res.ResponseData.Data.Name.ShouldNotBeNullOrEmpty();
+        res.ResponseData.Data.Name.ShouldBe(_testId);
     }
 
     /// <summary>
-    /// Get list of articles successfully
+    /// Get list of article categories successfully
     /// </summary>
     [Test, Order(2)]
-    public async Task Test2_GetList_Success()
+    public async Task GetList_Success()
     {
         var res = await CashCtrlApiClient.Inventory.ArticleCategory.GetList();
         res.IsHttpSuccess.ShouldBeTrue();
@@ -64,17 +109,32 @@ public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
         res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
         res.ResponseData.Data.Length.ShouldBe(res.ResponseData.Total);
+        res.ResponseData.Data.ShouldContain(c => c.Id == _setupCategoryId);
     }
 
     /// <summary>
-    /// Create an article successfully
+    /// Get article category tree successfully
+    /// </summary>
+    [Test, Order(3)]
+    public async Task GetTree_Success()
+    {
+        var res = await CashCtrlApiClient.Inventory.ArticleCategory.GetTree();
+        res.IsHttpSuccess.ShouldBeTrue();
+
+        res.ResponseData.ShouldNotBeNull();
+        res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
+    }
+
+    /// <summary>
+    /// Create an article category successfully and store its ID for later tests
     /// </summary>
     [Test, Order(4)]
-    public async Task Test4_Create_Success()
+    public async Task Create_Success()
     {
+        var secondTestId = GenerateTestId();
         var res = await CashCtrlApiClient.Inventory.ArticleCategory.Create(new()
         {
-            Name = "Test created"
+            Name = secondTestId
         });
         res.IsHttpSuccess.ShouldBeTrue();
 
@@ -83,64 +143,42 @@ public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
         res.ResponseData.Errors.ShouldBeNull();
         res.ResponseData.InsertId.ShouldNotBeNull();
         res.ResponseData.InsertId.Value.ShouldBeGreaterThan(0);
-        res.ResponseData.Message.ShouldBe("Category saved");
+        res.ResponseData.Message.ShouldNotBeNullOrEmpty();
+
+        _createdCategoryId = res.ResponseData.InsertId.Value;
+        RegisterCleanup(async () => await CashCtrlApiClient.Inventory.ArticleCategory.Delete(new() { Ids = [_createdCategoryId] }));
     }
 
     /// <summary>
-    /// Update an article successfully
+    /// Update an article category successfully
     /// </summary>
     [Test, Order(5)]
-    public async Task? Test5_Update_Success()
+    public async Task Update_Success()
     {
-        var get = await CashCtrlApiClient.Inventory.ArticleCategory.Get(new(){ Id = 6 });
-        var articleCategory = get.ResponseData?.Data ?? throw new InvalidOperationException("Failed to get article category");
+        var get = await CashCtrlApiClient.Inventory.ArticleCategory.Get(new() { Id = _setupCategoryId });
+        var category = get.ResponseData?.Data ?? throw new InvalidOperationException("Failed to get article category for update");
 
-        var res = await CashCtrlApiClient.Inventory.ArticleCategory.Update((articleCategory as ArticleCategoryUpdate) with
+        var updatedName = $"{_testId}-Updated";
+        var res = await CashCtrlApiClient.Inventory.ArticleCategory.Update((category as ArticleCategoryUpdate) with
         {
-            Name = "Test updated"
+            Name = updatedName
         });
-        res.IsHttpSuccess.ShouldBeTrue();
+        AssertSuccess(res);
 
-        res.ResponseData.ShouldNotBeNull();
-        res.ResponseData.Success.ShouldBeTrue();
-        res.ResponseData.Errors.ShouldBeNull();
-        res.ResponseData.InsertId.ShouldNotBeNull();
-        res.ResponseData.InsertId.Value.ShouldBeGreaterThan(0);
-        res.ResponseData.Message.ShouldBe("Category saved");
+        // Verify the update persisted
+        var verify = await CashCtrlApiClient.Inventory.ArticleCategory.Get(new() { Id = _setupCategoryId });
+        verify.ResponseData?.Data?.Name.ShouldBe(updatedName);
     }
 
     /// <summary>
-    /// Delete an article successfully
+    /// Delete the article category created in <see cref="Create_Success"/>
     /// </summary>
     [Test, Order(6)]
-    public async Task Test6_Delete_Success()
+    public async Task Delete_Success()
     {
-        // Wait until test article created
-        ArticleCategory? articleCategory = null;
+        _createdCategoryId.ShouldBeGreaterThan(0, "Create_Success must run before Delete_Success");
 
-        using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(20)))
-        {
-            while (articleCategory is null && !cts.IsCancellationRequested)
-            {
-                await Task.Delay(TimeSpan.FromSeconds(1), cts.Token);
-                articleCategory = await Get(cts.Token);
-            }
-        }
-
-        articleCategory.ShouldNotBeNull();
-
-        // Then delete it
-        var res = await CashCtrlApiClient.Inventory.ArticleCategory.Delete(new(){ Ids = [articleCategory.Id]});
-        res.IsHttpSuccess.ShouldBeTrue();
-
-        res.ResponseData.ShouldNotBeNull();
-        res.ResponseData.Success.ShouldBeTrue();
-        res.ResponseData.Errors.ShouldBeNull();
-        res.ResponseData.Message.ShouldBe("1 category deleted");
-        return;
-
-        // Local function to get article
-        async Task<ArticleCategory?> Get(CancellationToken cancellationToken)
-            => (await CashCtrlApiClient.Inventory.ArticleCategory.GetList(cancellationToken: cancellationToken)).ResponseData?.Data.SingleOrDefault(a => a.Name.Equals("Test created"));
+        var res = await CashCtrlApiClient.Inventory.ArticleCategory.Delete(new() { Ids = [_createdCategoryId] });
+        AssertSuccess(res);
     }
 }

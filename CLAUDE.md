@@ -139,6 +139,17 @@ Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
 - **Assertions**: Shouldly (`result.ShouldBe(expected)`)
 - **No live API needed**: All responses are stubbed via WireMock.
 
+### E2E Testing Pattern
+- **Base class**: `CashCtrlE2eTestBase` provides live API client, lifecycle helpers (`GenerateTestId`, `RegisterCleanup`, `RunCleanup`, `AssertSuccess`), and file download support.
+- **Lifecycle**: Each fixture uses `[OneTimeSetUp]` to scavenge orphans and create test data, `[OneTimeTearDown]` to run LIFO cleanup queue.
+- **Test isolation**: All test data uses `"E2E-"` prefix with GUID-based unique test IDs (`GenerateTestId()`). No hardcoded IDs.
+- **Orphan scavenging**: Each `[OneTimeSetUp]` lists entities and deletes any with `"E2E-"` name prefix from previous failed runs.
+- **Cleanup**: `RegisterCleanup(Func<Task>)` adds cleanup actions to a LIFO stack; `RunCleanup()` drains the stack in `[OneTimeTearDown]`, continuing on individual failures.
+- **Assertions**: `AssertSuccess(ApiResult<NoContentResponse>)` validates HTTP success, response data, and no errors. Shouldly for all other assertions.
+- **Ordering**: Tests use `[Order(n)]` for sequencing within a fixture. No `Test1_` prefix — descriptive method names (e.g., `Get_Success`, `Create_DuplicateNrFail`).
+- **No polling loops**: Create returns `InsertId` synchronously; no `Task.Delay` or `CancellationTokenSource(TimeSpan)` patterns.
+- **Requires live API**: E2E tests need `CashCtrlApiNet__BaseUri`, `CashCtrlApiNet__ApiKey`, and optionally `CashCtrlApiNet__Language` environment variables.
+
 ## Important File Locations
 
 | Purpose                          | Path                                                                  |
@@ -171,7 +182,7 @@ Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
 ## Known Constraints and Gotchas
 
 1. **E2E tests require a live CashCtrl account** -- E2E tests live in the `CashCtrlApiNet.E2eTests` project (tagged `[Category("E2e")]`) and call the real API. They require environment variables `CashCtrlApiNet__BaseUri`, `CashCtrlApiNet__ApiKey`, and optionally `CashCtrlApiNet__Language`. Unit tests and integration tests run without credentials.
-2. **Test ordering dependency** -- E2E tests in `CashCtrlApiNet.E2eTests` use NUnit's `[Order(n)]` attribute and are named `Test1_`, `Test2_`, etc. to enforce execution order (Create before Delete).
+2. **E2E test lifecycle** -- E2E fixtures use `[OneTimeSetUp]`/`[OneTimeTearDown]` for prepare/cleanup with LIFO cleanup queue. Tests are ordered via `[Order(n)]` with descriptive names (e.g., `Get_Success`). All test data uses `"E2E-"` prefix and GUID-based unique IDs. Orphan scavenging at fixture start cleans stale data from crashed runs.
 3. **Integration tests use WireMock** -- The `CashCtrlApiNet.IntegrationTests` project uses WireMock.Net to simulate the CashCtrl API. Tests inherit from `IntegrationTestBase` which manages the WireMock server lifecycle and creates a real `CashCtrlConnectionHandler` pointed at the mock server.
 4. **`CashCtrlConnectionHandler` supports dual construction** -- Use `IHttpClientFactory` constructor for DI environments (proper connection pooling/lifetime management), or the standalone `ICashCtrlConfiguration`-only constructor for non-DI usage.
 5. **POST uses form-encoded content** -- The CashCtrl API expects `application/x-www-form-urlencoded` for writes, not JSON.
