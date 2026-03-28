@@ -32,22 +32,24 @@ namespace CashCtrlApiNet.UnitTests;
 /// Base class for unit tests of connector services using a mocked <see cref="ICashCtrlConnectionHandler"/>
 /// </summary>
 /// <typeparam name="TService">The service type under test</typeparam>
+[TestFixture]
 public abstract class ServiceTestBase<TService> where TService : class
 {
     /// <summary>
     /// Mocked connection handler for isolating service logic from HTTP calls
     /// </summary>
-    protected readonly ICashCtrlConnectionHandler ConnectionHandler;
+    protected ICashCtrlConnectionHandler ConnectionHandler = null!;
 
     /// <summary>
     /// The service instance under test
     /// </summary>
-    protected readonly TService Service;
+    protected TService Service = null!;
 
     /// <summary>
-    /// Initializes the mocked connection handler and creates the service under test
+    /// Initializes the mocked connection handler and creates the service under test before each test
     /// </summary>
-    protected ServiceTestBase()
+    [SetUp]
+    public void SetUp()
     {
         ConnectionHandler = Substitute.For<ICashCtrlConnectionHandler>();
         Service = CreateService();

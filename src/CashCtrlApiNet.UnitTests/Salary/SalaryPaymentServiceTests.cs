@@ -41,7 +41,7 @@ public class SalaryPaymentServiceTests : ServiceTestBase<SalaryPaymentService>
     protected override SalaryPaymentService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var payment = new SalaryPaymentCreate { Date = "2024-01-15", StatementIds = "1,2" };
@@ -56,7 +56,7 @@ public class SalaryPaymentServiceTests : ServiceTestBase<SalaryPaymentService>
                 SalaryEndpoints.Payment.Create, payment, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Download_ShouldCallGetBinaryAsync_WithPaymentParameter()
     {
         var payment = new SalaryPaymentCreate { Date = "2024-01-15", StatementIds = "1,2" };

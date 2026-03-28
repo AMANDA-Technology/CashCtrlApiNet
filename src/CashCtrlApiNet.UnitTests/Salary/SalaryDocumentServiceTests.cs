@@ -42,7 +42,7 @@ public class SalaryDocumentServiceTests : ServiceTestBase<SalaryDocumentService>
     protected override SalaryDocumentService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class SalaryDocumentServiceTests : ServiceTestBase<SalaryDocumentService>
                 SalaryEndpoints.Document.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task DownloadPdf_ShouldCallGetBinaryAsync_WithEntriesParameter()
     {
         var entries = new Entries { Ids = [1, 2] };
@@ -73,7 +73,7 @@ public class SalaryDocumentServiceTests : ServiceTestBase<SalaryDocumentService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task DownloadZip_ShouldCallGetBinaryAsync_WithEntriesParameter()
     {
         var entries = new Entries { Ids = [1, 2] };
@@ -88,7 +88,7 @@ public class SalaryDocumentServiceTests : ServiceTestBase<SalaryDocumentService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task SendMail_ShouldPostToCorrectEndpoint()
     {
         var mail = new SalaryDocumentMail
@@ -109,7 +109,7 @@ public class SalaryDocumentServiceTests : ServiceTestBase<SalaryDocumentService>
                 SalaryEndpoints.Document.Mail, mail, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var document = new SalaryDocumentUpdate { Id = 1 };

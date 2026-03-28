@@ -41,7 +41,7 @@ public class PersonImportServiceTests : ServiceTestBase<PersonImportService>
     protected override PersonImportService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var importCreate = new PersonImportCreate { FileId = 100 };
@@ -56,7 +56,7 @@ public class PersonImportServiceTests : ServiceTestBase<PersonImportService>
                 PersonEndpoints.Import.Create, importCreate, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Mapping_ShouldPostToCorrectEndpoint()
     {
         var importMapping = new PersonImportMapping { Id = 1, Mapping = "{\"field1\":\"value1\"}" };
@@ -71,7 +71,7 @@ public class PersonImportServiceTests : ServiceTestBase<PersonImportService>
                 PersonEndpoints.Import.Mapping, importMapping, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetMappingFields_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -84,7 +84,7 @@ public class PersonImportServiceTests : ServiceTestBase<PersonImportService>
             .GetAsync(PersonEndpoints.Import.AvailableMappingFields, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Preview_ShouldPostToCorrectEndpoint()
     {
         var importPreview = new PersonImportPreview { Id = 1 };
@@ -99,7 +99,7 @@ public class PersonImportServiceTests : ServiceTestBase<PersonImportService>
                 PersonEndpoints.Import.Preview, importPreview, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Execute_ShouldPostToCorrectEndpoint()
     {
         var importExecute = new PersonImportExecute { Id = 1 };

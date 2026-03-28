@@ -42,7 +42,7 @@ public class ArticleCategoryServiceTests : ServiceTestBase<ArticleCategoryServic
     protected override ArticleCategoryService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task GetTree_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -56,7 +56,7 @@ public class ArticleCategoryServiceTests : ServiceTestBase<ArticleCategoryServic
                 InventoryEndpoints.ArticleCategory.Tree, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -70,7 +70,7 @@ public class ArticleCategoryServiceTests : ServiceTestBase<ArticleCategoryServic
                 InventoryEndpoints.ArticleCategory.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -85,7 +85,7 @@ public class ArticleCategoryServiceTests : ServiceTestBase<ArticleCategoryServic
                 InventoryEndpoints.ArticleCategory.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };

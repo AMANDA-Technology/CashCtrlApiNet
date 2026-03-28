@@ -42,7 +42,7 @@ public class JournalImportEntryServiceTests : ServiceTestBase<JournalImportEntry
     protected override JournalImportEntryService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class JournalImportEntryServiceTests : ServiceTestBase<JournalImportEntry
                 JournalEndpoints.ImportEntry.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class JournalImportEntryServiceTests : ServiceTestBase<JournalImportEntry
                 JournalEndpoints.ImportEntry.List, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var importEntry = new JournalImportEntryUpdate { Id = 1 };
@@ -87,7 +87,7 @@ public class JournalImportEntryServiceTests : ServiceTestBase<JournalImportEntry
                 JournalEndpoints.ImportEntry.Update, importEntry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Ignore_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2] };
@@ -102,7 +102,7 @@ public class JournalImportEntryServiceTests : ServiceTestBase<JournalImportEntry
                 JournalEndpoints.ImportEntry.Ignore, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Restore_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2] };
@@ -117,7 +117,7 @@ public class JournalImportEntryServiceTests : ServiceTestBase<JournalImportEntry
                 JournalEndpoints.ImportEntry.Restore, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Confirm_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2] };
@@ -132,7 +132,7 @@ public class JournalImportEntryServiceTests : ServiceTestBase<JournalImportEntry
                 JournalEndpoints.ImportEntry.Confirm, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Unconfirm_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2] };
@@ -147,7 +147,7 @@ public class JournalImportEntryServiceTests : ServiceTestBase<JournalImportEntry
                 JournalEndpoints.ImportEntry.Unconfirm, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task ExportExcel_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -161,7 +161,7 @@ public class JournalImportEntryServiceTests : ServiceTestBase<JournalImportEntry
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportCsv_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -175,7 +175,7 @@ public class JournalImportEntryServiceTests : ServiceTestBase<JournalImportEntry
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportPdf_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler

@@ -42,7 +42,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
     protected override FiscalPeriodService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
                 MetaEndpoints.FiscalPeriod.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
                 MetaEndpoints.FiscalPeriod.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -87,7 +87,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
                 MetaEndpoints.FiscalPeriod.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -101,7 +101,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var fiscalPeriod = new FiscalPeriodCreate { StartDate = "2024-01-01", EndDate = "2024-12-31" };
@@ -116,7 +116,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
                 MetaEndpoints.FiscalPeriod.Create, fiscalPeriod, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var fiscalPeriod = new FiscalPeriodUpdate { Id = 1, StartDate = "2024-01-01", EndDate = "2024-12-31" };
@@ -131,7 +131,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
                 MetaEndpoints.FiscalPeriod.Update, fiscalPeriod, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Switch_ShouldPostToCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -146,7 +146,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
                 MetaEndpoints.FiscalPeriod.Switch, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -161,7 +161,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
                 MetaEndpoints.FiscalPeriod.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetResult_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -177,7 +177,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
                 MetaEndpoints.FiscalPeriod.Result, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetDepreciations_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -193,7 +193,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
                 MetaEndpoints.FiscalPeriod.Deprecations, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task BookDepreciations_ShouldPostToCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -208,7 +208,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
                 MetaEndpoints.FiscalPeriod.BookDeprecations, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetExchangeDiff_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -224,7 +224,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
                 MetaEndpoints.FiscalPeriod.ExchangeDifferences, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task BookExchangeDiff_ShouldPostToCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -239,7 +239,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
                 MetaEndpoints.FiscalPeriod.BookExchangeDifferences, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Complete_ShouldPostToCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -254,7 +254,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
                 MetaEndpoints.FiscalPeriod.Complete, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Reopen_ShouldPostToCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -269,7 +269,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
                 MetaEndpoints.FiscalPeriod.Reopen, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task CompleteMonths_ShouldPostToCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -284,7 +284,7 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
                 MetaEndpoints.FiscalPeriod.CompleteMonths, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task ReopenMonths_ShouldPostToCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };

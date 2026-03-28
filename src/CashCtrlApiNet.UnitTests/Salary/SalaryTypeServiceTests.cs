@@ -43,7 +43,7 @@ public class SalaryTypeServiceTests : ServiceTestBase<SalaryTypeService>
     protected override SalaryTypeService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -59,7 +59,7 @@ public class SalaryTypeServiceTests : ServiceTestBase<SalaryTypeService>
                 SalaryEndpoints.Type.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -73,7 +73,7 @@ public class SalaryTypeServiceTests : ServiceTestBase<SalaryTypeService>
                 SalaryEndpoints.Type.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var salaryType = new SalaryTypeCreate { CategoryId = 1, Name = "Test", Number = "100", Type = SalaryTypeKind.ADD };
@@ -88,7 +88,7 @@ public class SalaryTypeServiceTests : ServiceTestBase<SalaryTypeService>
                 SalaryEndpoints.Type.Create, salaryType, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var salaryType = new SalaryTypeUpdate { Id = 1, CategoryId = 1, Name = "Test", Number = "100", Type = SalaryTypeKind.ADD };
@@ -103,7 +103,7 @@ public class SalaryTypeServiceTests : ServiceTestBase<SalaryTypeService>
                 SalaryEndpoints.Type.Update, salaryType, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Categorize_ShouldPostToCorrectEndpoint()
     {
         var categorize = new EntriesCategorize { Ids = [1], TargetCategoryId = 5 };
@@ -118,7 +118,7 @@ public class SalaryTypeServiceTests : ServiceTestBase<SalaryTypeService>
                 SalaryEndpoints.Type.Categorize, categorize, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -133,7 +133,7 @@ public class SalaryTypeServiceTests : ServiceTestBase<SalaryTypeService>
                 SalaryEndpoints.Type.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task ExportExcel_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -147,7 +147,7 @@ public class SalaryTypeServiceTests : ServiceTestBase<SalaryTypeService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportCsv_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -161,7 +161,7 @@ public class SalaryTypeServiceTests : ServiceTestBase<SalaryTypeService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportPdf_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -175,7 +175,7 @@ public class SalaryTypeServiceTests : ServiceTestBase<SalaryTypeService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -190,7 +190,7 @@ public class SalaryTypeServiceTests : ServiceTestBase<SalaryTypeService>
                 SalaryEndpoints.Type.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };

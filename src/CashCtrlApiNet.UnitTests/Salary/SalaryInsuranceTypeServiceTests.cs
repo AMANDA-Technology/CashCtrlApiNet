@@ -42,7 +42,7 @@ public class SalaryInsuranceTypeServiceTests : ServiceTestBase<SalaryInsuranceTy
     protected override SalaryInsuranceTypeService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class SalaryInsuranceTypeServiceTests : ServiceTestBase<SalaryInsuranceTy
                 SalaryEndpoints.InsuranceType.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class SalaryInsuranceTypeServiceTests : ServiceTestBase<SalaryInsuranceTy
                 SalaryEndpoints.InsuranceType.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var insuranceType = new SalaryInsuranceTypeCreate { Name = "Test" };
@@ -87,7 +87,7 @@ public class SalaryInsuranceTypeServiceTests : ServiceTestBase<SalaryInsuranceTy
                 SalaryEndpoints.InsuranceType.Create, insuranceType, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var insuranceType = new SalaryInsuranceTypeUpdate { Id = 1, Name = "Test" };
@@ -102,7 +102,7 @@ public class SalaryInsuranceTypeServiceTests : ServiceTestBase<SalaryInsuranceTy
                 SalaryEndpoints.InsuranceType.Update, insuranceType, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -117,7 +117,7 @@ public class SalaryInsuranceTypeServiceTests : ServiceTestBase<SalaryInsuranceTy
                 SalaryEndpoints.InsuranceType.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -132,7 +132,7 @@ public class SalaryInsuranceTypeServiceTests : ServiceTestBase<SalaryInsuranceTy
                 SalaryEndpoints.InsuranceType.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };

@@ -42,7 +42,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
     protected override FileService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task GetContent_ShouldCallGetBinaryAsyncWithEntry()
     {
         var entry = new Entry { Id = 42 };
@@ -57,7 +57,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -73,7 +73,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
                 FileEndpoints.File.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -87,7 +87,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
                 FileEndpoints.File.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -102,7 +102,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
                 FileEndpoints.File.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -116,7 +116,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Prepare_ShouldCallPostMultipartAsync()
     {
         using var content = new MultipartFormDataContent();
@@ -131,7 +131,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
                 FileEndpoints.File.Prepare, content, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Persist_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2] };
@@ -146,7 +146,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
                 FileEndpoints.File.Persist, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var file = new FileCreate { Id = 1, Name = "Test" };
@@ -161,7 +161,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
                 FileEndpoints.File.Create, file, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var file = new FileUpdate { Id = 1, Name = "Updated" };
@@ -176,7 +176,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
                 FileEndpoints.File.Update, file, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -191,7 +191,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
                 FileEndpoints.File.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Categorize_ShouldPostToCorrectEndpoint()
     {
         var categorize = new EntriesCategorize { Ids = [1], TargetCategoryId = 5 };
@@ -206,7 +206,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
                 FileEndpoints.File.Categorize, categorize, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task EmptyArchive_ShouldPostToCorrectEndpoint()
     {
         ConnectionHandler
@@ -220,7 +220,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
                 FileEndpoints.File.EmptyArchive, Arg.Any<object>(), Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Restore_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2] };
@@ -235,7 +235,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
                 FileEndpoints.File.Restore, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task ExportExcel_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -249,7 +249,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportCsv_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -263,7 +263,7 @@ public class FileServiceTests : ServiceTestBase<FileService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportPdf_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler

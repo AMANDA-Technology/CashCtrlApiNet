@@ -42,7 +42,7 @@ public class OrderPaymentServiceTests : ServiceTestBase<OrderPaymentService>
     protected override OrderPaymentService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var payment = new OrderPaymentCreate { OrderId = 42 };
@@ -57,7 +57,7 @@ public class OrderPaymentServiceTests : ServiceTestBase<OrderPaymentService>
                 OrderEndpoints.Payment.Create, payment, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Download_ShouldCallGetBinaryAsync()
     {
         var entry = new Entry { Id = 42 };

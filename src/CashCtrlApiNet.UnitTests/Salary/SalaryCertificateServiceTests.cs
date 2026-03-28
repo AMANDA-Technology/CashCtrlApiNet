@@ -42,7 +42,7 @@ public class SalaryCertificateServiceTests : ServiceTestBase<SalaryCertificateSe
     protected override SalaryCertificateService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class SalaryCertificateServiceTests : ServiceTestBase<SalaryCertificateSe
                 SalaryEndpoints.Certificate.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class SalaryCertificateServiceTests : ServiceTestBase<SalaryCertificateSe
                 SalaryEndpoints.Certificate.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var certificate = new SalaryCertificateUpdate { Id = 1 };
@@ -87,7 +87,7 @@ public class SalaryCertificateServiceTests : ServiceTestBase<SalaryCertificateSe
                 SalaryEndpoints.Certificate.Update, certificate, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task ExportExcel_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -101,7 +101,7 @@ public class SalaryCertificateServiceTests : ServiceTestBase<SalaryCertificateSe
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportCsv_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -115,7 +115,7 @@ public class SalaryCertificateServiceTests : ServiceTestBase<SalaryCertificateSe
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportPdf_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -129,7 +129,7 @@ public class SalaryCertificateServiceTests : ServiceTestBase<SalaryCertificateSe
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -144,7 +144,7 @@ public class SalaryCertificateServiceTests : ServiceTestBase<SalaryCertificateSe
                 SalaryEndpoints.Certificate.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };

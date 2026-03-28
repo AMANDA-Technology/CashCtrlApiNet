@@ -40,7 +40,7 @@ public class InventoryImportServiceTests : ServiceTestBase<InventoryImportServic
     protected override InventoryImportService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var importCreate = new InventoryImportCreate { FileId = 100 };
@@ -55,7 +55,7 @@ public class InventoryImportServiceTests : ServiceTestBase<InventoryImportServic
                 InventoryEndpoints.Import.Create, importCreate, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Mapping_ShouldPostToCorrectEndpoint()
     {
         var importMapping = new InventoryImportMapping { Id = 1, Mapping = "{\"field1\":\"value1\"}" };
@@ -70,7 +70,7 @@ public class InventoryImportServiceTests : ServiceTestBase<InventoryImportServic
                 InventoryEndpoints.Import.Mapping, importMapping, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetMappingFields_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -83,7 +83,7 @@ public class InventoryImportServiceTests : ServiceTestBase<InventoryImportServic
             .GetAsync(InventoryEndpoints.Import.AvailableMappingFields, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Preview_ShouldPostToCorrectEndpoint()
     {
         var importPreview = new InventoryImportPreview { Id = 1 };
@@ -98,7 +98,7 @@ public class InventoryImportServiceTests : ServiceTestBase<InventoryImportServic
                 InventoryEndpoints.Import.Preview, importPreview, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Execute_ShouldPostToCorrectEndpoint()
     {
         var importExecute = new InventoryImportExecute { Id = 1 };

@@ -43,7 +43,7 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
     protected override AccountBankService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -59,7 +59,7 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
                 AccountEndpoints.Bank.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -73,7 +73,7 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
                 AccountEndpoints.Bank.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -88,7 +88,7 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
                 AccountEndpoints.Bank.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -102,7 +102,7 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var bankAccount = new AccountBankCreate { Bic = "TESTBIC", Iban = "CH1234", Name = "Test Bank", Type = BankAccountType.DEFAULT };
@@ -117,7 +117,7 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
                 AccountEndpoints.Bank.Create, bankAccount, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var bankAccount = new AccountBankUpdate { Id = 1, Bic = "TESTBIC", Iban = "CH1234", Name = "Test Bank", Type = BankAccountType.DEFAULT };
@@ -132,7 +132,7 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
                 AccountEndpoints.Bank.Update, bankAccount, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2] };
@@ -147,7 +147,7 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
                 AccountEndpoints.Bank.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task UpdateAttachments_ShouldPostToCorrectEndpoint()
     {
         var attachments = new EntryAttachments { Id = 1, AttachedFileIds = [10, 20] };
@@ -162,7 +162,7 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
                 AccountEndpoints.Bank.UpdateAttachments, attachments, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task ExportExcel_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -176,7 +176,7 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportCsv_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -190,7 +190,7 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportPdf_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler

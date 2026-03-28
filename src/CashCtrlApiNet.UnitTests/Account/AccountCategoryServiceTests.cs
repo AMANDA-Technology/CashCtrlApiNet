@@ -42,7 +42,7 @@ public class AccountCategoryServiceTests : ServiceTestBase<AccountCategoryServic
     protected override AccountCategoryService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class AccountCategoryServiceTests : ServiceTestBase<AccountCategoryServic
                 AccountEndpoints.AccountCategory.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class AccountCategoryServiceTests : ServiceTestBase<AccountCategoryServic
                 AccountEndpoints.AccountCategory.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -87,7 +87,7 @@ public class AccountCategoryServiceTests : ServiceTestBase<AccountCategoryServic
                 AccountEndpoints.AccountCategory.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -101,7 +101,7 @@ public class AccountCategoryServiceTests : ServiceTestBase<AccountCategoryServic
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task GetTree_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -115,7 +115,7 @@ public class AccountCategoryServiceTests : ServiceTestBase<AccountCategoryServic
                 AccountEndpoints.AccountCategory.Tree, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var category = new AccountCategoryCreate { Name = "Test Category" };
@@ -130,7 +130,7 @@ public class AccountCategoryServiceTests : ServiceTestBase<AccountCategoryServic
                 AccountEndpoints.AccountCategory.Create, category, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var category = new AccountCategoryUpdate { Id = 1, Name = "Updated Category" };
@@ -145,7 +145,7 @@ public class AccountCategoryServiceTests : ServiceTestBase<AccountCategoryServic
                 AccountEndpoints.AccountCategory.Update, category, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2] };

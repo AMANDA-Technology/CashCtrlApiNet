@@ -43,7 +43,7 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
     protected override ReportElementService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -59,7 +59,7 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
                 ReportEndpoints.Element.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var element = new ReportElementCreate { ReportId = 1, AccountId = 2 };
@@ -74,7 +74,7 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
                 ReportEndpoints.Element.Create, element, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var element = new ReportElementUpdate { Id = 1, ReportId = 1, AccountId = 2 };
@@ -89,7 +89,7 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
                 ReportEndpoints.Element.Update, element, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -104,7 +104,7 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
                 ReportEndpoints.Element.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Reorder_ShouldPostToCorrectEndpoint()
     {
         var reorder = new ReportElementReorder { Ids = [1, 2], Target = 3 };
@@ -119,7 +119,7 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
                 ReportEndpoints.Element.Reorder, reorder, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetData_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -135,7 +135,7 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
                 ReportEndpoints.Element.ReadJson, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetDataHtml_ShouldCallGetBinaryAsync()
     {
         var entry = new Entry { Id = 42 };
@@ -150,7 +150,7 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task GetMeta_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -166,7 +166,7 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
                 ReportEndpoints.Element.ReadMeta, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task DownloadPdf_ShouldCallGetBinaryAsync()
     {
         var entry = new Entry { Id = 42 };
@@ -181,7 +181,7 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task DownloadCsv_ShouldCallGetBinaryAsync()
     {
         var entry = new Entry { Id = 42 };
@@ -196,7 +196,7 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task DownloadExcel_ShouldCallGetBinaryAsync()
     {
         var entry = new Entry { Id = 42 };

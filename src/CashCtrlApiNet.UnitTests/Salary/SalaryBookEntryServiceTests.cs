@@ -42,7 +42,7 @@ public class SalaryBookEntryServiceTests : ServiceTestBase<SalaryBookEntryServic
     protected override SalaryBookEntryService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class SalaryBookEntryServiceTests : ServiceTestBase<SalaryBookEntryServic
                 SalaryEndpoints.BookEntry.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint_WithStatementParameter()
     {
         var statement = new Entry { Id = 10 };
@@ -74,7 +74,7 @@ public class SalaryBookEntryServiceTests : ServiceTestBase<SalaryBookEntryServic
                 SalaryEndpoints.BookEntry.List, statement, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var bookEntry = new SalaryBookEntryCreate { CreditId = 1, DebitId = 2, StatementIds = "1,2" };
@@ -89,7 +89,7 @@ public class SalaryBookEntryServiceTests : ServiceTestBase<SalaryBookEntryServic
                 SalaryEndpoints.BookEntry.Create, bookEntry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var bookEntry = new SalaryBookEntryUpdate { Id = 1, CreditId = 1, DebitId = 2, StatementIds = "1,2" };
@@ -104,7 +104,7 @@ public class SalaryBookEntryServiceTests : ServiceTestBase<SalaryBookEntryServic
                 SalaryEndpoints.BookEntry.Update, bookEntry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };

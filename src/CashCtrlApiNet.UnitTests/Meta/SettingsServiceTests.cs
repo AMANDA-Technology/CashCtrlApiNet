@@ -41,7 +41,7 @@ public class SettingsServiceTests : ServiceTestBase<SettingsService>
     protected override SettingsService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Read_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -55,7 +55,7 @@ public class SettingsServiceTests : ServiceTestBase<SettingsService>
                 MetaEndpoints.Settings.Read, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithSettingGetParameter()
     {
         var setting = new SettingGet { Name = "defaultCurrencyId" };
@@ -71,7 +71,7 @@ public class SettingsServiceTests : ServiceTestBase<SettingsService>
                 MetaEndpoints.Settings.Get, setting, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var settings = new SettingsUpdate { DefaultCurrencyId = 1 };

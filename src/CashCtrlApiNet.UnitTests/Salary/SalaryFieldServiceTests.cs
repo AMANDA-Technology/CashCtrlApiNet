@@ -42,7 +42,7 @@ public class SalaryFieldServiceTests : ServiceTestBase<SalaryFieldService>
     protected override SalaryFieldService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class SalaryFieldServiceTests : ServiceTestBase<SalaryFieldService>
                 SalaryEndpoints.Field.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint_WithTypeParameter()
     {
         var type = new Entry { Id = 10 };

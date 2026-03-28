@@ -42,7 +42,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
     protected override FixedAssetService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
                 InventoryEndpoints.FixedAsset.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
                 InventoryEndpoints.FixedAsset.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -87,7 +87,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
                 InventoryEndpoints.FixedAsset.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -101,7 +101,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var fixedAsset = new FixedAssetCreate { Name = "Test Asset" };
@@ -116,7 +116,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
                 InventoryEndpoints.FixedAsset.Create, fixedAsset, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var fixedAsset = new FixedAssetUpdate { Id = 1, Name = "Updated Asset" };
@@ -131,7 +131,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
                 InventoryEndpoints.FixedAsset.Update, fixedAsset, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -146,7 +146,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
                 InventoryEndpoints.FixedAsset.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Categorize_ShouldPostToCorrectEndpoint()
     {
         var categorize = new EntriesCategorize { Ids = [1], TargetCategoryId = 5 };
@@ -161,7 +161,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
                 InventoryEndpoints.FixedAsset.Categorize, categorize, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task UpdateAttachments_ShouldPostToCorrectEndpoint()
     {
         var attachments = new EntryAttachments { Id = 1, AttachedFileIds = [10, 20] };
@@ -176,7 +176,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
                 InventoryEndpoints.FixedAsset.UpdateAttachments, attachments, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task ExportExcel_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -190,7 +190,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportCsv_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -204,7 +204,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportPdf_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler

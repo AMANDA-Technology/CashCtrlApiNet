@@ -43,7 +43,7 @@ public class CustomFieldServiceTests : ServiceTestBase<CustomFieldService>
     protected override CustomFieldService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -60,7 +60,7 @@ public class CustomFieldServiceTests : ServiceTestBase<CustomFieldService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint_WithTypeParameter()
     {
         var listRequest = new CustomFieldListRequest { Type = CustomFieldType.JOURNAL };
@@ -77,7 +77,7 @@ public class CustomFieldServiceTests : ServiceTestBase<CustomFieldService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var customField = new CustomFieldCreate { DataType = CustomFieldDataType.TEXT, RowLabel = "Test", Type = CustomFieldType.JOURNAL };
@@ -92,7 +92,7 @@ public class CustomFieldServiceTests : ServiceTestBase<CustomFieldService>
                 CommonEndpoints.CustomField.Create, customField, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var customField = new CustomFieldUpdate { Id = 1, DataType = CustomFieldDataType.TEXT, RowLabel = "Test", Type = CustomFieldType.JOURNAL };
@@ -107,7 +107,7 @@ public class CustomFieldServiceTests : ServiceTestBase<CustomFieldService>
                 CommonEndpoints.CustomField.Update, customField, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2] };
@@ -122,7 +122,7 @@ public class CustomFieldServiceTests : ServiceTestBase<CustomFieldService>
                 CommonEndpoints.CustomField.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Reorder_ShouldPostToCorrectEndpoint()
     {
         var reorder = new CustomFieldReorder { Ids = [1, 2, 3], Target = 5 };
@@ -137,7 +137,7 @@ public class CustomFieldServiceTests : ServiceTestBase<CustomFieldService>
                 CommonEndpoints.CustomField.Reorder, reorder, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetTypes_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler

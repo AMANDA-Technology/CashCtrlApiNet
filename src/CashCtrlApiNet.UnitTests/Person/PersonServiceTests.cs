@@ -42,7 +42,7 @@ public class PersonServiceTests : ServiceTestBase<PersonService>
     protected override PersonService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class PersonServiceTests : ServiceTestBase<PersonService>
                 PersonEndpoints.Person.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class PersonServiceTests : ServiceTestBase<PersonService>
                 PersonEndpoints.Person.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -87,7 +87,7 @@ public class PersonServiceTests : ServiceTestBase<PersonService>
                 PersonEndpoints.Person.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -101,7 +101,7 @@ public class PersonServiceTests : ServiceTestBase<PersonService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var person = new PersonCreate { FirstName = "John", LastName = "Doe" };
@@ -116,7 +116,7 @@ public class PersonServiceTests : ServiceTestBase<PersonService>
                 PersonEndpoints.Person.Create, person, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var person = new PersonUpdate { Id = 1, FirstName = "John", LastName = "Doe" };
@@ -131,7 +131,7 @@ public class PersonServiceTests : ServiceTestBase<PersonService>
                 PersonEndpoints.Person.Update, person, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -146,7 +146,7 @@ public class PersonServiceTests : ServiceTestBase<PersonService>
                 PersonEndpoints.Person.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Categorize_ShouldPostToCorrectEndpoint()
     {
         var categorize = new EntriesCategorize { Ids = [1], TargetCategoryId = 5 };
@@ -161,7 +161,7 @@ public class PersonServiceTests : ServiceTestBase<PersonService>
                 PersonEndpoints.Person.Categorize, categorize, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task UpdateAttachments_ShouldPostToCorrectEndpoint()
     {
         var attachments = new EntryAttachments { Id = 1, AttachedFileIds = [10, 20] };
@@ -176,7 +176,7 @@ public class PersonServiceTests : ServiceTestBase<PersonService>
                 PersonEndpoints.Person.UpdateAttachments, attachments, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task ExportExcel_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -190,7 +190,7 @@ public class PersonServiceTests : ServiceTestBase<PersonService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportCsv_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -204,7 +204,7 @@ public class PersonServiceTests : ServiceTestBase<PersonService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportPdf_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
@@ -218,7 +218,7 @@ public class PersonServiceTests : ServiceTestBase<PersonService>
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task ExportVcard_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler

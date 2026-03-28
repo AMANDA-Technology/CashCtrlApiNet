@@ -42,7 +42,7 @@ public class PersonTitleServiceTests : ServiceTestBase<PersonTitleService>
     protected override PersonTitleService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class PersonTitleServiceTests : ServiceTestBase<PersonTitleService>
                 PersonEndpoints.Title.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class PersonTitleServiceTests : ServiceTestBase<PersonTitleService>
                 PersonEndpoints.Title.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -87,7 +87,7 @@ public class PersonTitleServiceTests : ServiceTestBase<PersonTitleService>
                 PersonEndpoints.Title.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
@@ -101,7 +101,7 @@ public class PersonTitleServiceTests : ServiceTestBase<PersonTitleService>
         result.ShouldBe(expected);
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var title = new PersonTitleCreate { Title = "Mr." };
@@ -116,7 +116,7 @@ public class PersonTitleServiceTests : ServiceTestBase<PersonTitleService>
                 PersonEndpoints.Title.Create, title, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var title = new PersonTitleUpdate { Id = 1, Title = "Mrs." };
@@ -131,7 +131,7 @@ public class PersonTitleServiceTests : ServiceTestBase<PersonTitleService>
                 PersonEndpoints.Title.Update, title, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2] };

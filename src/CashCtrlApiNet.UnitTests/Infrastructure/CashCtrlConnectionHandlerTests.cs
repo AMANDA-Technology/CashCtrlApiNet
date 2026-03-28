@@ -89,7 +89,7 @@ public class CashCtrlConnectionHandlerTests
         return config;
     }
 
-    [Fact]
+    [Test]
     public async Task GetAsync_ShouldUseLangParameterWithoutTrailingSpace()
     {
         // Arrange
@@ -114,7 +114,7 @@ public class CashCtrlConnectionHandlerTests
         queryString.ShouldNotContain("lang+");
     }
 
-    [Fact]
+    [Test]
     public async Task GetAsync_WithFactoryConstructor_ShouldUseFactoryProvidedClient()
     {
         // Arrange
@@ -136,7 +136,7 @@ public class CashCtrlConnectionHandlerTests
         handler.CapturedRequest.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task GetAsync_WithFactoryConstructor_ShouldSetBaseAddressAndAuthHeader()
     {
         // Arrange
@@ -158,7 +158,7 @@ public class CashCtrlConnectionHandlerTests
         handler.CapturedRequest.RequestUri!.Host.ShouldBe("testorg.cashctrl.com");
     }
 
-    [Fact]
+    [Test]
     public void Constructor_WithConfiguration_ShouldNotThrow()
     {
         // Arrange
@@ -168,7 +168,7 @@ public class CashCtrlConnectionHandlerTests
         Should.NotThrow(() => new CashCtrlConnectionHandler(config));
     }
 
-    [Fact]
+    [Test]
     public void Constructor_ShouldThrow_WhenBaseUriIsNull()
     {
         // Arrange
@@ -178,7 +178,7 @@ public class CashCtrlConnectionHandlerTests
         Should.Throw<ArgumentException>(() => new CashCtrlConnectionHandler(config));
     }
 
-    [Fact]
+    [Test]
     public void Constructor_ShouldThrow_WhenApiKeyIsNull()
     {
         // Arrange
@@ -188,7 +188,7 @@ public class CashCtrlConnectionHandlerTests
         Should.Throw<ArgumentException>(() => new CashCtrlConnectionHandler(config));
     }
 
-    [Fact]
+    [Test]
     public void FactoryConstructor_ShouldThrow_WhenBaseUriIsNull()
     {
         // Arrange
@@ -199,7 +199,7 @@ public class CashCtrlConnectionHandlerTests
         Should.Throw<ArgumentException>(() => new CashCtrlConnectionHandler(factory, config));
     }
 
-    [Fact]
+    [Test]
     public void FactoryConstructor_ShouldThrow_WhenApiKeyIsNull()
     {
         // Arrange
@@ -210,7 +210,7 @@ public class CashCtrlConnectionHandlerTests
         Should.Throw<ArgumentException>(() => new CashCtrlConnectionHandler(factory, config));
     }
 
-    [Fact]
+    [Test]
     public async Task SetLanguage_ShouldChangeLanguageOnSubsequentRequests()
     {
         // Arrange
@@ -233,7 +233,7 @@ public class CashCtrlConnectionHandlerTests
         handler.CapturedRequest.RequestUri!.Query.ShouldContain("lang=en");
     }
 
-    [Fact]
+    [Test]
     public async Task GetAsync_WithStandaloneConstructor_ShouldUseLangWithoutTrailingSpace()
     {
         // This test verifies the lang bug is fixed even with the standalone constructor.
@@ -253,7 +253,7 @@ public class CashCtrlConnectionHandlerTests
         Should.NotThrow(() => connectionHandler.SetLanguage(Language.fr));
     }
 
-    [Fact]
+    [Test]
     public void Constructor_WithBaseUriMissingTrailingSlash_ShouldNormalize()
     {
         // Arrange
@@ -263,7 +263,7 @@ public class CashCtrlConnectionHandlerTests
         Should.NotThrow(() => new CashCtrlConnectionHandler(config));
     }
 
-    [Fact]
+    [Test]
     public void FactoryConstructor_WithBaseUriMissingTrailingSlash_ShouldNormalize()
     {
         // Arrange

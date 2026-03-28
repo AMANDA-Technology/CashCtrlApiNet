@@ -43,7 +43,7 @@ public class CustomFieldGroupServiceTests : ServiceTestBase<CustomFieldGroupServ
     protected override CustomFieldGroupService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -60,7 +60,7 @@ public class CustomFieldGroupServiceTests : ServiceTestBase<CustomFieldGroupServ
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint_WithTypeParameter()
     {
         var listRequest = new CustomFieldGroupListRequest { Type = CustomFieldType.ORDER };
@@ -77,7 +77,7 @@ public class CustomFieldGroupServiceTests : ServiceTestBase<CustomFieldGroupServ
         result.ShouldNotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var group = new CustomFieldGroupCreate { Name = "Test Group", Type = CustomFieldType.ORDER };
@@ -92,7 +92,7 @@ public class CustomFieldGroupServiceTests : ServiceTestBase<CustomFieldGroupServ
                 CommonEndpoints.CustomFieldGroup.Create, group, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var group = new CustomFieldGroupUpdate { Id = 1, Name = "Test Group", Type = CustomFieldType.ORDER };
@@ -107,7 +107,7 @@ public class CustomFieldGroupServiceTests : ServiceTestBase<CustomFieldGroupServ
                 CommonEndpoints.CustomFieldGroup.Update, group, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2] };
@@ -122,7 +122,7 @@ public class CustomFieldGroupServiceTests : ServiceTestBase<CustomFieldGroupServ
                 CommonEndpoints.CustomFieldGroup.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Reorder_ShouldPostToCorrectEndpoint()
     {
         var reorder = new CustomFieldGroupReorder { Ids = [1, 2, 3], Target = 5 };

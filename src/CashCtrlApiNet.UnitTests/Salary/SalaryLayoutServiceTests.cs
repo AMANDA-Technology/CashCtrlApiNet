@@ -42,7 +42,7 @@ public class SalaryLayoutServiceTests : ServiceTestBase<SalaryLayoutService>
     protected override SalaryLayoutService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task Get_ShouldCallCorrectEndpoint_WithEntryParameter()
     {
         var entry = new Entry { Id = 42 };
@@ -58,7 +58,7 @@ public class SalaryLayoutServiceTests : ServiceTestBase<SalaryLayoutService>
                 SalaryEndpoints.Layout.Read, entry, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
@@ -72,7 +72,7 @@ public class SalaryLayoutServiceTests : ServiceTestBase<SalaryLayoutService>
                 SalaryEndpoints.Layout.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
         var layout = new SalaryLayoutCreate { Name = "Test" };
@@ -87,7 +87,7 @@ public class SalaryLayoutServiceTests : ServiceTestBase<SalaryLayoutService>
                 SalaryEndpoints.Layout.Create, layout, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
         var layout = new SalaryLayoutUpdate { Id = 1, Name = "Test" };
@@ -102,7 +102,7 @@ public class SalaryLayoutServiceTests : ServiceTestBase<SalaryLayoutService>
                 SalaryEndpoints.Layout.Update, layout, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task Delete_ShouldPostToCorrectEndpoint()
     {
         var entries = new Entries { Ids = [1, 2, 3] };
@@ -117,7 +117,7 @@ public class SalaryLayoutServiceTests : ServiceTestBase<SalaryLayoutService>
                 SalaryEndpoints.Layout.Delete, entries, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
@@ -132,7 +132,7 @@ public class SalaryLayoutServiceTests : ServiceTestBase<SalaryLayoutService>
                 SalaryEndpoints.Layout.List, listParams, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Test]
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };

@@ -36,7 +36,7 @@ namespace CashCtrlApiNet.UnitTests.Infrastructure;
 /// </summary>
 public class ConnectionHandlerMultipartTests
 {
-    [Fact]
+    [Test]
     public void Interface_ShouldDeclare_PostMultipartAsync()
     {
         var methods = typeof(ICashCtrlConnectionHandler).GetMethods()
@@ -48,7 +48,7 @@ public class ConnectionHandlerMultipartTests
         methods[0].GetGenericArguments().Length.ShouldBe(1);
     }
 
-    [Fact]
+    [Test]
     public void Interface_PostMultipartAsync_ShouldAccept_MultipartFormDataContent()
     {
         var method = typeof(ICashCtrlConnectionHandler).GetMethods()
@@ -61,7 +61,7 @@ public class ConnectionHandlerMultipartTests
         parameters[2].ParameterType.ShouldBe(typeof(CancellationToken));
     }
 
-    [Fact]
+    [Test]
     public void Interface_PostMultipartAsync_ShouldReturn_ApiResultOfTResult()
     {
         var method = typeof(ICashCtrlConnectionHandler).GetMethods()
@@ -71,7 +71,7 @@ public class ConnectionHandlerMultipartTests
         returnType.GetGenericTypeDefinition().ShouldBe(typeof(Task<>));
     }
 
-    [Fact]
+    [Test]
     public void Interface_PostMultipartAsync_GenericConstraint_ShouldRequire_ApiResponse()
     {
         var method = typeof(ICashCtrlConnectionHandler).GetMethods()
@@ -81,7 +81,7 @@ public class ConnectionHandlerMultipartTests
         genericArg.GetGenericParameterConstraints().ShouldContain(typeof(ApiResponse));
     }
 
-    [Fact]
+    [Test]
     public void Implementation_ShouldDeclare_PostMultipartAsync()
     {
         var methods = typeof(CashCtrlConnectionHandler).GetMethods()
@@ -92,7 +92,7 @@ public class ConnectionHandlerMultipartTests
         methods[0].IsGenericMethod.ShouldBeTrue();
     }
 
-    [Fact]
+    [Test]
     public void Implementation_PostMultipartAsync_ShouldAccept_MultipartFormDataContent()
     {
         var method = typeof(CashCtrlConnectionHandler).GetMethods()
@@ -102,7 +102,7 @@ public class ConnectionHandlerMultipartTests
         parameters[1].ParameterType.ShouldBe(typeof(MultipartFormDataContent));
     }
 
-    [Fact]
+    [Test]
     public void ServiceTestBase_ShouldBeAbstractGenericClass()
     {
         var type = typeof(ServiceTestBase<>);
@@ -112,7 +112,7 @@ public class ConnectionHandlerMultipartTests
         type.GetGenericArguments().Length.ShouldBe(1);
     }
 
-    [Fact]
+    [Test]
     public void ServiceTestBase_ShouldHave_ConnectionHandlerField()
     {
         var field = typeof(ServiceTestBase<>).GetField(
@@ -123,7 +123,7 @@ public class ConnectionHandlerMultipartTests
         field.FieldType.ShouldBe(typeof(ICashCtrlConnectionHandler));
     }
 
-    [Fact]
+    [Test]
     public void ServiceTestBase_ShouldHave_ServiceField()
     {
         var type = typeof(ServiceTestBase<>);

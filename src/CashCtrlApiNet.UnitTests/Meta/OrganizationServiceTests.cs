@@ -40,7 +40,7 @@ public class OrganizationServiceTests : ServiceTestBase<OrganizationService>
     protected override OrganizationService CreateService()
         => new(ConnectionHandler);
 
-    [Fact]
+    [Test]
     public async Task GetLogo_ShouldCallGetBinaryAsync()
     {
         ConnectionHandler
