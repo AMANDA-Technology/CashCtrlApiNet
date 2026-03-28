@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -70,7 +70,7 @@ public static class CashCtrlSerialization
     /// <param name="data"></param>
     /// <returns></returns>
     public static string Serialize<TValue>(TValue? data)
-        => JsonSerializer.Serialize(data);
+        => JsonSerializer.Serialize(data, options: DefaultSerializerOptions);
 
     /// <summary>
     /// Convert data object to dictionary
