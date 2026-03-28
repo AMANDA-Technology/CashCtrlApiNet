@@ -31,14 +31,13 @@ namespace CashCtrlApiNet.E2eTests.Inventory;
 /// <summary>
 /// E2E tests for inventory article category service
 /// </summary>
-[Trait("Category", "E2e")]
-[TestCaseOrderer("CashCtrlApiNet.E2eTests.AlphabeticalOrderer", "CashCtrlApiNet.E2eTests")]
+[Category("E2e")]
 public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
 {
     /// <summary>
     /// Get an article successfully
     /// </summary>
-    [Fact]
+    [Test, Order(1)]
     public async Task Test1_Get_Success()
     {
         var res = await CashCtrlApiClient.Inventory.ArticleCategory.Get(new(){ Id = 1 });
@@ -48,20 +47,20 @@ public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
         res.RequestsLeft.Value.ShouldBeGreaterThan(0);
         res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
 
-        Assert.NotNull(res.ResponseData?.Data);
-        res.ResponseData.Data.Name.ShouldNotBeNullOrEmpty();
+        res.ResponseData?.Data.ShouldNotBeNull();
+        res.ResponseData!.Data!.Name.ShouldNotBeNullOrEmpty();
     }
 
     /// <summary>
     /// Get list of articles successfully
     /// </summary>
-    [Fact]
+    [Test, Order(2)]
     public async Task Test2_GetList_Success()
     {
         var res = await CashCtrlApiClient.Inventory.ArticleCategory.GetList();
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
         res.ResponseData.Data.Length.ShouldBe(res.ResponseData.Total);
     }
@@ -69,7 +68,7 @@ public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
     /// <summary>
     /// Create an article successfully
     /// </summary>
-    [Fact]
+    [Test, Order(4)]
     public async Task Test4_Create_Success()
     {
         var res = await CashCtrlApiClient.Inventory.ArticleCategory.Create(new()
@@ -78,7 +77,7 @@ public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
         });
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Success.ShouldBeTrue();
         res.ResponseData.Errors.ShouldBeNull();
         res.ResponseData.InsertId.ShouldNotBeNull();
@@ -89,7 +88,7 @@ public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
     /// <summary>
     /// Update an article successfully
     /// </summary>
-    [Fact]
+    [Test, Order(5)]
     public async Task? Test5_Update_Success()
     {
         var get = await CashCtrlApiClient.Inventory.ArticleCategory.Get(new(){ Id = 6 });
@@ -101,7 +100,7 @@ public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
         });
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Success.ShouldBeTrue();
         res.ResponseData.Errors.ShouldBeNull();
         res.ResponseData.InsertId.ShouldNotBeNull();
@@ -112,7 +111,7 @@ public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
     /// <summary>
     /// Delete an article successfully
     /// </summary>
-    [Fact]
+    [Test, Order(6)]
     public async Task Test6_Delete_Success()
     {
         // Wait until test article created
@@ -127,13 +126,13 @@ public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
             }
         }
 
-        Assert.NotNull(articleCategory);
+        articleCategory.ShouldNotBeNull();
 
         // Then delete it
         var res = await CashCtrlApiClient.Inventory.ArticleCategory.Delete(new(){ Ids = [articleCategory.Id]});
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Success.ShouldBeTrue();
         res.ResponseData.Errors.ShouldBeNull();
         res.ResponseData.Message.ShouldBe("1 category deleted");

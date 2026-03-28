@@ -31,14 +31,13 @@ namespace CashCtrlApiNet.E2eTests.Account;
 /// <summary>
 /// E2E tests for account service
 /// </summary>
-[Trait("Category", "E2e")]
-[TestCaseOrderer("CashCtrlApiNet.E2eTests.AlphabeticalOrderer", "CashCtrlApiNet.E2eTests")]
+[Category("E2e")]
 public class AccountE2eTests : CashCtrlE2eTestBase
 {
     /// <summary>
     /// Get an account successfully
     /// </summary>
-    [Fact]
+    [Test, Order(1)]
     public async Task Test1_Get_Success()
     {
         var res = await CashCtrlApiClient.Account.Account.Get(new() { Id = 1 });
@@ -48,21 +47,21 @@ public class AccountE2eTests : CashCtrlE2eTestBase
         res.RequestsLeft.Value.ShouldBeGreaterThan(0);
         res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
 
-        Assert.NotNull(res.ResponseData?.Data);
-        res.ResponseData.Data.Name.ShouldNotBeNullOrEmpty();
+        res.ResponseData?.Data.ShouldNotBeNull();
+        res.ResponseData!.Data!.Name.ShouldNotBeNullOrEmpty();
         res.ResponseData.Data.Number.ShouldBeGreaterThan(0);
     }
 
     /// <summary>
     /// Get list of accounts successfully
     /// </summary>
-    [Fact]
+    [Test, Order(2)]
     public async Task Test2_GetList_Success()
     {
         var res = await CashCtrlApiClient.Account.Account.GetList();
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
         res.ResponseData.Data.Length.ShouldBe(res.ResponseData.Total);
     }
@@ -70,20 +69,20 @@ public class AccountE2eTests : CashCtrlE2eTestBase
     /// <summary>
     /// Get account balance successfully
     /// </summary>
-    [Fact]
+    [Test, Order(3)]
     public async Task Test3_GetBalance_Success()
     {
         var res = await CashCtrlApiClient.Account.Account.GetBalance(new() { Id = 1 });
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData?.Data);
-        res.ResponseData.Data.Name.ShouldNotBeNullOrEmpty();
+        res.ResponseData?.Data.ShouldNotBeNull();
+        res.ResponseData!.Data!.Name.ShouldNotBeNullOrEmpty();
     }
 
     /// <summary>
     /// Create an account successfully
     /// </summary>
-    [Fact]
+    [Test, Order(4)]
     public async Task Test4_Create_Success()
     {
         var res = await CashCtrlApiClient.Account.Account.Create(new()
@@ -94,7 +93,7 @@ public class AccountE2eTests : CashCtrlE2eTestBase
         });
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Success.ShouldBeTrue();
         res.ResponseData.Errors.ShouldBeNull();
         res.ResponseData.InsertId.ShouldNotBeNull();
@@ -104,7 +103,7 @@ public class AccountE2eTests : CashCtrlE2eTestBase
     /// <summary>
     /// Update an account successfully
     /// </summary>
-    [Fact]
+    [Test, Order(5)]
     public async Task Test5_Update_Success()
     {
         // Find the test account we created
@@ -118,7 +117,7 @@ public class AccountE2eTests : CashCtrlE2eTestBase
             }
         }
 
-        Assert.NotNull(account);
+        account.ShouldNotBeNull();
 
         var res = await CashCtrlApiClient.Account.Account.Update((account as AccountUpdate) with
         {
@@ -126,7 +125,7 @@ public class AccountE2eTests : CashCtrlE2eTestBase
         });
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Success.ShouldBeTrue();
         res.ResponseData.Errors.ShouldBeNull();
     }
@@ -134,7 +133,7 @@ public class AccountE2eTests : CashCtrlE2eTestBase
     /// <summary>
     /// Delete an account successfully
     /// </summary>
-    [Fact]
+    [Test, Order(6)]
     public async Task Test6_Delete_Success()
     {
         // Wait until test account exists
@@ -148,12 +147,12 @@ public class AccountE2eTests : CashCtrlE2eTestBase
             }
         }
 
-        Assert.NotNull(account);
+        account.ShouldNotBeNull();
 
         var res = await CashCtrlApiClient.Account.Account.Delete(new() { Ids = [account.Id] });
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Success.ShouldBeTrue();
         res.ResponseData.Errors.ShouldBeNull();
     }
@@ -161,13 +160,13 @@ public class AccountE2eTests : CashCtrlE2eTestBase
     /// <summary>
     /// Export accounts as Excel successfully
     /// </summary>
-    [Fact]
+    [Test, Order(7)]
     public async Task Test7_ExportExcel_Success()
     {
         var res = await CashCtrlApiClient.Account.Account.ExportExcel();
         res.IsHttpSuccess.ShouldBeTrue();
 
-        Assert.NotNull(res.ResponseData);
+        res.ResponseData.ShouldNotBeNull();
         res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
     }
 

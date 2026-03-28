@@ -15,9 +15,9 @@ Unofficial .NET 10 API client library for the [CashCtrl REST API v1](https://app
 | HTTP           | `System.Net.Http.HttpClient` via `IHttpClientFactory` |
 | Serialization  | `System.Text.Json`                     |
 | DI integration | ASP.NET Core (`Microsoft.Extensions.DependencyInjection`) |
-| Unit Testing   | xUnit, NSubstitute 5.3, Shouldly 4.3  |
-| Integration Testing | xUnit 2.9, Shouldly 4.3, WireMock.Net 2.0, Bogus 35.6 |
-| E2E Testing    | xUnit 2.9, Shouldly 4.3              |
+| Unit Testing   | NUnit 4.5, NSubstitute 5.3, Shouldly 4.3  |
+| Integration Testing | NUnit 4.5, Shouldly 4.3, WireMock.Net 2.0, Bogus 35.6 |
+| E2E Testing    | NUnit 4.5, Shouldly 4.3              |
 | Code Coverage  | Coverlet                               |
 | Build          | MSBuild (SDK-style csproj)             |
 | CI/CD          | GitHub Actions                         |
@@ -33,7 +33,7 @@ CashCtrlApiNet.sln
     CashCtrlApiNet.AspNetCore/     -- ASP.NET Core DI registration (NuGet package)
     CashCtrlApiNet.UnitTests/          -- Unit tests (NSubstitute + Shouldly)
     CashCtrlApiNet.IntegrationTests/ -- Integration tests (WireMock + Shouldly, no live API needed)
-    CashCtrlApiNet.E2eTests/         -- E2E tests (xUnit + Shouldly, requires live CashCtrl API credentials)
+    CashCtrlApiNet.E2eTests/         -- E2E tests (NUnit + Shouldly, requires live CashCtrl API credentials)
 ```
 
 ### Dependency Graph
@@ -169,8 +169,8 @@ Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
 
 ## Known Constraints and Gotchas
 
-1. **E2E tests require a live CashCtrl account** -- E2E tests live in the `CashCtrlApiNet.E2eTests` project (tagged `[Trait("Category", "E2e")]`) and call the real API. They require environment variables `CashCtrlApiNet__BaseUri`, `CashCtrlApiNet__ApiKey`, and optionally `CashCtrlApiNet__Language`. Unit tests and integration tests run without credentials.
-2. **Test ordering dependency** -- E2E tests in `CashCtrlApiNet.E2eTests` use `AlphabeticalOrderer` and are named `Test1_`, `Test2_`, etc. to enforce execution order (Create before Delete).
+1. **E2E tests require a live CashCtrl account** -- E2E tests live in the `CashCtrlApiNet.E2eTests` project (tagged `[Category("E2e")]`) and call the real API. They require environment variables `CashCtrlApiNet__BaseUri`, `CashCtrlApiNet__ApiKey`, and optionally `CashCtrlApiNet__Language`. Unit tests and integration tests run without credentials.
+2. **Test ordering dependency** -- E2E tests in `CashCtrlApiNet.E2eTests` use NUnit's `[Order(n)]` attribute and are named `Test1_`, `Test2_`, etc. to enforce execution order (Create before Delete).
 3. **Integration tests use WireMock** -- The `CashCtrlApiNet.IntegrationTests` project uses WireMock.Net to simulate the CashCtrl API. Tests inherit from `IntegrationTestBase` which manages the WireMock server lifecycle and creates a real `CashCtrlConnectionHandler` pointed at the mock server.
 4. **`CashCtrlConnectionHandler` supports dual construction** -- Use `IHttpClientFactory` constructor for DI environments (proper connection pooling/lifetime management), or the standalone `ICashCtrlConfiguration`-only constructor for non-DI usage.
 5. **POST uses form-encoded content** -- The CashCtrl API expects `application/x-www-form-urlencoded` for writes, not JSON.
