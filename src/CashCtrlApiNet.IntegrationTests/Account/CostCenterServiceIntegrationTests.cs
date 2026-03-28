@@ -101,25 +101,42 @@ public class CostCenterServiceIntegrationTests : IntegrationTestBase
     }
 
     /// <summary>
-    /// Verify GetBalance returns cost center with balance data
+    /// Verify GetBalance returns a decimal balance value
     /// </summary>
     [Test]
     public async Task GetBalance_ReturnsExpectedResult()
     {
         // Arrange
-        var costCenter = AccountFakers.CostCenter.Generate();
-        Server.StubGetJson("/api/v1/account/costcenter/balance",
-            CashCtrlResponseFactory.SingleResponse(costCenter));
+        const decimal expectedBalance = 5678.90m;
+        Server.StubGetPlainText("/api/v1/account/costcenter/balance",
+            CashCtrlResponseFactory.BalanceResponse(expectedBalance));
 
         // Act
-        var result = await Client.Account.CostCenter.GetBalance(new Entry { Id = costCenter.Id });
+        var result = await Client.Account.CostCenter.GetBalance(new Entry { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
         result.ResponseData.ShouldNotBeNull();
-        result.ResponseData.Data.ShouldNotBeNull();
-        result.ResponseData.Data.Id.ShouldBe(costCenter.Id);
-        result.ResponseData.Data.Name.ShouldBe(costCenter.Name);
+        result.ResponseData.Balance.ShouldBe(expectedBalance);
+    }
+
+    /// <summary>
+    /// Verify GetBalance handles zero balance
+    /// </summary>
+    [Test]
+    public async Task GetBalance_WithZeroBalance_ReturnsZero()
+    {
+        // Arrange
+        Server.StubGetPlainText("/api/v1/account/costcenter/balance",
+            CashCtrlResponseFactory.BalanceResponse(0m));
+
+        // Act
+        var result = await Client.Account.CostCenter.GetBalance(new Entry { Id = 1 });
+
+        // Assert
+        result.IsHttpSuccess.ShouldBeTrue();
+        result.ResponseData.ShouldNotBeNull();
+        result.ResponseData.Balance.ShouldBe(0m);
     }
 
     /// <summary>

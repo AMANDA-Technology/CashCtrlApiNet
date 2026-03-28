@@ -106,15 +106,13 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetAsync<SingleResponse<CostCenter>, Entry>(
-                Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<SingleResponse<CostCenter>>());
+            .GetBalanceAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<BalanceResponse>());
 
         await Service.GetBalance(entry);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<SingleResponse<CostCenter>, Entry>(
-                AccountEndpoints.CostCenter.Balance, entry, Arg.Any<CancellationToken>());
+            .GetBalanceAsync(AccountEndpoints.CostCenter.Balance, entry, Arg.Any<CancellationToken>());
     }
 
     [Test]

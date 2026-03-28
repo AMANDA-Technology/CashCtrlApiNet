@@ -60,6 +60,14 @@ public static class CashCtrlResponseFactory
         => JsonSerializer.Serialize(new { success = true, message, insertId });
 
     /// <summary>
+    /// Create a balance response body (raw decimal value as returned by CashCtrl balance endpoints)
+    /// </summary>
+    /// <param name="balance">The decimal balance value</param>
+    /// <returns>String representation of the balance value</returns>
+    public static string BalanceResponse(decimal balance)
+        => balance.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+    /// <summary>
     /// Create an error response JSON
     /// </summary>
     /// <param name="field">The field with the error</param>

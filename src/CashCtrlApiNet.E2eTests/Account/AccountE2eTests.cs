@@ -77,8 +77,6 @@ public class AccountE2eTests : CashCtrlE2eTestBase
         res.IsHttpSuccess.ShouldBeTrue();
 
         res.ResponseData.ShouldNotBeNull();
-        res.ResponseData.Data.ShouldNotBeNull();
-        res.ResponseData.Data.Name.ShouldNotBeNullOrEmpty();
     }
 
     /// <summary>

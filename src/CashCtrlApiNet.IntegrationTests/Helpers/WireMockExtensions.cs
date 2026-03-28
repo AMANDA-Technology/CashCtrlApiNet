@@ -71,6 +71,24 @@ public static class WireMockExtensions
     }
 
     /// <summary>
+    /// Stub a GET endpoint to return a plain text response (e.g., balance values)
+    /// </summary>
+    /// <param name="server">The WireMock server</param>
+    /// <param name="path">The API path to match (e.g., "/api/v1/account/balance")</param>
+    /// <param name="body">The plain text response body</param>
+    /// <param name="statusCode">HTTP status code (default 200)</param>
+    public static void StubGetPlainText(this WireMockServer server, string path, string body, int statusCode = 200)
+    {
+        server
+            .Given(Request.Create().WithPath(path).UsingGet())
+            .RespondWith(Response.Create()
+                .WithStatusCode(statusCode)
+                .WithHeader("Content-Type", "text/plain")
+                .WithHeader("X-CashCtrl-Requests-Left", "100")
+                .WithBody(body));
+    }
+
+    /// <summary>
     /// Stub a GET endpoint to return a binary response
     /// </summary>
     /// <param name="server">The WireMock server</param>

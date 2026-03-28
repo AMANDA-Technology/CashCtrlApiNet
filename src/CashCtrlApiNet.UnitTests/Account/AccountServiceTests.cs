@@ -106,15 +106,13 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetAsync<SingleResponse<Abstractions.Models.Account.Account>, Entry>(
-                Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<SingleResponse<Abstractions.Models.Account.Account>>());
+            .GetBalanceAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<BalanceResponse>());
 
         await Service.GetBalance(entry);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<SingleResponse<Abstractions.Models.Account.Account>, Entry>(
-                AccountEndpoints.Account.Balance, entry, Arg.Any<CancellationToken>());
+            .GetBalanceAsync(AccountEndpoints.Account.Balance, entry, Arg.Any<CancellationToken>());
     }
 
     [Test]
@@ -259,18 +257,20 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
     public async Task GetBalance_ShouldReturnExpectedResult()
     {
         var entry = new Entry { Id = 1 };
-        var expected = new ApiResult<SingleResponse<Abstractions.Models.Account.Account>>
+        var expected = new ApiResult<BalanceResponse>
         {
-            IsHttpSuccess = true
+            IsHttpSuccess = true,
+            ResponseData = new BalanceResponse { Balance = 1234.56m }
         };
         ConnectionHandler
-            .GetAsync<SingleResponse<Abstractions.Models.Account.Account>, Entry>(
-                Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .GetBalanceAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
         var result = await Service.GetBalance(entry);
 
         result.ShouldBe(expected);
+        result.ResponseData.ShouldNotBeNull();
+        result.ResponseData.Balance.ShouldBe(1234.56m);
     }
 
     [Test]
