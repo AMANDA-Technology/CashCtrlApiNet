@@ -262,7 +262,11 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
 
         var balanceResponse = new BalanceResponse
         {
-            Balance = decimal.Parse(content.Trim().Trim('"'), System.Globalization.CultureInfo.InvariantCulture)
+            Balance = decimal.TryParse(content.Trim().Trim('"'),
+                System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture, out var parsed)
+                ? parsed
+                : 0m
         };
 
         return new ApiResult<BalanceResponse>

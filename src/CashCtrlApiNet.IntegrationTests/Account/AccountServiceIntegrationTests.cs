@@ -141,6 +141,25 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
     }
 
     /// <summary>
+    /// Verify GetBalance returns failure result without throwing on HTTP error response
+    /// </summary>
+    [Test]
+    public async Task GetBalance_WithHttpError_ReturnsFailureResult()
+    {
+        // Arrange
+        const string errorBody = "{\"success\":false,\"errorMessage\":\"Not authorized\"}";
+        Server.StubGetPlainText("/api/v1/account/balance", errorBody, 401);
+
+        // Act
+        var result = await Client.Account.Account.GetBalance(new Entry { Id = 1 });
+
+        // Assert
+        result.IsHttpSuccess.ShouldBeFalse();
+        result.ResponseData.ShouldNotBeNull();
+        result.ResponseData.Balance.ShouldBe(0m);
+    }
+
+    /// <summary>
     /// Verify Create sends correct request and returns success
     /// </summary>
     [Test]
