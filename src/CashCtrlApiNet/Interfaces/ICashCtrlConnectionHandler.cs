@@ -95,6 +95,23 @@ public interface ICashCtrlConnectionHandler
     public Task<ApiResult<TResult>> PostAsync<TResult, TPost>(string requestPath, TPost payload, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse;
 
     /// <summary>
+    /// GET request returning a decimal balance value (e.g., account balance, cost center balance)
+    /// </summary>
+    /// <param name="requestPath"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BalanceResponse>> GetBalanceAsync(string requestPath, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
+    /// GET request returning a decimal balance value with query parameters (e.g., account balance, cost center balance)
+    /// </summary>
+    /// <param name="requestPath"></param>
+    /// <param name="queryParameters"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<ApiResult<BalanceResponse>> GetBalanceAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken);
+
+    /// <summary>
     /// GET request returning binary data (e.g., file downloads, PDF exports)
     /// </summary>
     /// <param name="requestPath"></param>

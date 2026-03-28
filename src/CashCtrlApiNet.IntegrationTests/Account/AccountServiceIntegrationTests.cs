@@ -102,25 +102,61 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
     }
 
     /// <summary>
-    /// Verify GetBalance returns account with balance data
+    /// Verify GetBalance returns a decimal balance value
     /// </summary>
     [Test]
     public async Task GetBalance_ReturnsExpectedResult()
     {
         // Arrange
-        var account = AccountFakers.Account.Generate();
-        Server.StubGetJson("/api/v1/account/balance",
-            CashCtrlResponseFactory.SingleResponse(account));
+        const decimal expectedBalance = 1234.56m;
+        Server.StubGetPlainText("/api/v1/account/balance",
+            CashCtrlResponseFactory.BalanceResponse(expectedBalance));
 
         // Act
-        var result = await Client.Account.Account.GetBalance(new Entry { Id = account.Id });
+        var result = await Client.Account.Account.GetBalance(new Entry { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
         result.ResponseData.ShouldNotBeNull();
-        result.ResponseData.Data.ShouldNotBeNull();
-        result.ResponseData.Data.Id.ShouldBe(account.Id);
-        result.ResponseData.Data.Name.ShouldBe(account.Name);
+        result.ResponseData.Balance.ShouldBe(expectedBalance);
+    }
+
+    /// <summary>
+    /// Verify GetBalance handles zero balance
+    /// </summary>
+    [Test]
+    public async Task GetBalance_WithZeroBalance_ReturnsZero()
+    {
+        // Arrange
+        Server.StubGetPlainText("/api/v1/account/balance",
+            CashCtrlResponseFactory.BalanceResponse(0m));
+
+        // Act
+        var result = await Client.Account.Account.GetBalance(new Entry { Id = 1 });
+
+        // Assert
+        result.IsHttpSuccess.ShouldBeTrue();
+        result.ResponseData.ShouldNotBeNull();
+        result.ResponseData.Balance.ShouldBe(0m);
+    }
+
+    /// <summary>
+    /// Verify GetBalance returns failure result without throwing on HTTP error response
+    /// </summary>
+    [Test]
+    public async Task GetBalance_WithHttpError_ReturnsFailureResult()
+    {
+        // Arrange
+        const string errorBody = "{\"success\":false,\"errorMessage\":\"Not authorized\"}";
+        Server.StubGetPlainText("/api/v1/account/balance", errorBody, 401);
+
+        // Act
+        var result = await Client.Account.Account.GetBalance(new Entry { Id = 1 });
+
+        // Assert
+        result.IsHttpSuccess.ShouldBeFalse();
+        result.ResponseData.ShouldNotBeNull();
+        result.ResponseData.Balance.ShouldBe(0m);
     }
 
     /// <summary>

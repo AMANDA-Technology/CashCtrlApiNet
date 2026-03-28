@@ -54,13 +54,13 @@ public interface IAccountService
     public Task<ApiResult<ListResponse<AccountListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Get account balance. Returns the balance of a single account.
+    /// Get account balance. Returns the balance of a single account as a decimal value.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/balance">API Doc - Account/Get balance</a>
     /// </summary>
     /// <param name="account">The entry containing the ID of the account.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Account.Account>>> GetBalance(Entry account, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BalanceResponse>> GetBalance(Entry account, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// Creates a new account. Returns either a success or multiple error messages (for each issue).

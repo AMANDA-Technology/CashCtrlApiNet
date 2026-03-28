@@ -171,6 +171,14 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
         => await GetApiResult<TResult>(await GetHttpClient().SendAsync(GetHttpRequestMessageWithFormData(HttpMethod.Post, requestPath, payload), cancellationToken));
 
     /// <inheritdoc />
+    public async Task<ApiResult<BalanceResponse>> GetBalanceAsync(string requestPath, [Optional] CancellationToken cancellationToken)
+        => await GetBalanceApiResult(await GetHttpClient().SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
+
+    /// <inheritdoc />
+    public async Task<ApiResult<BalanceResponse>> GetBalanceAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken)
+        => await GetBalanceApiResult(await GetHttpClient().SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, queryParameters), cancellationToken));
+
+    /// <inheritdoc />
     public async Task<ApiResult<BinaryResponse>> GetBinaryAsync(string requestPath, [Optional] CancellationToken cancellationToken)
         => await GetBinaryApiResult(await GetHttpClient().SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
 
@@ -241,6 +249,35 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     /// <returns></returns>
     private static async Task<ApiResult> GetApiResult(HttpResponseMessage httpResponseMessage)
         => CreateApiResult<ApiResponse>(await GetData(httpResponseMessage));
+
+    /// <summary>
+    /// Get API result with decimal balance from http response
+    /// </summary>
+    /// <param name="httpResponseMessage"></param>
+    /// <returns></returns>
+    private static async Task<ApiResult<BalanceResponse>> GetBalanceApiResult(HttpResponseMessage httpResponseMessage)
+    {
+        var responseHeaders = GetResponseHeaders(httpResponseMessage);
+        var content = await httpResponseMessage.Content.ReadAsStringAsync();
+
+        var balanceResponse = new BalanceResponse
+        {
+            Balance = decimal.TryParse(content.Trim().Trim('"'),
+                System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture, out var parsed)
+                ? parsed
+                : 0m
+        };
+
+        return new ApiResult<BalanceResponse>
+        {
+            IsHttpSuccess = httpResponseMessage.IsSuccessStatusCode,
+            HttpStatusCode = httpResponseMessage.StatusCode,
+            CashCtrlHttpStatusCodeDescription = HttpStatusCodeMapping.GetDescription(httpResponseMessage.StatusCode),
+            RequestsLeft = (int?)responseHeaders[ApiHeaderNames.RequestsLeft],
+            ResponseData = balanceResponse
+        };
+    }
 
     /// <summary>
     /// Get API result with binary data from http response
