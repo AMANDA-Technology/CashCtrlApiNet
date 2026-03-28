@@ -23,25 +23,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Inventory.ArticleCategory;
+using CashCtrlApiNet.Abstractions.Models.Account;
 using Shouldly;
 
-namespace CashCtrlApiNet.UnitTests.Inventory;
+namespace CashCtrlApiNet.UnitTests.Account;
 
 /// <summary>
-/// E2E tests for inventory article category service
+/// E2E tests for account service
 /// </summary>
 [Trait("Category", "E2e")]
 [TestCaseOrderer("CashCtrlApiNet.UnitTests.AlphabeticalOrderer", "CashCtrlApiNet.UnitTests")]
-public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
+public class AccountE2eTests : CashCtrlE2eTestBase
 {
     /// <summary>
-    /// Get an article successfully
+    /// Get an account successfully
     /// </summary>
     [Fact]
     public async Task Test1_Get_Success()
     {
-        var res = await CashCtrlApiClient.Inventory.ArticleCategory.Get(new(){ Id = 1 });
+        var res = await CashCtrlApiClient.Account.Account.Get(new() { Id = 1 });
         res.IsHttpSuccess.ShouldBeTrue();
 
         res.RequestsLeft.ShouldNotBeNull();
@@ -50,15 +50,16 @@ public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
 
         Assert.NotNull(res.ResponseData?.Data);
         res.ResponseData.Data.Name.ShouldNotBeNullOrEmpty();
+        res.ResponseData.Data.Number.ShouldBeGreaterThan(0);
     }
 
     /// <summary>
-    /// Get list of articles successfully
+    /// Get list of accounts successfully
     /// </summary>
     [Fact]
     public async Task Test2_GetList_Success()
     {
-        var res = await CashCtrlApiClient.Inventory.ArticleCategory.GetList();
+        var res = await CashCtrlApiClient.Account.Account.GetList();
         res.IsHttpSuccess.ShouldBeTrue();
 
         Assert.NotNull(res.ResponseData);
@@ -67,14 +68,29 @@ public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
     }
 
     /// <summary>
-    /// Create an article successfully
+    /// Get account balance successfully
+    /// </summary>
+    [Fact]
+    public async Task Test3_GetBalance_Success()
+    {
+        var res = await CashCtrlApiClient.Account.Account.GetBalance(new() { Id = 1 });
+        res.IsHttpSuccess.ShouldBeTrue();
+
+        Assert.NotNull(res.ResponseData?.Data);
+        res.ResponseData.Data.Name.ShouldNotBeNullOrEmpty();
+    }
+
+    /// <summary>
+    /// Create an account successfully
     /// </summary>
     [Fact]
     public async Task Test4_Create_Success()
     {
-        var res = await CashCtrlApiClient.Inventory.ArticleCategory.Create(new()
+        var res = await CashCtrlApiClient.Account.Account.Create(new()
         {
-            Name = "Test created"
+            CategoryId = 1,
+            Name = "Test E2E Account",
+            Number = 9990
         });
         res.IsHttpSuccess.ShouldBeTrue();
 
@@ -83,64 +99,79 @@ public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
         res.ResponseData.Errors.ShouldBeNull();
         res.ResponseData.InsertId.ShouldNotBeNull();
         res.ResponseData.InsertId.Value.ShouldBeGreaterThan(0);
-        res.ResponseData.Message.ShouldBe("Category saved");
     }
 
     /// <summary>
-    /// Update an article successfully
+    /// Update an account successfully
     /// </summary>
     [Fact]
-    public async Task? Test5_Update_Success()
+    public async Task Test5_Update_Success()
     {
-        var get = await CashCtrlApiClient.Inventory.ArticleCategory.Get(new(){ Id = 6 });
-        var articleCategory = get.ResponseData?.Data ?? throw new InvalidOperationException("Failed to get article category");
-
-        var res = await CashCtrlApiClient.Inventory.ArticleCategory.Update((articleCategory as ArticleCategoryUpdate) with
+        // Find the test account we created
+        AccountListed? account = null;
+        using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(20)))
         {
-            Name = "Test updated"
+            while (account is null && !cts.IsCancellationRequested)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(1), cts.Token);
+                account = await GetTestAccount(cts.Token);
+            }
+        }
+
+        Assert.NotNull(account);
+
+        var res = await CashCtrlApiClient.Account.Account.Update((account as AccountUpdate) with
+        {
+            Name = "Test E2E Account Updated"
         });
         res.IsHttpSuccess.ShouldBeTrue();
 
         Assert.NotNull(res.ResponseData);
         res.ResponseData.Success.ShouldBeTrue();
         res.ResponseData.Errors.ShouldBeNull();
-        res.ResponseData.InsertId.ShouldNotBeNull();
-        res.ResponseData.InsertId.Value.ShouldBeGreaterThan(0);
-        res.ResponseData.Message.ShouldBe("Category saved");
     }
 
     /// <summary>
-    /// Delete an article successfully
+    /// Delete an account successfully
     /// </summary>
     [Fact]
     public async Task Test6_Delete_Success()
     {
-        // Wait until test article created
-        ArticleCategory? articleCategory = null;
-
+        // Wait until test account exists
+        AccountListed? account = null;
         using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(20)))
         {
-            while (articleCategory is null && !cts.IsCancellationRequested)
+            while (account is null && !cts.IsCancellationRequested)
             {
                 await Task.Delay(TimeSpan.FromSeconds(1), cts.Token);
-                articleCategory = await Get(cts.Token);
+                account = await GetTestAccount(cts.Token);
             }
         }
 
-        Assert.NotNull(articleCategory);
+        Assert.NotNull(account);
 
-        // Then delete it
-        var res = await CashCtrlApiClient.Inventory.ArticleCategory.Delete(new(){ Ids = [articleCategory.Id]});
+        var res = await CashCtrlApiClient.Account.Account.Delete(new() { Ids = [account.Id] });
         res.IsHttpSuccess.ShouldBeTrue();
 
         Assert.NotNull(res.ResponseData);
         res.ResponseData.Success.ShouldBeTrue();
         res.ResponseData.Errors.ShouldBeNull();
-        res.ResponseData.Message.ShouldBe("1 category deleted");
-        return;
-
-        // Local function to get article
-        async Task<ArticleCategory?> Get(CancellationToken cancellationToken)
-            => (await CashCtrlApiClient.Inventory.ArticleCategory.GetList(cancellationToken: cancellationToken)).ResponseData?.Data.SingleOrDefault(a => a.Name.Equals("Test created"));
     }
+
+    /// <summary>
+    /// Export accounts as Excel successfully
+    /// </summary>
+    [Fact]
+    public async Task Test7_ExportExcel_Success()
+    {
+        var res = await CashCtrlApiClient.Account.Account.ExportExcel();
+        res.IsHttpSuccess.ShouldBeTrue();
+
+        Assert.NotNull(res.ResponseData);
+        res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
+    }
+
+    private async Task<AccountListed?> GetTestAccount(CancellationToken cancellationToken)
+        => (await CashCtrlApiClient.Account.Account.GetList(cancellationToken: cancellationToken))
+            .ResponseData?.Data.SingleOrDefault(a => a.Number == 9990);
 }

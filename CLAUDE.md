@@ -17,7 +17,7 @@ Unofficial .NET 10 API client library for the [CashCtrl REST API v1](https://app
 | DI integration | ASP.NET Core (`Microsoft.Extensions.DependencyInjection`) |
 | Unit Testing   | xUnit, NSubstitute 5.3, Shouldly 4.3  |
 | Integration Testing | xUnit 2.9, Shouldly 4.3, WireMock.Net 2.0, Bogus 35.6 |
-| E2E Testing    | xUnit 2.9, FluentAssertions 6.12     |
+| E2E Testing    | xUnit 2.9, Shouldly 4.3              |
 | Code Coverage  | Coverlet                               |
 | Build          | MSBuild (SDK-style csproj)             |
 | CI/CD          | GitHub Actions                         |

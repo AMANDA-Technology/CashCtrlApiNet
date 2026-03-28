@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -24,7 +24,7 @@ SOFTWARE.
 */
 
 using CashCtrlApiNet.Abstractions.Models.Inventory.Article;
-using FluentAssertions;
+using Shouldly;
 
 namespace CashCtrlApiNet.UnitTests.Inventory;
 
@@ -42,13 +42,14 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
     public async Task Test1_Get_Success()
     {
         var res = await CashCtrlApiClient.Inventory.Article.Get(new(){ Id = 1 });
-        res.IsHttpSuccess.Should().BeTrue();
+        res.IsHttpSuccess.ShouldBeTrue();
 
-        res.RequestsLeft.Should().NotBeNull().And.BePositive();
-        res.CashCtrlHttpStatusCodeDescription.Should().NotBeNullOrEmpty();
+        res.RequestsLeft.ShouldNotBeNull();
+        res.RequestsLeft.Value.ShouldBeGreaterThan(0);
+        res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
 
         Assert.NotNull(res.ResponseData?.Data);
-        res.ResponseData.Data.Name.Should().NotBeNullOrEmpty();
+        res.ResponseData.Data.Name.ShouldNotBeNullOrEmpty();
     }
 
     /// <summary>
@@ -58,10 +59,11 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
     public async Task Test2_GetList_Success()
     {
         var res = await CashCtrlApiClient.Inventory.Article.GetList();
-        res.IsHttpSuccess.Should().BeTrue();
+        res.IsHttpSuccess.ShouldBeTrue();
 
         Assert.NotNull(res.ResponseData);
-        res.ResponseData.Data.Length.Should().BePositive().And.Be(res.ResponseData.Total);
+        res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
+        res.ResponseData.Data.Length.ShouldBe(res.ResponseData.Total);
     }
 
     /// <summary>
@@ -75,14 +77,14 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
             Nr = "A-00001",
             Name = "Test"
         });
-        res.IsHttpSuccess.Should().BeTrue();
+        res.IsHttpSuccess.ShouldBeTrue();
 
         Assert.NotNull(res.ResponseData);
-        res.ResponseData.Success.Should().BeFalse();
-        res.ResponseData.InsertId.Should().BeNull();
+        res.ResponseData.Success.ShouldBeFalse();
+        res.ResponseData.InsertId.ShouldBeNull();
 
         Assert.NotNull(res.ResponseData.Errors);
-        res.ResponseData.Errors.Value.Should().Contain(apiError
+        res.ResponseData.Errors.Value.ShouldContain(apiError
             => apiError.Field.Equals("nr")
                && apiError.Message.Equals("This article no. is already used by another article."));
     }
@@ -98,13 +100,14 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
             Nr = "A-00005",
             Name = "Test created"
         });
-        res.IsHttpSuccess.Should().BeTrue();
+        res.IsHttpSuccess.ShouldBeTrue();
 
         Assert.NotNull(res.ResponseData);
-        res.ResponseData.Success.Should().BeTrue();
-        res.ResponseData.Errors.Should().BeNull();
-        res.ResponseData.InsertId.Should().NotBeNull().And.BePositive();
-        res.ResponseData.Message.Should().NotBeNullOrEmpty().And.Be("Article saved");
+        res.ResponseData.Success.ShouldBeTrue();
+        res.ResponseData.Errors.ShouldBeNull();
+        res.ResponseData.InsertId.ShouldNotBeNull();
+        res.ResponseData.InsertId.Value.ShouldBeGreaterThan(0);
+        res.ResponseData.Message.ShouldBe("Article saved");
     }
 
     /// <summary>
@@ -120,13 +123,14 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
         {
             Name = "Test updated"
         });
-        res.IsHttpSuccess.Should().BeTrue();
+        res.IsHttpSuccess.ShouldBeTrue();
 
         Assert.NotNull(res.ResponseData);
-        res.ResponseData.Success.Should().BeTrue();
-        res.ResponseData.Errors.Should().BeNull();
-        res.ResponseData.InsertId.Should().NotBeNull().And.BePositive();
-        res.ResponseData.Message.Should().NotBeNullOrEmpty().And.Be("Article saved");
+        res.ResponseData.Success.ShouldBeTrue();
+        res.ResponseData.Errors.ShouldBeNull();
+        res.ResponseData.InsertId.ShouldNotBeNull();
+        res.ResponseData.InsertId.Value.ShouldBeGreaterThan(0);
+        res.ResponseData.Message.ShouldBe("Article saved");
     }
 
     /// <summary>
@@ -151,12 +155,12 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
 
         // Then delete it
         var res = await CashCtrlApiClient.Inventory.Article.Delete(new() { Ids = [article.Id] });
-        res.IsHttpSuccess.Should().BeTrue();
+        res.IsHttpSuccess.ShouldBeTrue();
 
         Assert.NotNull(res.ResponseData);
-        res.ResponseData.Success.Should().BeTrue();
-        res.ResponseData.Errors.Should().BeNull();
-        res.ResponseData.Message.Should().NotBeNullOrEmpty().And.Be("1 article deleted");
+        res.ResponseData.Success.ShouldBeTrue();
+        res.ResponseData.Errors.ShouldBeNull();
+        res.ResponseData.Message.ShouldBe("1 article deleted");
         return;
 
         // Local function to get article
@@ -172,13 +176,13 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
             Ids = [1],
             TargetCategoryId = 1
         });
-        res.IsHttpSuccess.Should().BeTrue();
+        res.IsHttpSuccess.ShouldBeTrue();
 
         Assert.NotNull(res.ResponseData);
-        res.ResponseData.Success.Should().BeTrue();
-        res.ResponseData.Errors.Should().BeNull();
-        res.ResponseData.InsertId.Should().BeNull();
-        res.ResponseData.Message.Should().NotBeNullOrEmpty().And.Be("1 article assigned to category 'Dienstleistungen'");
+        res.ResponseData.Success.ShouldBeTrue();
+        res.ResponseData.Errors.ShouldBeNull();
+        res.ResponseData.InsertId.ShouldBeNull();
+        res.ResponseData.Message.ShouldBe("1 article assigned to category 'Dienstleistungen'");
     }
 
     [Fact]
@@ -189,12 +193,12 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
             Id = 1,
             AttachedFileIds = [3]
         });
-        res.IsHttpSuccess.Should().BeTrue();
+        res.IsHttpSuccess.ShouldBeTrue();
 
         Assert.NotNull(res.ResponseData);
-        res.ResponseData.Success.Should().BeTrue();
-        res.ResponseData.Errors.Should().BeNull();
-        res.ResponseData.InsertId.Should().BeNull();
-        res.ResponseData.Message.Should().NotBeNullOrEmpty().And.Be("Attachments saved");
+        res.ResponseData.Success.ShouldBeTrue();
+        res.ResponseData.Errors.ShouldBeNull();
+        res.ResponseData.InsertId.ShouldBeNull();
+        res.ResponseData.Message.ShouldBe("Attachments saved");
     }
 }
