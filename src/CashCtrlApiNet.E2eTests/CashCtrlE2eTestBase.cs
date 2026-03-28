@@ -33,14 +33,8 @@ namespace CashCtrlApiNet.E2eTests;
 /// <summary>
 /// Base class for all CashCtrl E2E tests requiring live API credentials
 /// </summary>
-[TestFixture]
 public class CashCtrlE2eTestBase
 {
-    /// <summary>
-    /// Instance of CashCtrl configuration
-    /// </summary>
-    private readonly ICashCtrlConfiguration _cashCtrlConfiguration;
-
     /// <summary>
     /// Default instance of CashCtrl API client
     /// </summary>
@@ -52,25 +46,14 @@ public class CashCtrlE2eTestBase
     /// <exception cref="InvalidOperationException"></exception>
     protected CashCtrlE2eTestBase()
     {
-        _cashCtrlConfiguration = new CashCtrlConfiguration
+        ICashCtrlConnectionHandler connectionHandler = new CashCtrlConnectionHandler(new CashCtrlConfiguration
         {
             BaseUri = Environment.GetEnvironmentVariable("CashCtrlApiNet__BaseUri") ?? throw new InvalidOperationException("Missing CashCtrlApiNet__BaseUri"),
             ApiKey = Environment.GetEnvironmentVariable("CashCtrlApiNet__ApiKey") ?? throw new InvalidOperationException("Missing CashCtrlApiNet__ApiKey"),
             DefaultLanguage = Environment.GetEnvironmentVariable("CashCtrlApiNet__Language") ?? nameof(Language.de)
-        };
+        });
 
-        CashCtrlApiClient = CreateClient();
-    }
-
-    /// <summary>
-    /// Create a new CashCtrl API client
-    /// </summary>
-    /// <returns></returns>
-    protected CashCtrlApiClient CreateClient()
-    {
-        var connectionHandler = new CashCtrlConnectionHandler(_cashCtrlConfiguration);
-
-        return new(connectionHandler,
+        CashCtrlApiClient = new CashCtrlApiClient(connectionHandler,
             new AccountConnector(connectionHandler),
             new CommonConnector(connectionHandler),
             new FileConnector(connectionHandler),
@@ -82,4 +65,16 @@ public class CashCtrlE2eTestBase
             new ReportConnector(connectionHandler),
             new SalaryConnector(connectionHandler));
     }
+
+    protected async Task DownloadFile(string fileName, byte[] data)
+    {
+        if (!IsDownloadsEnabled)
+            return;
+
+        await File.WriteAllBytesAsync(Path.Combine(DownloadsFolder, fileName), data);
+    }
+
+    private static readonly bool IsDownloadsEnabled = string.Equals(Environment.GetEnvironmentVariable("CashCtrlApiNet__IsDownloadsEnabled"), "true", StringComparison.OrdinalIgnoreCase);
+
+    private static readonly string DownloadsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
 }

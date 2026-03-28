@@ -167,7 +167,10 @@ public class AccountE2eTests : CashCtrlE2eTestBase
         res.IsHttpSuccess.ShouldBeTrue();
 
         res.ResponseData.ShouldNotBeNull();
+        res.ResponseData.FileName.ShouldNotBeNullOrEmpty();
         res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
+
+        await DownloadFile(res.ResponseData.FileName, res.ResponseData.Data);
     }
 
     private async Task<AccountListed?> GetTestAccount(CancellationToken cancellationToken)
