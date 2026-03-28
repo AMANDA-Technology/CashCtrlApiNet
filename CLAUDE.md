@@ -31,8 +31,9 @@ CashCtrlApiNet.sln
     CashCtrlApiNet.Abstractions/   -- Models, enums, converters, serialization helpers (NuGet package)
     CashCtrlApiNet/                -- API client, connection handler, connectors, endpoints (NuGet package)
     CashCtrlApiNet.AspNetCore/     -- ASP.NET Core DI registration (NuGet package)
-    CashCtrlApiNet.UnitTests/          -- Unit tests (NSubstitute + Shouldly) and E2E tests (xUnit + FluentAssertions)
+    CashCtrlApiNet.UnitTests/          -- Unit tests (NSubstitute + Shouldly)
     CashCtrlApiNet.IntegrationTests/ -- Integration tests (WireMock + Shouldly, no live API needed)
+    CashCtrlApiNet.E2eTests/         -- E2E tests (xUnit + Shouldly, requires live CashCtrl API credentials)
 ```
 
 ### Dependency Graph
@@ -40,6 +41,7 @@ CashCtrlApiNet.sln
 ```
 CashCtrlApiNet.UnitTests --> CashCtrlApiNet --> CashCtrlApiNet.Abstractions
 CashCtrlApiNet.IntegrationTests --> CashCtrlApiNet --> CashCtrlApiNet.Abstractions
+CashCtrlApiNet.E2eTests --> CashCtrlApiNet --> CashCtrlApiNet.Abstractions
 CashCtrlApiNet.AspNetCore --> CashCtrlApiNet --> CashCtrlApiNet.Abstractions
 ```
 
@@ -56,7 +58,7 @@ dotnet build CashCtrlApiNet.sln
 dotnet build CashCtrlApiNet.sln -c Release
 
 # Run unit tests only (no credentials needed)
-dotnet test src/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj --filter "Category!=E2e"
+dotnet test src/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj
 
 # Run integration tests (WireMock-based, no credentials needed)
 dotnet test src/CashCtrlApiNet.IntegrationTests/CashCtrlApiNet.IntegrationTests.csproj
@@ -65,7 +67,7 @@ dotnet test src/CashCtrlApiNet.IntegrationTests/CashCtrlApiNet.IntegrationTests.
 export CashCtrlApiNet__BaseUri="https://yourorg.cashctrl.com/"
 export CashCtrlApiNet__ApiKey="your-api-key"
 export CashCtrlApiNet__Language="de"
-dotnet test src/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj --filter "Category=E2e"
+dotnet test src/CashCtrlApiNet.E2eTests/CashCtrlApiNet.E2eTests.csproj
 ```
 
 ## API Completeness
@@ -154,7 +156,7 @@ Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
 | JSON serialization helper        | `src/CashCtrlApiNet.Abstractions/Helpers/CashCtrlSerialization.cs`    |
 | Custom JSON converters           | `src/CashCtrlApiNet.Abstractions/Converters/`                         |
 | Unit test base class             | `src/CashCtrlApiNet.UnitTests/ServiceTestBase.cs`                         |
-| E2E test base class              | `src/CashCtrlApiNet.UnitTests/CashCtrlE2eTestBase.cs`                     |
+| E2E test base class              | `src/CashCtrlApiNet.E2eTests/CashCtrlE2eTestBase.cs`                      |
 | Integration test base class      | `src/CashCtrlApiNet.IntegrationTests/IntegrationTestBase.cs`          |
 | WireMock helpers                 | `src/CashCtrlApiNet.IntegrationTests/Helpers/WireMockExtensions.cs`   |
 | Response factory                 | `src/CashCtrlApiNet.IntegrationTests/Helpers/CashCtrlResponseFactory.cs` |
@@ -167,8 +169,8 @@ Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
 
 ## Known Constraints and Gotchas
 
-1. **E2E tests require a live CashCtrl account** -- E2E tests (tagged `[Trait("Category", "E2e")]`) call the real API. They require environment variables `CashCtrlApiNet__BaseUri`, `CashCtrlApiNet__ApiKey`, and optionally `CashCtrlApiNet__Language`. Unit tests and integration tests run without credentials.
-2. **Test ordering dependency** -- E2E tests use `AlphabeticalOrderer` and are named `Test1_`, `Test2_`, etc. to enforce execution order (Create before Delete).
+1. **E2E tests require a live CashCtrl account** -- E2E tests live in the `CashCtrlApiNet.E2eTests` project (tagged `[Trait("Category", "E2e")]`) and call the real API. They require environment variables `CashCtrlApiNet__BaseUri`, `CashCtrlApiNet__ApiKey`, and optionally `CashCtrlApiNet__Language`. Unit tests and integration tests run without credentials.
+2. **Test ordering dependency** -- E2E tests in `CashCtrlApiNet.E2eTests` use `AlphabeticalOrderer` and are named `Test1_`, `Test2_`, etc. to enforce execution order (Create before Delete).
 3. **Integration tests use WireMock** -- The `CashCtrlApiNet.IntegrationTests` project uses WireMock.Net to simulate the CashCtrl API. Tests inherit from `IntegrationTestBase` which manages the WireMock server lifecycle and creates a real `CashCtrlConnectionHandler` pointed at the mock server.
 4. **`CashCtrlConnectionHandler` supports dual construction** -- Use `IHttpClientFactory` constructor for DI environments (proper connection pooling/lifetime management), or the standalone `ICashCtrlConfiguration`-only constructor for non-DI usage.
 5. **POST uses form-encoded content** -- The CashCtrl API expects `application/x-www-form-urlencoded` for writes, not JSON.

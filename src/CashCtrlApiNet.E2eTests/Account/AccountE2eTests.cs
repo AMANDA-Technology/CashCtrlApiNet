@@ -26,13 +26,13 @@ SOFTWARE.
 using CashCtrlApiNet.Abstractions.Models.Account;
 using Shouldly;
 
-namespace CashCtrlApiNet.UnitTests.Account;
+namespace CashCtrlApiNet.E2eTests.Account;
 
 /// <summary>
 /// E2E tests for account service
 /// </summary>
 [Trait("Category", "E2e")]
-[TestCaseOrderer("CashCtrlApiNet.UnitTests.AlphabeticalOrderer", "CashCtrlApiNet.UnitTests")]
+[TestCaseOrderer("CashCtrlApiNet.E2eTests.AlphabeticalOrderer", "CashCtrlApiNet.E2eTests")]
 public class AccountE2eTests : CashCtrlE2eTestBase
 {
     /// <summary>

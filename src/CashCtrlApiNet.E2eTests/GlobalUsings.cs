@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
@@ -23,18 +23,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using Xunit.Abstractions;
-using Xunit.Sdk;
-
-namespace CashCtrlApiNet.UnitTests;
-
-// ReSharper disable once UnusedType.Global
-public class AlphabeticalOrderer : ITestCaseOrderer
-{
-    public IEnumerable<TTestCase> OrderTestCases<TTestCase>(IEnumerable<TTestCase> testCases) where TTestCase : ITestCase
-    {
-        var result = testCases.ToList();
-        result.Sort((x, y) => StringComparer.OrdinalIgnoreCase.Compare(x.TestMethod.Method.Name, y.TestMethod.Method.Name));
-        return result;
-    }
-}
+global using Xunit;

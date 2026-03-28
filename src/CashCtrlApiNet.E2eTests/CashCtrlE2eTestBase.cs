@@ -28,7 +28,7 @@ using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Services;
 using CashCtrlApiNet.Services.Connectors;
 
-namespace CashCtrlApiNet.UnitTests;
+namespace CashCtrlApiNet.E2eTests;
 
 /// <summary>
 /// Base class for all CashCtrl E2E tests requiring live API credentials
