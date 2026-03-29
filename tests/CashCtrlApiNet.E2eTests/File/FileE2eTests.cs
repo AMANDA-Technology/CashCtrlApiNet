@@ -285,22 +285,11 @@ public class FileE2eTests : CashCtrlE2eTestBase
     {
         var res = await CashCtrlApiClient.File.File.Restore(new() { Ids = [_createdFileId] });
         AssertSuccess(res);
-    }
-
-    /// <summary>
-    /// Delete a file and then empty the archive to permanently remove all archived files
-    /// </summary>
-    [Test, Order(14)]
-    public async Task EmptyArchive_Success()
-    {
-        // Delete the file again to move it to archive
-        var deleteRes = await CashCtrlApiClient.File.File.Delete(new() { Ids = [_createdFileId] });
-        AssertSuccess(deleteRes);
-
-        // Empty the archive to permanently delete all archived files
-        var res = await CashCtrlApiClient.File.File.EmptyArchive();
-        AssertSuccess(res);
 
         _cancelCreatedCleanup();
     }
+
+    // NOTE: EmptyArchive is intentionally NOT tested here.
+    // EmptyArchive permanently deletes ALL archived files in the entire CashCtrl account,
+    // not just test files. It cannot be scoped to test data and is too destructive for automated testing.
 }

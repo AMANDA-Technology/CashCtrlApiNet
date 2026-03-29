@@ -56,6 +56,22 @@ public class FiscalPeriodE2eTests : CashCtrlE2eTestBase
 
         // Use the existing current fiscal period as setup period for read-only tests
         _setupFiscalPeriodId = currentPeriod.Id;
+
+        // Scavenge orphan test periods from previous failed runs (far-future 2090 periods)
+        var orphanPeriods = periods
+            .Where(p => p.StartDate.StartsWith("2090", StringComparison.Ordinal))
+            .ToArray();
+        foreach (var orphan in orphanPeriods)
+        {
+            try
+            {
+                // Reopen if completed, then delete
+                await CashCtrlApiClient.Meta.FiscalPeriod.Reopen(new() { Id = orphan.Id });
+            }
+            catch { /* may not be completed */ }
+
+            await CashCtrlApiClient.Meta.FiscalPeriod.Delete(new() { Ids = [orphan.Id] });
+        }
     }
 
     /// <summary>
@@ -176,48 +192,58 @@ public class FiscalPeriodE2eTests : CashCtrlE2eTestBase
     }
 
     /// <summary>
-    /// Get depreciations of a fiscal period successfully
+    /// Get depreciations of the test fiscal period successfully
     /// </summary>
     [Test, Order(7)]
     public async Task GetDepreciations_Success()
     {
-        var res = await CashCtrlApiClient.Meta.FiscalPeriod.GetDepreciations(new() { Id = _setupFiscalPeriodId });
+        _createdFiscalPeriodId.ShouldBeGreaterThan(0, "Create_Success must run before GetDepreciations_Success");
+
+        var res = await CashCtrlApiClient.Meta.FiscalPeriod.GetDepreciations(new() { Id = _createdFiscalPeriodId });
 
         res.IsHttpSuccess.ShouldBeTrue();
         res.ResponseData.ShouldNotBeNull();
     }
 
     /// <summary>
-    /// Book depreciations of a fiscal period successfully
+    /// Book depreciations of the test fiscal period successfully.
+    /// Uses the isolated 2090 test period to avoid modifying live accounting data.
     /// </summary>
     [Test, Order(8)]
     public async Task BookDepreciations_Success()
     {
-        var res = await CashCtrlApiClient.Meta.FiscalPeriod.BookDepreciations(new() { Id = _setupFiscalPeriodId });
+        _createdFiscalPeriodId.ShouldBeGreaterThan(0, "Create_Success must run before BookDepreciations_Success");
+
+        var res = await CashCtrlApiClient.Meta.FiscalPeriod.BookDepreciations(new() { Id = _createdFiscalPeriodId });
 
         res.IsHttpSuccess.ShouldBeTrue();
         res.ResponseData.ShouldNotBeNull();
     }
 
     /// <summary>
-    /// Get exchange differences of a fiscal period successfully
+    /// Get exchange differences of the test fiscal period successfully
     /// </summary>
     [Test, Order(9)]
     public async Task GetExchangeDiff_Success()
     {
-        var res = await CashCtrlApiClient.Meta.FiscalPeriod.GetExchangeDiff(new() { Id = _setupFiscalPeriodId });
+        _createdFiscalPeriodId.ShouldBeGreaterThan(0, "Create_Success must run before GetExchangeDiff_Success");
+
+        var res = await CashCtrlApiClient.Meta.FiscalPeriod.GetExchangeDiff(new() { Id = _createdFiscalPeriodId });
 
         res.IsHttpSuccess.ShouldBeTrue();
         res.ResponseData.ShouldNotBeNull();
     }
 
     /// <summary>
-    /// Book exchange differences of a fiscal period successfully
+    /// Book exchange differences of the test fiscal period successfully.
+    /// Uses the isolated 2090 test period to avoid modifying live accounting data.
     /// </summary>
     [Test, Order(10)]
     public async Task BookExchangeDiff_Success()
     {
-        var res = await CashCtrlApiClient.Meta.FiscalPeriod.BookExchangeDiff(new() { Id = _setupFiscalPeriodId });
+        _createdFiscalPeriodId.ShouldBeGreaterThan(0, "Create_Success must run before BookExchangeDiff_Success");
+
+        var res = await CashCtrlApiClient.Meta.FiscalPeriod.BookExchangeDiff(new() { Id = _createdFiscalPeriodId });
 
         res.IsHttpSuccess.ShouldBeTrue();
         res.ResponseData.ShouldNotBeNull();

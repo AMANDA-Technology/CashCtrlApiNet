@@ -228,7 +228,10 @@ public class OrderE2eTests : CashCtrlE2eTestBase
     public async Task Continue_Success()
     {
         var res = await CashCtrlApiClient.Order.Order.Continue(new() { Id = _setupOrderId });
-        res.IsHttpSuccess.ShouldBeTrue();
+        var continuedOrderId = AssertCreated(res);
+
+        // The continued order is a new entity that must be cleaned up
+        RegisterCleanup(async () => await CashCtrlApiClient.Order.Order.Delete(new() { Ids = [continuedOrderId] }));
     }
 
     /// <summary>
