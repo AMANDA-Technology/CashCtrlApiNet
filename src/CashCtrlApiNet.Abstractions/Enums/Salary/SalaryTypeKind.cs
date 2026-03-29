@@ -23,20 +23,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Text.Json.Serialization;
+
 namespace CashCtrlApiNet.Abstractions.Enums.Salary;
 
 /// <summary>
 /// Kind of salary type (add or subtract). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/type">API Doc</a>
 /// </summary>
+[JsonConverter(typeof(JsonStringEnumConverter<SalaryTypeKind>))]
 public enum SalaryTypeKind
 {
     /// <summary>
     /// Addition to salary
     /// </summary>
-    ADD,
+    ADDITION,
 
     /// <summary>
     /// Subtraction from salary
     /// </summary>
-    SUBTRACT
+    SUBTRACTION,
+
+    /// <summary>
+    /// Informational salary line (neither adds nor subtracts)
+    /// </summary>
+    INFORMATION
 }

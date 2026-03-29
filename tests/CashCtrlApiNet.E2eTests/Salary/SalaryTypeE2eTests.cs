@@ -77,7 +77,7 @@ public class SalaryTypeE2eTests : CashCtrlE2eTestBase
             CategoryId = _categoryId,
             Name = _testId,
             Number = _testId[..20],
-            Type = SalaryTypeKind.ADD
+            Type = SalaryTypeKind.ADDITION
         });
         _setupTypeId = AssertCreated(createResult);
 
@@ -131,7 +131,7 @@ public class SalaryTypeE2eTests : CashCtrlE2eTestBase
             CategoryId = _categoryId,
             Name = secondTestId,
             Number = secondTestId[..20],
-            Type = SalaryTypeKind.ADD
+            Type = SalaryTypeKind.ADDITION
         });
 
         _createdTypeId = AssertCreated(res);

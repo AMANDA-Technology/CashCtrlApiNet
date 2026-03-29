@@ -42,11 +42,11 @@ public class OrganizationE2eTests : CashCtrlE2eTestBase
     public async Task GetLogo_Success()
     {
         var res = await CashCtrlApiClient.Meta.Organization.GetLogo();
-        var logo = AssertSuccess(res);
+        res.IsHttpSuccess.ShouldBeTrue();
+        res.ResponseData.ShouldNotBeNull();
+        res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
 
-        logo.FileName.ShouldNotBeNullOrEmpty();
-        logo.Data.Length.ShouldBeGreaterThan(0);
-
-        await DownloadFile(logo.FileName!, logo.Data);
+        if (res.ResponseData.FileName is not null)
+            await DownloadFile(res.ResponseData.FileName, res.ResponseData.Data);
     }
 }

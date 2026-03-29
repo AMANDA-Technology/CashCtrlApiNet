@@ -78,7 +78,7 @@ public class SalaryFieldE2eTests : CashCtrlE2eTestBase
         res.RequestsLeft.Value.ShouldBeGreaterThan(0);
         res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
 
-        field.Name.ShouldNotBeNullOrEmpty();
+        field.Id.ShouldBeGreaterThan(0);
     }
 
     /// <summary>
