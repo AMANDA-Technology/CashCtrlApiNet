@@ -23,38 +23,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Api.Base;
 
-namespace CashCtrlApiNet.Abstractions.Enums.Common;
+namespace CashCtrlApiNet.Abstractions.Models.Api;
 
 /// <summary>
-/// Text template type. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/text">API Doc</a>
+/// Response containing a plain text value from the CashCtrl API (e.g., generated sequence numbers, exchange rates)
 /// </summary>
-[JsonConverter(typeof(JsonStringEnumConverter<TextTemplateType>))]
-public enum TextTemplateType
+public record PlainTextResponse : ApiResponse
 {
     /// <summary>
-    /// Text template for order header
+    /// The text value returned by the API
     /// </summary>
-    ORDER_HEADER,
-
-    /// <summary>
-    /// Text template for order footer
-    /// </summary>
-    ORDER_FOOTER,
-
-    /// <summary>
-    /// Text template for order mail
-    /// </summary>
-    ORDER_MAIL,
-
-    /// <summary>
-    /// Text template for persons
-    /// </summary>
-    PERSON,
-
-    /// <summary>
-    /// Text template for salary
-    /// </summary>
-    SALARY_MAIL
+    public required string Value { get; init; }
 }

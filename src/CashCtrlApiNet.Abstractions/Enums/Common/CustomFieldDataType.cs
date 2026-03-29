@@ -23,11 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Text.Json.Serialization;
+
 namespace CashCtrlApiNet.Abstractions.Enums.Common;
 
 /// <summary>
 /// Data type of a custom field. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield">API Doc</a>
 /// </summary>
+[JsonConverter(typeof(JsonStringEnumConverter<CustomFieldDataType>))]
 public enum CustomFieldDataType
 {
     /// <summary>

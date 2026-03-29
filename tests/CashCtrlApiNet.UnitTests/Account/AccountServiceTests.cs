@@ -107,7 +107,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         var entry = new Entry { Id = 42 };
         ConnectionHandler
             .GetBalanceAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BalanceResponse>());
+            .Returns(new ApiResult<DecimalResponse>());
 
         await Service.GetBalance(entry);
 
@@ -257,10 +257,10 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
     public async Task GetBalance_ShouldReturnExpectedResult()
     {
         var entry = new Entry { Id = 1 };
-        var expected = new ApiResult<BalanceResponse>
+        var expected = new ApiResult<DecimalResponse>
         {
             IsHttpSuccess = true,
-            ResponseData = new() { Balance = 1234.56m }
+            ResponseData = new() { Value = 1234.56m }
         };
         ConnectionHandler
             .GetBalanceAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
@@ -270,7 +270,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
 
         result.ShouldBe(expected);
         result.ResponseData.ShouldNotBeNull();
-        result.ResponseData.Balance.ShouldBe(1234.56m);
+        result.ResponseData.Value.ShouldBe(1234.56m);
     }
 
     [Test]

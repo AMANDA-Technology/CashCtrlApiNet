@@ -87,5 +87,5 @@ public interface ICurrencyService
     /// <param name="exchangeRateRequest">The exchange rate request parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<CurrencyExchangeRate>>> GetExchangeRate(CurrencyExchangeRateRequest exchangeRateRequest, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<DecimalResponse>> GetExchangeRate(CurrencyExchangeRateRequest exchangeRateRequest, [Optional] CancellationToken cancellationToken);
 }

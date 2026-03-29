@@ -23,11 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Text.Json.Serialization;
+
 namespace CashCtrlApiNet.Abstractions.Enums.Salary;
 
 /// <summary>
 /// Data type of a salary setting value. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/setting">API Doc</a>
 /// </summary>
+[JsonConverter(typeof(JsonStringEnumConverter<SalarySettingType>))]
 public enum SalarySettingType
 {
     /// <summary>

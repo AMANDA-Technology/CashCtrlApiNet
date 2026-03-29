@@ -87,5 +87,5 @@ public interface ISequenceNumberService
     /// <param name="sequenceNumber">The entry containing the ID of the sequence number.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SequenceNumber>>> GetGeneratedNumber(Entry sequenceNumber, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<PlainTextResponse>> GetGeneratedNumber(Entry sequenceNumber, [Optional] CancellationToken cancellationToken);
 }

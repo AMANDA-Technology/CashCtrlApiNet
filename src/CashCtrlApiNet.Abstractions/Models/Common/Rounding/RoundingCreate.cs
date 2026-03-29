@@ -58,6 +58,6 @@ public record RoundingCreate : ModelBaseRecord
     /// <summary>
     /// The rounding value (e.g., 0.05 for rounding to 5 cents).
     /// </summary>
-    [JsonPropertyName("value")]
+    [JsonPropertyName("rounding")]
     public double? Value { get; init; }
 }

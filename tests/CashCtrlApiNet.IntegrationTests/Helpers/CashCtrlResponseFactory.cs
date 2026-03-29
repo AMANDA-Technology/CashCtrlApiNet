@@ -64,7 +64,7 @@ public static class CashCtrlResponseFactory
     /// </summary>
     /// <param name="balance">The decimal balance value</param>
     /// <returns>String representation of the balance value</returns>
-    public static string BalanceResponse(decimal balance)
+    public static string DecimalResponse(decimal balance)
         => balance.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
     /// <summary>

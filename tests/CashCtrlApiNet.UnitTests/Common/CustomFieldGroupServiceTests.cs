@@ -125,7 +125,7 @@ public class CustomFieldGroupServiceTests : ServiceTestBase<CustomFieldGroupServ
     [Test]
     public async Task Reorder_ShouldPostToCorrectEndpoint()
     {
-        var reorder = new CustomFieldGroupReorder { Ids = [1, 2, 3], Target = 5 };
+        var reorder = new CustomFieldGroupReorder { Type = CustomFieldType.PERSON, Ids = [1, 2, 3], Target = 5 };
         ConnectionHandler
             .PostAsync<NoContentResponse, CustomFieldGroupReorder>(Arg.Any<string>(), Arg.Any<CustomFieldGroupReorder>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());

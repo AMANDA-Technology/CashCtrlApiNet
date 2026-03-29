@@ -153,15 +153,13 @@ public class SequenceNumberServiceTests : ServiceTestBase<SequenceNumberService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetAsync<SingleResponse<SequenceNumber>, Entry>(
-                Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<SingleResponse<SequenceNumber>>());
+            .GetPlainTextAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<PlainTextResponse>());
 
         var result = await Service.GetGeneratedNumber(entry);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<SingleResponse<SequenceNumber>, Entry>(
-                CommonEndpoints.SequenceNumber.Get, entry, Arg.Any<CancellationToken>());
+            .GetPlainTextAsync(CommonEndpoints.SequenceNumber.Get, entry, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 }

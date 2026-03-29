@@ -157,6 +157,7 @@ public class CustomFieldServiceIntegrationTests : IntegrationTestBase
         // Act
         var result = await Client.Common.CustomField.Reorder(new()
         {
+            Type = CustomFieldType.PERSON,
             Ids = [1, 2, 3],
             Target = 5
         });

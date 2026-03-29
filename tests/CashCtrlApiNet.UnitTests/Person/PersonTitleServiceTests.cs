@@ -104,7 +104,7 @@ public class PersonTitleServiceTests : ServiceTestBase<PersonTitleService>
     [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
-        var title = new PersonTitleCreate { Title = "Mr." };
+        var title = new PersonTitleCreate { Name = "Mr." };
         ConnectionHandler
             .PostAsync<NoContentResponse, PersonTitleCreate>(Arg.Any<string>(), Arg.Any<PersonTitleCreate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -119,7 +119,7 @@ public class PersonTitleServiceTests : ServiceTestBase<PersonTitleService>
     [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
-        var title = new PersonTitleUpdate { Id = 1, Title = "Mrs." };
+        var title = new PersonTitleUpdate { Id = 1, Name = "Mrs." };
         ConnectionHandler
             .PostAsync<NoContentResponse, PersonTitleUpdate>(Arg.Any<string>(), Arg.Any<PersonTitleUpdate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());

@@ -46,7 +46,7 @@ public class AccountService(ICashCtrlConnectionHandler connectionHandler) : Conn
         => ConnectionHandler.GetAsync<ListResponse<AccountListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BalanceResponse>> GetBalance(Entry account, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<DecimalResponse>> GetBalance(Entry account, [Optional] CancellationToken cancellationToken)
         => ConnectionHandler.GetBalanceAsync(Endpoint.Balance, account, cancellationToken);
 
     /// <inheritdoc />

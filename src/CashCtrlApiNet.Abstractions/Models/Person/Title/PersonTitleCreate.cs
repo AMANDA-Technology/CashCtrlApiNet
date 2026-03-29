@@ -35,10 +35,10 @@ namespace CashCtrlApiNet.Abstractions.Models.Person.Title;
 public record PersonTitleCreate : ModelBaseRecord
 {
     /// <summary>
-    /// The title text.
+    /// The name/title text.
     /// <br/>This can contain localized text. To add values in multiple languages, use the XML format like this: &lt;values&gt;&lt;de&gt;German text&lt;/de&gt;&lt;en&gt;English text&lt;/en&gt;&lt;/values&gt;
     /// </summary>
-    [JsonPropertyName("title")]
+    [JsonPropertyName("name")]
     [MaxLength(50)]
-    public required string Title { get; init; }
+    public required string Name { get; init; }
 }

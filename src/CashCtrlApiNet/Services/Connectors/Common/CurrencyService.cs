@@ -58,6 +58,6 @@ public class CurrencyService(ICashCtrlConnectionHandler connectionHandler) : Con
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, currencies, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<CurrencyExchangeRate>>> GetExchangeRate(CurrencyExchangeRateRequest exchangeRateRequest, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<SingleResponse<CurrencyExchangeRate>, CurrencyExchangeRateRequest>(Endpoint.ExchangeRate, exchangeRateRequest, cancellationToken);
+    public Task<ApiResult<DecimalResponse>> GetExchangeRate(CurrencyExchangeRateRequest exchangeRateRequest, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetBalanceAsync(Endpoint.ExchangeRate, exchangeRateRequest, cancellationToken);
 }

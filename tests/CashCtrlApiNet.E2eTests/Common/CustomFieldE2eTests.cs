@@ -133,9 +133,12 @@ public class CustomFieldE2eTests : CashCtrlE2eTestBase
         var field = get.ResponseData?.Data ?? throw new InvalidOperationException("Failed to get custom field for update");
 
         var updatedLabel = $"{_testId}-Updated";
-        var res = await CashCtrlApiClient.Common.CustomField.Update((field as CustomFieldUpdate) with
+        var res = await CashCtrlApiClient.Common.CustomField.Update(new()
         {
-            RowLabel = updatedLabel
+            Id = field.Id,
+            DataType = field.DataType,
+            RowLabel = updatedLabel,
+            Type = field.Type
         });
         AssertSuccess(res);
 
@@ -154,6 +157,7 @@ public class CustomFieldE2eTests : CashCtrlE2eTestBase
 
         var res = await CashCtrlApiClient.Common.CustomField.Reorder(new()
         {
+            Type = CustomFieldType.PERSON,
             Ids = [_createdFieldId],
             Target = _setupFieldId,
             Before = true

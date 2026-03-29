@@ -2,7 +2,7 @@
 MIT License
 
 Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
-Copyright (c) 2022 Manuel Gysin <manuel.gysin@amanda-technology.ch>
+Copyright (c) 2022 Manuel Gysin <amanda-technology.ch>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,12 +28,12 @@ using CashCtrlApiNet.Abstractions.Models.Api.Base;
 namespace CashCtrlApiNet.Abstractions.Models.Api;
 
 /// <summary>
-/// Response containing a decimal balance value from the CashCtrl API (e.g., account balance, cost center balance)
+/// Response containing a decimal value from the CashCtrl API (e.g., account balance, cost center balance, exchange rate)
 /// </summary>
-public record BalanceResponse : ApiResponse
+public record DecimalResponse : ApiResponse
 {
     /// <summary>
-    /// The balance value returned by the API
+    /// The decimal value returned by the API
     /// </summary>
-    public decimal Balance { get; init; }
+    public decimal Value { get; init; }
 }

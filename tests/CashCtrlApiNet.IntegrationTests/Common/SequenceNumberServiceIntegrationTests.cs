@@ -179,8 +179,6 @@ public class SequenceNumberServiceIntegrationTests : IntegrationTestBase
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
         result.ResponseData.ShouldNotBeNull();
-        result.ResponseData.Data.ShouldNotBeNull();
-        result.ResponseData.Data.Id.ShouldBe(sequenceNumber.Id);
-        result.ResponseData.Data.Name.ShouldBe(sequenceNumber.Name);
+        result.ResponseData.Value.ShouldNotBeNullOrEmpty();
     }
 }

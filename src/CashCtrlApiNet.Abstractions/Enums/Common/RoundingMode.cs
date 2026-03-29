@@ -23,25 +23,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Text.Json.Serialization;
+
 namespace CashCtrlApiNet.Abstractions.Enums.Common;
 
 /// <summary>
 /// Rounding mode for rounding entries. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/rounding">API Doc</a>
 /// </summary>
+[JsonConverter(typeof(JsonStringEnumConverter<RoundingMode>))]
 public enum RoundingMode
 {
     /// <summary>
     /// Always round up
     /// </summary>
-    ROUND_UP,
+    UP,
 
     /// <summary>
     /// Always round down
     /// </summary>
-    ROUND_DOWN,
+    DOWN,
 
     /// <summary>
     /// Round half up (standard rounding)
     /// </summary>
-    ROUND_HALF_UP
+    HALF_UP
 }

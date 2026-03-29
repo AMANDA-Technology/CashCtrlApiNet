@@ -53,7 +53,7 @@ public class PersonTitleServiceIntegrationTests : IntegrationTestBase
         result.ResponseData.ShouldNotBeNull();
         result.ResponseData.Data.ShouldNotBeNull();
         result.ResponseData.Data.Id.ShouldBe(title.Id);
-        result.ResponseData.Data.Title.ShouldBe(title.Title);
+        result.ResponseData.Data.Name.ShouldBe(title.Name);
     }
 
     /// <summary>

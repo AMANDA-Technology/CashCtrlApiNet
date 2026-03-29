@@ -153,15 +153,13 @@ public class CurrencyServiceTests : ServiceTestBase<CurrencyService>
     {
         var request = new CurrencyExchangeRateRequest { From = "CHF", To = "EUR" };
         ConnectionHandler
-            .GetAsync<SingleResponse<CurrencyExchangeRate>, CurrencyExchangeRateRequest>(
-                Arg.Any<string>(), Arg.Any<CurrencyExchangeRateRequest>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<SingleResponse<CurrencyExchangeRate>>());
+            .GetBalanceAsync(Arg.Any<string>(), Arg.Any<CurrencyExchangeRateRequest>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<DecimalResponse>());
 
         var result = await Service.GetExchangeRate(request);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<SingleResponse<CurrencyExchangeRate>, CurrencyExchangeRateRequest>(
-                CommonEndpoints.Currency.ExchangeRate, request, Arg.Any<CancellationToken>());
+            .GetBalanceAsync(CommonEndpoints.Currency.ExchangeRate, request, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 }

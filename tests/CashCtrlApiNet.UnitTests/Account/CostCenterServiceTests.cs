@@ -107,7 +107,7 @@ public class CostCenterServiceTests : ServiceTestBase<CostCenterService>
         var entry = new Entry { Id = 42 };
         ConnectionHandler
             .GetBalanceAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BalanceResponse>());
+            .Returns(new ApiResult<DecimalResponse>());
 
         await Service.GetBalance(entry);
 

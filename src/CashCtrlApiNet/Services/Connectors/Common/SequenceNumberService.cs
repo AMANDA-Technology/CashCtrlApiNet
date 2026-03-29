@@ -58,6 +58,6 @@ public class SequenceNumberService(ICashCtrlConnectionHandler connectionHandler)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, sequenceNumbers, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<SequenceNumber>>> GetGeneratedNumber(Entry sequenceNumber, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<SingleResponse<SequenceNumber>, Entry>(Endpoint.Get, sequenceNumber, cancellationToken);
+    public Task<ApiResult<PlainTextResponse>> GetGeneratedNumber(Entry sequenceNumber, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetPlainTextAsync(Endpoint.Get, sequenceNumber, cancellationToken);
 }

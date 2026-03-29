@@ -220,15 +220,29 @@ public class CashCtrlE2eTestBase
     }
 
     /// <summary>
-    /// Asserts that a <see cref="BalanceResponse"/> API result indicates success
+    /// Asserts that a <see cref="DecimalResponse"/> API result indicates success
     /// and returns the balance response
     /// </summary>
     /// <param name="result">The API result to validate</param>
     /// <returns>The balance response data</returns>
-    protected static BalanceResponse AssertSuccess(ApiResult<BalanceResponse> result)
+    protected static DecimalResponse AssertSuccess(ApiResult<DecimalResponse> result)
     {
         result.IsHttpSuccess.ShouldBeTrue();
         result.ResponseData.ShouldNotBeNull();
+        return result.ResponseData;
+    }
+
+    /// <summary>
+    /// Asserts that a <see cref="PlainTextResponse"/> API result indicates success
+    /// and returns the plain text response
+    /// </summary>
+    /// <param name="result">The API result to validate</param>
+    /// <returns>The plain text response data</returns>
+    protected static PlainTextResponse AssertSuccess(ApiResult<PlainTextResponse> result)
+    {
+        result.IsHttpSuccess.ShouldBeTrue();
+        result.ResponseData.ShouldNotBeNull();
+        result.ResponseData.Value.ShouldNotBeNullOrEmpty();
         return result.ResponseData;
     }
 

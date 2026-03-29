@@ -60,7 +60,7 @@ public interface ICostCenterService
     /// <param name="costCenter">The entry containing the ID of the cost center.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BalanceResponse>> GetBalance(Entry costCenter, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<DecimalResponse>> GetBalance(Entry costCenter, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// Creates a new cost center. Returns either a success or multiple error messages.

@@ -23,11 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Text.Json.Serialization;
+
 namespace CashCtrlApiNet.Abstractions.Enums.Account;
 
 /// <summary>
 /// Type of bank account. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/account/bank">API Doc</a>
 /// </summary>
+[JsonConverter(typeof(JsonStringEnumConverter<BankAccountType>))]
 public enum BankAccountType
 {
     /// <summary>

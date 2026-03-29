@@ -182,7 +182,5 @@ public class CurrencyServiceIntegrationTests : IntegrationTestBase
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
         result.ResponseData.ShouldNotBeNull();
-        result.ResponseData.Data.ShouldNotBeNull();
-        result.ResponseData.Data.Rate.ShouldBe(exchangeRate.Rate);
     }
 }

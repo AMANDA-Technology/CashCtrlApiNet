@@ -23,11 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Text.Json.Serialization;
+
 namespace CashCtrlApiNet.Abstractions.Enums.Salary;
 
 /// <summary>
 /// Icon color for salary status. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/status">API Doc</a>
 /// </summary>
+[JsonConverter(typeof(JsonStringEnumConverter<SalaryStatusIcon>))]
 public enum SalaryStatusIcon
 {
     /// <summary>

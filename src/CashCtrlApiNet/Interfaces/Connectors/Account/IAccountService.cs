@@ -60,7 +60,7 @@ public interface IAccountService
     /// <param name="account">The entry containing the ID of the account.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BalanceResponse>> GetBalance(Entry account, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<DecimalResponse>> GetBalance(Entry account, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// Creates a new account. Returns either a success or multiple error messages (for each issue).

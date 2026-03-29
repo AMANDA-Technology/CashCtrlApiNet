@@ -152,6 +152,7 @@ public class CustomFieldGroupE2eTests : CashCtrlE2eTestBase
 
         var res = await CashCtrlApiClient.Common.CustomFieldGroup.Reorder(new()
         {
+            Type = CustomFieldType.PERSON,
             Ids = [_createdGroupId],
             Target = _setupGroupId,
             Before = true

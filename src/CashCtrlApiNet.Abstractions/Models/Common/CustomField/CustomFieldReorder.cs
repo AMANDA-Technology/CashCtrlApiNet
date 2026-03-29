@@ -26,6 +26,7 @@ SOFTWARE.
 using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Converters;
+using CashCtrlApiNet.Abstractions.Enums.Common;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Common.CustomField;
@@ -35,6 +36,12 @@ namespace CashCtrlApiNet.Abstractions.Models.Common.CustomField;
 /// </summary>
 public record CustomFieldReorder : ModelBaseRecord
 {
+    /// <summary>
+    /// The entity type of the custom fields being reordered.
+    /// </summary>
+    [JsonPropertyName("type")]
+    public required CustomFieldType Type { get; init; }
+
     /// <summary>
     /// The IDs of the entries to reorder, comma-separated.
     /// </summary>

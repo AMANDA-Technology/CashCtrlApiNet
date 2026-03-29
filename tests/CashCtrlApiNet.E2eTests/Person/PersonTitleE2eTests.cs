@@ -52,14 +52,14 @@ public class PersonTitleE2eTests : CashCtrlE2eTestBase
         // Scavenge orphan person titles from previous failed runs
         await ScavengeOrphans(
             () => CashCtrlApiClient.Person.Title.GetList(),
-            t => t.Title,
+            t => t.Name ?? string.Empty,
             t => t.Id,
             ids => CashCtrlApiClient.Person.Title.Delete(ids));
 
         // Create primary test title
         var createResult = await CashCtrlApiClient.Person.Title.Create(new()
         {
-            Title = _testId
+            Name = _testId
         });
         _setupTitleId = AssertCreated(createResult);
 
@@ -85,7 +85,7 @@ public class PersonTitleE2eTests : CashCtrlE2eTestBase
         res.RequestsLeft.Value.ShouldBeGreaterThan(0);
         res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
 
-        title.Title.ShouldBe(_testId);
+        title.Name.ShouldBe(_testId);
     }
 
     /// <summary>
@@ -110,7 +110,7 @@ public class PersonTitleE2eTests : CashCtrlE2eTestBase
         var secondTestId = GenerateTestId();
         var res = await CashCtrlApiClient.Person.Title.Create(new()
         {
-            Title = secondTestId
+            Name = secondTestId
         });
 
         _createdTitleId = AssertCreated(res);
@@ -127,16 +127,16 @@ public class PersonTitleE2eTests : CashCtrlE2eTestBase
         var get = await CashCtrlApiClient.Person.Title.Get(new() { Id = _setupTitleId });
         var title = get.ResponseData?.Data ?? throw new InvalidOperationException("Failed to get person title for update");
 
-        var updatedTitle = $"{_testId}-Updated";
+        var updatedName = $"{_testId}-Updated";
         var res = await CashCtrlApiClient.Person.Title.Update((title as PersonTitleUpdate) with
         {
-            Title = updatedTitle
+            Name = updatedName
         });
         AssertSuccess(res);
 
         // Verify the update persisted
         var verify = await CashCtrlApiClient.Person.Title.Get(new() { Id = _setupTitleId });
-        verify.ResponseData?.Data?.Title.ShouldBe(updatedTitle);
+        verify.ResponseData?.Data?.Name.ShouldBe(updatedName);
     }
 
     /// <summary>

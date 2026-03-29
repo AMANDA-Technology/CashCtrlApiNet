@@ -108,7 +108,7 @@ public class CostCenterServiceIntegrationTests : IntegrationTestBase
         // Arrange
         const decimal expectedBalance = 5678.90m;
         Server.StubGetPlainText("/api/v1/account/costcenter/balance",
-            CashCtrlResponseFactory.BalanceResponse(expectedBalance));
+            CashCtrlResponseFactory.DecimalResponse(expectedBalance));
 
         // Act
         var result = await Client.Account.CostCenter.GetBalance(new() { Id = 1 });
@@ -116,7 +116,7 @@ public class CostCenterServiceIntegrationTests : IntegrationTestBase
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
         result.ResponseData.ShouldNotBeNull();
-        result.ResponseData.Balance.ShouldBe(expectedBalance);
+        result.ResponseData.Value.ShouldBe(expectedBalance);
     }
 
     /// <summary>
@@ -127,7 +127,7 @@ public class CostCenterServiceIntegrationTests : IntegrationTestBase
     {
         // Arrange
         Server.StubGetPlainText("/api/v1/account/costcenter/balance",
-            CashCtrlResponseFactory.BalanceResponse(0m));
+            CashCtrlResponseFactory.DecimalResponse(0m));
 
         // Act
         var result = await Client.Account.CostCenter.GetBalance(new() { Id = 1 });
@@ -135,7 +135,7 @@ public class CostCenterServiceIntegrationTests : IntegrationTestBase
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
         result.ResponseData.ShouldNotBeNull();
-        result.ResponseData.Balance.ShouldBe(0m);
+        result.ResponseData.Value.ShouldBe(0m);
     }
 
     /// <summary>
@@ -154,7 +154,7 @@ public class CostCenterServiceIntegrationTests : IntegrationTestBase
         // Assert
         result.IsHttpSuccess.ShouldBeFalse();
         result.ResponseData.ShouldNotBeNull();
-        result.ResponseData.Balance.ShouldBe(0m);
+        result.ResponseData.Value.ShouldBe(0m);
     }
 
     /// <summary>

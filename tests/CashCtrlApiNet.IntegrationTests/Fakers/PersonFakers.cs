@@ -151,7 +151,7 @@ public static class PersonFakers
         .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
-            Title = f.PickRandom("Mr.", "Mrs.", "Ms.", "Dr.", "Prof."),
+            Name = f.PickRandom("Mr.", "Mrs.", "Ms.", "Dr.", "Prof."),
             CreatedBy = f.Person.UserName,
             LastUpdatedBy = f.Person.UserName,
             Created = DateTime.UtcNow
@@ -163,7 +163,7 @@ public static class PersonFakers
     public static readonly Faker<PersonTitleCreateModel> PersonTitleCreate = new Faker<PersonTitleCreateModel>()
         .CustomInstantiator(f => new()
         {
-            Title = f.PickRandom("Mr.", "Mrs.", "Ms.", "Dr.", "Prof.")
+            Name = f.PickRandom("Mr.", "Mrs.", "Ms.", "Dr.", "Prof.")
         });
 
     /// <summary>
@@ -173,7 +173,7 @@ public static class PersonFakers
         .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
-            Title = f.PickRandom("Mr.", "Mrs.", "Ms.", "Dr.", "Prof.")
+            Name = f.PickRandom("Mr.", "Mrs.", "Ms.", "Dr.", "Prof.")
         });
 
     /// <summary>
