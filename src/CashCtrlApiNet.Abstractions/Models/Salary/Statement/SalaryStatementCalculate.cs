@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
@@ -43,7 +44,7 @@ public record SalaryStatementCalculate : ModelBaseRecord
     /// Custom field values. They are stored as XML in this parameter.
     /// </summary>
     [JsonPropertyName("custom")]
-    public string? Custom { get; init; }
+    public JsonElement? Custom { get; init; }
 
     /// <summary>
     /// The date of the statement (format: YYYY-MM-DD).

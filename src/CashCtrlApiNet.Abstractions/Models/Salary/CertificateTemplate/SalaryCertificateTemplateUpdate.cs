@@ -36,5 +36,6 @@ public record SalaryCertificateTemplateUpdate : SalaryCertificateTemplateCreate
     /// The ID of the certificate template to update.
     /// </summary>
     [JsonPropertyName("id")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public required int Id { get; init; }
 }

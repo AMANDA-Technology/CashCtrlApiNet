@@ -24,6 +24,7 @@ SOFTWARE.
 */
 
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
@@ -43,10 +44,10 @@ public record SalaryCertificateTemplateCreate : ModelBaseRecord
     public required string Name { get; init; }
 
     /// <summary>
-    /// The elements of the template as JSON.
+    /// The elements of the template. Sent as JSON string for create/update, returned as array by the API.
     /// </summary>
     [JsonPropertyName("elements")]
-    public string? Elements { get; init; }
+    public JsonElement? Elements { get; init; }
 
     /// <summary>
     /// The ID of the file.

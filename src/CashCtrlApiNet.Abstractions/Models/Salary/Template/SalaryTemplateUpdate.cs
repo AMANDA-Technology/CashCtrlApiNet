@@ -36,5 +36,6 @@ public record SalaryTemplateUpdate : SalaryTemplateCreate
     /// The ID of the template to update.
     /// </summary>
     [JsonPropertyName("id")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public required int Id { get; init; }
 }

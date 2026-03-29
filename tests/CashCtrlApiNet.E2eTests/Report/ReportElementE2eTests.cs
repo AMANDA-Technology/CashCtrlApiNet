@@ -36,7 +36,7 @@ namespace CashCtrlApiNet.E2eTests.Report;
 // ReSharper disable once InconsistentNaming
 public class ReportElementE2eTests : CashCtrlE2eTestBase
 {
-    private int _reportId;
+    private int _reportSetId;
     private int _accountId;
     private int _setupSetId;
     private int _setupElementId;
@@ -50,13 +50,6 @@ public class ReportElementE2eTests : CashCtrlE2eTestBase
     [OneTimeSetUp]
     public async Task OneTimeSetUp()
     {
-        // Discover a report ID from the report tree
-        var treeResult = await CashCtrlApiClient.Report.Report.GetTree();
-        treeResult.IsHttpSuccess.ShouldBeTrue();
-        treeResult.ResponseData.ShouldNotBeNull();
-        treeResult.ResponseData.Data.Length.ShouldBeGreaterThan(0);
-        _reportId = treeResult.ResponseData.Data.First().Id;
-
         // Discover an account ID for creating report elements
         var accountResult = await CashCtrlApiClient.Account.Account.GetList();
         accountResult.IsHttpSuccess.ShouldBeTrue();
@@ -70,13 +63,14 @@ public class ReportElementE2eTests : CashCtrlE2eTestBase
             Name = setName
         });
         _setupSetId = AssertCreated(setResult);
+        _reportSetId = _setupSetId;
 
         RegisterCleanup(async () => await CashCtrlApiClient.Report.Set.Delete(new() { Ids = [_setupSetId] }));
 
         // Create primary test report element
         var createResult = await CashCtrlApiClient.Report.Element.Create(new()
         {
-            ReportId = _reportId,
+            ReportId = _reportSetId,
             AccountId = _accountId
         });
         _setupElementId = AssertCreated(createResult);
@@ -86,7 +80,7 @@ public class ReportElementE2eTests : CashCtrlE2eTestBase
         // Create a second element for reorder test
         var secondResult = await CashCtrlApiClient.Report.Element.Create(new()
         {
-            ReportId = _reportId,
+            ReportId = _reportSetId,
             AccountId = _accountId
         });
         _secondElementId = AssertCreated(secondResult);
@@ -113,7 +107,7 @@ public class ReportElementE2eTests : CashCtrlE2eTestBase
         res.RequestsLeft.Value.ShouldBeGreaterThan(0);
         res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
 
-        element.ReportId.ShouldBe(_reportId);
+        element.ReportId.ShouldBe(_reportSetId);
         element.AccountId.ShouldBe(_accountId);
     }
 
@@ -125,7 +119,7 @@ public class ReportElementE2eTests : CashCtrlE2eTestBase
     {
         var res = await CashCtrlApiClient.Report.Element.Create(new()
         {
-            ReportId = _reportId,
+            ReportId = _reportSetId,
             AccountId = _accountId
         });
 

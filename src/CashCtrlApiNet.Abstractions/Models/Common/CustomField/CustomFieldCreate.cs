@@ -24,6 +24,7 @@ SOFTWARE.
 */
 
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Enums.Common;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -107,7 +108,7 @@ public record CustomFieldCreate : ModelBaseRecord
     /// The predefined values for COMBOBOX fields as a JSON array.
     /// </summary>
     [JsonPropertyName("values")]
-    public string? Values { get; init; }
+    public JsonElement? Values { get; init; }
 
     /// <summary>
     /// The variable name of the custom field for use in templates.

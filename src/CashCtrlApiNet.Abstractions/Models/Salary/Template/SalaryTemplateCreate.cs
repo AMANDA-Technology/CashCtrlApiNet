@@ -24,6 +24,7 @@ SOFTWARE.
 */
 
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
@@ -67,10 +68,10 @@ public record SalaryTemplateCreate : ModelBaseRecord
     public int? HeaderTemplateId { get; init; }
 
     /// <summary>
-    /// The insurance configuration as JSON.
+    /// The insurance configuration. Sent as JSON string for create/update, returned as array by the API.
     /// </summary>
     [JsonPropertyName("insurances")]
-    public string? Insurances { get; init; }
+    public JsonElement? Insurances { get; init; }
 
     /// <summary>
     /// Whether this is the default template. Defaults to false.

@@ -45,10 +45,10 @@ public static class ReportFakers
     public static readonly Faker<ReportModel> Report = new Faker<ReportModel>()
         .CustomInstantiator(f => new()
         {
-            Id = f.Random.Int(1, 9999),
+            Id = f.Random.Int(1, 9999).ToString(),
             Name = f.Commerce.Department(),
             Type = f.PickRandom("BALANCE_SHEET", "INCOME_STATEMENT", "CASH_FLOW"),
-            ParentId = f.Random.Int(1, 100)
+            ParentId = f.Random.Int(1, 100).ToString()
         });
 
     /// <summary>

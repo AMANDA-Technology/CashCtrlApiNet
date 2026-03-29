@@ -24,6 +24,7 @@ SOFTWARE.
 */
 
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Enums.Salary;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -66,7 +67,7 @@ public record SalaryTypeCreate : ModelBaseRecord
     /// Allocations as a JSON string.
     /// </summary>
     [JsonPropertyName("allocations")]
-    public string? Allocations { get; init; }
+    public JsonElement? Allocations { get; init; }
 
     /// <summary>
     /// The base variable name for calculation.

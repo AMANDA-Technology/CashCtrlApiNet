@@ -34,10 +34,10 @@ namespace CashCtrlApiNet.Abstractions.Models.Report;
 public record Report : ModelBaseRecord
 {
     /// <summary>
-    /// The ID of the report.
+    /// The ID of the report tree node. String type because the API returns composite keys (e.g., "report-1").
     /// </summary>
     [JsonPropertyName("id")]
-    public required int Id { get; init; }
+    public required string Id { get; init; }
 
     /// <summary>
     /// The name of the report.
@@ -52,8 +52,8 @@ public record Report : ModelBaseRecord
     public string? Type { get; init; }
 
     /// <summary>
-    /// The ID of the parent report.
+    /// The ID of the parent report tree node.
     /// </summary>
     [JsonPropertyName("parentId")]
-    public int? ParentId { get; init; }
+    public string? ParentId { get; init; }
 }

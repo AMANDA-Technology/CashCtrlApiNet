@@ -24,6 +24,7 @@ SOFTWARE.
 */
 
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
@@ -80,7 +81,7 @@ public record SalaryStatementCreate : ModelBaseRecord
     /// Custom field values. They are stored as XML in this parameter.
     /// </summary>
     [JsonPropertyName("custom")]
-    public string? Custom { get; init; }
+    public JsonElement? Custom { get; init; }
 
     /// <summary>
     /// The number of days before the statement date to send notification.
@@ -98,7 +99,7 @@ public record SalaryStatementCreate : ModelBaseRecord
     /// The insurance configuration as JSON.
     /// </summary>
     [JsonPropertyName("insurances")]
-    public string? Insurances { get; init; }
+    public JsonElement? Insurances { get; init; }
 
     /// <summary>
     /// A message to include on the salary statement.

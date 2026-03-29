@@ -24,6 +24,7 @@ SOFTWARE.
 */
 
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
@@ -45,5 +46,5 @@ public record SalaryLayoutCreate : ModelBaseRecord
     /// The layout elements as a JSON array of objects with elementId, css, and html properties.
     /// </summary>
     [JsonPropertyName("elements")]
-    public string? Elements { get; init; }
+    public JsonElement? Elements { get; init; }
 }
