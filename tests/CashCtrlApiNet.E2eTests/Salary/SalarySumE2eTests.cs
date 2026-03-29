@@ -1,0 +1,155 @@
+/*
+MIT License
+
+Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
+Copyright (c) 2022 Manuel Gysin <manuel.gysin@amanda-technology.ch>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+using CashCtrlApiNet.Abstractions.Models.Salary.Sum;
+using Shouldly;
+
+namespace CashCtrlApiNet.E2eTests.Salary;
+
+/// <summary>
+/// E2E tests for salary sum service with full lifecycle management.
+/// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalarySumService"/> operations.
+/// </summary>
+[Category("E2e")]
+public class SalarySumE2eTests : CashCtrlE2eTestBase
+{
+    private string _testId = null!;
+    private int _setupSumId;
+    private int _createdSumId;
+    private Action _cancelCreatedCleanup = null!;
+
+    /// <summary>
+    /// Scavenges orphan test data and creates the primary test sum for the fixture
+    /// </summary>
+    [OneTimeSetUp]
+    public async Task OneTimeSetUp()
+    {
+        _testId = GenerateTestId();
+
+        // Scavenge orphan salary sums from previous failed runs
+        await ScavengeOrphans(
+            () => CashCtrlApiClient.Salary.Sum.GetList(),
+            s => s.Name,
+            s => s.Id,
+            ids => CashCtrlApiClient.Salary.Sum.Delete(ids));
+
+        // Create primary test sum (VariableName max 32 chars)
+        var createResult = await CashCtrlApiClient.Salary.Sum.Create(new()
+        {
+            Name = _testId,
+            VariableName = _testId[..32]
+        });
+        _setupSumId = AssertCreated(createResult);
+
+        RegisterCleanup(async () => await CashCtrlApiClient.Salary.Sum.Delete(new() { Ids = [_setupSumId] }));
+    }
+
+    /// <summary>
+    /// Cleans up all test data created during the fixture
+    /// </summary>
+    [OneTimeTearDown]
+    public async Task OneTimeTearDown() => await RunCleanup();
+
+    /// <summary>
+    /// Get a salary sum by ID successfully
+    /// </summary>
+    [Test, Order(1)]
+    public async Task Get_Success()
+    {
+        var res = await CashCtrlApiClient.Salary.Sum.Get(new() { Id = _setupSumId });
+        var sum = AssertSuccess(res);
+
+        res.RequestsLeft.ShouldNotBeNull();
+        res.RequestsLeft.Value.ShouldBeGreaterThan(0);
+        res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
+
+        sum.Name.ShouldBe(_testId);
+    }
+
+    /// <summary>
+    /// Get list of salary sums successfully
+    /// </summary>
+    [Test, Order(2)]
+    public async Task GetList_Success()
+    {
+        var res = await CashCtrlApiClient.Salary.Sum.GetList();
+        var sums = AssertSuccess(res);
+
+        sums.Length.ShouldBe(res.ResponseData!.Total);
+        sums.ShouldContain(s => s.Id == _setupSumId);
+    }
+
+    /// <summary>
+    /// Create a salary sum successfully and store its ID for later tests
+    /// </summary>
+    [Test, Order(3)]
+    public async Task Create_Success()
+    {
+        var secondTestId = GenerateTestId();
+        var res = await CashCtrlApiClient.Salary.Sum.Create(new()
+        {
+            Name = secondTestId,
+            VariableName = secondTestId[..32]
+        });
+
+        _createdSumId = AssertCreated(res);
+        _cancelCreatedCleanup = RegisterCleanup(async () => await CashCtrlApiClient.Salary.Sum.Delete(new() { Ids = [_createdSumId] }));
+    }
+
+    /// <summary>
+    /// Update a salary sum successfully
+    /// </summary>
+    [Test, Order(4)]
+    public async Task Update_Success()
+    {
+        var get = await CashCtrlApiClient.Salary.Sum.Get(new() { Id = _setupSumId });
+        var sum = get.ResponseData?.Data ?? throw new InvalidOperationException("Failed to get salary sum for update");
+
+        var updatedName = $"{_testId}-Updated";
+        var res = await CashCtrlApiClient.Salary.Sum.Update((sum as SalarySumUpdate) with
+        {
+            Name = updatedName
+        });
+        AssertSuccess(res);
+
+        // Verify the update persisted
+        var verify = await CashCtrlApiClient.Salary.Sum.Get(new() { Id = _setupSumId });
+        verify.ResponseData?.Data?.Name.ShouldBe(updatedName);
+    }
+
+    /// <summary>
+    /// Delete the salary sum created in <see cref="Create_Success"/>
+    /// </summary>
+    [Test, Order(5)]
+    public async Task Delete_Success()
+    {
+        _createdSumId.ShouldBeGreaterThan(0, "Create_Success must run before Delete_Success");
+
+        var res = await CashCtrlApiClient.Salary.Sum.Delete(new() { Ids = [_createdSumId] });
+        AssertSuccess(res);
+
+        _cancelCreatedCleanup();
+    }
+}
