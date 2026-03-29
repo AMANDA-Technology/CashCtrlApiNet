@@ -105,7 +105,7 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
     [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
-        var bankAccount = new AccountBankCreate { Bic = "TESTBIC", Iban = "CH1234", Name = "Test Bank", Type = BankAccountType.DEFAULT };
+        var bankAccount = new AccountBankCreate { Bic = "TESTBIC", Iban = "CH1234", Name = "Test Bank", Type = BankAccountType.Default };
         ConnectionHandler
             .PostAsync<NoContentResponse, AccountBankCreate>(Arg.Any<string>(), Arg.Any<AccountBankCreate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -120,7 +120,7 @@ public class AccountBankServiceTests : ServiceTestBase<AccountBankService>
     [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
-        var bankAccount = new AccountBankUpdate { Id = 1, Bic = "TESTBIC", Iban = "CH1234", Name = "Test Bank", Type = BankAccountType.DEFAULT };
+        var bankAccount = new AccountBankUpdate { Id = 1, Bic = "TESTBIC", Iban = "CH1234", Name = "Test Bank", Type = BankAccountType.Default };
         ConnectionHandler
             .PostAsync<NoContentResponse, AccountBankUpdate>(Arg.Any<string>(), Arg.Any<AccountBankUpdate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());

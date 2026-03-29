@@ -52,7 +52,7 @@ public class CustomFieldE2eTests : CashCtrlE2eTestBase
 
         // Scavenge orphan custom fields from previous failed runs
         await ScavengeOrphans(
-            () => CashCtrlApiClient.Common.CustomField.GetList(new() { Type = CustomFieldType.PERSON }),
+            () => CashCtrlApiClient.Common.CustomField.GetList(new() { Type = CustomFieldType.Person }),
             f => f.RowLabel,
             f => f.Id,
             ids => CashCtrlApiClient.Common.CustomField.Delete(ids));
@@ -60,9 +60,9 @@ public class CustomFieldE2eTests : CashCtrlE2eTestBase
         // Create primary test custom field
         var createResult = await CashCtrlApiClient.Common.CustomField.Create(new()
         {
-            DataType = CustomFieldDataType.TEXT,
+            DataType = CustomFieldDataType.Text,
             RowLabel = _testId,
-            Type = CustomFieldType.PERSON
+            Type = CustomFieldType.Person
         });
         _setupFieldId = AssertCreated(createResult);
 
@@ -97,7 +97,7 @@ public class CustomFieldE2eTests : CashCtrlE2eTestBase
     [Test, Order(2)]
     public async Task GetList_Success()
     {
-        var res = await CashCtrlApiClient.Common.CustomField.GetList(new() { Type = CustomFieldType.PERSON });
+        var res = await CashCtrlApiClient.Common.CustomField.GetList(new() { Type = CustomFieldType.Person });
         var fields = AssertSuccess(res);
 
         fields.Length.ShouldBe(res.ResponseData!.Total);
@@ -113,9 +113,9 @@ public class CustomFieldE2eTests : CashCtrlE2eTestBase
         var secondTestId = GenerateTestId();
         var res = await CashCtrlApiClient.Common.CustomField.Create(new()
         {
-            DataType = CustomFieldDataType.TEXT,
+            DataType = CustomFieldDataType.Text,
             RowLabel = secondTestId,
-            Type = CustomFieldType.PERSON
+            Type = CustomFieldType.Person
         });
 
         _createdFieldId = AssertCreated(res);
@@ -157,7 +157,7 @@ public class CustomFieldE2eTests : CashCtrlE2eTestBase
 
         var res = await CashCtrlApiClient.Common.CustomField.Reorder(new()
         {
-            Type = CustomFieldType.PERSON,
+            Type = CustomFieldType.Person,
             Ids = [_createdFieldId],
             Target = _setupFieldId,
             Before = true

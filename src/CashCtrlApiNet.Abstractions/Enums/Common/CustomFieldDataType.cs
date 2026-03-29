@@ -36,40 +36,48 @@ public enum CustomFieldDataType
     /// <summary>
     /// Single-line text field
     /// </summary>
-    TEXT,
+    [JsonStringEnumMemberName("TEXT")]
+    Text,
 
     /// <summary>
     /// Multi-line text area
     /// </summary>
-    TEXTAREA,
+    [JsonStringEnumMemberName("TEXTAREA")]
+    Textarea,
 
     /// <summary>
     /// Checkbox (boolean)
     /// </summary>
-    CHECKBOX,
+    [JsonStringEnumMemberName("CHECKBOX")]
+    Checkbox,
 
     /// <summary>
     /// Date field
     /// </summary>
-    DATE,
+    [JsonStringEnumMemberName("DATE")]
+    Date,
 
     /// <summary>
     /// Combobox (dropdown) with predefined values
     /// </summary>
-    COMBOBOX,
+    [JsonStringEnumMemberName("COMBOBOX")]
+    Combobox,
 
     /// <summary>
     /// Numeric field
     /// </summary>
-    NUMBER,
+    [JsonStringEnumMemberName("NUMBER")]
+    Number,
 
     /// <summary>
     /// Account reference field
     /// </summary>
-    ACCOUNT,
+    [JsonStringEnumMemberName("ACCOUNT")]
+    Account,
 
     /// <summary>
     /// Person reference field
     /// </summary>
-    PERSON
+    [JsonStringEnumMemberName("PERSON")]
+    Person
 }

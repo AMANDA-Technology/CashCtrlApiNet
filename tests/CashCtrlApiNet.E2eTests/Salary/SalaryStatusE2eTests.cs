@@ -60,7 +60,7 @@ public class SalaryStatusE2eTests : CashCtrlE2eTestBase
         // Create primary test status (Name max 40 chars, testId is 36)
         var createResult = await CashCtrlApiClient.Salary.Status.Create(new()
         {
-            Icon = SalaryStatusIcon.BLUE,
+            Icon = SalaryStatusIcon.Blue,
             Name = _testId
         });
         _setupStatusId = AssertCreated(createResult);
@@ -112,7 +112,7 @@ public class SalaryStatusE2eTests : CashCtrlE2eTestBase
         var secondTestId = GenerateTestId();
         var res = await CashCtrlApiClient.Salary.Status.Create(new()
         {
-            Icon = SalaryStatusIcon.GREEN,
+            Icon = SalaryStatusIcon.Green,
             Name = secondTestId
         });
 

@@ -76,7 +76,7 @@ public class SalaryTypeServiceTests : ServiceTestBase<SalaryTypeService>
     [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
-        var salaryType = new SalaryTypeCreate { CategoryId = 1, Name = "Test", Number = "100", Type = SalaryTypeKind.ADDITION };
+        var salaryType = new SalaryTypeCreate { CategoryId = 1, Name = "Test", Number = "100", Type = SalaryTypeKind.Addition };
         ConnectionHandler
             .PostAsync<NoContentResponse, SalaryTypeCreate>(Arg.Any<string>(), Arg.Any<SalaryTypeCreate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -91,7 +91,7 @@ public class SalaryTypeServiceTests : ServiceTestBase<SalaryTypeService>
     [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
-        var salaryType = new SalaryTypeUpdate { Id = 1, CategoryId = 1, Name = "Test", Number = "100", Type = SalaryTypeKind.ADDITION };
+        var salaryType = new SalaryTypeUpdate { Id = 1, CategoryId = 1, Name = "Test", Number = "100", Type = SalaryTypeKind.Addition };
         ConnectionHandler
             .PostAsync<NoContentResponse, SalaryTypeUpdate>(Arg.Any<string>(), Arg.Any<SalaryTypeUpdate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());

@@ -36,35 +36,42 @@ public enum SalaryStatusIcon
     /// <summary>
     /// Blue icon
     /// </summary>
-    BLUE,
+    [JsonStringEnumMemberName("BLUE")]
+    Blue,
 
     /// <summary>
     /// Green icon
     /// </summary>
-    GREEN,
+    [JsonStringEnumMemberName("GREEN")]
+    Green,
 
     /// <summary>
     /// Red icon
     /// </summary>
-    RED,
+    [JsonStringEnumMemberName("RED")]
+    Red,
 
     /// <summary>
     /// Yellow icon
     /// </summary>
-    YELLOW,
+    [JsonStringEnumMemberName("YELLOW")]
+    Yellow,
 
     /// <summary>
     /// Orange icon
     /// </summary>
-    ORANGE,
+    [JsonStringEnumMemberName("ORANGE")]
+    Orange,
 
     /// <summary>
     /// Black icon
     /// </summary>
-    BLACK,
+    [JsonStringEnumMemberName("BLACK")]
+    Black,
 
     /// <summary>
     /// Grey icon
     /// </summary>
-    GREY
+    [JsonStringEnumMemberName("GREY")]
+    Grey
 }

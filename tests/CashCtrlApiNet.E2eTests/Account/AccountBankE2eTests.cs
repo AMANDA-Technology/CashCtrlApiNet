@@ -63,7 +63,7 @@ public class AccountBankE2eTests : CashCtrlE2eTestBase
             Bic = "POFICHBEXXX",
             Iban = "CH9300762011623852957",
             Name = _testId,
-            Type = BankAccountType.DEFAULT
+            Type = BankAccountType.Default
         });
         _setupBankAccountId = AssertCreated(createResult);
 
@@ -91,7 +91,7 @@ public class AccountBankE2eTests : CashCtrlE2eTestBase
 
         bankAccount.Name.ShouldBe(_testId);
         bankAccount.Iban.ShouldNotBeNullOrEmpty();
-        bankAccount.Type.ShouldBe(BankAccountType.DEFAULT);
+        bankAccount.Type.ShouldBe(BankAccountType.Default);
     }
 
     /// <summary>
@@ -118,7 +118,7 @@ public class AccountBankE2eTests : CashCtrlE2eTestBase
             Bic = "POFICHBEXXX",
             Iban = "CH9300762011623852957",
             Name = GenerateTestId(),
-            Type = BankAccountType.DEFAULT
+            Type = BankAccountType.Default
         });
 
         _createdBankAccountId = AssertCreated(res);

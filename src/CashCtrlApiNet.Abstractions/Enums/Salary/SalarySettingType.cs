@@ -36,15 +36,18 @@ public enum SalarySettingType
     /// <summary>
     /// Text value
     /// </summary>
-    TEXT,
+    [JsonStringEnumMemberName("TEXT")]
+    Text,
 
     /// <summary>
     /// Boolean value
     /// </summary>
-    BOOLEAN,
+    [JsonStringEnumMemberName("BOOLEAN")]
+    Boolean,
 
     /// <summary>
     /// Decimal value
     /// </summary>
-    DECIMAL
+    [JsonStringEnumMemberName("DECIMAL")]
+    Decimal
 }

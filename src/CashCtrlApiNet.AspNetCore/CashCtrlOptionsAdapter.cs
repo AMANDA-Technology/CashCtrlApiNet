@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using CashCtrlApiNet.Abstractions.Helpers;
 using CashCtrlApiNet.Interfaces;
 using Microsoft.Extensions.Options;
 
@@ -53,5 +54,5 @@ internal sealed class CashCtrlOptionsAdapter : ICashCtrlConfiguration
     public string ApiKey => _options.ApiKey!;
 
     /// <inheritdoc />
-    public string DefaultLanguage => Enum.GetName(_options.Language)!;
+    public string DefaultLanguage => CashCtrlSerialization.SerializeEnumValue(_options.Language);
 }

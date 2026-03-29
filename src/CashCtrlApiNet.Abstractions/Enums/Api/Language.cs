@@ -23,33 +23,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace CashCtrlApiNet.Abstractions.Enums.Api;
 
 /// <summary>
 /// Language
 /// </summary>
-[SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Currently there is no out of")]
+[JsonConverter(typeof(JsonStringEnumConverter<Language>))]
 public enum Language
 {
     /// <summary>
     /// German
     /// </summary>
-    de,
+    [JsonStringEnumMemberName("de")]
+    De,
 
     /// <summary>
     /// French
     /// </summary>
-    fr,
+    [JsonStringEnumMemberName("fr")]
+    Fr,
 
     /// <summary>
     /// Italian
     /// </summary>
-    it,
+    [JsonStringEnumMemberName("it")]
+    It,
 
     /// <summary>
     /// English
     /// </summary>
-    en
+    [JsonStringEnumMemberName("en")]
+    En
 }

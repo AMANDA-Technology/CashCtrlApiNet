@@ -76,7 +76,7 @@ public class SalaryStatusServiceTests : ServiceTestBase<SalaryStatusService>
     [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
-        var status = new SalaryStatusCreate { Icon = SalaryStatusIcon.BLUE, Name = "Test" };
+        var status = new SalaryStatusCreate { Icon = SalaryStatusIcon.Blue, Name = "Test" };
         ConnectionHandler
             .PostAsync<NoContentResponse, SalaryStatusCreate>(Arg.Any<string>(), Arg.Any<SalaryStatusCreate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -91,7 +91,7 @@ public class SalaryStatusServiceTests : ServiceTestBase<SalaryStatusService>
     [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
-        var status = new SalaryStatusUpdate { Id = 1, Icon = SalaryStatusIcon.GREEN, Name = "Test" };
+        var status = new SalaryStatusUpdate { Id = 1, Icon = SalaryStatusIcon.Green, Name = "Test" };
         ConnectionHandler
             .PostAsync<NoContentResponse, SalaryStatusUpdate>(Arg.Any<string>(), Arg.Any<SalaryStatusUpdate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());

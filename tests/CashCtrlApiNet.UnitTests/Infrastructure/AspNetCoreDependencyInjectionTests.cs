@@ -44,7 +44,7 @@ public class AspNetCoreDependencyInjectionTests
     private static ServiceCollection CreateServiceCollectionWithValidOptions(
         string baseUri = "https://test.cashctrl.com/",
         string apiKey = "test-api-key",
-        Language language = Language.de)
+        Language language = Language.De)
     {
         var services = new ServiceCollection();
         services.AddCashCtrl(options =>
@@ -170,7 +170,7 @@ public class AspNetCoreDependencyInjectionTests
     [Test]
     public void AddCashCtrl_Configuration_ShouldMapLanguage()
     {
-        var services = CreateServiceCollectionWithValidOptions(language: Language.en);
+        var services = CreateServiceCollectionWithValidOptions(language: Language.En);
         using var provider = services.BuildServiceProvider();
 
         var config = provider.GetRequiredService<ICashCtrlConfiguration>();
@@ -179,7 +179,7 @@ public class AspNetCoreDependencyInjectionTests
     }
 
     /// <summary>
-    /// Verifies that Language defaults to <see cref="Language.de"/> when not explicitly set
+    /// Verifies that Language defaults to <see cref="Language.De"/> when not explicitly set
     /// </summary>
     [Test]
     public void AddCashCtrl_Configuration_ShouldDefaultLanguageToDe()

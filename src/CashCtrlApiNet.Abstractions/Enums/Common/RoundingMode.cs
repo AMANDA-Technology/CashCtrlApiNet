@@ -36,15 +36,18 @@ public enum RoundingMode
     /// <summary>
     /// Always round up
     /// </summary>
-    UP,
+    [JsonStringEnumMemberName("UP")]
+    Up,
 
     /// <summary>
     /// Always round down
     /// </summary>
-    DOWN,
+    [JsonStringEnumMemberName("DOWN")]
+    Down,
 
     /// <summary>
     /// Round half up (standard rounding)
     /// </summary>
-    HALF_UP
+    [JsonStringEnumMemberName("HALF_UP")]
+    HalfUp
 }

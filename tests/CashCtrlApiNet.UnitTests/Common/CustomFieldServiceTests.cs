@@ -63,7 +63,7 @@ public class CustomFieldServiceTests : ServiceTestBase<CustomFieldService>
     [Test]
     public async Task GetList_ShouldCallCorrectEndpoint_WithTypeParameter()
     {
-        var listRequest = new CustomFieldListRequest { Type = CustomFieldType.JOURNAL };
+        var listRequest = new CustomFieldListRequest { Type = CustomFieldType.Journal };
         ConnectionHandler
             .GetAsync<ListResponse<CustomFieldListed>, CustomFieldListRequest>(
                 Arg.Any<string>(), Arg.Any<CustomFieldListRequest>(), Arg.Any<CancellationToken>())
@@ -80,7 +80,7 @@ public class CustomFieldServiceTests : ServiceTestBase<CustomFieldService>
     [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
-        var customField = new CustomFieldCreate { DataType = CustomFieldDataType.TEXT, RowLabel = "Test", Type = CustomFieldType.JOURNAL };
+        var customField = new CustomFieldCreate { DataType = CustomFieldDataType.Text, RowLabel = "Test", Type = CustomFieldType.Journal };
         ConnectionHandler
             .PostAsync<NoContentResponse, CustomFieldCreate>(Arg.Any<string>(), Arg.Any<CustomFieldCreate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -95,7 +95,7 @@ public class CustomFieldServiceTests : ServiceTestBase<CustomFieldService>
     [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
-        var customField = new CustomFieldUpdate { Id = 1, DataType = CustomFieldDataType.TEXT, RowLabel = "Test", Type = CustomFieldType.JOURNAL };
+        var customField = new CustomFieldUpdate { Id = 1, DataType = CustomFieldDataType.Text, RowLabel = "Test", Type = CustomFieldType.Journal };
         ConnectionHandler
             .PostAsync<NoContentResponse, CustomFieldUpdate>(Arg.Any<string>(), Arg.Any<CustomFieldUpdate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -125,7 +125,7 @@ public class CustomFieldServiceTests : ServiceTestBase<CustomFieldService>
     [Test]
     public async Task Reorder_ShouldPostToCorrectEndpoint()
     {
-        var reorder = new CustomFieldReorder { Type = CustomFieldType.PERSON, Ids = [1, 2, 3], Target = 5 };
+        var reorder = new CustomFieldReorder { Type = CustomFieldType.Person, Ids = [1, 2, 3], Target = 5 };
         ConnectionHandler
             .PostAsync<NoContentResponse, CustomFieldReorder>(Arg.Any<string>(), Arg.Any<CustomFieldReorder>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
