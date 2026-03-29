@@ -36,25 +36,30 @@ public enum TextTemplateType
     /// <summary>
     /// Text template for order header
     /// </summary>
-    ORDER_HEADER,
+    [JsonStringEnumMemberName("ORDER_HEADER")]
+    OrderHeader,
 
     /// <summary>
     /// Text template for order footer
     /// </summary>
-    ORDER_FOOTER,
+    [JsonStringEnumMemberName("ORDER_FOOTER")]
+    OrderFooter,
 
     /// <summary>
     /// Text template for order mail
     /// </summary>
-    ORDER_MAIL,
+    [JsonStringEnumMemberName("ORDER_MAIL")]
+    OrderMail,
 
     /// <summary>
     /// Text template for persons
     /// </summary>
-    PERSON,
+    [JsonStringEnumMemberName("PERSON")]
+    Person,
 
     /// <summary>
     /// Text template for salary
     /// </summary>
-    SALARY_MAIL
+    [JsonStringEnumMemberName("SALARY_MAIL")]
+    SalaryMail
 }

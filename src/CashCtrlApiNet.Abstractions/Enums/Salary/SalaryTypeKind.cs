@@ -36,15 +36,18 @@ public enum SalaryTypeKind
     /// <summary>
     /// Addition to salary
     /// </summary>
-    ADDITION,
+    [JsonStringEnumMemberName("ADDITION")]
+    Addition,
 
     /// <summary>
     /// Subtraction from salary
     /// </summary>
-    SUBTRACTION,
+    [JsonStringEnumMemberName("SUBTRACTION")]
+    Subtraction,
 
     /// <summary>
     /// Informational salary line (neither adds nor subtracts)
     /// </summary>
-    INFORMATION
+    [JsonStringEnumMemberName("INFORMATION")]
+    Information
 }

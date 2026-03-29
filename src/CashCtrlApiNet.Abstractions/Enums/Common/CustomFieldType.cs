@@ -36,40 +36,48 @@ public enum CustomFieldType
     /// <summary>
     /// Journal entry custom field
     /// </summary>
-    JOURNAL,
+    [JsonStringEnumMemberName("JOURNAL")]
+    Journal,
 
     /// <summary>
     /// Account custom field
     /// </summary>
-    ACCOUNT,
+    [JsonStringEnumMemberName("ACCOUNT")]
+    Account,
 
     /// <summary>
     /// Inventory article custom field
     /// </summary>
-    INVENTORY_ARTICLE,
+    [JsonStringEnumMemberName("INVENTORY_ARTICLE")]
+    InventoryArticle,
 
     /// <summary>
     /// Inventory asset custom field
     /// </summary>
-    INVENTORY_ASSET,
+    [JsonStringEnumMemberName("INVENTORY_ASSET")]
+    InventoryAsset,
 
     /// <summary>
     /// Order custom field
     /// </summary>
-    ORDER,
+    [JsonStringEnumMemberName("ORDER")]
+    Order,
 
     /// <summary>
     /// Person custom field
     /// </summary>
-    PERSON,
+    [JsonStringEnumMemberName("PERSON")]
+    Person,
 
     /// <summary>
     /// File custom field
     /// </summary>
-    FILE,
+    [JsonStringEnumMemberName("FILE")]
+    File,
 
     /// <summary>
     /// Salary statement custom field
     /// </summary>
-    SALARY_STATEMENT
+    [JsonStringEnumMemberName("SALARY_STATEMENT")]
+    SalaryStatement
 }

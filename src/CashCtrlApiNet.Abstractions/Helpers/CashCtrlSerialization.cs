@@ -82,4 +82,40 @@ public static class CashCtrlSerialization
             ? null
             : Deserialize<Dictionary<string, object?>>(Serialize(data))
                 ?.ToDictionary(e => e.Key, e => e.Value?.ToString());
+
+    /// <summary>
+    /// Serializes an enum value to its API wire format string using the configured JSON serialization attributes.
+    /// </summary>
+    /// <param name="value">The enum value to serialize</param>
+    /// <typeparam name="TEnum">The enum type</typeparam>
+    /// <returns>The wire format string (e.g. "de" for <c>Language.De</c>)</returns>
+    public static string SerializeEnumValue<TEnum>(TEnum value) where TEnum : struct, Enum
+        => JsonSerializer.Serialize(value, DefaultSerializerOptions).Trim('"');
+
+    /// <summary>
+    /// Tries to deserialize an API wire format string to an enum value using the configured JSON serialization attributes.
+    /// </summary>
+    /// <param name="value">The wire format string to deserialize (e.g. "de")</param>
+    /// <param name="result">The deserialized enum value if successful</param>
+    /// <typeparam name="TEnum">The enum type</typeparam>
+    /// <returns><c>true</c> if deserialization succeeded; otherwise <c>false</c></returns>
+    public static bool TryDeserializeEnum<TEnum>(string? value, out TEnum result) where TEnum : struct, Enum
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            result = default;
+            return false;
+        }
+
+        try
+        {
+            result = JsonSerializer.Deserialize<TEnum>($"\"{value}\"", DefaultSerializerOptions);
+            return true;
+        }
+        catch (JsonException)
+        {
+            result = default;
+            return false;
+        }
+    }
 }

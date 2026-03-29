@@ -63,7 +63,7 @@ public class CustomFieldGroupServiceTests : ServiceTestBase<CustomFieldGroupServ
     [Test]
     public async Task GetList_ShouldCallCorrectEndpoint_WithTypeParameter()
     {
-        var listRequest = new CustomFieldGroupListRequest { Type = CustomFieldType.ORDER };
+        var listRequest = new CustomFieldGroupListRequest { Type = CustomFieldType.Order };
         ConnectionHandler
             .GetAsync<ListResponse<CustomFieldGroupListed>, CustomFieldGroupListRequest>(
                 Arg.Any<string>(), Arg.Any<CustomFieldGroupListRequest>(), Arg.Any<CancellationToken>())
@@ -80,7 +80,7 @@ public class CustomFieldGroupServiceTests : ServiceTestBase<CustomFieldGroupServ
     [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
-        var group = new CustomFieldGroupCreate { Name = "Test Group", Type = CustomFieldType.ORDER };
+        var group = new CustomFieldGroupCreate { Name = "Test Group", Type = CustomFieldType.Order };
         ConnectionHandler
             .PostAsync<NoContentResponse, CustomFieldGroupCreate>(Arg.Any<string>(), Arg.Any<CustomFieldGroupCreate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -95,7 +95,7 @@ public class CustomFieldGroupServiceTests : ServiceTestBase<CustomFieldGroupServ
     [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
-        var group = new CustomFieldGroupUpdate { Id = 1, Name = "Test Group", Type = CustomFieldType.ORDER };
+        var group = new CustomFieldGroupUpdate { Id = 1, Name = "Test Group", Type = CustomFieldType.Order };
         ConnectionHandler
             .PostAsync<NoContentResponse, CustomFieldGroupUpdate>(Arg.Any<string>(), Arg.Any<CustomFieldGroupUpdate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -125,7 +125,7 @@ public class CustomFieldGroupServiceTests : ServiceTestBase<CustomFieldGroupServ
     [Test]
     public async Task Reorder_ShouldPostToCorrectEndpoint()
     {
-        var reorder = new CustomFieldGroupReorder { Type = CustomFieldType.PERSON, Ids = [1, 2, 3], Target = 5 };
+        var reorder = new CustomFieldGroupReorder { Type = CustomFieldType.Person, Ids = [1, 2, 3], Target = 5 };
         ConnectionHandler
             .PostAsync<NoContentResponse, CustomFieldGroupReorder>(Arg.Any<string>(), Arg.Any<CustomFieldGroupReorder>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());

@@ -47,8 +47,8 @@ public class CashCtrlOptions
     public string? ApiKey { get; set; }
 
     /// <summary>
-    /// Default language to use for API requests. Defaults to <see cref="Language.de"/>.
+    /// Default language to use for API requests. Defaults to <see cref="Language.De"/>.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#lang">API Doc - Language</a>
     /// </summary>
-    public Language Language { get; set; } = Language.de;
+    public Language Language { get; set; } = Language.De;
 }

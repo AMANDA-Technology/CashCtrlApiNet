@@ -223,7 +223,7 @@ public class CashCtrlConnectionHandlerTests
         var connectionHandler = new CashCtrlConnectionHandler(factory, config);
 
         // Act
-        connectionHandler.SetLanguage(Language.en);
+        connectionHandler.SetLanguage(Language.En);
         await connectionHandler.GetAsync("api/v1/account/list.json");
 
         // Assert
@@ -245,10 +245,10 @@ public class CashCtrlConnectionHandlerTests
         // GetHttpRequestMessage method used by both constructors.
         // The factory constructor test above covers this, so this test confirms
         // the standalone constructor initializes without error with a valid language.
-        connectionHandler.SetLanguage(Language.fr);
+        connectionHandler.SetLanguage(Language.Fr);
 
         // Verify the constructor accepted "fr" as valid language
-        Should.NotThrow(() => connectionHandler.SetLanguage(Language.fr));
+        Should.NotThrow(() => connectionHandler.SetLanguage(Language.Fr));
     }
 
     [Test]

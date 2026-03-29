@@ -25,6 +25,7 @@ SOFTWARE.
 
 using System.Collections.Immutable;
 using CashCtrlApiNet.Abstractions.Enums.Api;
+using CashCtrlApiNet.Abstractions.Helpers;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Interfaces;
@@ -58,7 +59,7 @@ public class CashCtrlE2eTestBase
         {
             BaseUri = Environment.GetEnvironmentVariable("CashCtrlApiNet__BaseUri") ?? throw new InvalidOperationException("Missing CashCtrlApiNet__BaseUri"),
             ApiKey = Environment.GetEnvironmentVariable("CashCtrlApiNet__ApiKey") ?? throw new InvalidOperationException("Missing CashCtrlApiNet__ApiKey"),
-            DefaultLanguage = Environment.GetEnvironmentVariable("CashCtrlApiNet__Language") ?? nameof(Language.de)
+            DefaultLanguage = Environment.GetEnvironmentVariable("CashCtrlApiNet__Language") ?? CashCtrlSerialization.SerializeEnumValue(Language.De)
         });
 
         CashCtrlApiClient = new CashCtrlApiClient(connectionHandler,

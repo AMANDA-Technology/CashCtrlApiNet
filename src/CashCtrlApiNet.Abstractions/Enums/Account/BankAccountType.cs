@@ -36,25 +36,30 @@ public enum BankAccountType
     /// <summary>
     /// Default bank account
     /// </summary>
-    DEFAULT,
+    [JsonStringEnumMemberName("DEFAULT")]
+    Default,
 
     /// <summary>
     /// Order bank account
     /// </summary>
-    ORDER,
+    [JsonStringEnumMemberName("ORDER")]
+    Order,
 
     /// <summary>
     /// Salary bank account
     /// </summary>
-    SALARY,
+    [JsonStringEnumMemberName("SALARY")]
+    Salary,
 
     /// <summary>
     /// Historical bank account
     /// </summary>
-    HISTORICAL,
+    [JsonStringEnumMemberName("HISTORICAL")]
+    Historical,
 
     /// <summary>
     /// Other bank account type
     /// </summary>
-    OTHER
+    [JsonStringEnumMemberName("OTHER")]
+    Other
 }

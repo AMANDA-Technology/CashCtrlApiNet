@@ -76,9 +76,9 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
         ArgumentException.ThrowIfNullOrWhiteSpace(configuration.ApiKey);
 
         // Configure
-        _language = Enum.TryParse<Language>(configuration.DefaultLanguage, out var language)
+        _language = CashCtrlSerialization.TryDeserializeEnum<Language>(configuration.DefaultLanguage, out var language)
             ? language
-            : Language.de;
+            : Language.De;
 
         // Normalize base urls
         var baseUri = configuration.BaseUri;
@@ -112,9 +112,9 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
         _httpClientFactory = httpClientFactory;
 
         // Configure
-        _language = Enum.TryParse<Language>(configuration.DefaultLanguage, out var language)
+        _language = CashCtrlSerialization.TryDeserializeEnum<Language>(configuration.DefaultLanguage, out var language)
             ? language
-            : Language.de;
+            : Language.De;
 
         // Normalize base urls
         var baseUri = configuration.BaseUri;
@@ -238,7 +238,7 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
         var uriBuilder = new UriBuilder(new Uri(_baseAddress, requestPath));
 
         var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-        query["lang"] = Enum.GetName(_language);
+        query["lang"] = CashCtrlSerialization.SerializeEnumValue(_language);
 
         if (CashCtrlSerialization.ConvertToDictionary(queryParameters) is { } dictionary)
             foreach (var (key, value) in dictionary)

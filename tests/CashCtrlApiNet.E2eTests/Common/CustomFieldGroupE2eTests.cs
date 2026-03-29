@@ -52,7 +52,7 @@ public class CustomFieldGroupE2eTests : CashCtrlE2eTestBase
 
         // Scavenge orphan custom field groups from previous failed runs
         await ScavengeOrphans(
-            () => CashCtrlApiClient.Common.CustomFieldGroup.GetList(new() { Type = CustomFieldType.PERSON }),
+            () => CashCtrlApiClient.Common.CustomFieldGroup.GetList(new() { Type = CustomFieldType.Person }),
             g => g.Name,
             g => g.Id,
             ids => CashCtrlApiClient.Common.CustomFieldGroup.Delete(ids));
@@ -61,7 +61,7 @@ public class CustomFieldGroupE2eTests : CashCtrlE2eTestBase
         var createResult = await CashCtrlApiClient.Common.CustomFieldGroup.Create(new()
         {
             Name = _testId,
-            Type = CustomFieldType.PERSON
+            Type = CustomFieldType.Person
         });
         _setupGroupId = AssertCreated(createResult);
 
@@ -96,7 +96,7 @@ public class CustomFieldGroupE2eTests : CashCtrlE2eTestBase
     [Test, Order(2)]
     public async Task GetList_Success()
     {
-        var res = await CashCtrlApiClient.Common.CustomFieldGroup.GetList(new() { Type = CustomFieldType.PERSON });
+        var res = await CashCtrlApiClient.Common.CustomFieldGroup.GetList(new() { Type = CustomFieldType.Person });
         var groups = AssertSuccess(res);
 
         groups.Length.ShouldBe(res.ResponseData!.Total);
@@ -113,7 +113,7 @@ public class CustomFieldGroupE2eTests : CashCtrlE2eTestBase
         var res = await CashCtrlApiClient.Common.CustomFieldGroup.Create(new()
         {
             Name = secondTestId,
-            Type = CustomFieldType.PERSON
+            Type = CustomFieldType.Person
         });
 
         _createdGroupId = AssertCreated(res);
@@ -152,7 +152,7 @@ public class CustomFieldGroupE2eTests : CashCtrlE2eTestBase
 
         var res = await CashCtrlApiClient.Common.CustomFieldGroup.Reorder(new()
         {
-            Type = CustomFieldType.PERSON,
+            Type = CustomFieldType.Person,
             Ids = [_createdGroupId],
             Target = _setupGroupId,
             Before = true

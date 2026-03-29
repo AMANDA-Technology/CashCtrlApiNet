@@ -72,7 +72,7 @@ public class CustomFieldGroupServiceIntegrationTests : IntegrationTestBase
         // Act
         var result = await Client.Common.CustomFieldGroup.GetList(new()
         {
-            Type = CustomFieldType.JOURNAL
+            Type = CustomFieldType.Journal
         });
 
         // Assert
@@ -157,7 +157,7 @@ public class CustomFieldGroupServiceIntegrationTests : IntegrationTestBase
         // Act
         var result = await Client.Common.CustomFieldGroup.Reorder(new()
         {
-            Type = CustomFieldType.PERSON,
+            Type = CustomFieldType.Person,
             Ids = [1, 2, 3],
             Target = 5
         });

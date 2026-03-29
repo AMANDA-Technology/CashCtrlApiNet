@@ -36,10 +36,12 @@ public enum TaxCalcType
     /// <summary>
     /// Tax is calculated on the net amount
     /// </summary>
-    NET,
+    [JsonStringEnumMemberName("NET")]
+    Net,
 
     /// <summary>
     /// Tax is calculated on the gross amount
     /// </summary>
-    GROSS
+    [JsonStringEnumMemberName("GROSS")]
+    Gross
 }
