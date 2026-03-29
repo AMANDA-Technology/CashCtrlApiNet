@@ -117,18 +117,18 @@ public class FileServiceTests : ServiceTestBase<FileService>
     }
 
     [Test]
-    public async Task Prepare_ShouldCallPostMultipartAsync()
+    public async Task Prepare_ShouldCallPostAsyncWithFilePrepareRequest()
     {
-        using var content = new MultipartFormDataContent();
+        var request = new FilePrepareRequest { Files = "[{\"name\":\"test.txt\",\"mimeType\":\"text/plain\"}]" };
         ConnectionHandler
-            .PostMultipartAsync<NoContentResponse>(Arg.Any<string>(), Arg.Any<MultipartFormDataContent>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<NoContentResponse>());
+            .PostAsync<ListResponse<FilePrepareEntry>, FilePrepareRequest>(Arg.Any<string>(), Arg.Any<FilePrepareRequest>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<FilePrepareEntry>>());
 
-        await Service.Prepare(content);
+        await Service.Prepare(request);
 
         await ConnectionHandler.Received(1)
-            .PostMultipartAsync<NoContentResponse>(
-                FileEndpoints.File.Prepare, content, Arg.Any<CancellationToken>());
+            .PostAsync<ListResponse<FilePrepareEntry>, FilePrepareRequest>(
+                FileEndpoints.File.Prepare, request, Arg.Any<CancellationToken>());
     }
 
     [Test]

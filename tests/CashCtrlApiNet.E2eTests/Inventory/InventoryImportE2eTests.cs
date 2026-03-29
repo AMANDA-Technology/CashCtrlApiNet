@@ -53,22 +53,9 @@ public class InventoryImportE2eTests : CashCtrlE2eTestBase
             a => a.Id,
             ids => CashCtrlApiClient.Inventory.Article.Delete(ids));
 
-        // Prepare a minimal CSV file for import
+        // Upload a minimal CSV file for import via UploadTestFile helper
         var csvContent = "Nr;Name\nE2E-IMPORT-001;E2E-ImportTestArticle";
-        var csvBytes = Encoding.UTF8.GetBytes(csvContent);
-
-        using var content = new MultipartFormDataContent();
-        using var fileContent = new ByteArrayContent(csvBytes);
-        fileContent.Headers.ContentType = new("text/csv");
-        content.Add(fileContent, "file", "e2e-import-test.csv");
-
-        var prepareResult = await CashCtrlApiClient.File.File.Prepare(content);
-        _fileId = AssertCreated(prepareResult);
-
-        var persistResult = await CashCtrlApiClient.File.File.Persist(new() { Ids = [_fileId] });
-        AssertSuccess(persistResult);
-
-        RegisterCleanup(async () => await CashCtrlApiClient.File.File.Delete(new() { Ids = [_fileId] }));
+        _fileId = await UploadTestFile("e2e-import-test.csv", Encoding.UTF8.GetBytes(csvContent), "text/csv");
     }
 
     /// <summary>

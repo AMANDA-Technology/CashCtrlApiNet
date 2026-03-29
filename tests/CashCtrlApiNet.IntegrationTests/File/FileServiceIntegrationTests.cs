@@ -24,6 +24,7 @@ SOFTWARE.
 */
 
 using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.File;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -120,26 +121,26 @@ public class FileServiceIntegrationTests : IntegrationTestBase
     }
 
     /// <summary>
-    /// Verify Prepare uploads multipart content and returns success
+    /// Verify Prepare sends file metadata and returns prepare entries with file IDs and write URLs
     /// </summary>
     [Test]
     public async Task Prepare_ReturnsExpectedResult()
     {
         // Arrange
+        var entries = new[] { new FilePrepareEntry { FileId = 99, WriteUrl = "https://example.com/upload/99", Name = "test.txt", MimeType = "text/plain" } };
         Server.StubPostJson("/api/v1/file/prepare.json",
-            CashCtrlResponseFactory.SuccessResponse("File prepared", insertId: 99));
-        using var content = new MultipartFormDataContent();
-        content.Add(new ByteArrayContent("test-file-data"u8.ToArray()), "file", "test.txt");
+            CashCtrlResponseFactory.ListResponse(entries));
+        var request = new FilePrepareRequest { Files = "[{\"name\":\"test.txt\",\"mimeType\":\"text/plain\"}]" };
 
         // Act
-        var result = await Client.File.File.Prepare(content);
+        var result = await Client.File.File.Prepare(request);
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
         result.ResponseData.ShouldNotBeNull();
-        result.ResponseData.Success.ShouldBeTrue();
-        result.ResponseData.Message.ShouldBe("File prepared");
-        result.ResponseData.InsertId.ShouldBe(99);
+        result.ResponseData.Data.Length.ShouldBe(1);
+        result.ResponseData.Data[0].FileId.ShouldBe(99);
+        result.ResponseData.Data[0].WriteUrl.ShouldBe("https://example.com/upload/99");
     }
 
     /// <summary>

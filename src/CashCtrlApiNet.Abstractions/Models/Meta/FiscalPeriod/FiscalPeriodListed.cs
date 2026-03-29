@@ -60,6 +60,18 @@ public record FiscalPeriodListed : FiscalPeriodUpdate
     public string? LastUpdatedBy { get; init; }
 
     /// <summary>
+    /// The start datetime of the fiscal period (from API response).
+    /// </summary>
+    [JsonPropertyName("start")]
+    public string? Start { get; init; }
+
+    /// <summary>
+    /// The end datetime of the fiscal period (from API response).
+    /// </summary>
+    [JsonPropertyName("end")]
+    public string? End { get; init; }
+
+    /// <summary>
     /// Whether the fiscal period is complete.
     /// </summary>
     [JsonPropertyName("isComplete")]

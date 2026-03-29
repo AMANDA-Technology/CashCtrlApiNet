@@ -248,6 +248,40 @@ public class CashCtrlE2eTestBase
     }
 
     /// <summary>
+    /// Uploads a file via the 3-step CashCtrl workflow: Prepare (metadata) → PUT (binary to writeUrl) → Persist.
+    /// Returns the file ID. Registers cleanup to delete the file.
+    /// </summary>
+    /// <param name="fileName">The file name including extension</param>
+    /// <param name="content">The file content bytes</param>
+    /// <param name="mimeType">The MIME type of the file</param>
+    /// <returns>The persisted file ID</returns>
+    protected async Task<int> UploadTestFile(string fileName, byte[] content, string mimeType = "text/plain")
+    {
+        // Step 1: Prepare — register file metadata, get pre-authenticated write URL
+        var prepareResult = await CashCtrlApiClient.File.File.Prepare(new()
+        {
+            Files = $"[{{\"name\":\"{fileName}\",\"mimeType\":\"{mimeType}\"}}]"
+        });
+        prepareResult.IsHttpSuccess.ShouldBeTrue();
+        prepareResult.ResponseData.ShouldNotBeNull();
+        prepareResult.ResponseData.Data.Length.ShouldBeGreaterThan(0);
+        var entry = prepareResult.ResponseData.Data[0];
+
+        // Step 2: PUT — upload binary content to the pre-authenticated URL
+        using var httpClient = new HttpClient();
+        var putResponse = await httpClient.PutAsync(entry.WriteUrl, new ByteArrayContent(content));
+        putResponse.IsSuccessStatusCode.ShouldBeTrue($"File PUT failed: {putResponse.StatusCode}");
+
+        // Step 3: Persist — finalize the file in CashCtrl
+        var persistResult = await CashCtrlApiClient.File.File.Persist(new() { Ids = [entry.FileId] });
+        AssertSuccess(persistResult);
+
+        RegisterCleanup(async () => await CashCtrlApiClient.File.File.Delete(new() { Ids = [entry.FileId] }));
+
+        return entry.FileId;
+    }
+
+    /// <summary>
     /// Downloads a file to the user's Downloads folder if downloads are enabled
     /// </summary>
     /// <param name="fileName">The file name to save as</param>

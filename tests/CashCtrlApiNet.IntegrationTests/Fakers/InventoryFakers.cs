@@ -148,6 +148,9 @@ public static class InventoryFakers
             Name = f.Commerce.ProductName(),
             Nr = f.Random.AlphaNumeric(10),
             CategoryId = f.Random.Int(1, 100),
+            AccountId = f.Random.Int(1, 100),
+            PurchaseCreditId = f.Random.Int(1, 100),
+            DateAdded = "2026-01-01",
             PurchasePrice = f.Random.Double(100, 50000),
             CreatedBy = f.Person.UserName,
             LastUpdatedBy = f.Person.UserName
@@ -163,6 +166,9 @@ public static class InventoryFakers
             Name = f.Commerce.ProductName(),
             Nr = f.Random.AlphaNumeric(10),
             CategoryId = f.Random.Int(1, 100),
+            AccountId = f.Random.Int(1, 100),
+            PurchaseCreditId = f.Random.Int(1, 100),
+            DateAdded = "2026-01-01",
             PurchasePrice = f.Random.Double(100, 50000),
             CreatedBy = f.Person.UserName,
             LastUpdatedBy = f.Person.UserName
@@ -176,6 +182,9 @@ public static class InventoryFakers
         {
             Name = f.Commerce.ProductName(),
             CategoryId = f.Random.Int(1, 100),
+            AccountId = f.Random.Int(1, 100),
+            PurchaseCreditId = f.Random.Int(1, 100),
+            DateAdded = "2026-01-01",
             PurchasePrice = f.Random.Double(100, 50000)
         });
 
@@ -189,6 +198,9 @@ public static class InventoryFakers
             Name = f.Commerce.ProductName(),
             Nr = f.Random.AlphaNumeric(10),
             CategoryId = f.Random.Int(1, 100),
+            AccountId = f.Random.Int(1, 100),
+            PurchaseCreditId = f.Random.Int(1, 100),
+            DateAdded = "2026-01-01",
             PurchasePrice = f.Random.Double(100, 50000)
         });
 

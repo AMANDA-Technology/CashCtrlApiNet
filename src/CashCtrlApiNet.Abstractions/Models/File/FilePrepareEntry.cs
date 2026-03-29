@@ -26,22 +26,34 @@ SOFTWARE.
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Abstractions.Models.Meta.FiscalPeriod;
+namespace CashCtrlApiNet.Abstractions.Models.File;
 
 /// <summary>
-/// Fiscal period create model. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod/create.json">API Doc</a>
+/// A single entry in the file prepare response, containing the file ID and a pre-authenticated write URL.
 /// </summary>
-public record FiscalPeriodCreate : ModelBaseRecord
+public record FilePrepareEntry : ModelBaseRecord
 {
     /// <summary>
-    /// The start date of the fiscal period (format: YYYY-MM-DD). Used for create/update.
+    /// The ID of the prepared file.
     /// </summary>
-    [JsonPropertyName("startDate")]
-    public string? StartDate { get; init; }
+    [JsonPropertyName("fileId")]
+    public required int FileId { get; init; }
 
     /// <summary>
-    /// The end date of the fiscal period (format: YYYY-MM-DD). Used for create/update.
+    /// The pre-authenticated URL to upload the file content via HTTP PUT.
     /// </summary>
-    [JsonPropertyName("endDate")]
-    public string? EndDate { get; init; }
+    [JsonPropertyName("writeUrl")]
+    public required string WriteUrl { get; init; }
+
+    /// <summary>
+    /// The file name.
+    /// </summary>
+    [JsonPropertyName("name")]
+    public string? Name { get; init; }
+
+    /// <summary>
+    /// The MIME type of the file.
+    /// </summary>
+    [JsonPropertyName("mimeType")]
+    public string? MimeType { get; init; }
 }

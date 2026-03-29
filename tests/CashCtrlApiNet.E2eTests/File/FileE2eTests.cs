@@ -75,20 +75,8 @@ public class FileE2eTests : CashCtrlE2eTestBase
 
         RegisterCleanup(async () => await CashCtrlApiClient.File.FileCategory.Delete(new() { Ids = [_categoryId] }));
 
-        // Upload primary test file via Prepare + Persist
-        var content = new MultipartFormDataContent();
-        var fileBytes = "E2E test file content"u8.ToArray();
-        var byteContent = new ByteArrayContent(fileBytes);
-        byteContent.Headers.ContentType = new("text/plain");
-        content.Add(byteContent, "file", $"{_testId}.txt");
-
-        var prepareResult = await CashCtrlApiClient.File.File.Prepare(content);
-        _setupFileId = AssertCreated(prepareResult);
-
-        var persistResult = await CashCtrlApiClient.File.File.Persist(new() { Ids = [_setupFileId] });
-        AssertSuccess(persistResult);
-
-        RegisterCleanup(async () => await CashCtrlApiClient.File.File.Delete(new() { Ids = [_setupFileId] }));
+        // Upload primary test file via UploadTestFile helper (Prepare + PUT + Persist)
+        _setupFileId = await UploadTestFile($"{_testId}.txt", "E2E test file content"u8.ToArray());
     }
 
     /// <summary>
@@ -141,20 +129,30 @@ public class FileE2eTests : CashCtrlE2eTestBase
     }
 
     /// <summary>
-    /// Prepare (upload) a new file successfully via multipart form data
+    /// Prepare a new file successfully via FilePrepareRequest, returning entries with file IDs and write URLs
     /// </summary>
     [Test, Order(4)]
     public async Task Prepare_Success()
     {
         var prepareTestId = GenerateTestId();
-        var content = new MultipartFormDataContent();
-        var fileBytes = "E2E prepare test content"u8.ToArray();
-        var byteContent = new ByteArrayContent(fileBytes);
-        byteContent.Headers.ContentType = new("text/plain");
-        content.Add(byteContent, "file", $"{prepareTestId}.txt");
+        var request = new FilePrepareRequest
+        {
+            Files = $"[{{\"name\":\"{prepareTestId}.txt\",\"mimeType\":\"text/plain\"}}]"
+        };
 
-        var res = await CashCtrlApiClient.File.File.Prepare(content);
-        _preparedFileId = AssertCreated(res);
+        var res = await CashCtrlApiClient.File.File.Prepare(request);
+        res.IsHttpSuccess.ShouldBeTrue();
+        res.ResponseData.ShouldNotBeNull();
+        res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
+        res.ResponseData.Data[0].FileId.ShouldBeGreaterThan(0);
+        res.ResponseData.Data[0].WriteUrl.ShouldNotBeNullOrEmpty();
+
+        _preparedFileId = res.ResponseData.Data[0].FileId;
+
+        // Upload the actual content to the write URL
+        using var httpClient = new HttpClient();
+        var putResponse = await httpClient.PutAsync(res.ResponseData.Data[0].WriteUrl, new ByteArrayContent("E2E prepare test content"u8.ToArray()));
+        putResponse.IsSuccessStatusCode.ShouldBeTrue($"File PUT failed: {putResponse.StatusCode}");
     }
 
     /// <summary>
@@ -177,16 +175,9 @@ public class FileE2eTests : CashCtrlE2eTestBase
     [Test, Order(6)]
     public async Task Create_Success()
     {
-        // First prepare a new file
+        // Upload a new file via the UploadTestFile helper
         var createTestId = GenerateTestId();
-        var content = new MultipartFormDataContent();
-        var fileBytes = "E2E create test content"u8.ToArray();
-        var byteContent = new ByteArrayContent(fileBytes);
-        byteContent.Headers.ContentType = new("text/plain");
-        content.Add(byteContent, "file", $"{createTestId}.txt");
-
-        var prepareRes = await CashCtrlApiClient.File.File.Prepare(content);
-        var preparedId = AssertCreated(prepareRes);
+        var preparedId = await UploadTestFile($"{createTestId}.txt", "E2E create test content"u8.ToArray());
 
         // Then create with metadata
         var res = await CashCtrlApiClient.File.File.Create(new()

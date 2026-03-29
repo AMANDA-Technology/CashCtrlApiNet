@@ -40,6 +40,10 @@ public class FixedAssetE2eTests : CashCtrlE2eTestBase
     private int _setupFixedAssetId;
     private int _createdFixedAssetId;
     private int _categoryId;
+    private int _accountId;
+    private int _fiscalPeriodId;
+    private int _creditAccountId;
+    private string _fiscalPeriodDate = null!;
     private Action _cancelCreatedCleanup = null!;
 
     /// <summary>
@@ -56,6 +60,22 @@ public class FixedAssetE2eTests : CashCtrlE2eTestBase
             a => a.Name,
             a => a.Id,
             ids => CashCtrlApiClient.Inventory.FixedAsset.Delete(ids));
+
+        // Discover accounts for asset creation (need asset + credit accounts)
+        var accountResult = await CashCtrlApiClient.Account.Account.GetList();
+        var accounts = accountResult.ResponseData?.Data
+                       ?? throw new InvalidOperationException("No accounts found");
+        _accountId = accounts[0].Id;
+        _creditAccountId = accounts.Length > 1 ? accounts[1].Id : accounts[0].Id;
+
+        // Use today's date and find its fiscal period for list queries
+        _fiscalPeriodDate = DateTime.Today.ToString("yyyy-MM-dd");
+        var fpResult = await CashCtrlApiClient.Meta.FiscalPeriod.GetList();
+        var todayYear = DateTime.Today.Year.ToString();
+        var matchingPeriod = fpResult.ResponseData?.Data.FirstOrDefault(p => p.Name == todayYear);
+        _fiscalPeriodId = matchingPeriod?.Id
+                          ?? fpResult.ResponseData?.Data.FirstOrDefault()?.Id
+                          ?? throw new InvalidOperationException("No fiscal period found");
 
         // Discover or create a category for the categorize test
         var categoryResult = await CashCtrlApiClient.Inventory.FixedAssetCategory.GetList();
@@ -76,6 +96,10 @@ public class FixedAssetE2eTests : CashCtrlE2eTestBase
         // Create primary test fixed asset
         var createResult = await CashCtrlApiClient.Inventory.FixedAsset.Create(new()
         {
+            AccountId = _accountId,
+            PurchaseCreditId = _creditAccountId,
+            DateAdded = _fiscalPeriodDate,
+            PurchasePrice = 1000,
             Nr = _testId,
             Name = _testId
         });
@@ -112,7 +136,7 @@ public class FixedAssetE2eTests : CashCtrlE2eTestBase
     [Test, Order(2)]
     public async Task GetList_Success()
     {
-        var res = await CashCtrlApiClient.Inventory.FixedAsset.GetList();
+        var res = await CashCtrlApiClient.Inventory.FixedAsset.GetList(new() { FiscalPeriodId = _fiscalPeriodId });
         var fixedAssets = AssertSuccess(res);
 
         fixedAssets.Length.ShouldBe(res.ResponseData!.Total);
@@ -128,6 +152,10 @@ public class FixedAssetE2eTests : CashCtrlE2eTestBase
         var secondTestId = GenerateTestId();
         var res = await CashCtrlApiClient.Inventory.FixedAsset.Create(new()
         {
+            AccountId = _accountId,
+            PurchaseCreditId = _creditAccountId,
+            DateAdded = _fiscalPeriodDate,
+            PurchasePrice = 500,
             Nr = secondTestId,
             Name = secondTestId
         });

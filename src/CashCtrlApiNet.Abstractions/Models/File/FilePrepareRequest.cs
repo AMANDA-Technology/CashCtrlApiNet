@@ -26,22 +26,19 @@ SOFTWARE.
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Abstractions.Models.Meta.FiscalPeriod;
+namespace CashCtrlApiNet.Abstractions.Models.File;
 
 /// <summary>
-/// Fiscal period create model. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod/create.json">API Doc</a>
+/// File prepare request. Provides metadata for files to be uploaded.
+/// The API returns pre-authenticated URLs for each file to upload the binary content via HTTP PUT.
+/// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file/prepare.json">API Doc</a>
 /// </summary>
-public record FiscalPeriodCreate : ModelBaseRecord
+public record FilePrepareRequest : ModelBaseRecord
 {
     /// <summary>
-    /// The start date of the fiscal period (format: YYYY-MM-DD). Used for create/update.
+    /// JSON array of file metadata objects, each with "name" and "mimeType" properties.
+    /// Example: [{"name":"invoice.pdf","mimeType":"application/pdf"}]
     /// </summary>
-    [JsonPropertyName("startDate")]
-    public string? StartDate { get; init; }
-
-    /// <summary>
-    /// The end date of the fiscal period (format: YYYY-MM-DD). Used for create/update.
-    /// </summary>
-    [JsonPropertyName("endDate")]
-    public string? EndDate { get; init; }
+    [JsonPropertyName("files")]
+    public required string Files { get; init; }
 }

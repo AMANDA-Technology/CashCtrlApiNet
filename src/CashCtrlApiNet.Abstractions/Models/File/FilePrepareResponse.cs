@@ -23,25 +23,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Collections.Immutable;
 using System.Text.Json.Serialization;
-using CashCtrlApiNet.Abstractions.Models.Base;
+using CashCtrlApiNet.Abstractions.Models.Api.Base;
 
-namespace CashCtrlApiNet.Abstractions.Models.Meta.FiscalPeriod;
+namespace CashCtrlApiNet.Abstractions.Models.File;
 
 /// <summary>
-/// Fiscal period create model. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/fiscalperiod/create.json">API Doc</a>
+/// Response from the file prepare endpoint containing pre-authenticated upload URLs.
+/// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file/prepare.json">API Doc</a>
 /// </summary>
-public record FiscalPeriodCreate : ModelBaseRecord
+public record FilePrepareResponse : ApiResponse
 {
     /// <summary>
-    /// The start date of the fiscal period (format: YYYY-MM-DD). Used for create/update.
+    /// Whether the request was successful.
     /// </summary>
-    [JsonPropertyName("startDate")]
-    public string? StartDate { get; init; }
+    [JsonPropertyName("success")]
+    public bool Success { get; init; }
 
     /// <summary>
-    /// The end date of the fiscal period (format: YYYY-MM-DD). Used for create/update.
+    /// The prepared file entries with IDs and pre-authenticated write URLs.
     /// </summary>
-    [JsonPropertyName("endDate")]
-    public string? EndDate { get; init; }
+    [JsonPropertyName("data")]
+    public ImmutableArray<FilePrepareEntry> Data { get; init; } = [];
 }

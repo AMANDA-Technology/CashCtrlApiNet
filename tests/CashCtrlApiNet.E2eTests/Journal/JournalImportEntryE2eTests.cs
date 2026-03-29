@@ -199,17 +199,6 @@ public class JournalImportEntryE2eTests : CashCtrlE2eTestBase
     private async Task<int> UploadImportFile(string name)
     {
         var csvContent = $"Date,Title,Debit,Credit,Amount\n2026-01-01,{name},1000,2000,100.00";
-        using var content = new MultipartFormDataContent();
-        content.Add(new ByteArrayContent(System.Text.Encoding.UTF8.GetBytes(csvContent)), "file", $"{name}.csv");
-
-        var prepareResult = await CashCtrlApiClient.File.File.Prepare(content);
-        var fileId = AssertCreated(prepareResult);
-
-        var persistResult = await CashCtrlApiClient.File.File.Persist(new() { Ids = [fileId] });
-        AssertSuccess(persistResult);
-
-        RegisterCleanup(async () => await CashCtrlApiClient.File.File.Delete(new() { Ids = [fileId] }));
-
-        return fileId;
+        return await UploadTestFile($"{name}.csv", System.Text.Encoding.UTF8.GetBytes(csvContent), "text/csv");
     }
 }

@@ -316,16 +316,26 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     {
         var responseHeaders = GetResponseHeaders(httpResponseMessage);
 
+        // Follow 302 redirects (e.g., file/get redirects to pre-authenticated cloud storage URL)
+        var contentResponse = httpResponseMessage;
+        if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Redirect
+            && httpResponseMessage.Headers.Location is not null)
+        {
+            using var redirectClient = new HttpClient();
+            contentResponse = await redirectClient.GetAsync(httpResponseMessage.Headers.Location);
+        }
+
         var binaryResponse = new BinaryResponse
         {
-            Data = await httpResponseMessage.Content.ReadAsByteArrayAsync(),
-            ContentType = httpResponseMessage.Content.Headers.ContentType?.MediaType,
-            FileName = httpResponseMessage.Content.Headers.ContentDisposition?.FileName?.Trim('"')
+            Data = await contentResponse.Content.ReadAsByteArrayAsync(),
+            ContentType = contentResponse.Content.Headers.ContentType?.MediaType,
+            FileName = contentResponse.Content.Headers.ContentDisposition?.FileName?.Trim('"')
+                       ?? httpResponseMessage.Headers.Location?.Segments.LastOrDefault()
         };
 
         return new()
         {
-            IsHttpSuccess = httpResponseMessage.IsSuccessStatusCode,
+            IsHttpSuccess = contentResponse.IsSuccessStatusCode,
             HttpStatusCode = httpResponseMessage.StatusCode,
             CashCtrlHttpStatusCodeDescription = HttpStatusCodeMapping.GetDescription(httpResponseMessage.StatusCode),
             RequestsLeft = (int?)responseHeaders[ApiHeaderNames.RequestsLeft],

@@ -24,7 +24,6 @@ SOFTWARE.
 */
 
 using CashCtrlApiNet.Abstractions.Enums.Common;
-using CashCtrlApiNet.Abstractions.Models.Common.CustomField;
 using Shouldly;
 
 namespace CashCtrlApiNet.E2eTests.Common;

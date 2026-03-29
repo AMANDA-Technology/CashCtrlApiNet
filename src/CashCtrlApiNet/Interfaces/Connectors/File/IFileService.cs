@@ -63,13 +63,14 @@ public interface IFileService
     public Task<ApiResult<ListResponse<Abstractions.Models.File.File>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Prepare files. Uploads files using multipart form data. Returns either a success or error message.
+    /// Prepare files. Registers file metadata and returns pre-authenticated URLs for uploading binary content via HTTP PUT.
+    /// After uploading, call Persist to finalize the files.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/file/prepare.json">API Doc - File/Prepare files</a>
     /// </summary>
-    /// <param name="content">The multipart form data content containing the files to upload.</param>
+    /// <param name="request">The prepare request containing file metadata as JSON.</param>
     /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Prepare(MultipartFormDataContent content, [Optional] CancellationToken cancellationToken);
+    /// <returns>A list of prepared file entries with IDs and pre-authenticated write URLs.</returns>
+    public Task<ApiResult<FilePrepareResponse>> Prepare(FilePrepareRequest request, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// Persist files. Persists one or multiple prepared files. Returns either a success or error message.

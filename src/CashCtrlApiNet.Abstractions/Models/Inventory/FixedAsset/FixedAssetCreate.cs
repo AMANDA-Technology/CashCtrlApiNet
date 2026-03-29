@@ -35,6 +35,24 @@ namespace CashCtrlApiNet.Abstractions.Models.Inventory.FixedAsset;
 public record FixedAssetCreate : ModelBaseRecord
 {
     /// <summary>
+    /// The ID of the depreciation account (asset account). Required.
+    /// </summary>
+    [JsonPropertyName("accountId")]
+    public required int AccountId { get; init; }
+
+    /// <summary>
+    /// The ID of the credit account used for the purchase booking. Required.
+    /// </summary>
+    [JsonPropertyName("purchaseCreditId")]
+    public required int PurchaseCreditId { get; init; }
+
+    /// <summary>
+    /// The date the asset was added. Must be within an existing fiscal period. Required.
+    /// </summary>
+    [JsonPropertyName("dateAdded")]
+    public required string DateAdded { get; init; }
+
+    /// <summary>
     /// The ID of the category. See Fixed asset category.
     /// </summary>
     [JsonPropertyName("categoryId")]

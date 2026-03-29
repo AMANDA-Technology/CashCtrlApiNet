@@ -104,7 +104,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
     [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
-        var fixedAsset = new FixedAssetCreate { Name = "Test Asset" };
+        var fixedAsset = new FixedAssetCreate { Name = "Test Asset", AccountId = 1, PurchaseCreditId = 2, DateAdded = "2026-01-01" };
         ConnectionHandler
             .PostAsync<NoContentResponse, FixedAssetCreate>(Arg.Any<string>(), Arg.Any<FixedAssetCreate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -119,7 +119,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
     [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
-        var fixedAsset = new FixedAssetUpdate { Id = 1, Name = "Updated Asset" };
+        var fixedAsset = new FixedAssetUpdate { Id = 1, Name = "Updated Asset", AccountId = 1, PurchaseCreditId = 2, DateAdded = "2026-01-01" };
         ConnectionHandler
             .PostAsync<NoContentResponse, FixedAssetUpdate>(Arg.Any<string>(), Arg.Any<FixedAssetUpdate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());

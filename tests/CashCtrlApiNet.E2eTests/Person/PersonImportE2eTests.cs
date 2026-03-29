@@ -55,18 +55,9 @@ public class PersonImportE2eTests : CashCtrlE2eTestBase
             p => p.Id,
             ids => CashCtrlApiClient.Person.Person.Delete(ids));
 
-        // Upload a minimal VCF file for import tests
+        // Upload a minimal VCF file for import tests via UploadTestFile helper
         var vcfContent = $"BEGIN:VCARD\nVERSION:3.0\nN:{_testId};E2E-First\nFN:E2E-First {_testId}\nEND:VCARD";
-        using var content = new MultipartFormDataContent();
-        content.Add(new ByteArrayContent(Encoding.UTF8.GetBytes(vcfContent)), "file", "e2e-test.vcf");
-
-        var prepareResult = await CashCtrlApiClient.File.File.Prepare(content);
-        _fileId = AssertCreated(prepareResult);
-
-        var persistResult = await CashCtrlApiClient.File.File.Persist(new() { Ids = [_fileId] });
-        AssertSuccess(persistResult);
-
-        RegisterCleanup(async () => await CashCtrlApiClient.File.File.Delete(new() { Ids = [_fileId] }));
+        _fileId = await UploadTestFile("e2e-test.vcf", Encoding.UTF8.GetBytes(vcfContent), "text/vcard");
 
         // Register cleanup to delete any imported persons after test
         RegisterCleanup(async () =>
