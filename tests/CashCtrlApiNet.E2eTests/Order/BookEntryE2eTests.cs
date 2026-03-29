@@ -1,0 +1,208 @@
+/*
+MIT License
+
+Copyright (c) 2022 Philip Näf <philip.naef@amanda-technology.ch>
+Copyright (c) 2022 Manuel Gysin <manuel.gysin@amanda-technology.ch>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+using CashCtrlApiNet.Abstractions.Models.Order;
+using CashCtrlApiNet.Abstractions.Models.Order.BookEntry;
+using CashCtrlApiNet.Abstractions.Models.Person;
+using Shouldly;
+
+namespace CashCtrlApiNet.E2eTests.Order;
+
+/// <summary>
+/// E2E tests for order book entry service with full lifecycle management.
+/// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Order.IBookEntryService"/> operations.
+/// </summary>
+[Category("E2e")]
+public class BookEntryE2eTests : CashCtrlE2eTestBase
+{
+    private string _testId = null!;
+    private int _setupBookEntryId;
+    private int _createdBookEntryId;
+    private int _orderId;
+    private int _accountId;
+    private Action _cancelCreatedCleanup = null!;
+
+    /// <summary>
+    /// Scavenges orphan test data and creates the primary test book entry for the fixture
+    /// </summary>
+    [OneTimeSetUp]
+    public async Task OneTimeSetUp()
+    {
+        _testId = GenerateTestId();
+
+        // Scavenge orphan persons from previous failed runs
+        await ScavengeOrphans(
+            () => CashCtrlApiClient.Person.Person.GetList(),
+            p => p.FirstName ?? "",
+            p => p.Id,
+            ids => CashCtrlApiClient.Person.Person.Delete(ids));
+
+        // Scavenge orphan orders from previous failed runs
+        await ScavengeOrphans(
+            () => CashCtrlApiClient.Order.Order.GetList(),
+            o => o.Description ?? "",
+            o => o.Id,
+            ids => CashCtrlApiClient.Order.Order.Delete(ids));
+
+        // Create a person as associate for the order
+        var personResult = await CashCtrlApiClient.Person.Person.Create(new PersonCreate
+        {
+            FirstName = _testId,
+            LastName = "E2E"
+        });
+        var personId = AssertCreated(personResult);
+        RegisterCleanup(async () => await CashCtrlApiClient.Person.Person.Delete(new() { Ids = [personId] }));
+
+        // Discover an order category to get required IDs
+        var categoryResult = await CashCtrlApiClient.Order.Category.GetList();
+        var category = categoryResult.ResponseData?.Data.FirstOrDefault()
+                       ?? throw new InvalidOperationException("No order categories found");
+
+        _accountId = category.AccountId ?? throw new InvalidOperationException("Order category has no AccountId");
+        var sequenceNumberId = category.SequenceNumberId ?? throw new InvalidOperationException("Order category has no SequenceNumberId");
+
+        // Create an order as parent for book entries
+        var orderResult = await CashCtrlApiClient.Order.Order.Create(new OrderCreate
+        {
+            AccountId = _accountId,
+            CategoryId = category.Id,
+            Date = DateTime.Today.ToString("yyyy-MM-dd"),
+            SequenceNumberId = sequenceNumberId,
+            AssociateId = personId,
+            Description = _testId
+        });
+        _orderId = AssertCreated(orderResult);
+        RegisterCleanup(async () => await CashCtrlApiClient.Order.Order.Delete(new() { Ids = [_orderId] }));
+
+        // Scavenge orphan book entries from previous failed runs
+        await ScavengeOrphans(
+            () => CashCtrlApiClient.Order.BookEntry.GetList(),
+            b => b.Description ?? "",
+            b => b.Id,
+            ids => CashCtrlApiClient.Order.BookEntry.Delete(ids));
+
+        // Create primary test book entry
+        var createResult = await CashCtrlApiClient.Order.BookEntry.Create(new BookEntryCreate
+        {
+            OrderId = _orderId,
+            AccountId = _accountId,
+            Amount = 100.0,
+            Description = _testId
+        });
+        _setupBookEntryId = AssertCreated(createResult);
+
+        RegisterCleanup(async () => await CashCtrlApiClient.Order.BookEntry.Delete(new() { Ids = [_setupBookEntryId] }));
+    }
+
+    /// <summary>
+    /// Cleans up all test data created during the fixture
+    /// </summary>
+    [OneTimeTearDown]
+    public async Task OneTimeTearDown() => await RunCleanup();
+
+    /// <summary>
+    /// Get a book entry by ID successfully
+    /// </summary>
+    [Test, Order(1)]
+    public async Task Get_Success()
+    {
+        var res = await CashCtrlApiClient.Order.BookEntry.Get(new() { Id = _setupBookEntryId });
+        var bookEntry = AssertSuccess(res);
+
+        res.RequestsLeft.ShouldNotBeNull();
+        res.RequestsLeft.Value.ShouldBeGreaterThan(0);
+        res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
+
+        bookEntry.Description.ShouldBe(_testId);
+        bookEntry.Amount.ShouldBe(100.0);
+    }
+
+    /// <summary>
+    /// Get list of book entries successfully
+    /// </summary>
+    [Test, Order(2)]
+    public async Task GetList_Success()
+    {
+        var res = await CashCtrlApiClient.Order.BookEntry.GetList();
+        var bookEntries = AssertSuccess(res);
+
+        bookEntries.ShouldContain(b => b.Id == _setupBookEntryId);
+    }
+
+    /// <summary>
+    /// Create a book entry successfully and store its ID for later tests
+    /// </summary>
+    [Test, Order(3)]
+    public async Task Create_Success()
+    {
+        var secondTestId = GenerateTestId();
+        var res = await CashCtrlApiClient.Order.BookEntry.Create(new BookEntryCreate
+        {
+            OrderId = _orderId,
+            AccountId = _accountId,
+            Amount = 50.0,
+            Description = secondTestId
+        });
+
+        _createdBookEntryId = AssertCreated(res);
+        res.ResponseData!.Message.ShouldNotBeNullOrEmpty();
+        _cancelCreatedCleanup = RegisterCleanup(async () => await CashCtrlApiClient.Order.BookEntry.Delete(new() { Ids = [_createdBookEntryId] }));
+    }
+
+    /// <summary>
+    /// Update a book entry successfully
+    /// </summary>
+    [Test, Order(4)]
+    public async Task Update_Success()
+    {
+        var get = await CashCtrlApiClient.Order.BookEntry.Get(new() { Id = _setupBookEntryId });
+        var bookEntry = get.ResponseData?.Data ?? throw new InvalidOperationException("Failed to get book entry for update");
+
+        var updatedDescription = $"{_testId}-Updated";
+        var res = await CashCtrlApiClient.Order.BookEntry.Update((bookEntry as BookEntryUpdate) with
+        {
+            Description = updatedDescription
+        });
+        AssertSuccess(res);
+
+        // Verify the update persisted
+        var verify = await CashCtrlApiClient.Order.BookEntry.Get(new() { Id = _setupBookEntryId });
+        verify.ResponseData?.Data?.Description.ShouldBe(updatedDescription);
+    }
+
+    /// <summary>
+    /// Delete the book entry created in <see cref="Create_Success"/>
+    /// </summary>
+    [Test, Order(5)]
+    public async Task Delete_Success()
+    {
+        _createdBookEntryId.ShouldBeGreaterThan(0, "Create_Success must run before Delete_Success");
+
+        var res = await CashCtrlApiClient.Order.BookEntry.Delete(new() { Ids = [_createdBookEntryId] });
+        AssertSuccess(res);
+
+        _cancelCreatedCleanup();
+    }
+}
