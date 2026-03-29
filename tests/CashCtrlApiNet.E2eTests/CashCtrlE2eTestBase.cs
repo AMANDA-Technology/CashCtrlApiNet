@@ -237,7 +237,7 @@ public class CashCtrlE2eTestBase
     /// </summary>
     /// <param name="fileName">The file name to save as</param>
     /// <param name="data">The file content bytes</param>
-    protected async Task DownloadFile(string fileName, byte[] data)
+    protected static async Task DownloadFile(string fileName, byte[] data)
     {
         if (!IsDownloadsEnabled)
             return;

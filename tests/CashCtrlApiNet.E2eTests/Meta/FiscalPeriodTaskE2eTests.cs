@@ -56,17 +56,11 @@ public class FiscalPeriodTaskE2eTests : CashCtrlE2eTestBase
         _fiscalPeriodId = currentPeriod.Id;
 
         // Scavenge orphan tasks from previous failed runs
-        var taskList = await CashCtrlApiClient.Meta.FiscalPeriodTask.GetList();
-        if (taskList.ResponseData?.Data is { Length: > 0 } tasks)
-        {
-            var orphanIds = tasks
-                .Where(t => t.Name.StartsWith("E2E-", StringComparison.Ordinal))
-                .Select(t => t.Id)
-                .ToArray();
-
-            if (orphanIds.Length > 0)
-                await CashCtrlApiClient.Meta.FiscalPeriodTask.Delete(new() { Ids = [..orphanIds] });
-        }
+        await ScavengeOrphans(
+            () => CashCtrlApiClient.Meta.FiscalPeriodTask.GetList(),
+            t => t.Name,
+            t => t.Id,
+            ids => CashCtrlApiClient.Meta.FiscalPeriodTask.Delete(ids));
     }
 
     /// <summary>
@@ -82,9 +76,7 @@ public class FiscalPeriodTaskE2eTests : CashCtrlE2eTestBase
     public async Task GetList_Success()
     {
         var res = await CashCtrlApiClient.Meta.FiscalPeriodTask.GetList();
-
-        res.IsHttpSuccess.ShouldBeTrue();
-        res.ResponseData.ShouldNotBeNull();
+        AssertSuccess(res);
     }
 
     /// <summary>

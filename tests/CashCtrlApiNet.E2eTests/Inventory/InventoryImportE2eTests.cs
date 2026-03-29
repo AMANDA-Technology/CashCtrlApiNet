@@ -65,6 +65,9 @@ public class InventoryImportE2eTests : CashCtrlE2eTestBase
         var prepareResult = await CashCtrlApiClient.File.File.Prepare(content);
         _fileId = AssertCreated(prepareResult);
 
+        var persistResult = await CashCtrlApiClient.File.File.Persist(new() { Ids = [_fileId] });
+        AssertSuccess(persistResult);
+
         RegisterCleanup(async () => await CashCtrlApiClient.File.File.Delete(new() { Ids = [_fileId] }));
     }
 
