@@ -241,7 +241,7 @@ public class CashCtrlE2eTestBase
         if (!IsDownloadsEnabled)
             return;
 
-        await File.WriteAllBytesAsync(Path.Combine(DownloadsFolder, fileName), data);
+        await System.IO.File.WriteAllBytesAsync(Path.Combine(DownloadsFolder, fileName), data);
     }
 
     private static readonly bool IsDownloadsEnabled = string.Equals(Environment.GetEnvironmentVariable("CashCtrlApiNet__IsDownloadsEnabled"), "true", StringComparison.OrdinalIgnoreCase);
