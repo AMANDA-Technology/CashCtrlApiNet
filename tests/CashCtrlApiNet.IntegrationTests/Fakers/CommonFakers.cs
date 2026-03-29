@@ -328,10 +328,8 @@ public static class CommonFakers
         .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
-            AccountId = f.Random.Int(1, 100),
-            Name = f.Commerce.ProductName() + " Tax",
-            CalcType = f.PickRandom<TaxCalcType>(),
-            Percentage = f.Random.Double(1.0, 25.0),
+            Code = f.Random.AlphaNumeric(6).ToUpperInvariant(),
+            Description = f.Commerce.ProductName() + " Tax",
             CreatedBy = f.Person.UserName,
             LastUpdatedBy = f.Person.UserName
         });
@@ -343,10 +341,8 @@ public static class CommonFakers
         .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
-            AccountId = f.Random.Int(1, 100),
-            Name = f.Commerce.ProductName() + " Tax",
-            CalcType = f.PickRandom<TaxCalcType>(),
-            Percentage = f.Random.Double(1.0, 25.0),
+            Code = f.Random.AlphaNumeric(6).ToUpperInvariant(),
+            Description = f.Commerce.ProductName() + " Tax",
             CreatedBy = f.Person.UserName,
             LastUpdatedBy = f.Person.UserName
         });
@@ -357,8 +353,8 @@ public static class CommonFakers
     public static readonly Faker<TaxRateCreate> TaxRateCreate = new Faker<TaxRateCreate>()
         .CustomInstantiator(f => new()
         {
-            AccountId = f.Random.Int(1, 100),
-            Name = f.Commerce.ProductName() + " Tax"
+            Code = f.Random.AlphaNumeric(6).ToUpperInvariant(),
+            Description = f.Commerce.ProductName() + " Tax"
         });
 
     /// <summary>
@@ -368,8 +364,8 @@ public static class CommonFakers
         .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
-            AccountId = f.Random.Int(1, 100),
-            Name = f.Commerce.ProductName() + " Tax"
+            Code = f.Random.AlphaNumeric(6).ToUpperInvariant(),
+            Description = f.Commerce.ProductName() + " Tax"
         });
 
     // ── TextTemplate ────────────────────────────────────────────────────────
