@@ -1,0 +1,117 @@
+# CashCtrl API Documentation Discrepancies
+
+**Date:** 2026-03-29
+**Source:** Findings from first live E2E test run against CashCtrl REST API v1
+**API docs:** https://app.cashctrl.com/static/help/en/api/index.html
+
+## Overview
+
+The CashCtrl API documentation documents request parameters but **does not document response schemas**. This is the root cause of most model bugs found during E2E testing. When building the C# models, property types and names were inferred from the request parameter documentation, but the actual API responses use different field names, types, or structures.
+
+## Systematic issues
+
+### 1. No response schemas documented
+
+The API docs describe request parameters (name, type, required/optional) but never describe the JSON response structure. This means:
+
+- Response-only fields (audit fields, computed fields) are undiscoverable without calling the API
+- Field name differences between request and response are invisible (e.g., `title` vs `name`)
+- Type differences between request and response are invisible (e.g., `string` request → `array` response)
+
+### 2. Enum values don't match documentation
+
+The docs list parameter values like `ADD`, `SUBTRACT`, but the API response returns different values:
+
+| Documented | Actual response | Enum |
+|-----------|----------------|------|
+| `ADD` | `ADDITION` | `SalaryTypeKind` |
+| `SUBTRACT` | `SUBTRACTION` | `SalaryTypeKind` |
+| `ROUND_UP` | `UP` | `RoundingMode` |
+| `ROUND_DOWN` | `DOWN` | `RoundingMode` |
+| `ROUND_HALF_UP` | `HALF_UP` | `RoundingMode` |
+| `ORDER` (create param) | `ORDER_HEADER` (response) | `TextTemplateType` |
+
+**Impact:** Any enum-typed property will fail deserialization if the model uses the documented values.
+
+### 3. Request field names differ from response field names
+
+Some endpoints accept one field name for create/update but return data with a different name:
+
+| Endpoint | Request field | Response field | Entity |
+|----------|--------------|---------------|--------|
+| `person/title` | `title` | `name` | PersonTitle |
+| `fiscalperiod` | `startDate`, `endDate` | `start`, `end` | FiscalPeriod |
+| `rounding` | `rounding` (not `value`) | `rounding` | Rounding |
+
+**Impact:** Using `required` on properties that only exist in requests (not responses) breaks deserialization. Using the wrong `[JsonPropertyName]` means the API rejects create/update requests.
+
+### 4. JSON string parameters returned as parsed objects
+
+Several parameters are documented as TEXT (accepting a JSON string), but the API response returns them as parsed JSON arrays/objects:
+
+| Endpoint | Parameter | Create format | Response format |
+|----------|-----------|--------------|-----------------|
+| `salary/template` | `insurances` | `string` (JSON) | `array` |
+| `salary/certificate/template` | `elements` | `string` (JSON) | `array` |
+| `salary/layout` | `elements` | `string` (JSON) | `array` |
+| `salary/statement` | `insurances`, `custom` | `string` (JSON) | `array`/`object` |
+| `salary/type` | `allocations` | `string` (JSON) | `array` |
+| `customfield` | `values` | `string` (JSON) | `array` |
+
+**Impact:** `string?` properties fail deserialization when the response contains `[...]` instead of `"..."`. Fixed by using `JsonElement?` which accepts any JSON token.
+
+### 5. Tree endpoints return string IDs
+
+Category tree endpoints (`account/category/tree.json`, etc.) return numeric IDs and work correctly. But non-category trees return string IDs:
+
+| Endpoint | ID format | Example |
+|----------|-----------|---------|
+| `report/tree.json` | string | `"1"`, possibly non-numeric |
+| `salary/template/tree.json` | string-wrapped int | `"42"` |
+| `salary/certificate/template/tree.json` | string-wrapped int | `"42"` |
+| All `*/category/tree.json` | int | `42` |
+
+**Impact:** Models with `int Id` fail on tree responses that return `"42"`. Fixed with `[JsonNumberHandling(AllowReadingFromString)]` for numeric string IDs, and `string` for potentially non-numeric IDs (Report).
+
+### 6. Undocumented required fields
+
+Some create endpoints require fields not marked as required in the docs:
+
+| Endpoint | Field | Documented as | Actually |
+|----------|-------|---------------|----------|
+| `inventory/asset/create.json` | `accountId` | not listed | required |
+| `inventory/asset/create.json` | `purchaseCreditId` | not listed | required |
+| `inventory/asset/create.json` | `dateAdded` | not listed | required |
+| `account/costcenter/create.json` | `number` | optional | required |
+| `customfield/reorder.json` | `type` | not listed | required |
+| `customfield/group/reorder.json` | `type` | not listed | required |
+
+### 7. Non-JSON response endpoints
+
+Some endpoints return plain text instead of JSON, despite being `.json` suffixed:
+
+| Endpoint | Documented return | Actual return |
+|----------|------------------|---------------|
+| `sequencenumber/get` | not documented | Plain text string (e.g., `RE-2603291`) |
+| `currency/exchangerate` | not documented | Plain decimal or empty body |
+| `file/get` | not documented | HTTP 302 redirect to cloud storage URL |
+
+### 8. File upload workflow not obvious from docs
+
+The `file/prepare.json` endpoint is documented as accepting a `files` TEXT parameter, but the docs don't clarify:
+
+- `files` is a **form-encoded parameter** containing a **JSON array** of `{name, mimeType}` objects
+- The response returns pre-authenticated `writeUrl` values for each file
+- Binary content must be uploaded via **HTTP PUT** to these URLs (not to CashCtrl)
+- `file/persist.json` must be called after upload to finalize
+- The `file/get` endpoint returns a **302 redirect** to a pre-authenticated cloud storage URL, not the file content directly
+
+## Recommendations
+
+1. **Never use `required` on properties that appear in both create requests and read responses**, unless the field name and type are identical in both directions. Use nullable properties and validate at the application level.
+
+2. **All enums must use `[JsonConverter(typeof(JsonStringEnumConverter<T>))]`** with `[JsonStringEnumMemberName("...")]` attributes. Never assume the API returns the same string you send.
+
+3. **Properties documented as TEXT that accept JSON should use `JsonElement?`** to handle both string (create) and parsed (response) formats.
+
+4. **Test every endpoint against the live API** before considering the model complete. The documentation is insufficient for building correct models.
