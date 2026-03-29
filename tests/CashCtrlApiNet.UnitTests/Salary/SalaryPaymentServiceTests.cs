@@ -62,7 +62,7 @@ public class SalaryPaymentServiceTests : ServiceTestBase<SalaryPaymentService>
         var payment = new SalaryPaymentCreate { Date = "2024-01-15", StatementIds = "1,2" };
         ConnectionHandler
             .GetBinaryAsync(Arg.Any<string>(), Arg.Any<SalaryPaymentCreate>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.Download(payment);
 

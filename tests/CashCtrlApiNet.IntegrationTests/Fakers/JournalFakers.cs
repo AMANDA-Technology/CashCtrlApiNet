@@ -42,7 +42,7 @@ public static class JournalFakers
     /// Faker for <see cref="JournalModel"/> (detail response)
     /// </summary>
     public static readonly Faker<JournalModel> Journal = new Faker<JournalModel>()
-        .CustomInstantiator(f => new JournalModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             DateAdded = f.Date.Recent().ToString("yyyy-MM-dd"),
@@ -60,7 +60,7 @@ public static class JournalFakers
     /// Faker for <see cref="JournalListedModel"/> (list response)
     /// </summary>
     public static readonly Faker<JournalListedModel> JournalListed = new Faker<JournalListedModel>()
-        .CustomInstantiator(f => new JournalListedModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             DateAdded = f.Date.Recent().ToString("yyyy-MM-dd"),
@@ -78,7 +78,7 @@ public static class JournalFakers
     /// Faker for <see cref="JournalCreateModel"/>
     /// </summary>
     public static readonly Faker<JournalCreateModel> JournalCreate = new Faker<JournalCreateModel>()
-        .CustomInstantiator(f => new JournalCreateModel
+        .CustomInstantiator(f => new()
         {
             DateAdded = f.Date.Recent().ToString("yyyy-MM-dd"),
             Title = f.Lorem.Sentence(3),
@@ -92,7 +92,7 @@ public static class JournalFakers
     /// Faker for <see cref="JournalUpdateModel"/>
     /// </summary>
     public static readonly Faker<JournalUpdateModel> JournalUpdate = new Faker<JournalUpdateModel>()
-        .CustomInstantiator(f => new JournalUpdateModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             DateAdded = f.Date.Recent().ToString("yyyy-MM-dd"),
@@ -107,7 +107,7 @@ public static class JournalFakers
     /// Faker for <see cref="JournalImport"/> (read/list response)
     /// </summary>
     public static readonly Faker<JournalImport> Import = new Faker<JournalImport>()
-        .CustomInstantiator(f => new JournalImport
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             FileId = f.Random.Int(1, 9999),
@@ -120,7 +120,7 @@ public static class JournalFakers
     /// Faker for <see cref="JournalImportCreate"/>
     /// </summary>
     public static readonly Faker<JournalImportCreate> ImportCreate = new Faker<JournalImportCreate>()
-        .CustomInstantiator(f => new JournalImportCreate
+        .CustomInstantiator(f => new()
         {
             FileId = f.Random.Int(1, 9999),
             Name = f.Lorem.Word()
@@ -130,7 +130,7 @@ public static class JournalFakers
     /// Faker for <see cref="JournalImportEntry"/> (detail response)
     /// </summary>
     public static readonly Faker<JournalImportEntry> ImportEntry = new Faker<JournalImportEntry>()
-        .CustomInstantiator(f => new JournalImportEntry
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             CreatedBy = f.Person.UserName,
@@ -141,7 +141,7 @@ public static class JournalFakers
     /// Faker for <see cref="JournalImportEntryListed"/> (list response)
     /// </summary>
     public static readonly Faker<JournalImportEntryListed> ImportEntryListed = new Faker<JournalImportEntryListed>()
-        .CustomInstantiator(f => new JournalImportEntryListed
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             CreatedBy = f.Person.UserName,
@@ -152,7 +152,7 @@ public static class JournalFakers
     /// Faker for <see cref="JournalImportEntryUpdate"/>
     /// </summary>
     public static readonly Faker<JournalImportEntryUpdate> ImportEntryUpdate = new Faker<JournalImportEntryUpdate>()
-        .CustomInstantiator(f => new JournalImportEntryUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999)
         });

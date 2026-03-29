@@ -47,7 +47,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(fiscalPeriod));
 
         // Act
-        var result = await Client.Meta.FiscalPeriod.Get(new Entry { Id = fiscalPeriod.Id });
+        var result = await Client.Meta.FiscalPeriod.Get(new() { Id = fiscalPeriod.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -154,7 +154,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Fiscal period switched"));
 
         // Act
-        var result = await Client.Meta.FiscalPeriod.Switch(new Entry { Id = 1 });
+        var result = await Client.Meta.FiscalPeriod.Switch(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -174,7 +174,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Fiscal period deleted"));
 
         // Act
-        var result = await Client.Meta.FiscalPeriod.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Meta.FiscalPeriod.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -195,7 +195,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(fiscalPeriod));
 
         // Act
-        var result = await Client.Meta.FiscalPeriod.GetResult(new Entry { Id = fiscalPeriod.Id });
+        var result = await Client.Meta.FiscalPeriod.GetResult(new() { Id = fiscalPeriod.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -216,7 +216,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(depreciations));
 
         // Act
-        var result = await Client.Meta.FiscalPeriod.GetDepreciations(new Entry { Id = 1 });
+        var result = await Client.Meta.FiscalPeriod.GetDepreciations(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -235,7 +235,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Depreciations booked"));
 
         // Act
-        var result = await Client.Meta.FiscalPeriod.BookDepreciations(new Entry { Id = 1 });
+        var result = await Client.Meta.FiscalPeriod.BookDepreciations(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -256,7 +256,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(exchangeDiffs));
 
         // Act
-        var result = await Client.Meta.FiscalPeriod.GetExchangeDiff(new Entry { Id = 1 });
+        var result = await Client.Meta.FiscalPeriod.GetExchangeDiff(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -275,7 +275,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Exchange differences booked"));
 
         // Act
-        var result = await Client.Meta.FiscalPeriod.BookExchangeDiff(new Entry { Id = 1 });
+        var result = await Client.Meta.FiscalPeriod.BookExchangeDiff(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -295,7 +295,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Fiscal period completed"));
 
         // Act
-        var result = await Client.Meta.FiscalPeriod.Complete(new Entry { Id = 1 });
+        var result = await Client.Meta.FiscalPeriod.Complete(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -315,7 +315,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Fiscal period reopened"));
 
         // Act
-        var result = await Client.Meta.FiscalPeriod.Reopen(new Entry { Id = 1 });
+        var result = await Client.Meta.FiscalPeriod.Reopen(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -335,7 +335,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Months completed"));
 
         // Act
-        var result = await Client.Meta.FiscalPeriod.CompleteMonths(new Entry { Id = 1 });
+        var result = await Client.Meta.FiscalPeriod.CompleteMonths(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -355,7 +355,7 @@ public class FiscalPeriodServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Months reopened"));
 
         // Act
-        var result = await Client.Meta.FiscalPeriod.ReopenMonths(new Entry { Id = 1 });
+        var result = await Client.Meta.FiscalPeriod.ReopenMonths(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

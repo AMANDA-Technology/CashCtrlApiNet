@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -47,7 +46,7 @@ public class SalarySettingServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(setting));
 
         // Act
-        var result = await Client.Salary.Setting.Get(new Entry { Id = setting.Id });
+        var result = await Client.Salary.Setting.Get(new() { Id = setting.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -133,7 +132,7 @@ public class SalarySettingServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Salary setting deleted"));
 
         // Act
-        var result = await Client.Salary.Setting.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Salary.Setting.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

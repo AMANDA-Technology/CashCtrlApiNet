@@ -47,14 +47,14 @@ public class UnitServiceTests : ServiceTestBase<UnitService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetAsync<SingleResponse<Abstractions.Models.Inventory.Unit.Unit>, Entry>(
+            .GetAsync<SingleResponse<Unit>, Entry>(
                 Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<SingleResponse<Abstractions.Models.Inventory.Unit.Unit>>());
+            .Returns(new ApiResult<SingleResponse<Unit>>());
 
         await Service.Get(entry);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<SingleResponse<Abstractions.Models.Inventory.Unit.Unit>, Entry>(
+            .GetAsync<SingleResponse<Unit>, Entry>(
                 InventoryEndpoints.Unit.Read, entry, Arg.Any<CancellationToken>());
     }
 
@@ -62,13 +62,13 @@ public class UnitServiceTests : ServiceTestBase<UnitService>
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<Abstractions.Models.Inventory.Unit.Unit>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<ListResponse<Abstractions.Models.Inventory.Unit.Unit>>());
+            .GetAsync<ListResponse<Unit>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<Unit>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<Abstractions.Models.Inventory.Unit.Unit>>(
+            .GetAsync<ListResponse<Unit>>(
                 InventoryEndpoints.Unit.List, (ListParams?)null, Arg.Any<CancellationToken>());
     }
 
@@ -77,13 +77,13 @@ public class UnitServiceTests : ServiceTestBase<UnitService>
     {
         var listParams = new ListParams { Query = "test", OnlyActive = true };
         ConnectionHandler
-            .GetAsync<ListResponse<Abstractions.Models.Inventory.Unit.Unit>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<ListResponse<Abstractions.Models.Inventory.Unit.Unit>>());
+            .GetAsync<ListResponse<Unit>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<Unit>>());
 
         await Service.GetList(listParams);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<Abstractions.Models.Inventory.Unit.Unit>>(
+            .GetAsync<ListResponse<Unit>>(
                 InventoryEndpoints.Unit.List, listParams, Arg.Any<CancellationToken>());
     }
 
@@ -91,9 +91,9 @@ public class UnitServiceTests : ServiceTestBase<UnitService>
     public async Task GetList_WithListParams_ShouldReturnResult()
     {
         var listParams = new ListParams { Query = "test" };
-        var expected = new ApiResult<ListResponse<Abstractions.Models.Inventory.Unit.Unit>>();
+        var expected = new ApiResult<ListResponse<Unit>>();
         ConnectionHandler
-            .GetAsync<ListResponse<Abstractions.Models.Inventory.Unit.Unit>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<Unit>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
         var result = await Service.GetList(listParams);

@@ -34,6 +34,7 @@ namespace CashCtrlApiNet.E2eTests.Salary;
 /// (excludes SendMail). Salary documents are system-generated and cannot be created directly.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class SalaryDocumentE2eTests : CashCtrlE2eTestBase
 {
     private int _documentId;

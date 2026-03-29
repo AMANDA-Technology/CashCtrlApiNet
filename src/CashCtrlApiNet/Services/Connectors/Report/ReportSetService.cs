@@ -63,17 +63,17 @@ public class ReportSetService(ICashCtrlConnectionHandler connectionHandler) : Co
 
     /// <inheritdoc />
     public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry set, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetBinaryAsync<Entry>(Endpoint.DownloadPdf, set, cancellationToken);
+        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadPdf, set, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<BinaryResponse>> DownloadCsv(Entry set, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetBinaryAsync<Entry>(Endpoint.DownloadCsv, set, cancellationToken);
+        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadCsv, set, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<BinaryResponse>> DownloadExcel(Entry set, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetBinaryAsync<Entry>(Endpoint.DownloadXlsx, set, cancellationToken);
+        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadXlsx, set, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<BinaryResponse>> DownloadAnnualReport(Entry set, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetBinaryAsync<Entry>(Endpoint.DownloadAnnualReport, set, cancellationToken);
+        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadAnnualReport, set, cancellationToken);
 }

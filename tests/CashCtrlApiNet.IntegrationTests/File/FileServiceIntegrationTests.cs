@@ -23,9 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
-using System.Net.Http;
-using System.Text;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
@@ -49,7 +46,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
         Server.StubGetBinary("/api/v1/file/get", fileBytes, "application/octet-stream", "document.pdf");
 
         // Act
-        var result = await Client.File.File.GetContent(new Entry { Id = 1 });
+        var result = await Client.File.File.GetContent(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -69,7 +66,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(file));
 
         // Act
-        var result = await Client.File.File.Get(new Entry { Id = file.Id });
+        var result = await Client.File.File.Get(new() { Id = file.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -156,7 +153,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("File persisted"));
 
         // Act
-        var result = await Client.File.File.Persist(new Entries { Ids = [99] });
+        var result = await Client.File.File.Persist(new() { Ids = [99] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -219,7 +216,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("File deleted"));
 
         // Act
-        var result = await Client.File.File.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.File.File.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -239,7 +236,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Files categorized"));
 
         // Act
-        var result = await Client.File.File.Categorize(new EntriesCategorize { Ids = [1, 2], TargetCategoryId = 5 });
+        var result = await Client.File.File.Categorize(new() { Ids = [1, 2], TargetCategoryId = 5 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -279,7 +276,7 @@ public class FileServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Files restored"));
 
         // Act
-        var result = await Client.File.File.Restore(new Entries { Ids = [3, 4] });
+        var result = await Client.File.File.Restore(new() { Ids = [3, 4] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

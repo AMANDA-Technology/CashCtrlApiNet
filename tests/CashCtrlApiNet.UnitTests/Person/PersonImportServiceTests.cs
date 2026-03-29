@@ -28,7 +28,6 @@ using CashCtrlApiNet.Abstractions.Models.Person.Import;
 using CashCtrlApiNet.Services.Connectors.Person;
 using CashCtrlApiNet.Services.Endpoints;
 using NSubstitute;
-using Shouldly;
 
 namespace CashCtrlApiNet.UnitTests.Person;
 

@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Person;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Person.IPersonTitleService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class PersonTitleE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;

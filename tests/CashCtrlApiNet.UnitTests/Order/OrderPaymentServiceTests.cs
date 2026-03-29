@@ -62,13 +62,13 @@ public class OrderPaymentServiceTests : ServiceTestBase<OrderPaymentService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetBinaryAsync<Entry>(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.Download(entry);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync<Entry>(OrderEndpoints.Payment.Download, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(OrderEndpoints.Payment.Download, entry, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 }

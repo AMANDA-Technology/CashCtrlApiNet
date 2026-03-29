@@ -23,8 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Salary.Status;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -48,7 +46,7 @@ public class SalaryStatusServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(status));
 
         // Act
-        var result = await Client.Salary.Status.Get(new Entry { Id = status.Id });
+        var result = await Client.Salary.Status.Get(new() { Id = status.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -133,7 +131,7 @@ public class SalaryStatusServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Salary status deleted"));
 
         // Act
-        var result = await Client.Salary.Status.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Salary.Status.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -153,7 +151,7 @@ public class SalaryStatusServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Salary statuses reordered"));
 
         // Act
-        var result = await Client.Salary.Status.Reorder(new SalaryStatusReorder
+        var result = await Client.Salary.Status.Reorder(new()
         {
             Ids = "1,2,3",
             Target = 5

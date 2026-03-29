@@ -181,7 +181,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
     {
         ConnectionHandler
             .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.ExportExcel();
 
@@ -195,7 +195,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
     {
         ConnectionHandler
             .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.ExportCsv();
 
@@ -209,7 +209,7 @@ public class FixedAssetServiceTests : ServiceTestBase<FixedAssetService>
     {
         ConnectionHandler
             .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.ExportPdf();
 

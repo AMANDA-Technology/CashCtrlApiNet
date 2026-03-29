@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -47,7 +46,7 @@ public class JournalImportEntryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(entry));
 
         // Act
-        var result = await Client.Journal.ImportEntry.Get(new Entry { Id = entry.Id });
+        var result = await Client.Journal.ImportEntry.Get(new() { Id = entry.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -108,7 +107,7 @@ public class JournalImportEntryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Entries ignored"));
 
         // Act
-        var result = await Client.Journal.ImportEntry.Ignore(new Entries { Ids = [1, 2] });
+        var result = await Client.Journal.ImportEntry.Ignore(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -128,7 +127,7 @@ public class JournalImportEntryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Entries restored"));
 
         // Act
-        var result = await Client.Journal.ImportEntry.Restore(new Entries { Ids = [1, 2] });
+        var result = await Client.Journal.ImportEntry.Restore(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -148,7 +147,7 @@ public class JournalImportEntryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Entries confirmed"));
 
         // Act
-        var result = await Client.Journal.ImportEntry.Confirm(new Entries { Ids = [1, 2] });
+        var result = await Client.Journal.ImportEntry.Confirm(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -168,7 +167,7 @@ public class JournalImportEntryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Entries unconfirmed"));
 
         // Act
-        var result = await Client.Journal.ImportEntry.Unconfirm(new Entries { Ids = [1, 2] });
+        var result = await Client.Journal.ImportEntry.Unconfirm(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

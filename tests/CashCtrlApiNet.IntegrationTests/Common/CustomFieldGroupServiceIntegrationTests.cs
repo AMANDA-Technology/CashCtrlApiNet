@@ -23,10 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using CashCtrlApiNet.Abstractions.Enums.Common;
-using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Common.CustomFieldGroup;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -50,7 +47,7 @@ public class CustomFieldGroupServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(group));
 
         // Act
-        var result = await Client.Common.CustomFieldGroup.Get(new Entry { Id = group.Id });
+        var result = await Client.Common.CustomFieldGroup.Get(new() { Id = group.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -73,7 +70,7 @@ public class CustomFieldGroupServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(groups));
 
         // Act
-        var result = await Client.Common.CustomFieldGroup.GetList(new CustomFieldGroupListRequest
+        var result = await Client.Common.CustomFieldGroup.GetList(new()
         {
             Type = CustomFieldType.JOURNAL
         });
@@ -138,7 +135,7 @@ public class CustomFieldGroupServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Custom field group deleted"));
 
         // Act
-        var result = await Client.Common.CustomFieldGroup.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Common.CustomFieldGroup.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -158,7 +155,7 @@ public class CustomFieldGroupServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Custom field groups reordered"));
 
         // Act
-        var result = await Client.Common.CustomFieldGroup.Reorder(new CustomFieldGroupReorder
+        var result = await Client.Common.CustomFieldGroup.Reorder(new()
         {
             Ids = [1, 2, 3],
             Target = 5

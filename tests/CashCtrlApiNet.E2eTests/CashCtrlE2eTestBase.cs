@@ -38,6 +38,7 @@ namespace CashCtrlApiNet.E2eTests;
 /// Base class for all CashCtrl E2E tests requiring live API credentials.
 /// Provides lifecycle helpers for test data creation, cleanup, and assertion.
 /// </summary>
+// ReSharper disable once InconsistentNaming
 public class CashCtrlE2eTestBase
 {
     /// <summary>
@@ -139,7 +140,7 @@ public class CashCtrlE2eTestBase
             .ToImmutableArray();
 
         if (orphanIds.Length > 0)
-            await deleteFunc(new Entries { Ids = orphanIds });
+            await deleteFunc(new() { Ids = orphanIds });
     }
 
     /// <summary>

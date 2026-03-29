@@ -28,7 +28,6 @@ using CashCtrlApiNet.Abstractions.Models.Meta.Settings;
 using CashCtrlApiNet.Services.Connectors.Meta;
 using CashCtrlApiNet.Services.Endpoints;
 using NSubstitute;
-using Shouldly;
 
 namespace CashCtrlApiNet.UnitTests.Meta;
 

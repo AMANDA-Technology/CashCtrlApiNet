@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -47,7 +46,7 @@ public class SalaryBookEntryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(bookEntry));
 
         // Act
-        var result = await Client.Salary.BookEntry.Get(new Entry { Id = bookEntry.Id });
+        var result = await Client.Salary.BookEntry.Get(new() { Id = bookEntry.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -71,7 +70,7 @@ public class SalaryBookEntryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(bookEntries));
 
         // Act
-        var result = await Client.Salary.BookEntry.GetList(new Entry { Id = 1 });
+        var result = await Client.Salary.BookEntry.GetList(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -133,7 +132,7 @@ public class SalaryBookEntryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Salary book entry deleted"));
 
         // Act
-        var result = await Client.Salary.BookEntry.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Salary.BookEntry.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

@@ -34,6 +34,7 @@ namespace CashCtrlApiNet.E2eTests.Inventory;
 /// The import workflow requires: file upload (Prepare + Persist) -> Create -> Mapping -> GetMappingFields -> Preview -> Execute.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class InventoryImportE2eTests : CashCtrlE2eTestBase
 {
     private int _fileId;
@@ -58,7 +59,7 @@ public class InventoryImportE2eTests : CashCtrlE2eTestBase
 
         using var content = new MultipartFormDataContent();
         using var fileContent = new ByteArrayContent(csvBytes);
-        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/csv");
+        fileContent.Headers.ContentType = new("text/csv");
         content.Add(fileContent, "file", "e2e-import-test.csv");
 
         var prepareResult = await CashCtrlApiClient.File.File.Prepare(content);

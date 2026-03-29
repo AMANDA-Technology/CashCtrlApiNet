@@ -38,8 +38,8 @@ namespace CashCtrlApiNet.Services.Connectors.Meta;
 public class FiscalPeriodService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IFiscalPeriodService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Meta.FiscalPeriod.FiscalPeriod>>> Get(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<SingleResponse<Abstractions.Models.Meta.FiscalPeriod.FiscalPeriod>, Entry>(Endpoint.Read, fiscalPeriod, cancellationToken);
+    public Task<ApiResult<SingleResponse<FiscalPeriod>>> Get(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<SingleResponse<FiscalPeriod>, Entry>(Endpoint.Read, fiscalPeriod, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<FiscalPeriodListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
@@ -62,8 +62,8 @@ public class FiscalPeriodService(ICashCtrlConnectionHandler connectionHandler) :
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, fiscalPeriods, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Meta.FiscalPeriod.FiscalPeriod>>> GetResult(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<SingleResponse<Abstractions.Models.Meta.FiscalPeriod.FiscalPeriod>, Entry>(Endpoint.Result, fiscalPeriod, cancellationToken);
+    public Task<ApiResult<SingleResponse<FiscalPeriod>>> GetResult(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<SingleResponse<FiscalPeriod>, Entry>(Endpoint.Result, fiscalPeriod, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<FiscalPeriodListed>>> GetDepreciations(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)

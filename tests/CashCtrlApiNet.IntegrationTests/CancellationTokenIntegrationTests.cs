@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -55,7 +54,7 @@ public class CancellationTokenIntegrationTests : IntegrationTestBase
 
         // Act & Assert
         await Should.ThrowAsync<TaskCanceledException>(
-            () => Client.Account.Account.Get(new Entry { Id = 1 }, cts.Token));
+            () => Client.Account.Account.Get(new() { Id = 1 }, cts.Token));
     }
 
     [Test]
@@ -132,7 +131,7 @@ public class CancellationTokenIntegrationTests : IntegrationTestBase
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
 
         // Act
-        var result = await Client.Account.Account.Get(new Entry { Id = account.Id }, cts.Token);
+        var result = await Client.Account.Account.Get(new() { Id = account.Id }, cts.Token);
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

@@ -45,7 +45,7 @@ public static class AccountFakers
     /// Faker for <see cref="AccountModel"/> (detail response)
     /// </summary>
     public static readonly Faker<AccountModel> Account = new Faker<AccountModel>()
-        .CustomInstantiator(f => new AccountModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             CategoryId = f.Random.Int(1, 100),
@@ -59,7 +59,7 @@ public static class AccountFakers
     /// Faker for <see cref="AccountListedModel"/> (list response)
     /// </summary>
     public static readonly Faker<AccountListedModel> AccountListed = new Faker<AccountListedModel>()
-        .CustomInstantiator(f => new AccountListedModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             CategoryId = f.Random.Int(1, 100),
@@ -73,7 +73,7 @@ public static class AccountFakers
     /// Faker for <see cref="AccountCreateModel"/>
     /// </summary>
     public static readonly Faker<AccountCreateModel> AccountCreate = new Faker<AccountCreateModel>()
-        .CustomInstantiator(f => new AccountCreateModel
+        .CustomInstantiator(f => new()
         {
             CategoryId = f.Random.Int(1, 100),
             Name = f.Finance.AccountName(),
@@ -84,7 +84,7 @@ public static class AccountFakers
     /// Faker for <see cref="AccountUpdateModel"/>
     /// </summary>
     public static readonly Faker<AccountUpdateModel> AccountUpdate = new Faker<AccountUpdateModel>()
-        .CustomInstantiator(f => new AccountUpdateModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             CategoryId = f.Random.Int(1, 100),
@@ -96,7 +96,7 @@ public static class AccountFakers
     /// Faker for <see cref="AccountBank"/> (detail response)
     /// </summary>
     public static readonly Faker<AccountBank> AccountBank = new Faker<AccountBank>()
-        .CustomInstantiator(f => new AccountBank
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Bic = f.Finance.Bic(),
@@ -111,7 +111,7 @@ public static class AccountFakers
     /// Faker for <see cref="AccountBankCreate"/>
     /// </summary>
     public static readonly Faker<AccountBankCreate> AccountBankCreate = new Faker<AccountBankCreate>()
-        .CustomInstantiator(f => new AccountBankCreate
+        .CustomInstantiator(f => new()
         {
             Bic = f.Finance.Bic(),
             Iban = f.Finance.Iban(),
@@ -123,7 +123,7 @@ public static class AccountFakers
     /// Faker for <see cref="AccountBankUpdate"/>
     /// </summary>
     public static readonly Faker<AccountBankUpdate> AccountBankUpdate = new Faker<AccountBankUpdate>()
-        .CustomInstantiator(f => new AccountBankUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Bic = f.Finance.Bic(),
@@ -136,7 +136,7 @@ public static class AccountFakers
     /// Faker for <see cref="AccountCategory"/> (detail response)
     /// </summary>
     public static readonly Faker<AccountCategory> AccountCategory = new Faker<AccountCategory>()
-        .CustomInstantiator(f => new AccountCategory
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0],
@@ -151,7 +151,7 @@ public static class AccountFakers
     /// Faker for <see cref="AccountCategoryCreate"/>
     /// </summary>
     public static readonly Faker<AccountCategoryCreate> AccountCategoryCreate = new Faker<AccountCategoryCreate>()
-        .CustomInstantiator(f => new AccountCategoryCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Commerce.Categories(1)[0]
         });
@@ -160,7 +160,7 @@ public static class AccountFakers
     /// Faker for <see cref="AccountCategoryUpdate"/>
     /// </summary>
     public static readonly Faker<AccountCategoryUpdate> AccountCategoryUpdate = new Faker<AccountCategoryUpdate>()
-        .CustomInstantiator(f => new AccountCategoryUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0]
@@ -170,7 +170,7 @@ public static class AccountFakers
     /// Faker for <see cref="CostCenter"/> (detail response)
     /// </summary>
     public static readonly Faker<CostCenter> CostCenter = new Faker<CostCenter>()
-        .CustomInstantiator(f => new CostCenter
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Department(),
@@ -183,7 +183,7 @@ public static class AccountFakers
     /// Faker for <see cref="CostCenterListed"/> (list response)
     /// </summary>
     public static readonly Faker<CostCenterListed> CostCenterListed = new Faker<CostCenterListed>()
-        .CustomInstantiator(f => new CostCenterListed
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Department(),
@@ -196,7 +196,7 @@ public static class AccountFakers
     /// Faker for <see cref="CostCenterCreate"/>
     /// </summary>
     public static readonly Faker<CostCenterCreate> CostCenterCreate = new Faker<CostCenterCreate>()
-        .CustomInstantiator(f => new CostCenterCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Commerce.Department()
         });
@@ -205,7 +205,7 @@ public static class AccountFakers
     /// Faker for <see cref="CostCenterUpdate"/>
     /// </summary>
     public static readonly Faker<CostCenterUpdate> CostCenterUpdate = new Faker<CostCenterUpdate>()
-        .CustomInstantiator(f => new CostCenterUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Department()
@@ -215,7 +215,7 @@ public static class AccountFakers
     /// Faker for <see cref="CostCenterCategory"/> (detail response)
     /// </summary>
     public static readonly Faker<CostCenterCategory> CostCenterCategory = new Faker<CostCenterCategory>()
-        .CustomInstantiator(f => new CostCenterCategory
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Department() + " Category",
@@ -229,7 +229,7 @@ public static class AccountFakers
     /// Faker for <see cref="CostCenterCategoryCreate"/>
     /// </summary>
     public static readonly Faker<CostCenterCategoryCreate> CostCenterCategoryCreate = new Faker<CostCenterCategoryCreate>()
-        .CustomInstantiator(f => new CostCenterCategoryCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Commerce.Department() + " Category"
         });
@@ -238,7 +238,7 @@ public static class AccountFakers
     /// Faker for <see cref="CostCenterCategoryUpdate"/>
     /// </summary>
     public static readonly Faker<CostCenterCategoryUpdate> CostCenterCategoryUpdate = new Faker<CostCenterCategoryUpdate>()
-        .CustomInstantiator(f => new CostCenterCategoryUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Department() + " Category"

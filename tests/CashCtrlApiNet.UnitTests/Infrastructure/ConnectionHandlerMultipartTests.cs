@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Api.Base;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Services;

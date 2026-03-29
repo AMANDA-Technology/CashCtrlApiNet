@@ -23,8 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Salary.Statement;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -48,7 +46,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(statement));
 
         // Act
-        var result = await Client.Salary.Statement.Get(new Entry { Id = statement.Id });
+        var result = await Client.Salary.Statement.Get(new() { Id = statement.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -134,7 +132,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Salary statements updated"));
 
         // Act
-        var result = await Client.Salary.Statement.UpdateMultiple(new SalaryStatementUpdateMultiple
+        var result = await Client.Salary.Statement.UpdateMultiple(new()
         {
             Ids = "1,2,3",
             StatusId = 5,
@@ -159,7 +157,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Salary statement status updated"));
 
         // Act
-        var result = await Client.Salary.Statement.UpdateStatus(new SalaryStatementStatusUpdate
+        var result = await Client.Salary.Statement.UpdateStatus(new()
         {
             Ids = "1,2",
             StatusId = 3
@@ -183,7 +181,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Salary statement recurrence updated"));
 
         // Act
-        var result = await Client.Salary.Statement.UpdateRecurrence(new SalaryStatementRecurrenceUpdate
+        var result = await Client.Salary.Statement.UpdateRecurrence(new()
         {
             Id = 1,
             Recurrence = "MONTHLY",
@@ -210,7 +208,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Salary statement deleted"));
 
         // Act
-        var result = await Client.Salary.Statement.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Salary.Statement.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -230,7 +228,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Salary statement calculated"));
 
         // Act
-        var result = await Client.Salary.Statement.Calculate(new SalaryStatementCalculate
+        var result = await Client.Salary.Statement.Calculate(new()
         {
             Id = 1,
             PersonId = 10,
@@ -256,7 +254,7 @@ public class SalaryStatementServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Attachments updated"));
 
         // Act
-        var result = await Client.Salary.Statement.UpdateAttachments(new EntryAttachments
+        var result = await Client.Salary.Statement.UpdateAttachments(new()
         {
             Id = 1,
             AttachedFileIds = [10, 20]

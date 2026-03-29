@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
@@ -48,7 +47,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(account));
 
         // Act
-        var result = await Client.Account.Account.Get(new Entry { Id = account.Id });
+        var result = await Client.Account.Account.Get(new() { Id = account.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -113,7 +112,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.BalanceResponse(expectedBalance));
 
         // Act
-        var result = await Client.Account.Account.GetBalance(new Entry { Id = 1 });
+        var result = await Client.Account.Account.GetBalance(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -132,7 +131,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.BalanceResponse(0m));
 
         // Act
-        var result = await Client.Account.Account.GetBalance(new Entry { Id = 1 });
+        var result = await Client.Account.Account.GetBalance(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -151,7 +150,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
         Server.StubGetPlainText("/api/v1/account/balance", errorBody, 401);
 
         // Act
-        var result = await Client.Account.Account.GetBalance(new Entry { Id = 1 });
+        var result = await Client.Account.Account.GetBalance(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeFalse();
@@ -213,7 +212,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Account deleted"));
 
         // Act
-        var result = await Client.Account.Account.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Account.Account.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -233,7 +232,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Accounts categorized"));
 
         // Act
-        var result = await Client.Account.Account.Categorize(new EntriesCategorize
+        var result = await Client.Account.Account.Categorize(new()
         {
             Ids = [1, 2],
             TargetCategoryId = 10
@@ -256,7 +255,7 @@ public class AccountServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Attachments updated"));
 
         // Act
-        var result = await Client.Account.Account.UpdateAttachments(new EntryAttachments
+        var result = await Client.Account.Account.UpdateAttachments(new()
         {
             Id = 1,
             AttachedFileIds = [10, 20]

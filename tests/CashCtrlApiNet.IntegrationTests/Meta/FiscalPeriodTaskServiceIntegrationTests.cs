@@ -109,7 +109,7 @@ public class FiscalPeriodTaskServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Task deleted"));
 
         // Act
-        var result = await Client.Meta.FiscalPeriodTask.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Meta.FiscalPeriodTask.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

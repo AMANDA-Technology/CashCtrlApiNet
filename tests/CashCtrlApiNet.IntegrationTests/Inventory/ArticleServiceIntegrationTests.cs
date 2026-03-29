@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
@@ -48,7 +47,7 @@ public class ArticleServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(article));
 
         // Act
-        var result = await Client.Inventory.Article.Get(new Entry { Id = article.Id });
+        var result = await Client.Inventory.Article.Get(new() { Id = article.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -155,7 +154,7 @@ public class ArticleServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Article deleted"));
 
         // Act
-        var result = await Client.Inventory.Article.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Inventory.Article.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -175,7 +174,7 @@ public class ArticleServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Articles categorized"));
 
         // Act
-        var result = await Client.Inventory.Article.Categorize(new EntriesCategorize
+        var result = await Client.Inventory.Article.Categorize(new()
         {
             Ids = [1, 2],
             TargetCategoryId = 10
@@ -198,7 +197,7 @@ public class ArticleServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Attachments updated"));
 
         // Act
-        var result = await Client.Inventory.Article.UpdateAttachments(new EntryAttachments
+        var result = await Client.Inventory.Article.UpdateAttachments(new()
         {
             Id = 1,
             AttachedFileIds = [10, 20]

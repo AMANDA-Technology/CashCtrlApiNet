@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Meta;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Meta.ILocationService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class LocationE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;

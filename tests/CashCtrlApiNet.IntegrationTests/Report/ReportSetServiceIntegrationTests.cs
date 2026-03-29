@@ -23,8 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Report.Set;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -48,7 +46,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(reportSet));
 
         // Act
-        var result = await Client.Report.Set.Get(new Entry { Id = reportSet.Id });
+        var result = await Client.Report.Set.Get(new() { Id = reportSet.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -113,7 +111,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Report set deleted"));
 
         // Act
-        var result = await Client.Report.Set.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Report.Set.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -133,7 +131,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Report sets reordered"));
 
         // Act
-        var result = await Client.Report.Set.Reorder(new ReportSetReorder
+        var result = await Client.Report.Set.Reorder(new()
         {
             Ids = [1, 2, 3],
             Target = 5
@@ -158,7 +156,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(reportSet));
 
         // Act
-        var result = await Client.Report.Set.GetMeta(new Entry { Id = reportSet.Id });
+        var result = await Client.Report.Set.GetMeta(new() { Id = reportSet.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -179,7 +177,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
             "application/pdf", "report-set.pdf");
 
         // Act
-        var result = await Client.Report.Set.DownloadPdf(new Entry { Id = 1 });
+        var result = await Client.Report.Set.DownloadPdf(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -199,7 +197,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
             "text/csv", "report-set.csv");
 
         // Act
-        var result = await Client.Report.Set.DownloadCsv(new Entry { Id = 1 });
+        var result = await Client.Report.Set.DownloadCsv(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -219,7 +217,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "report-set.xlsx");
 
         // Act
-        var result = await Client.Report.Set.DownloadExcel(new Entry { Id = 1 });
+        var result = await Client.Report.Set.DownloadExcel(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -239,7 +237,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
             "application/pdf", "annual-report.pdf");
 
         // Act
-        var result = await Client.Report.Set.DownloadAnnualReport(new Entry { Id = 1 });
+        var result = await Client.Report.Set.DownloadAnnualReport(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

@@ -195,7 +195,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
     {
         ConnectionHandler
             .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.ExportExcel();
 
@@ -209,7 +209,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
     {
         ConnectionHandler
             .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.ExportCsv();
 
@@ -223,7 +223,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
     {
         ConnectionHandler
             .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.ExportPdf();
 
@@ -260,7 +260,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         var expected = new ApiResult<BalanceResponse>
         {
             IsHttpSuccess = true,
-            ResponseData = new BalanceResponse { Balance = 1234.56m }
+            ResponseData = new() { Balance = 1234.56m }
         };
         ConnectionHandler
             .GetBalanceAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
@@ -280,7 +280,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         var expected = new ApiResult<NoContentResponse>
         {
             IsHttpSuccess = true,
-            ResponseData = new NoContentResponse(true, null, "Account created", 42)
+            ResponseData = new(true, null, "Account created", 42)
         };
         ConnectionHandler
             .PostAsync<NoContentResponse, AccountCreate>(Arg.Any<string>(), Arg.Any<AccountCreate>(), Arg.Any<CancellationToken>())
@@ -301,7 +301,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         var expected = new ApiResult<NoContentResponse>
         {
             IsHttpSuccess = true,
-            ResponseData = new NoContentResponse(true, null, "Account updated", null)
+            ResponseData = new(true, null, "Account updated", null)
         };
         ConnectionHandler
             .PostAsync<NoContentResponse, AccountUpdate>(Arg.Any<string>(), Arg.Any<AccountUpdate>(), Arg.Any<CancellationToken>())
@@ -322,7 +322,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         var expected = new ApiResult<NoContentResponse>
         {
             IsHttpSuccess = true,
-            ResponseData = new NoContentResponse(true, null, "3 accounts deleted", null)
+            ResponseData = new(true, null, "3 accounts deleted", null)
         };
         ConnectionHandler
             .PostAsync<NoContentResponse, Entries>(Arg.Any<string>(), Arg.Any<Entries>(), Arg.Any<CancellationToken>())
@@ -342,7 +342,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
         var expected = new ApiResult<BinaryResponse>
         {
             IsHttpSuccess = true,
-            ResponseData = new BinaryResponse { Data = expectedData, ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
+            ResponseData = new() { Data = expectedData, ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
         };
         ConnectionHandler
             .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
@@ -383,7 +383,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
                 Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<SingleResponse<Abstractions.Models.Account.Account>>());
 
-        await Service.Get(new Entry { Id = 1 }, token);
+        await Service.Get(new() { Id = 1 }, token);
 
         await ConnectionHandler.Received(1)
             .GetAsync<SingleResponse<Abstractions.Models.Account.Account>, Entry>(
@@ -400,7 +400,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
             .PostAsync<NoContentResponse, AccountCreate>(Arg.Any<string>(), Arg.Any<AccountCreate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
 
-        await Service.Create(new AccountCreate { CategoryId = 1, Name = "Test", Number = "1000" }, token);
+        await Service.Create(new() { CategoryId = 1, Name = "Test", Number = "1000" }, token);
 
         await ConnectionHandler.Received(1)
             .PostAsync<NoContentResponse, AccountCreate>(
@@ -432,7 +432,7 @@ public class AccountServiceTests : ServiceTestBase<AccountService>
 
         ConnectionHandler
             .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1] } });
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1] } });
 
         await Service.ExportExcel(token);
 

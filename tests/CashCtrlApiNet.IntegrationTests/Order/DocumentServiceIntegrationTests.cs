@@ -23,8 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Order.Document;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -48,7 +46,7 @@ public class DocumentServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(document));
 
         // Act
-        var result = await Client.Order.Document.Get(new Entry { Id = document.Id });
+        var result = await Client.Order.Document.Get(new() { Id = document.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -70,7 +68,7 @@ public class DocumentServiceIntegrationTests : IntegrationTestBase
             "application/pdf", "document.pdf");
 
         // Act
-        var result = await Client.Order.Document.DownloadPdf(new Entry { Id = 1 });
+        var result = await Client.Order.Document.DownloadPdf(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -90,7 +88,7 @@ public class DocumentServiceIntegrationTests : IntegrationTestBase
             "application/zip", "document.zip");
 
         // Act
-        var result = await Client.Order.Document.DownloadZip(new Entry { Id = 1 });
+        var result = await Client.Order.Document.DownloadZip(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -109,7 +107,7 @@ public class DocumentServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Mail sent"));
 
         // Act
-        var result = await Client.Order.Document.SendMail(new DocumentMail
+        var result = await Client.Order.Document.SendMail(new()
         {
             Id = 1,
             RecipientEmail = "test@example.com",
@@ -135,7 +133,7 @@ public class DocumentServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Document updated"));
 
         // Act
-        var result = await Client.Order.Document.Update(new DocumentUpdate
+        var result = await Client.Order.Document.Update(new()
         {
             Id = 1,
             Text = "Updated document text"

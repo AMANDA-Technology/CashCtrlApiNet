@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Report.Set;
@@ -140,13 +139,13 @@ public class ReportSetServiceTests : ServiceTestBase<ReportSetService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetBinaryAsync<Entry>(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.DownloadPdf(entry);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync<Entry>(ReportEndpoints.Set.DownloadPdf, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Set.DownloadPdf, entry, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
@@ -155,13 +154,13 @@ public class ReportSetServiceTests : ServiceTestBase<ReportSetService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetBinaryAsync<Entry>(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.DownloadCsv(entry);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync<Entry>(ReportEndpoints.Set.DownloadCsv, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Set.DownloadCsv, entry, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
@@ -170,13 +169,13 @@ public class ReportSetServiceTests : ServiceTestBase<ReportSetService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetBinaryAsync<Entry>(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.DownloadExcel(entry);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync<Entry>(ReportEndpoints.Set.DownloadXlsx, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Set.DownloadXlsx, entry, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
@@ -185,13 +184,13 @@ public class ReportSetServiceTests : ServiceTestBase<ReportSetService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetBinaryAsync<Entry>(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.DownloadAnnualReport(entry);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync<Entry>(ReportEndpoints.Set.DownloadAnnualReport, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Set.DownloadAnnualReport, entry, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 }

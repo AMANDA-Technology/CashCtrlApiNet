@@ -45,7 +45,7 @@ public static class OrderFakers
     /// Faker for <see cref="OrderModel"/> (detail response)
     /// </summary>
     public static readonly Faker<OrderModel> Order = new Faker<OrderModel>()
-        .CustomInstantiator(f => new OrderModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             AccountId = f.Random.Int(1, 999),
@@ -62,7 +62,7 @@ public static class OrderFakers
     /// Faker for <see cref="OrderListedModel"/> (list response)
     /// </summary>
     public static readonly Faker<OrderListedModel> OrderListed = new Faker<OrderListedModel>()
-        .CustomInstantiator(f => new OrderListedModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             AccountId = f.Random.Int(1, 999),
@@ -79,7 +79,7 @@ public static class OrderFakers
     /// Faker for <see cref="OrderCreateModel"/>
     /// </summary>
     public static readonly Faker<OrderCreateModel> OrderCreate = new Faker<OrderCreateModel>()
-        .CustomInstantiator(f => new OrderCreateModel
+        .CustomInstantiator(f => new()
         {
             AccountId = f.Random.Int(1, 999),
             CategoryId = f.Random.Int(1, 100),
@@ -92,7 +92,7 @@ public static class OrderFakers
     /// Faker for <see cref="OrderUpdateModel"/>
     /// </summary>
     public static readonly Faker<OrderUpdateModel> OrderUpdate = new Faker<OrderUpdateModel>()
-        .CustomInstantiator(f => new OrderUpdateModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             AccountId = f.Random.Int(1, 999),
@@ -106,7 +106,7 @@ public static class OrderFakers
     /// Faker for <see cref="OrderCategory"/> (detail response)
     /// </summary>
     public static readonly Faker<OrderCategory> Category = new Faker<OrderCategory>()
-        .CustomInstantiator(f => new OrderCategory
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0],
@@ -121,7 +121,7 @@ public static class OrderFakers
     /// Faker for <see cref="OrderCategoryCreate"/>
     /// </summary>
     public static readonly Faker<OrderCategoryCreate> CategoryCreate = new Faker<OrderCategoryCreate>()
-        .CustomInstantiator(f => new OrderCategoryCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Commerce.Categories(1)[0],
             AccountId = f.Random.Int(1, 999),
@@ -132,7 +132,7 @@ public static class OrderFakers
     /// Faker for <see cref="OrderCategoryUpdate"/>
     /// </summary>
     public static readonly Faker<OrderCategoryUpdate> CategoryUpdate = new Faker<OrderCategoryUpdate>()
-        .CustomInstantiator(f => new OrderCategoryUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0],
@@ -144,7 +144,7 @@ public static class OrderFakers
     /// Faker for <see cref="OrderLayout"/> (detail response)
     /// </summary>
     public static readonly Faker<OrderLayout> Layout = new Faker<OrderLayout>()
-        .CustomInstantiator(f => new OrderLayout
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Lorem.Word(),
@@ -157,7 +157,7 @@ public static class OrderFakers
     /// Faker for <see cref="OrderLayoutCreate"/>
     /// </summary>
     public static readonly Faker<OrderLayoutCreate> LayoutCreate = new Faker<OrderLayoutCreate>()
-        .CustomInstantiator(f => new OrderLayoutCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Lorem.Word()
         });
@@ -166,7 +166,7 @@ public static class OrderFakers
     /// Faker for <see cref="OrderLayoutUpdate"/>
     /// </summary>
     public static readonly Faker<OrderLayoutUpdate> LayoutUpdate = new Faker<OrderLayoutUpdate>()
-        .CustomInstantiator(f => new OrderLayoutUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Lorem.Word()
@@ -176,7 +176,7 @@ public static class OrderFakers
     /// Faker for <see cref="BookEntry"/> (detail response)
     /// </summary>
     public static readonly Faker<BookEntry> BookEntry = new Faker<BookEntry>()
-        .CustomInstantiator(f => new BookEntry
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             OrderId = f.Random.Int(1, 9999),
@@ -192,7 +192,7 @@ public static class OrderFakers
     /// Faker for <see cref="BookEntryCreate"/>
     /// </summary>
     public static readonly Faker<BookEntryCreate> BookEntryCreate = new Faker<BookEntryCreate>()
-        .CustomInstantiator(f => new BookEntryCreate
+        .CustomInstantiator(f => new()
         {
             OrderId = f.Random.Int(1, 9999),
             AccountId = f.Random.Int(1, 999),
@@ -204,7 +204,7 @@ public static class OrderFakers
     /// Faker for <see cref="BookEntryUpdate"/>
     /// </summary>
     public static readonly Faker<BookEntryUpdate> BookEntryUpdate = new Faker<BookEntryUpdate>()
-        .CustomInstantiator(f => new BookEntryUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             OrderId = f.Random.Int(1, 9999),
@@ -217,7 +217,7 @@ public static class OrderFakers
     /// Faker for <see cref="Document"/> (detail response)
     /// </summary>
     public static readonly Faker<Document> Document = new Faker<Document>()
-        .CustomInstantiator(f => new Document
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Text = f.Lorem.Paragraph(),
@@ -230,7 +230,7 @@ public static class OrderFakers
     /// Faker for <see cref="OrderPaymentCreate"/>
     /// </summary>
     public static readonly Faker<OrderPaymentCreate> PaymentCreate = new Faker<OrderPaymentCreate>()
-        .CustomInstantiator(f => new OrderPaymentCreate
+        .CustomInstantiator(f => new()
         {
             OrderId = f.Random.Int(1, 9999)
         });

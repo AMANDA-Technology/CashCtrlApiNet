@@ -43,11 +43,11 @@ public class DocumentService(ICashCtrlConnectionHandler connectionHandler) : Con
 
     /// <inheritdoc />
     public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry document, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetBinaryAsync<Entry>(Endpoint.ReadPdf, document, cancellationToken);
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ReadPdf, document, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<BinaryResponse>> DownloadZip(Entry document, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetBinaryAsync<Entry>(Endpoint.ReadZip, document, cancellationToken);
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ReadZip, document, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> SendMail(DocumentMail mail, [Optional] CancellationToken cancellationToken)

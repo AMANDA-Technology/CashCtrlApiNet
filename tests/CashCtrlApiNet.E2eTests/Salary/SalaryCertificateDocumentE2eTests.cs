@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Salary;
 /// (excludes SendMail). Certificate documents are system-generated and cannot be created directly.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class SalaryCertificateDocumentE2eTests : CashCtrlE2eTestBase
 {
     private int _documentId;

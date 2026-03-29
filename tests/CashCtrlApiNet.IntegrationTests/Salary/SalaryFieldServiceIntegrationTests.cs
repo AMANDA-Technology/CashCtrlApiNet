@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -47,7 +46,7 @@ public class SalaryFieldServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(field));
 
         // Act
-        var result = await Client.Salary.Field.Get(new Entry { Id = field.Id });
+        var result = await Client.Salary.Field.Get(new() { Id = field.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -70,7 +69,7 @@ public class SalaryFieldServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(fields));
 
         // Act
-        var result = await Client.Salary.Field.GetList(new Entry { Id = 1 });
+        var result = await Client.Salary.Field.GetList(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

@@ -63,7 +63,7 @@ public class ReportElementService(ICashCtrlConnectionHandler connectionHandler) 
 
     /// <inheritdoc />
     public Task<ApiResult<BinaryResponse>> GetDataHtml(Entry element, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetBinaryAsync<Entry>(Endpoint.ReadHtml, element, cancellationToken);
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ReadHtml, element, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<SingleResponse<ReportElement>>> GetMeta(Entry element, [Optional] CancellationToken cancellationToken)
@@ -71,13 +71,13 @@ public class ReportElementService(ICashCtrlConnectionHandler connectionHandler) 
 
     /// <inheritdoc />
     public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry element, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetBinaryAsync<Entry>(Endpoint.DownloadPdf, element, cancellationToken);
+        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadPdf, element, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<BinaryResponse>> DownloadCsv(Entry element, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetBinaryAsync<Entry>(Endpoint.DownloadCsv, element, cancellationToken);
+        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadCsv, element, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<BinaryResponse>> DownloadExcel(Entry element, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetBinaryAsync<Entry>(Endpoint.DownloadXlsx, element, cancellationToken);
+        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadXlsx, element, cancellationToken);
 }

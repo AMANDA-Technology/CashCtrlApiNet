@@ -24,7 +24,6 @@ SOFTWARE.
 */
 
 using System.Text.Json;
-using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -56,7 +55,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
 
         // Act & Assert
         await Should.ThrowAsync<TaskCanceledException>(
-            () => Client.Account.Account.Get(new Entry { Id = 1 }, cts.Token));
+            () => Client.Account.Account.Get(new() { Id = 1 }, cts.Token));
     }
 
     [Test]
@@ -67,7 +66,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
 
         // Act & Assert
         await Should.ThrowAsync<JsonException>(
-            () => Client.Account.Account.Get(new Entry { Id = 1 }));
+            () => Client.Account.Account.Get(new() { Id = 1 }));
     }
 
     [Test]
@@ -89,7 +88,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleErrorResponse("Not found"));
 
         // Act
-        var result = await Client.Account.Account.Get(new Entry { Id = 999 });
+        var result = await Client.Account.Account.Get(new() { Id = 999 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -107,7 +106,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleErrorResponse("Account not found"), statusCode: 404);
 
         // Act
-        var result = await Client.Account.Account.Get(new Entry { Id = 999 });
+        var result = await Client.Account.Account.Get(new() { Id = 999 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeFalse();
@@ -122,7 +121,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
             "{\"success\":false,\"errorMessage\":\"Internal server error\"}", statusCode: 500);
 
         // Act
-        var result = await Client.Account.Account.Get(new Entry { Id = 1 });
+        var result = await Client.Account.Account.Get(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeFalse();
@@ -213,7 +212,7 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
                 .WithBody(CashCtrlResponseFactory.SingleResponse(AccountFakers.Account.Generate())));
 
         // Act
-        var result = await Client.Account.Account.Get(new Entry { Id = 1 });
+        var result = await Client.Account.Account.Get(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

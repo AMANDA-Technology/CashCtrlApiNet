@@ -47,7 +47,7 @@ public class RoundingServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(rounding));
 
         // Act
-        var result = await Client.Common.Rounding.Get(new Entry { Id = rounding.Id });
+        var result = await Client.Common.Rounding.Get(new() { Id = rounding.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -153,7 +153,7 @@ public class RoundingServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Rounding deleted"));
 
         // Act
-        var result = await Client.Common.Rounding.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Common.Rounding.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

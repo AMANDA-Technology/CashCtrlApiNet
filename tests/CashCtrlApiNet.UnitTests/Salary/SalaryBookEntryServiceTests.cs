@@ -29,7 +29,6 @@ using CashCtrlApiNet.Abstractions.Models.Salary.BookEntry;
 using CashCtrlApiNet.Services.Connectors.Salary;
 using CashCtrlApiNet.Services.Endpoints;
 using NSubstitute;
-using Shouldly;
 
 namespace CashCtrlApiNet.UnitTests.Salary;
 

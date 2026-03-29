@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Report;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Report.IReportElementService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class ReportElementE2eTests : CashCtrlE2eTestBase
 {
     private int _reportId;

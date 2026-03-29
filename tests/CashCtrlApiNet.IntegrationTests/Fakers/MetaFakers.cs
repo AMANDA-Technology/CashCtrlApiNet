@@ -43,7 +43,7 @@ public static class MetaFakers
     /// Faker for <see cref="FiscalPeriodModel"/> (detail response)
     /// </summary>
     public static readonly Faker<FiscalPeriodModel> FiscalPeriod = new Faker<FiscalPeriodModel>()
-        .CustomInstantiator(f => new FiscalPeriodModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             StartDate = f.Date.Recent().ToString("yyyy-MM-dd"),
@@ -60,7 +60,7 @@ public static class MetaFakers
     /// Faker for <see cref="FiscalPeriodListed"/> (list response)
     /// </summary>
     public static readonly Faker<FiscalPeriodListed> FiscalPeriodListed = new Faker<FiscalPeriodListed>()
-        .CustomInstantiator(f => new FiscalPeriodListed
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             StartDate = f.Date.Recent().ToString("yyyy-MM-dd"),
@@ -77,7 +77,7 @@ public static class MetaFakers
     /// Faker for <see cref="FiscalPeriodCreate"/>
     /// </summary>
     public static readonly Faker<FiscalPeriodCreate> FiscalPeriodCreate = new Faker<FiscalPeriodCreate>()
-        .CustomInstantiator(f => new FiscalPeriodCreate
+        .CustomInstantiator(f => new()
         {
             StartDate = f.Date.Recent().ToString("yyyy-MM-dd"),
             EndDate = f.Date.Soon().ToString("yyyy-MM-dd")
@@ -87,7 +87,7 @@ public static class MetaFakers
     /// Faker for <see cref="FiscalPeriodUpdate"/>
     /// </summary>
     public static readonly Faker<FiscalPeriodUpdate> FiscalPeriodUpdate = new Faker<FiscalPeriodUpdate>()
-        .CustomInstantiator(f => new FiscalPeriodUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             StartDate = f.Date.Recent().ToString("yyyy-MM-dd"),
@@ -98,7 +98,7 @@ public static class MetaFakers
     /// Faker for <see cref="FiscalPeriodTask"/> (list response)
     /// </summary>
     public static readonly Faker<FiscalPeriodTask> FiscalPeriodTask = new Faker<FiscalPeriodTask>()
-        .CustomInstantiator(f => new FiscalPeriodTask
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             FiscalPeriodId = f.Random.Int(1, 9999),
@@ -113,7 +113,7 @@ public static class MetaFakers
     /// Faker for <see cref="FiscalPeriodTaskCreate"/>
     /// </summary>
     public static readonly Faker<FiscalPeriodTaskCreate> FiscalPeriodTaskCreate = new Faker<FiscalPeriodTaskCreate>()
-        .CustomInstantiator(f => new FiscalPeriodTaskCreate
+        .CustomInstantiator(f => new()
         {
             FiscalPeriodId = f.Random.Int(1, 9999),
             Name = f.Lorem.Sentence(3)
@@ -123,7 +123,7 @@ public static class MetaFakers
     /// Faker for <see cref="LocationModel"/> (detail response)
     /// </summary>
     public static readonly Faker<LocationModel> Location = new Faker<LocationModel>()
-        .CustomInstantiator(f => new LocationModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Company.CompanyName(),
@@ -138,7 +138,7 @@ public static class MetaFakers
     /// Faker for <see cref="LocationListed"/> (list response)
     /// </summary>
     public static readonly Faker<LocationListed> LocationListed = new Faker<LocationListed>()
-        .CustomInstantiator(f => new LocationListed
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Company.CompanyName(),
@@ -153,7 +153,7 @@ public static class MetaFakers
     /// Faker for <see cref="LocationCreate"/>
     /// </summary>
     public static readonly Faker<LocationCreate> LocationCreate = new Faker<LocationCreate>()
-        .CustomInstantiator(f => new LocationCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Company.CompanyName(),
             OrgName = f.Company.CompanyName(),
@@ -164,7 +164,7 @@ public static class MetaFakers
     /// Faker for <see cref="LocationUpdate"/>
     /// </summary>
     public static readonly Faker<LocationUpdate> LocationUpdate = new Faker<LocationUpdate>()
-        .CustomInstantiator(f => new LocationUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Company.CompanyName(),
@@ -176,7 +176,7 @@ public static class MetaFakers
     /// Faker for <see cref="SettingsModel"/> (read/get response)
     /// </summary>
     public static readonly Faker<SettingsModel> Settings = new Faker<SettingsModel>()
-        .CustomInstantiator(f => new SettingsModel
+        .CustomInstantiator(f => new()
         {
             DefaultCurrencyId = f.Random.Int(1, 999),
             DefaultOpeningAccountId = f.Random.Int(1, 999),
@@ -192,7 +192,7 @@ public static class MetaFakers
     /// Faker for <see cref="SettingsUpdate"/>
     /// </summary>
     public static readonly Faker<SettingsUpdate> SettingsUpdate = new Faker<SettingsUpdate>()
-        .CustomInstantiator(f => new SettingsUpdate
+        .CustomInstantiator(f => new()
         {
             DefaultCurrencyId = f.Random.Int(1, 999),
             DefaultOpeningAccountId = f.Random.Int(1, 999),

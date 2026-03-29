@@ -23,9 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Order;
 using CashCtrlApiNet.Abstractions.Models.Order.BookEntry;
-using CashCtrlApiNet.Abstractions.Models.Person;
 using Shouldly;
 
 namespace CashCtrlApiNet.E2eTests.Order;
@@ -35,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Order;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Order.IBookEntryService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class BookEntryE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;
@@ -67,7 +66,7 @@ public class BookEntryE2eTests : CashCtrlE2eTestBase
             ids => CashCtrlApiClient.Order.Order.Delete(ids));
 
         // Create a person as associate for the order
-        var personResult = await CashCtrlApiClient.Person.Person.Create(new PersonCreate
+        var personResult = await CashCtrlApiClient.Person.Person.Create(new()
         {
             FirstName = _testId,
             LastName = "E2E"
@@ -84,7 +83,7 @@ public class BookEntryE2eTests : CashCtrlE2eTestBase
         var sequenceNumberId = category.SequenceNumberId ?? throw new InvalidOperationException("Order category has no SequenceNumberId");
 
         // Create an order as parent for book entries
-        var orderResult = await CashCtrlApiClient.Order.Order.Create(new OrderCreate
+        var orderResult = await CashCtrlApiClient.Order.Order.Create(new()
         {
             AccountId = _accountId,
             CategoryId = category.Id,
@@ -104,7 +103,7 @@ public class BookEntryE2eTests : CashCtrlE2eTestBase
             ids => CashCtrlApiClient.Order.BookEntry.Delete(ids));
 
         // Create primary test book entry
-        var createResult = await CashCtrlApiClient.Order.BookEntry.Create(new BookEntryCreate
+        var createResult = await CashCtrlApiClient.Order.BookEntry.Create(new()
         {
             OrderId = _orderId,
             AccountId = _accountId,
@@ -158,7 +157,7 @@ public class BookEntryE2eTests : CashCtrlE2eTestBase
     public async Task Create_Success()
     {
         var secondTestId = GenerateTestId();
-        var res = await CashCtrlApiClient.Order.BookEntry.Create(new BookEntryCreate
+        var res = await CashCtrlApiClient.Order.BookEntry.Create(new()
         {
             OrderId = _orderId,
             AccountId = _accountId,

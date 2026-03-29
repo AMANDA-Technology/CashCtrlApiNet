@@ -55,7 +55,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryBookEntry"/> (detail response)
     /// </summary>
     public static readonly Faker<SalaryBookEntry> BookEntry = new Faker<SalaryBookEntry>()
-        .CustomInstantiator(f => new SalaryBookEntry
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             CreditId = f.Random.Int(1, 999),
@@ -72,7 +72,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryBookEntryCreate"/>
     /// </summary>
     public static readonly Faker<SalaryBookEntryCreate> BookEntryCreate = new Faker<SalaryBookEntryCreate>()
-        .CustomInstantiator(f => new SalaryBookEntryCreate
+        .CustomInstantiator(f => new()
         {
             CreditId = f.Random.Int(1, 999),
             DebitId = f.Random.Int(1, 999),
@@ -85,7 +85,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryBookEntryUpdate"/>
     /// </summary>
     public static readonly Faker<SalaryBookEntryUpdate> BookEntryUpdate = new Faker<SalaryBookEntryUpdate>()
-        .CustomInstantiator(f => new SalaryBookEntryUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             CreditId = f.Random.Int(1, 999),
@@ -101,7 +101,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryCategory"/> (detail response)
     /// </summary>
     public static readonly Faker<SalaryCategory> Category = new Faker<SalaryCategory>()
-        .CustomInstantiator(f => new SalaryCategory
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0],
@@ -115,7 +115,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryCategoryCreate"/>
     /// </summary>
     public static readonly Faker<SalaryCategoryCreate> CategoryCreate = new Faker<SalaryCategoryCreate>()
-        .CustomInstantiator(f => new SalaryCategoryCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Commerce.Categories(1)[0],
             Number = f.Random.Int(100, 999).ToString()
@@ -125,7 +125,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryCategoryUpdate"/>
     /// </summary>
     public static readonly Faker<SalaryCategoryUpdate> CategoryUpdate = new Faker<SalaryCategoryUpdate>()
-        .CustomInstantiator(f => new SalaryCategoryUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0],
@@ -138,7 +138,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryCertificate"/> (detail response)
     /// </summary>
     public static readonly Faker<SalaryCertificate> Certificate = new Faker<SalaryCertificate>()
-        .CustomInstantiator(f => new SalaryCertificate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Notes = f.Lorem.Sentence(5),
@@ -151,7 +151,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryCertificateUpdate"/>
     /// </summary>
     public static readonly Faker<SalaryCertificateUpdate> CertificateUpdate = new Faker<SalaryCertificateUpdate>()
-        .CustomInstantiator(f => new SalaryCertificateUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Notes = f.Lorem.Sentence(5)
@@ -163,7 +163,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryCertificateDocument"/> (detail response)
     /// </summary>
     public static readonly Faker<SalaryCertificateDocument> CertificateDocument = new Faker<SalaryCertificateDocument>()
-        .CustomInstantiator(f => new SalaryCertificateDocument
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             CreatedBy = f.Person.UserName,
@@ -177,7 +177,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryCertificateTemplate"/> (detail response)
     /// </summary>
     public static readonly Faker<SalaryCertificateTemplate> CertificateTemplate = new Faker<SalaryCertificateTemplate>()
-        .CustomInstantiator(f => new SalaryCertificateTemplate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Lorem.Word(),
@@ -190,7 +190,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryCertificateTemplateCreate"/>
     /// </summary>
     public static readonly Faker<SalaryCertificateTemplateCreate> CertificateTemplateCreate = new Faker<SalaryCertificateTemplateCreate>()
-        .CustomInstantiator(f => new SalaryCertificateTemplateCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Lorem.Word()
         });
@@ -199,7 +199,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryCertificateTemplateUpdate"/>
     /// </summary>
     public static readonly Faker<SalaryCertificateTemplateUpdate> CertificateTemplateUpdate = new Faker<SalaryCertificateTemplateUpdate>()
-        .CustomInstantiator(f => new SalaryCertificateTemplateUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Lorem.Word()
@@ -211,7 +211,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryDocument"/> (detail response)
     /// </summary>
     public static readonly Faker<SalaryDocument> Document = new Faker<SalaryDocument>()
-        .CustomInstantiator(f => new SalaryDocument
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Header = f.Lorem.Sentence(3),
@@ -225,7 +225,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryDocumentUpdate"/>
     /// </summary>
     public static readonly Faker<SalaryDocumentUpdate> DocumentUpdate = new Faker<SalaryDocumentUpdate>()
-        .CustomInstantiator(f => new SalaryDocumentUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Header = f.Lorem.Sentence(3),
@@ -238,7 +238,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryField"/> (detail response)
     /// </summary>
     public static readonly Faker<SalaryField> Field = new Faker<SalaryField>()
-        .CustomInstantiator(f => new SalaryField
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Lorem.Word(),
@@ -254,7 +254,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryInsuranceType"/> (detail response)
     /// </summary>
     public static readonly Faker<SalaryInsuranceType> InsuranceType = new Faker<SalaryInsuranceType>()
-        .CustomInstantiator(f => new SalaryInsuranceType
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Company.CompanyName(),
@@ -268,7 +268,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryInsuranceTypeCreate"/>
     /// </summary>
     public static readonly Faker<SalaryInsuranceTypeCreate> InsuranceTypeCreate = new Faker<SalaryInsuranceTypeCreate>()
-        .CustomInstantiator(f => new SalaryInsuranceTypeCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Company.CompanyName(),
             Description = f.Lorem.Sentence(3)
@@ -278,7 +278,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryInsuranceTypeUpdate"/>
     /// </summary>
     public static readonly Faker<SalaryInsuranceTypeUpdate> InsuranceTypeUpdate = new Faker<SalaryInsuranceTypeUpdate>()
-        .CustomInstantiator(f => new SalaryInsuranceTypeUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Company.CompanyName(),
@@ -291,7 +291,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryLayout"/> (detail response)
     /// </summary>
     public static readonly Faker<SalaryLayout> Layout = new Faker<SalaryLayout>()
-        .CustomInstantiator(f => new SalaryLayout
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Lorem.Word(),
@@ -304,7 +304,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryLayoutCreate"/>
     /// </summary>
     public static readonly Faker<SalaryLayoutCreate> LayoutCreate = new Faker<SalaryLayoutCreate>()
-        .CustomInstantiator(f => new SalaryLayoutCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Lorem.Word()
         });
@@ -313,7 +313,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryLayoutUpdate"/>
     /// </summary>
     public static readonly Faker<SalaryLayoutUpdate> LayoutUpdate = new Faker<SalaryLayoutUpdate>()
-        .CustomInstantiator(f => new SalaryLayoutUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Lorem.Word()
@@ -325,7 +325,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryPaymentCreate"/>
     /// </summary>
     public static readonly Faker<SalaryPaymentCreate> PaymentCreate = new Faker<SalaryPaymentCreate>()
-        .CustomInstantiator(f => new SalaryPaymentCreate
+        .CustomInstantiator(f => new()
         {
             Date = f.Date.Recent().ToString("yyyy-MM-dd"),
             StatementIds = f.Random.Int(1, 9999).ToString()
@@ -337,7 +337,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalarySetting"/> (detail response)
     /// </summary>
     public static readonly Faker<SalarySetting> Setting = new Faker<SalarySetting>()
-        .CustomInstantiator(f => new SalarySetting
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Lorem.Word(),
@@ -352,7 +352,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalarySettingCreate"/>
     /// </summary>
     public static readonly Faker<SalarySettingCreate> SettingCreate = new Faker<SalarySettingCreate>()
-        .CustomInstantiator(f => new SalarySettingCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Lorem.Word(),
             VariableName = f.Lorem.Word(),
@@ -363,7 +363,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalarySettingUpdate"/>
     /// </summary>
     public static readonly Faker<SalarySettingUpdate> SettingUpdate = new Faker<SalarySettingUpdate>()
-        .CustomInstantiator(f => new SalarySettingUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Lorem.Word(),
@@ -377,7 +377,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryStatement"/> (detail response)
     /// </summary>
     public static readonly Faker<SalaryStatement> Statement = new Faker<SalaryStatement>()
-        .CustomInstantiator(f => new SalaryStatement
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Date = f.Date.Recent().ToString("yyyy-MM-dd"),
@@ -394,7 +394,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryStatementCreate"/>
     /// </summary>
     public static readonly Faker<SalaryStatementCreate> StatementCreate = new Faker<SalaryStatementCreate>()
-        .CustomInstantiator(f => new SalaryStatementCreate
+        .CustomInstantiator(f => new()
         {
             Date = f.Date.Recent().ToString("yyyy-MM-dd"),
             DatePayment = f.Date.Recent().ToString("yyyy-MM-dd"),
@@ -407,7 +407,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryStatementUpdate"/>
     /// </summary>
     public static readonly Faker<SalaryStatementUpdate> StatementUpdate = new Faker<SalaryStatementUpdate>()
-        .CustomInstantiator(f => new SalaryStatementUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Date = f.Date.Recent().ToString("yyyy-MM-dd"),
@@ -423,7 +423,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryStatus"/> (detail response)
     /// </summary>
     public static readonly Faker<SalaryStatus> Status = new Faker<SalaryStatus>()
-        .CustomInstantiator(f => new SalaryStatus
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Lorem.Word(),
@@ -437,7 +437,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryStatusCreate"/>
     /// </summary>
     public static readonly Faker<SalaryStatusCreate> StatusCreate = new Faker<SalaryStatusCreate>()
-        .CustomInstantiator(f => new SalaryStatusCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Lorem.Word(),
             Icon = f.PickRandom<SalaryStatusIcon>()
@@ -447,7 +447,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryStatusUpdate"/>
     /// </summary>
     public static readonly Faker<SalaryStatusUpdate> StatusUpdate = new Faker<SalaryStatusUpdate>()
-        .CustomInstantiator(f => new SalaryStatusUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Lorem.Word(),
@@ -460,7 +460,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalarySum"/> (detail response)
     /// </summary>
     public static readonly Faker<SalarySum> Sum = new Faker<SalarySum>()
-        .CustomInstantiator(f => new SalarySum
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Lorem.Word(),
@@ -475,7 +475,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalarySumCreate"/>
     /// </summary>
     public static readonly Faker<SalarySumCreate> SumCreate = new Faker<SalarySumCreate>()
-        .CustomInstantiator(f => new SalarySumCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Lorem.Word(),
             VariableName = f.Lorem.Word(),
@@ -486,7 +486,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalarySumUpdate"/>
     /// </summary>
     public static readonly Faker<SalarySumUpdate> SumUpdate = new Faker<SalarySumUpdate>()
-        .CustomInstantiator(f => new SalarySumUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Lorem.Word(),
@@ -500,7 +500,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryTemplate"/> (detail response)
     /// </summary>
     public static readonly Faker<SalaryTemplate> Template = new Faker<SalaryTemplate>()
-        .CustomInstantiator(f => new SalaryTemplate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Lorem.Word(),
@@ -513,7 +513,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryTemplateCreate"/>
     /// </summary>
     public static readonly Faker<SalaryTemplateCreate> TemplateCreate = new Faker<SalaryTemplateCreate>()
-        .CustomInstantiator(f => new SalaryTemplateCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Lorem.Word()
         });
@@ -522,7 +522,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryTemplateUpdate"/>
     /// </summary>
     public static readonly Faker<SalaryTemplateUpdate> TemplateUpdate = new Faker<SalaryTemplateUpdate>()
-        .CustomInstantiator(f => new SalaryTemplateUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Lorem.Word()
@@ -534,7 +534,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryType"/> (detail response)
     /// </summary>
     public static readonly Faker<SalaryType> Type = new Faker<SalaryType>()
-        .CustomInstantiator(f => new SalaryType
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             CategoryId = f.Random.Int(1, 100),
@@ -550,7 +550,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryTypeCreate"/>
     /// </summary>
     public static readonly Faker<SalaryTypeCreate> TypeCreate = new Faker<SalaryTypeCreate>()
-        .CustomInstantiator(f => new SalaryTypeCreate
+        .CustomInstantiator(f => new()
         {
             CategoryId = f.Random.Int(1, 100),
             Name = f.Lorem.Word(),
@@ -562,7 +562,7 @@ public static class SalaryFakers
     /// Faker for <see cref="SalaryTypeUpdate"/>
     /// </summary>
     public static readonly Faker<SalaryTypeUpdate> TypeUpdate = new Faker<SalaryTypeUpdate>()
-        .CustomInstantiator(f => new SalaryTypeUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             CategoryId = f.Random.Int(1, 100),

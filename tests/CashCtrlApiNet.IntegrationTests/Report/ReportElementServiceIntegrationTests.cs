@@ -23,8 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Report.Element;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -48,7 +46,7 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(element));
 
         // Act
-        var result = await Client.Report.Element.Get(new Entry { Id = element.Id });
+        var result = await Client.Report.Element.Get(new() { Id = element.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -113,7 +111,7 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Report element deleted"));
 
         // Act
-        var result = await Client.Report.Element.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Report.Element.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -133,7 +131,7 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Report elements reordered"));
 
         // Act
-        var result = await Client.Report.Element.Reorder(new ReportElementReorder
+        var result = await Client.Report.Element.Reorder(new()
         {
             Ids = [1, 2, 3],
             Target = 5
@@ -158,7 +156,7 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(element));
 
         // Act
-        var result = await Client.Report.Element.GetData(new Entry { Id = element.Id });
+        var result = await Client.Report.Element.GetData(new() { Id = element.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -179,7 +177,7 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
             "text/html", "report.html");
 
         // Act
-        var result = await Client.Report.Element.GetDataHtml(new Entry { Id = 1 });
+        var result = await Client.Report.Element.GetDataHtml(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -199,7 +197,7 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(element));
 
         // Act
-        var result = await Client.Report.Element.GetMeta(new Entry { Id = element.Id });
+        var result = await Client.Report.Element.GetMeta(new() { Id = element.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -220,7 +218,7 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
             "application/pdf", "report-element.pdf");
 
         // Act
-        var result = await Client.Report.Element.DownloadPdf(new Entry { Id = 1 });
+        var result = await Client.Report.Element.DownloadPdf(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -240,7 +238,7 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
             "text/csv", "report-element.csv");
 
         // Act
-        var result = await Client.Report.Element.DownloadCsv(new Entry { Id = 1 });
+        var result = await Client.Report.Element.DownloadCsv(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -260,7 +258,7 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "report-element.xlsx");
 
         // Act
-        var result = await Client.Report.Element.DownloadExcel(new Entry { Id = 1 });
+        var result = await Client.Report.Element.DownloadExcel(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

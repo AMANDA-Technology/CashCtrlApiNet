@@ -32,6 +32,7 @@ namespace CashCtrlApiNet.E2eTests.Common;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Common.IHistoryService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class HistoryE2eTests : CashCtrlE2eTestBase
 {
     private int _accountId;

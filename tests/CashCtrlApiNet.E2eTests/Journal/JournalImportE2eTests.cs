@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Journal.Import;
 using Shouldly;
 
 namespace CashCtrlApiNet.E2eTests.Journal;
@@ -33,6 +32,7 @@ namespace CashCtrlApiNet.E2eTests.Journal;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Journal.IJournalImportService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class JournalImportE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;

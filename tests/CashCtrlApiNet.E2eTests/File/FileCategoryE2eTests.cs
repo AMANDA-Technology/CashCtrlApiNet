@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.File;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.File.IFileCategoryService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class FileCategoryE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;

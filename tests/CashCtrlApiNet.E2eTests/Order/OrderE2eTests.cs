@@ -24,7 +24,6 @@ SOFTWARE.
 */
 
 using CashCtrlApiNet.Abstractions.Models.Order;
-using CashCtrlApiNet.Abstractions.Models.Person;
 using Shouldly;
 
 namespace CashCtrlApiNet.E2eTests.Order;
@@ -34,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Order;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Order.IOrderService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class OrderE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;
@@ -69,7 +69,7 @@ public class OrderE2eTests : CashCtrlE2eTestBase
             ids => CashCtrlApiClient.Order.Order.Delete(ids));
 
         // Create a person as associate for the order
-        var personResult = await CashCtrlApiClient.Person.Person.Create(new PersonCreate
+        var personResult = await CashCtrlApiClient.Person.Person.Create(new()
         {
             FirstName = _testId,
             LastName = "E2E"
@@ -86,7 +86,7 @@ public class OrderE2eTests : CashCtrlE2eTestBase
         _sequenceNumberId = category.SequenceNumberId ?? throw new InvalidOperationException("Order category has no SequenceNumberId");
 
         // Create primary test order
-        var createResult = await CashCtrlApiClient.Order.Order.Create(new OrderCreate
+        var createResult = await CashCtrlApiClient.Order.Order.Create(new()
         {
             AccountId = _accountId,
             CategoryId = _categoryId,
@@ -99,7 +99,7 @@ public class OrderE2eTests : CashCtrlE2eTestBase
         RegisterCleanup(async () => await CashCtrlApiClient.Order.Order.Delete(new() { Ids = [_setupOrderId] }));
 
         // Create a second order for dossier tests
-        var secondResult = await CashCtrlApiClient.Order.Order.Create(new OrderCreate
+        var secondResult = await CashCtrlApiClient.Order.Order.Create(new()
         {
             AccountId = _accountId,
             CategoryId = _categoryId,
@@ -153,7 +153,7 @@ public class OrderE2eTests : CashCtrlE2eTestBase
     [Test, Order(3)]
     public async Task Create_Success()
     {
-        var res = await CashCtrlApiClient.Order.Order.Create(new OrderCreate
+        var res = await CashCtrlApiClient.Order.Order.Create(new()
         {
             AccountId = _accountId,
             CategoryId = _categoryId,
@@ -199,7 +199,7 @@ public class OrderE2eTests : CashCtrlE2eTestBase
         var statusResult = await CashCtrlApiClient.Order.Category.GetStatus(new() { Id = _categoryId });
         var category = AssertSuccess(statusResult);
 
-        var res = await CashCtrlApiClient.Order.Order.UpdateStatus(new OrderStatusUpdate
+        var res = await CashCtrlApiClient.Order.Order.UpdateStatus(new()
         {
             Id = _setupOrderId,
             StatusId = category.Id
@@ -213,7 +213,7 @@ public class OrderE2eTests : CashCtrlE2eTestBase
     [Test, Order(6)]
     public async Task UpdateRecurrence_Success()
     {
-        var res = await CashCtrlApiClient.Order.Order.UpdateRecurrence(new OrderRecurrenceUpdate
+        var res = await CashCtrlApiClient.Order.Order.UpdateRecurrence(new()
         {
             Id = _setupOrderId,
             Recurrence = "MONTHLY"
@@ -248,7 +248,7 @@ public class OrderE2eTests : CashCtrlE2eTestBase
     [Test, Order(9)]
     public async Task DossierAdd_Success()
     {
-        var res = await CashCtrlApiClient.Order.Order.DossierAdd(new OrderDossierModify
+        var res = await CashCtrlApiClient.Order.Order.DossierAdd(new()
         {
             Id = _setupOrderId,
             DossierId = _secondOrderId
@@ -262,7 +262,7 @@ public class OrderE2eTests : CashCtrlE2eTestBase
     [Test, Order(10)]
     public async Task DossierRemove_Success()
     {
-        var res = await CashCtrlApiClient.Order.Order.DossierRemove(new OrderDossierModify
+        var res = await CashCtrlApiClient.Order.Order.DossierRemove(new()
         {
             Id = _setupOrderId,
             DossierId = _secondOrderId

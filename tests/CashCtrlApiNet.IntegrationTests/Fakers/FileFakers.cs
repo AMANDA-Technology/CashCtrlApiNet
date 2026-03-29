@@ -39,7 +39,7 @@ public static class FileFakers
     /// Faker for <see cref="FileModel"/> (detail/list response)
     /// </summary>
     public static readonly Faker<FileModel> File = new Faker<FileModel>()
-        .CustomInstantiator(f => new FileModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.System.FileName(),
@@ -53,7 +53,7 @@ public static class FileFakers
     /// Faker for <see cref="FileCreate"/>
     /// </summary>
     public static readonly Faker<FileCreate> FileCreate = new Faker<FileCreate>()
-        .CustomInstantiator(f => new FileCreate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.System.FileName(),
@@ -65,7 +65,7 @@ public static class FileFakers
     /// Faker for <see cref="FileUpdate"/>
     /// </summary>
     public static readonly Faker<FileUpdate> FileUpdate = new Faker<FileUpdate>()
-        .CustomInstantiator(f => new FileUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.System.FileName(),
@@ -77,7 +77,7 @@ public static class FileFakers
     /// Faker for <see cref="FileCategory"/> (detail response)
     /// </summary>
     public static readonly Faker<FileCategory> FileCategory = new Faker<FileCategory>()
-        .CustomInstantiator(f => new FileCategory
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0],
@@ -91,7 +91,7 @@ public static class FileFakers
     /// Faker for <see cref="FileCategoryCreate"/>
     /// </summary>
     public static readonly Faker<FileCategoryCreate> FileCategoryCreate = new Faker<FileCategoryCreate>()
-        .CustomInstantiator(f => new FileCategoryCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Commerce.Categories(1)[0]
         });
@@ -100,7 +100,7 @@ public static class FileFakers
     /// Faker for <see cref="FileCategoryUpdate"/>
     /// </summary>
     public static readonly Faker<FileCategoryUpdate> FileCategoryUpdate = new Faker<FileCategoryUpdate>()
-        .CustomInstantiator(f => new FileCategoryUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0]

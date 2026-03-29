@@ -85,7 +85,7 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
         if (!baseUri.EndsWith('/'))
             baseUri += '/';
 
-        _baseAddress = new Uri(baseUri);
+        _baseAddress = new(baseUri);
         _authHeader = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{configuration.ApiKey}:")));
 
         // Create a new http client for instance
@@ -121,7 +121,7 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
         if (!baseUri.EndsWith('/'))
             baseUri += '/';
 
-        _baseAddress = new Uri(baseUri);
+        _baseAddress = new(baseUri);
         _authHeader = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{configuration.ApiKey}:")));
     }
 
@@ -269,7 +269,7 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
                 : 0m
         };
 
-        return new ApiResult<BalanceResponse>
+        return new()
         {
             IsHttpSuccess = httpResponseMessage.IsSuccessStatusCode,
             HttpStatusCode = httpResponseMessage.StatusCode,
@@ -295,7 +295,7 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
             FileName = httpResponseMessage.Content.Headers.ContentDisposition?.FileName?.Trim('"')
         };
 
-        return new ApiResult<BinaryResponse>
+        return new()
         {
             IsHttpSuccess = httpResponseMessage.IsSuccessStatusCode,
             HttpStatusCode = httpResponseMessage.StatusCode,

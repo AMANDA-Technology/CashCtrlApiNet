@@ -38,8 +38,8 @@ namespace CashCtrlApiNet.Services.Connectors.Meta;
 public class LocationService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ILocationService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Meta.Location.Location>>> Get(Entry location, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<SingleResponse<Abstractions.Models.Meta.Location.Location>, Entry>(Endpoint.Read, location, cancellationToken);
+    public Task<ApiResult<SingleResponse<Location>>> Get(Entry location, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<SingleResponse<Location>, Entry>(Endpoint.Read, location, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<ListResponse<LocationListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)

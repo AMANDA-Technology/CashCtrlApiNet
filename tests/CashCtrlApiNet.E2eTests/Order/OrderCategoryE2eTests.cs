@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Order;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Order.IOrderCategoryService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class OrderCategoryE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;
@@ -56,7 +57,7 @@ public class OrderCategoryE2eTests : CashCtrlE2eTestBase
             ids => CashCtrlApiClient.Order.Category.Delete(ids));
 
         // Create primary test order category
-        var createResult = await CashCtrlApiClient.Order.Category.Create(new OrderCategoryCreate
+        var createResult = await CashCtrlApiClient.Order.Category.Create(new()
         {
             Name = _testId
         });
@@ -107,7 +108,7 @@ public class OrderCategoryE2eTests : CashCtrlE2eTestBase
     public async Task Create_Success()
     {
         var secondTestId = GenerateTestId();
-        var res = await CashCtrlApiClient.Order.Category.Create(new OrderCategoryCreate
+        var res = await CashCtrlApiClient.Order.Category.Create(new()
         {
             Name = secondTestId
         });
@@ -144,7 +145,7 @@ public class OrderCategoryE2eTests : CashCtrlE2eTestBase
     [Test, Order(5)]
     public async Task Reorder_Success()
     {
-        var res = await CashCtrlApiClient.Order.Category.Reorder(new OrderCategoryReorder
+        var res = await CashCtrlApiClient.Order.Category.Reorder(new()
         {
             Ids = [_setupCategoryId],
             Target = _setupCategoryId

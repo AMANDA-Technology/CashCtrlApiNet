@@ -23,9 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Order;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -49,7 +47,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(order));
 
         // Act
-        var result = await Client.Order.Order.Get(new Entry { Id = order.Id });
+        var result = await Client.Order.Order.Get(new() { Id = order.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -156,7 +154,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Order deleted"));
 
         // Act
-        var result = await Client.Order.Order.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Order.Order.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -176,7 +174,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Status updated"));
 
         // Act
-        var result = await Client.Order.Order.UpdateStatus(new OrderStatusUpdate
+        var result = await Client.Order.Order.UpdateStatus(new()
         {
             Id = 1,
             StatusId = 5
@@ -200,7 +198,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Recurrence updated"));
 
         // Act
-        var result = await Client.Order.Order.UpdateRecurrence(new OrderRecurrenceUpdate
+        var result = await Client.Order.Order.UpdateRecurrence(new()
         {
             Id = 1,
             Recurrence = "{\"type\":\"monthly\",\"interval\":1}"
@@ -224,7 +222,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Order continued"));
 
         // Act
-        var result = await Client.Order.Order.Continue(new Entry { Id = 1 });
+        var result = await Client.Order.Order.Continue(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -245,7 +243,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(orders));
 
         // Act
-        var result = await Client.Order.Order.GetDossier(new Entry { Id = 1 });
+        var result = await Client.Order.Order.GetDossier(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -264,7 +262,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Order added to dossier"));
 
         // Act
-        var result = await Client.Order.Order.DossierAdd(new OrderDossierModify
+        var result = await Client.Order.Order.DossierAdd(new()
         {
             Id = 1,
             DossierId = 10
@@ -288,7 +286,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Order removed from dossier"));
 
         // Act
-        var result = await Client.Order.Order.DossierRemove(new OrderDossierModify
+        var result = await Client.Order.Order.DossierRemove(new()
         {
             Id = 1,
             DossierId = 10
@@ -312,7 +310,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Attachments updated"));
 
         // Act
-        var result = await Client.Order.Order.UpdateAttachments(new EntryAttachments
+        var result = await Client.Order.Order.UpdateAttachments(new()
         {
             Id = 1,
             AttachedFileIds = [10, 20]

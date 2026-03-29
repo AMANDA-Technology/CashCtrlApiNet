@@ -47,7 +47,7 @@ public class SequenceNumberServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(sequenceNumber));
 
         // Act
-        var result = await Client.Common.SequenceNumber.Get(new Entry { Id = sequenceNumber.Id });
+        var result = await Client.Common.SequenceNumber.Get(new() { Id = sequenceNumber.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -153,7 +153,7 @@ public class SequenceNumberServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Sequence number deleted"));
 
         // Act
-        var result = await Client.Common.SequenceNumber.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Common.SequenceNumber.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -174,7 +174,7 @@ public class SequenceNumberServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(sequenceNumber));
 
         // Act
-        var result = await Client.Common.SequenceNumber.GetGeneratedNumber(new Entry { Id = sequenceNumber.Id });
+        var result = await Client.Common.SequenceNumber.GetGeneratedNumber(new() { Id = sequenceNumber.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -48,7 +47,7 @@ public class RequestParameterValidationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(article));
 
         // Act
-        var result = await Client.Inventory.Article.Get(new Entry { Id = 42 });
+        var result = await Client.Inventory.Article.Get(new() { Id = 42 });
 
         // Assert - request parameters
         var request = Server.ShouldHaveReceivedRequest("/api/v1/inventory/article/read.json", "GET");
@@ -78,7 +77,7 @@ public class RequestParameterValidationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(person));
 
         // Act
-        var result = await Client.Person.Person.Get(new Entry { Id = 7 });
+        var result = await Client.Person.Person.Get(new() { Id = 7 });
 
         // Assert - request parameters
         var request = Server.ShouldHaveReceivedRequest("/api/v1/person/read.json", "GET");
@@ -189,7 +188,7 @@ public class RequestParameterValidationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Article deleted"));
 
         // Act
-        var result = await Client.Inventory.Article.Delete(new Entries { Ids = [10, 20, 30] });
+        var result = await Client.Inventory.Article.Delete(new() { Ids = [10, 20, 30] });
 
         // Assert - request parameters
         var request = Server.ShouldHaveReceivedRequest("/api/v1/inventory/article/delete.json", "POST");

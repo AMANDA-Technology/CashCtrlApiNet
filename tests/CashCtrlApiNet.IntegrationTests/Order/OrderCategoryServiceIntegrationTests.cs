@@ -23,9 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Order.Category;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -49,7 +47,7 @@ public class OrderCategoryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(category));
 
         // Act
-        var result = await Client.Order.Category.Get(new Entry { Id = category.Id });
+        var result = await Client.Order.Category.Get(new() { Id = category.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -154,7 +152,7 @@ public class OrderCategoryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Order category deleted"));
 
         // Act
-        var result = await Client.Order.Category.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Order.Category.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -174,7 +172,7 @@ public class OrderCategoryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Order categories reordered"));
 
         // Act
-        var result = await Client.Order.Category.Reorder(new OrderCategoryReorder
+        var result = await Client.Order.Category.Reorder(new()
         {
             Ids = [1, 2, 3],
             Target = 5
@@ -199,7 +197,7 @@ public class OrderCategoryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(category));
 
         // Act
-        var result = await Client.Order.Category.GetStatus(new Entry { Id = category.Id });
+        var result = await Client.Order.Category.GetStatus(new() { Id = category.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

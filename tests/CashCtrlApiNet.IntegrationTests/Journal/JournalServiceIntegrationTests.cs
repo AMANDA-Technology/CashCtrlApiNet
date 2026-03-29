@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
@@ -48,7 +47,7 @@ public class JournalServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(journal));
 
         // Act
-        var result = await Client.Journal.Journal.Get(new Entry { Id = journal.Id });
+        var result = await Client.Journal.Journal.Get(new() { Id = journal.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -155,7 +154,7 @@ public class JournalServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Journal deleted"));
 
         // Act
-        var result = await Client.Journal.Journal.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Journal.Journal.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -175,7 +174,7 @@ public class JournalServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Attachments updated"));
 
         // Act
-        var result = await Client.Journal.Journal.UpdateAttachments(new EntryAttachments
+        var result = await Client.Journal.Journal.UpdateAttachments(new()
         {
             Id = 1,
             AttachedFileIds = [10, 20]
@@ -198,7 +197,7 @@ public class JournalServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Recurrence updated"));
 
         // Act
-        var result = await Client.Journal.Journal.UpdateRecurrence(new EntryRecurrence
+        var result = await Client.Journal.Journal.UpdateRecurrence(new()
         {
             Id = 1,
             Recurrence = "{\"type\":\"monthly\",\"interval\":1}"

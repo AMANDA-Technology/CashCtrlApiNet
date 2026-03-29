@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -47,7 +46,7 @@ public class ConcurrencyIntegrationTests : IntegrationTestBase
 
         // Act: fire 20 concurrent GET requests
         var tasks = Enumerable.Range(0, concurrentRequests)
-            .Select(_ => Client.Account.Account.Get(new Entry { Id = account.Id }))
+            .Select(_ => Client.Account.Account.Get(new() { Id = account.Id }))
             .ToArray();
 
         var results = await Task.WhenAll(tasks);
@@ -81,7 +80,7 @@ public class ConcurrencyIntegrationTests : IntegrationTestBase
 
         // Act: fire concurrent mixed requests (GET, LIST, POST, BINARY)
         var getTasks = Enumerable.Range(0, 5)
-            .Select(_ => Client.Account.Account.Get(new Entry { Id = account.Id }));
+            .Select(_ => Client.Account.Account.Get(new() { Id = account.Id }));
         var listTasks = Enumerable.Range(0, 5)
             .Select(_ => Client.Account.Account.GetList());
         var createTasks = Enumerable.Range(0, 5)
@@ -111,8 +110,8 @@ public class ConcurrencyIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(article));
 
         // Act: fire concurrent requests to different domains
-        var accountTask = Client.Account.Account.Get(new Entry { Id = account.Id });
-        var articleTask = Client.Inventory.Article.Get(new Entry { Id = article.Id });
+        var accountTask = Client.Account.Account.Get(new() { Id = account.Id });
+        var articleTask = Client.Inventory.Article.Get(new() { Id = article.Id });
 
         await Task.WhenAll(accountTask, articleTask);
 

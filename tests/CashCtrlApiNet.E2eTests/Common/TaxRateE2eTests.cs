@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Common;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Common.ITaxRateService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class TaxRateE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;

@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Net.Http.Headers;
 using CashCtrlApiNet.Abstractions.Models.File;
 using Shouldly;
 
@@ -35,6 +34,7 @@ namespace CashCtrlApiNet.E2eTests.File;
 /// including the two-step Prepare/Persist upload workflow and archive management.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class FileE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;
@@ -79,7 +79,7 @@ public class FileE2eTests : CashCtrlE2eTestBase
         var content = new MultipartFormDataContent();
         var fileBytes = "E2E test file content"u8.ToArray();
         var byteContent = new ByteArrayContent(fileBytes);
-        byteContent.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+        byteContent.Headers.ContentType = new("text/plain");
         content.Add(byteContent, "file", $"{_testId}.txt");
 
         var prepareResult = await CashCtrlApiClient.File.File.Prepare(content);
@@ -150,7 +150,7 @@ public class FileE2eTests : CashCtrlE2eTestBase
         var content = new MultipartFormDataContent();
         var fileBytes = "E2E prepare test content"u8.ToArray();
         var byteContent = new ByteArrayContent(fileBytes);
-        byteContent.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+        byteContent.Headers.ContentType = new("text/plain");
         content.Add(byteContent, "file", $"{prepareTestId}.txt");
 
         var res = await CashCtrlApiClient.File.File.Prepare(content);
@@ -182,7 +182,7 @@ public class FileE2eTests : CashCtrlE2eTestBase
         var content = new MultipartFormDataContent();
         var fileBytes = "E2E create test content"u8.ToArray();
         var byteContent = new ByteArrayContent(fileBytes);
-        byteContent.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+        byteContent.Headers.ContentType = new("text/plain");
         content.Add(byteContent, "file", $"{createTestId}.txt");
 
         var prepareRes = await CashCtrlApiClient.File.File.Prepare(content);

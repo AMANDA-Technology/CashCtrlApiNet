@@ -63,13 +63,13 @@ public class SalaryDocumentServiceTests : ServiceTestBase<SalaryDocumentService>
     {
         var entries = new Entries { Ids = [1, 2] };
         ConnectionHandler
-            .GetBinaryAsync<Entries>(Arg.Any<string>(), Arg.Any<Entries>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entries>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.DownloadPdf(entries);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync<Entries>(SalaryEndpoints.Document.ReadPdf, entries, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(SalaryEndpoints.Document.ReadPdf, entries, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
@@ -78,13 +78,13 @@ public class SalaryDocumentServiceTests : ServiceTestBase<SalaryDocumentService>
     {
         var entries = new Entries { Ids = [1, 2] };
         ConnectionHandler
-            .GetBinaryAsync<Entries>(Arg.Any<string>(), Arg.Any<Entries>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entries>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.DownloadZip(entries);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync<Entries>(SalaryEndpoints.Document.ReadZip, entries, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(SalaryEndpoints.Document.ReadZip, entries, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 

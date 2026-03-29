@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Inventory;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Inventory.IArticleCategoryService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class ArticleCategoryE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;

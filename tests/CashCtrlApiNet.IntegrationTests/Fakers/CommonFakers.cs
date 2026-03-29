@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using Bogus;
 using CashCtrlApiNet.Abstractions.Enums.Common;
 using CashCtrlApiNet.Abstractions.Models.Common.Currency;
@@ -48,7 +47,7 @@ public static class CommonFakers
     /// Faker for <see cref="Currency"/> (detail response)
     /// </summary>
     public static readonly Faker<Currency> Currency = new Faker<Currency>()
-        .CustomInstantiator(f => new Currency
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Code = f.Finance.Currency().Code,
@@ -63,7 +62,7 @@ public static class CommonFakers
     /// Faker for <see cref="CurrencyListed"/> (list response)
     /// </summary>
     public static readonly Faker<CurrencyListed> CurrencyListed = new Faker<CurrencyListed>()
-        .CustomInstantiator(f => new CurrencyListed
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Code = f.Finance.Currency().Code,
@@ -78,7 +77,7 @@ public static class CommonFakers
     /// Faker for <see cref="CurrencyCreate"/>
     /// </summary>
     public static readonly Faker<CurrencyCreate> CurrencyCreate = new Faker<CurrencyCreate>()
-        .CustomInstantiator(f => new CurrencyCreate
+        .CustomInstantiator(f => new()
         {
             Code = f.Finance.Currency().Code
         });
@@ -87,7 +86,7 @@ public static class CommonFakers
     /// Faker for <see cref="CurrencyUpdate"/>
     /// </summary>
     public static readonly Faker<CurrencyUpdate> CurrencyUpdate = new Faker<CurrencyUpdate>()
-        .CustomInstantiator(f => new CurrencyUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Code = f.Finance.Currency().Code
@@ -97,7 +96,7 @@ public static class CommonFakers
     /// Faker for <see cref="CurrencyExchangeRate"/>
     /// </summary>
     public static readonly Faker<CurrencyExchangeRate> CurrencyExchangeRate = new Faker<CurrencyExchangeRate>()
-        .CustomInstantiator(f => new CurrencyExchangeRate
+        .CustomInstantiator(f => new()
         {
             Rate = f.Random.Double(0.5, 2.0)
         });
@@ -108,7 +107,7 @@ public static class CommonFakers
     /// Faker for <see cref="CustomField"/> (detail response)
     /// </summary>
     public static readonly Faker<CustomField> CustomField = new Faker<CustomField>()
-        .CustomInstantiator(f => new CustomField
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             DataType = f.PickRandom<CustomFieldDataType>(),
@@ -122,7 +121,7 @@ public static class CommonFakers
     /// Faker for <see cref="CustomFieldListed"/> (list response)
     /// </summary>
     public static readonly Faker<CustomFieldListed> CustomFieldListed = new Faker<CustomFieldListed>()
-        .CustomInstantiator(f => new CustomFieldListed
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             DataType = f.PickRandom<CustomFieldDataType>(),
@@ -136,7 +135,7 @@ public static class CommonFakers
     /// Faker for <see cref="CustomFieldCreate"/>
     /// </summary>
     public static readonly Faker<CustomFieldCreate> CustomFieldCreate = new Faker<CustomFieldCreate>()
-        .CustomInstantiator(f => new CustomFieldCreate
+        .CustomInstantiator(f => new()
         {
             DataType = f.PickRandom<CustomFieldDataType>(),
             RowLabel = f.Lorem.Word(),
@@ -147,7 +146,7 @@ public static class CommonFakers
     /// Faker for <see cref="CustomFieldUpdate"/>
     /// </summary>
     public static readonly Faker<CustomFieldUpdate> CustomFieldUpdate = new Faker<CustomFieldUpdate>()
-        .CustomInstantiator(f => new CustomFieldUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             DataType = f.PickRandom<CustomFieldDataType>(),
@@ -161,7 +160,7 @@ public static class CommonFakers
     /// Faker for <see cref="CustomFieldGroup"/> (detail response)
     /// </summary>
     public static readonly Faker<CustomFieldGroup> CustomFieldGroup = new Faker<CustomFieldGroup>()
-        .CustomInstantiator(f => new CustomFieldGroup
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Department(),
@@ -174,7 +173,7 @@ public static class CommonFakers
     /// Faker for <see cref="CustomFieldGroupListed"/> (list response)
     /// </summary>
     public static readonly Faker<CustomFieldGroupListed> CustomFieldGroupListed = new Faker<CustomFieldGroupListed>()
-        .CustomInstantiator(f => new CustomFieldGroupListed
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Department(),
@@ -187,7 +186,7 @@ public static class CommonFakers
     /// Faker for <see cref="CustomFieldGroupCreate"/>
     /// </summary>
     public static readonly Faker<CustomFieldGroupCreate> CustomFieldGroupCreate = new Faker<CustomFieldGroupCreate>()
-        .CustomInstantiator(f => new CustomFieldGroupCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Commerce.Department(),
             Type = f.PickRandom<CustomFieldType>()
@@ -197,7 +196,7 @@ public static class CommonFakers
     /// Faker for <see cref="CustomFieldGroupUpdate"/>
     /// </summary>
     public static readonly Faker<CustomFieldGroupUpdate> CustomFieldGroupUpdate = new Faker<CustomFieldGroupUpdate>()
-        .CustomInstantiator(f => new CustomFieldGroupUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Department(),
@@ -210,7 +209,7 @@ public static class CommonFakers
     /// Faker for <see cref="HistoryEntry"/>
     /// </summary>
     public static readonly Faker<HistoryEntry> HistoryEntry = new Faker<HistoryEntry>()
-        .CustomInstantiator(f => new HistoryEntry
+        .CustomInstantiator(f => new()
         {
             ActionType = f.PickRandom("CREATE", "UPDATE", "DELETE"),
             UserId = f.Random.Int(1, 100),
@@ -224,13 +223,13 @@ public static class CommonFakers
     /// Faker for <see cref="Rounding"/> (detail response)
     /// </summary>
     public static readonly Faker<Rounding> Rounding = new Faker<Rounding>()
-        .CustomInstantiator(f => new Rounding
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             AccountId = f.Random.Int(1, 100),
             Name = f.Commerce.ProductName() + " Rounding",
             Mode = f.PickRandom<RoundingMode>(),
-            Value = f.Random.Double(0.01, 1.0),
+            Value = f.Random.Double(0.01),
             CreatedBy = f.Person.UserName,
             LastUpdatedBy = f.Person.UserName
         });
@@ -239,13 +238,13 @@ public static class CommonFakers
     /// Faker for <see cref="RoundingListed"/> (list response)
     /// </summary>
     public static readonly Faker<RoundingListed> RoundingListed = new Faker<RoundingListed>()
-        .CustomInstantiator(f => new RoundingListed
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             AccountId = f.Random.Int(1, 100),
             Name = f.Commerce.ProductName() + " Rounding",
             Mode = f.PickRandom<RoundingMode>(),
-            Value = f.Random.Double(0.01, 1.0),
+            Value = f.Random.Double(0.01),
             CreatedBy = f.Person.UserName,
             LastUpdatedBy = f.Person.UserName
         });
@@ -254,7 +253,7 @@ public static class CommonFakers
     /// Faker for <see cref="RoundingCreate"/>
     /// </summary>
     public static readonly Faker<RoundingCreate> RoundingCreate = new Faker<RoundingCreate>()
-        .CustomInstantiator(f => new RoundingCreate
+        .CustomInstantiator(f => new()
         {
             AccountId = f.Random.Int(1, 100),
             Name = f.Commerce.ProductName() + " Rounding"
@@ -264,7 +263,7 @@ public static class CommonFakers
     /// Faker for <see cref="RoundingUpdate"/>
     /// </summary>
     public static readonly Faker<RoundingUpdate> RoundingUpdate = new Faker<RoundingUpdate>()
-        .CustomInstantiator(f => new RoundingUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             AccountId = f.Random.Int(1, 100),
@@ -277,7 +276,7 @@ public static class CommonFakers
     /// Faker for <see cref="SequenceNumber"/> (detail response)
     /// </summary>
     public static readonly Faker<SequenceNumber> SequenceNumber = new Faker<SequenceNumber>()
-        .CustomInstantiator(f => new SequenceNumber
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.ProductName() + " Sequence",
@@ -290,7 +289,7 @@ public static class CommonFakers
     /// Faker for <see cref="SequenceNumberListed"/> (list response)
     /// </summary>
     public static readonly Faker<SequenceNumberListed> SequenceNumberListed = new Faker<SequenceNumberListed>()
-        .CustomInstantiator(f => new SequenceNumberListed
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.ProductName() + " Sequence",
@@ -303,7 +302,7 @@ public static class CommonFakers
     /// Faker for <see cref="SequenceNumberCreate"/>
     /// </summary>
     public static readonly Faker<SequenceNumberCreate> SequenceNumberCreate = new Faker<SequenceNumberCreate>()
-        .CustomInstantiator(f => new SequenceNumberCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Commerce.ProductName() + " Sequence",
             Pattern = "{YYYY}-{####}"
@@ -313,7 +312,7 @@ public static class CommonFakers
     /// Faker for <see cref="SequenceNumberUpdate"/>
     /// </summary>
     public static readonly Faker<SequenceNumberUpdate> SequenceNumberUpdate = new Faker<SequenceNumberUpdate>()
-        .CustomInstantiator(f => new SequenceNumberUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.ProductName() + " Sequence",
@@ -326,7 +325,7 @@ public static class CommonFakers
     /// Faker for <see cref="TaxRate"/> (detail response)
     /// </summary>
     public static readonly Faker<TaxRate> TaxRate = new Faker<TaxRate>()
-        .CustomInstantiator(f => new TaxRate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             AccountId = f.Random.Int(1, 100),
@@ -341,7 +340,7 @@ public static class CommonFakers
     /// Faker for <see cref="TaxRateListed"/> (list response)
     /// </summary>
     public static readonly Faker<TaxRateListed> TaxRateListed = new Faker<TaxRateListed>()
-        .CustomInstantiator(f => new TaxRateListed
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             AccountId = f.Random.Int(1, 100),
@@ -356,7 +355,7 @@ public static class CommonFakers
     /// Faker for <see cref="TaxRateCreate"/>
     /// </summary>
     public static readonly Faker<TaxRateCreate> TaxRateCreate = new Faker<TaxRateCreate>()
-        .CustomInstantiator(f => new TaxRateCreate
+        .CustomInstantiator(f => new()
         {
             AccountId = f.Random.Int(1, 100),
             Name = f.Commerce.ProductName() + " Tax"
@@ -366,7 +365,7 @@ public static class CommonFakers
     /// Faker for <see cref="TaxRateUpdate"/>
     /// </summary>
     public static readonly Faker<TaxRateUpdate> TaxRateUpdate = new Faker<TaxRateUpdate>()
-        .CustomInstantiator(f => new TaxRateUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             AccountId = f.Random.Int(1, 100),
@@ -379,7 +378,7 @@ public static class CommonFakers
     /// Faker for <see cref="TextTemplate"/> (detail response)
     /// </summary>
     public static readonly Faker<TextTemplate> TextTemplate = new Faker<TextTemplate>()
-        .CustomInstantiator(f => new TextTemplate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.ProductName() + " Template",
@@ -393,7 +392,7 @@ public static class CommonFakers
     /// Faker for <see cref="TextTemplateListed"/> (list response)
     /// </summary>
     public static readonly Faker<TextTemplateListed> TextTemplateListed = new Faker<TextTemplateListed>()
-        .CustomInstantiator(f => new TextTemplateListed
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.ProductName() + " Template",
@@ -407,7 +406,7 @@ public static class CommonFakers
     /// Faker for <see cref="TextTemplateCreate"/>
     /// </summary>
     public static readonly Faker<TextTemplateCreate> TextTemplateCreate = new Faker<TextTemplateCreate>()
-        .CustomInstantiator(f => new TextTemplateCreate
+        .CustomInstantiator(f => new()
         {
             Name = f.Commerce.ProductName() + " Template"
         });
@@ -416,7 +415,7 @@ public static class CommonFakers
     /// Faker for <see cref="TextTemplateUpdate"/>
     /// </summary>
     public static readonly Faker<TextTemplateUpdate> TextTemplateUpdate = new Faker<TextTemplateUpdate>()
-        .CustomInstantiator(f => new TextTemplateUpdate
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.ProductName() + " Template"

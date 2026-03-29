@@ -92,7 +92,7 @@ public class SalaryCertificateServiceTests : ServiceTestBase<SalaryCertificateSe
     {
         ConnectionHandler
             .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.ExportExcel();
 
@@ -106,7 +106,7 @@ public class SalaryCertificateServiceTests : ServiceTestBase<SalaryCertificateSe
     {
         ConnectionHandler
             .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.ExportCsv();
 
@@ -120,7 +120,7 @@ public class SalaryCertificateServiceTests : ServiceTestBase<SalaryCertificateSe
     {
         ConnectionHandler
             .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.ExportPdf();
 

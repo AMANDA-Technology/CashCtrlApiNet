@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Meta;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Meta.IFiscalPeriodService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class FiscalPeriodE2eTests : CashCtrlE2eTestBase
 {
     private int _setupFiscalPeriodId;

@@ -24,7 +24,6 @@ SOFTWARE.
 */
 
 using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Common.Currency;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -48,7 +47,7 @@ public class CurrencyServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(currency));
 
         // Act
-        var result = await Client.Common.Currency.Get(new Entry { Id = currency.Id });
+        var result = await Client.Common.Currency.Get(new() { Id = currency.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -153,7 +152,7 @@ public class CurrencyServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Currency deleted"));
 
         // Act
-        var result = await Client.Common.Currency.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Common.Currency.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -174,7 +173,7 @@ public class CurrencyServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(exchangeRate));
 
         // Act
-        var result = await Client.Common.Currency.GetExchangeRate(new CurrencyExchangeRateRequest
+        var result = await Client.Common.Currency.GetExchangeRate(new()
         {
             From = "CHF",
             To = "EUR"

@@ -23,8 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
-using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -48,7 +46,7 @@ public class FixedAssetCategoryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(category));
 
         // Act
-        var result = await Client.Inventory.FixedAssetCategory.Get(new Entry { Id = category.Id });
+        var result = await Client.Inventory.FixedAssetCategory.Get(new() { Id = category.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -154,7 +152,7 @@ public class FixedAssetCategoryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Category deleted"));
 
         // Act
-        var result = await Client.Inventory.FixedAssetCategory.Delete(new Entries { Ids = [5, 6] });
+        var result = await Client.Inventory.FixedAssetCategory.Delete(new() { Ids = [5, 6] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

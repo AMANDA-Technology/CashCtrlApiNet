@@ -23,9 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Order;
-using CashCtrlApiNet.Abstractions.Models.Order.Payment;
-using CashCtrlApiNet.Abstractions.Models.Person;
 using Shouldly;
 
 namespace CashCtrlApiNet.E2eTests.Order;
@@ -35,6 +32,7 @@ namespace CashCtrlApiNet.E2eTests.Order;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Order.IOrderPaymentService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class OrderPaymentE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;
@@ -64,7 +62,7 @@ public class OrderPaymentE2eTests : CashCtrlE2eTestBase
             ids => CashCtrlApiClient.Order.Order.Delete(ids));
 
         // Create a person as associate for the order
-        var personResult = await CashCtrlApiClient.Person.Person.Create(new PersonCreate
+        var personResult = await CashCtrlApiClient.Person.Person.Create(new()
         {
             FirstName = _testId,
             LastName = "E2E"
@@ -81,7 +79,7 @@ public class OrderPaymentE2eTests : CashCtrlE2eTestBase
         var sequenceNumberId = category.SequenceNumberId ?? throw new InvalidOperationException("Order category has no SequenceNumberId");
 
         // Create an order for payment testing
-        var orderResult = await CashCtrlApiClient.Order.Order.Create(new OrderCreate
+        var orderResult = await CashCtrlApiClient.Order.Order.Create(new()
         {
             AccountId = accountId,
             CategoryId = category.Id,
@@ -97,7 +95,7 @@ public class OrderPaymentE2eTests : CashCtrlE2eTestBase
         var statusResult = await CashCtrlApiClient.Order.Category.GetStatus(new() { Id = category.Id });
         if (statusResult is { IsHttpSuccess: true, ResponseData.Data: not null })
         {
-            await CashCtrlApiClient.Order.Order.UpdateStatus(new OrderStatusUpdate
+            await CashCtrlApiClient.Order.Order.UpdateStatus(new()
             {
                 Id = _orderId,
                 StatusId = statusResult.ResponseData.Data.Id
@@ -117,7 +115,7 @@ public class OrderPaymentE2eTests : CashCtrlE2eTestBase
     [Test, Order(1)]
     public async Task Create_Success()
     {
-        var res = await CashCtrlApiClient.Order.Payment.Create(new OrderPaymentCreate
+        var res = await CashCtrlApiClient.Order.Payment.Create(new()
         {
             OrderId = _orderId
         });

@@ -23,8 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Salary.Document;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -48,7 +46,7 @@ public class SalaryDocumentServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(document));
 
         // Act
-        var result = await Client.Salary.Document.Get(new Entry { Id = document.Id });
+        var result = await Client.Salary.Document.Get(new() { Id = document.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -70,7 +68,7 @@ public class SalaryDocumentServiceIntegrationTests : IntegrationTestBase
             "application/pdf", "salary-document.pdf");
 
         // Act
-        var result = await Client.Salary.Document.DownloadPdf(new Entries { Ids = [1] });
+        var result = await Client.Salary.Document.DownloadPdf(new() { Ids = [1] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -90,7 +88,7 @@ public class SalaryDocumentServiceIntegrationTests : IntegrationTestBase
             "application/zip", "salary-documents.zip");
 
         // Act
-        var result = await Client.Salary.Document.DownloadZip(new Entries { Ids = [1, 2] });
+        var result = await Client.Salary.Document.DownloadZip(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -109,7 +107,7 @@ public class SalaryDocumentServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Mail sent"));
 
         // Act
-        var result = await Client.Salary.Document.SendMail(new SalaryDocumentMail
+        var result = await Client.Salary.Document.SendMail(new()
         {
             StatementIds = "1,2",
             MailFrom = "sender@example.com",

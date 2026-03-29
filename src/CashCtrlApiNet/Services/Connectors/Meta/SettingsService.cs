@@ -37,12 +37,12 @@ namespace CashCtrlApiNet.Services.Connectors.Meta;
 public class SettingsService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISettingsService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Meta.Settings.Settings>>> Read([Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<SingleResponse<Abstractions.Models.Meta.Settings.Settings>>(Endpoint.Read, cancellationToken: cancellationToken);
+    public Task<ApiResult<SingleResponse<Settings>>> Read([Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<SingleResponse<Settings>>(Endpoint.Read, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Meta.Settings.Settings>>> Get(SettingGet setting, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<SingleResponse<Abstractions.Models.Meta.Settings.Settings>, SettingGet>(Endpoint.Get, setting, cancellationToken);
+    public Task<ApiResult<SingleResponse<Settings>>> Get(SettingGet setting, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<SingleResponse<Settings>, SettingGet>(Endpoint.Get, setting, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Update(SettingsUpdate settings, [Optional] CancellationToken cancellationToken)

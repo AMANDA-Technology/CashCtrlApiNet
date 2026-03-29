@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
@@ -48,7 +47,7 @@ public class CostCenterServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(costCenter));
 
         // Act
-        var result = await Client.Account.CostCenter.Get(new Entry { Id = costCenter.Id });
+        var result = await Client.Account.CostCenter.Get(new() { Id = costCenter.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -112,7 +111,7 @@ public class CostCenterServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.BalanceResponse(expectedBalance));
 
         // Act
-        var result = await Client.Account.CostCenter.GetBalance(new Entry { Id = 1 });
+        var result = await Client.Account.CostCenter.GetBalance(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -131,7 +130,7 @@ public class CostCenterServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.BalanceResponse(0m));
 
         // Act
-        var result = await Client.Account.CostCenter.GetBalance(new Entry { Id = 1 });
+        var result = await Client.Account.CostCenter.GetBalance(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -150,7 +149,7 @@ public class CostCenterServiceIntegrationTests : IntegrationTestBase
         Server.StubGetPlainText("/api/v1/account/costcenter/balance", errorBody, 401);
 
         // Act
-        var result = await Client.Account.CostCenter.GetBalance(new Entry { Id = 1 });
+        var result = await Client.Account.CostCenter.GetBalance(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeFalse();
@@ -212,7 +211,7 @@ public class CostCenterServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Cost center deleted"));
 
         // Act
-        var result = await Client.Account.CostCenter.Delete(new Entries { Ids = [3, 4] });
+        var result = await Client.Account.CostCenter.Delete(new() { Ids = [3, 4] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -232,7 +231,7 @@ public class CostCenterServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Cost centers categorized"));
 
         // Act
-        var result = await Client.Account.CostCenter.Categorize(new EntriesCategorize
+        var result = await Client.Account.CostCenter.Categorize(new()
         {
             Ids = [3, 4],
             TargetCategoryId = 20
@@ -255,7 +254,7 @@ public class CostCenterServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Attachments updated"));
 
         // Act
-        var result = await Client.Account.CostCenter.UpdateAttachments(new EntryAttachments
+        var result = await Client.Account.CostCenter.UpdateAttachments(new()
         {
             Id = 3,
             AttachedFileIds = [30, 40]

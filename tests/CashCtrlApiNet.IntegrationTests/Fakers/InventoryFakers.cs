@@ -54,7 +54,7 @@ public static class InventoryFakers
     /// Faker for <see cref="ArticleModel"/> (detail response)
     /// </summary>
     public static readonly Faker<ArticleModel> Article = new Faker<ArticleModel>()
-        .CustomInstantiator(f => new ArticleModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.ProductName(),
@@ -70,7 +70,7 @@ public static class InventoryFakers
     /// Faker for <see cref="ArticleListedModel"/> (list response)
     /// </summary>
     public static readonly Faker<ArticleListedModel> ArticleListed = new Faker<ArticleListedModel>()
-        .CustomInstantiator(f => new ArticleListedModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.ProductName(),
@@ -86,7 +86,7 @@ public static class InventoryFakers
     /// Faker for <see cref="ArticleCreateModel"/>
     /// </summary>
     public static readonly Faker<ArticleCreateModel> ArticleCreate = new Faker<ArticleCreateModel>()
-        .CustomInstantiator(f => new ArticleCreateModel
+        .CustomInstantiator(f => new()
         {
             Name = f.Commerce.ProductName(),
             CategoryId = f.Random.Int(1, 100),
@@ -97,7 +97,7 @@ public static class InventoryFakers
     /// Faker for <see cref="ArticleUpdateModel"/>
     /// </summary>
     public static readonly Faker<ArticleUpdateModel> ArticleUpdate = new Faker<ArticleUpdateModel>()
-        .CustomInstantiator(f => new ArticleUpdateModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.ProductName(),
@@ -110,7 +110,7 @@ public static class InventoryFakers
     /// Faker for <see cref="ArticleCategoryModel"/> (detail response)
     /// </summary>
     public static readonly Faker<ArticleCategoryModel> ArticleCategory = new Faker<ArticleCategoryModel>()
-        .CustomInstantiator(f => new ArticleCategoryModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0],
@@ -123,7 +123,7 @@ public static class InventoryFakers
     /// Faker for <see cref="ArticleCategoryCreateModel"/>
     /// </summary>
     public static readonly Faker<ArticleCategoryCreateModel> ArticleCategoryCreate = new Faker<ArticleCategoryCreateModel>()
-        .CustomInstantiator(f => new ArticleCategoryCreateModel
+        .CustomInstantiator(f => new()
         {
             Name = f.Commerce.Categories(1)[0]
         });
@@ -132,7 +132,7 @@ public static class InventoryFakers
     /// Faker for <see cref="ArticleCategoryUpdateModel"/>
     /// </summary>
     public static readonly Faker<ArticleCategoryUpdateModel> ArticleCategoryUpdate = new Faker<ArticleCategoryUpdateModel>()
-        .CustomInstantiator(f => new ArticleCategoryUpdateModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0]
@@ -142,7 +142,7 @@ public static class InventoryFakers
     /// Faker for <see cref="FixedAssetModel"/> (detail response)
     /// </summary>
     public static readonly Faker<FixedAssetModel> FixedAsset = new Faker<FixedAssetModel>()
-        .CustomInstantiator(f => new FixedAssetModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.ProductName(),
@@ -157,7 +157,7 @@ public static class InventoryFakers
     /// Faker for <see cref="FixedAssetListedModel"/> (list response)
     /// </summary>
     public static readonly Faker<FixedAssetListedModel> FixedAssetListed = new Faker<FixedAssetListedModel>()
-        .CustomInstantiator(f => new FixedAssetListedModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.ProductName(),
@@ -172,7 +172,7 @@ public static class InventoryFakers
     /// Faker for <see cref="FixedAssetCreateModel"/>
     /// </summary>
     public static readonly Faker<FixedAssetCreateModel> FixedAssetCreate = new Faker<FixedAssetCreateModel>()
-        .CustomInstantiator(f => new FixedAssetCreateModel
+        .CustomInstantiator(f => new()
         {
             Name = f.Commerce.ProductName(),
             CategoryId = f.Random.Int(1, 100),
@@ -183,7 +183,7 @@ public static class InventoryFakers
     /// Faker for <see cref="FixedAssetUpdateModel"/>
     /// </summary>
     public static readonly Faker<FixedAssetUpdateModel> FixedAssetUpdate = new Faker<FixedAssetUpdateModel>()
-        .CustomInstantiator(f => new FixedAssetUpdateModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.ProductName(),
@@ -196,7 +196,7 @@ public static class InventoryFakers
     /// Faker for <see cref="FixedAssetCategoryModel"/> (detail response)
     /// </summary>
     public static readonly Faker<FixedAssetCategoryModel> FixedAssetCategory = new Faker<FixedAssetCategoryModel>()
-        .CustomInstantiator(f => new FixedAssetCategoryModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0],
@@ -211,7 +211,7 @@ public static class InventoryFakers
     /// Faker for <see cref="FixedAssetCategoryCreateModel"/>
     /// </summary>
     public static readonly Faker<FixedAssetCategoryCreateModel> FixedAssetCategoryCreate = new Faker<FixedAssetCategoryCreateModel>()
-        .CustomInstantiator(f => new FixedAssetCategoryCreateModel
+        .CustomInstantiator(f => new()
         {
             Name = f.Commerce.Categories(1)[0]
         });
@@ -220,7 +220,7 @@ public static class InventoryFakers
     /// Faker for <see cref="FixedAssetCategoryUpdateModel"/>
     /// </summary>
     public static readonly Faker<FixedAssetCategoryUpdateModel> FixedAssetCategoryUpdate = new Faker<FixedAssetCategoryUpdateModel>()
-        .CustomInstantiator(f => new FixedAssetCategoryUpdateModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0]
@@ -230,7 +230,7 @@ public static class InventoryFakers
     /// Faker for <see cref="UnitModel"/> (detail response)
     /// </summary>
     public static readonly Faker<UnitModel> Unit = new Faker<UnitModel>()
-        .CustomInstantiator(f => new UnitModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.PickRandom("pcs.", "kg", "m", "l", "h"),
@@ -242,7 +242,7 @@ public static class InventoryFakers
     /// Faker for <see cref="UnitCreateModel"/>
     /// </summary>
     public static readonly Faker<UnitCreateModel> UnitCreate = new Faker<UnitCreateModel>()
-        .CustomInstantiator(f => new UnitCreateModel
+        .CustomInstantiator(f => new()
         {
             Name = f.PickRandom("pcs.", "kg", "m", "l", "h")
         });
@@ -251,7 +251,7 @@ public static class InventoryFakers
     /// Faker for <see cref="UnitUpdateModel"/>
     /// </summary>
     public static readonly Faker<UnitUpdateModel> UnitUpdate = new Faker<UnitUpdateModel>()
-        .CustomInstantiator(f => new UnitUpdateModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.PickRandom("pcs.", "kg", "m", "l", "h")
@@ -261,7 +261,7 @@ public static class InventoryFakers
     /// Faker for <see cref="InventoryImportCreate"/>
     /// </summary>
     public static readonly Faker<InventoryImportCreate> ImportCreate = new Faker<InventoryImportCreate>()
-        .CustomInstantiator(f => new InventoryImportCreate
+        .CustomInstantiator(f => new()
         {
             FileId = f.Random.Int(1, 9999)
         });
@@ -270,7 +270,7 @@ public static class InventoryFakers
     /// Faker for <see cref="InventoryImportMapping"/>
     /// </summary>
     public static readonly Faker<InventoryImportMapping> ImportMapping = new Faker<InventoryImportMapping>()
-        .CustomInstantiator(f => new InventoryImportMapping
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Mapping = "{\"name\":\"Name\",\"nr\":\"Number\"}"
@@ -280,7 +280,7 @@ public static class InventoryFakers
     /// Faker for <see cref="InventoryImportPreview"/>
     /// </summary>
     public static readonly Faker<InventoryImportPreview> ImportPreview = new Faker<InventoryImportPreview>()
-        .CustomInstantiator(f => new InventoryImportPreview
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999)
         });
@@ -289,7 +289,7 @@ public static class InventoryFakers
     /// Faker for <see cref="InventoryImportExecute"/>
     /// </summary>
     public static readonly Faker<InventoryImportExecute> ImportExecute = new Faker<InventoryImportExecute>()
-        .CustomInstantiator(f => new InventoryImportExecute
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999)
         });

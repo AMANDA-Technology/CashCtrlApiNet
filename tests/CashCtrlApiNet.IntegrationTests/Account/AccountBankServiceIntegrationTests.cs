@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
@@ -48,7 +47,7 @@ public class AccountBankServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(bankAccount));
 
         // Act
-        var result = await Client.Account.Bank.Get(new Entry { Id = bankAccount.Id });
+        var result = await Client.Account.Bank.Get(new() { Id = bankAccount.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -156,7 +155,7 @@ public class AccountBankServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Bank account deleted"));
 
         // Act
-        var result = await Client.Account.Bank.Delete(new Entries { Ids = [1] });
+        var result = await Client.Account.Bank.Delete(new() { Ids = [1] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -176,7 +175,7 @@ public class AccountBankServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Attachments updated"));
 
         // Act
-        var result = await Client.Account.Bank.UpdateAttachments(new EntryAttachments
+        var result = await Client.Account.Bank.UpdateAttachments(new()
         {
             Id = 5,
             AttachedFileIds = [100, 200]

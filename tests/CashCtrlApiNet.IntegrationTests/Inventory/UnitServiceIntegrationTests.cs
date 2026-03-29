@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
@@ -48,7 +47,7 @@ public class UnitServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(unit));
 
         // Act
-        var result = await Client.Inventory.Unit.Get(new Entry { Id = unit.Id });
+        var result = await Client.Inventory.Unit.Get(new() { Id = unit.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -153,7 +152,7 @@ public class UnitServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Unit deleted"));
 
         // Act
-        var result = await Client.Inventory.Unit.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Inventory.Unit.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

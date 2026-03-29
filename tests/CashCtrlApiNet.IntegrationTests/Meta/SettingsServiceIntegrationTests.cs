@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Meta.Settings;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -69,7 +68,7 @@ public class SettingsServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(settings));
 
         // Act
-        var result = await Client.Meta.Settings.Get(new SettingGet { Name = "defaultCurrencyId" });
+        var result = await Client.Meta.Settings.Get(new() { Name = "defaultCurrencyId" });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

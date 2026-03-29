@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Salary.Field;
 using Shouldly;
 
 namespace CashCtrlApiNet.E2eTests.Salary;
@@ -33,6 +32,7 @@ namespace CashCtrlApiNet.E2eTests.Salary;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalaryFieldService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class SalaryFieldE2eTests : CashCtrlE2eTestBase
 {
     private int _salaryTypeId;

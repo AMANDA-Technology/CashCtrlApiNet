@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Report.Element;
@@ -140,13 +139,13 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetBinaryAsync<Entry>(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.GetDataHtml(entry);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync<Entry>(ReportEndpoints.Element.ReadHtml, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Element.ReadHtml, entry, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
@@ -171,13 +170,13 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetBinaryAsync<Entry>(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.DownloadPdf(entry);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync<Entry>(ReportEndpoints.Element.DownloadPdf, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Element.DownloadPdf, entry, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
@@ -186,13 +185,13 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetBinaryAsync<Entry>(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.DownloadCsv(entry);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync<Entry>(ReportEndpoints.Element.DownloadCsv, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Element.DownloadCsv, entry, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
@@ -201,13 +200,13 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetBinaryAsync<Entry>(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.DownloadExcel(entry);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync<Entry>(ReportEndpoints.Element.DownloadXlsx, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Element.DownloadXlsx, entry, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 }

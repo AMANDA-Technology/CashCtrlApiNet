@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -47,7 +46,7 @@ public class SalarySumServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(sum));
 
         // Act
-        var result = await Client.Salary.Sum.Get(new Entry { Id = sum.Id });
+        var result = await Client.Salary.Sum.Get(new() { Id = sum.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -132,7 +131,7 @@ public class SalarySumServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Salary sum deleted"));
 
         // Act
-        var result = await Client.Salary.Sum.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Salary.Sum.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

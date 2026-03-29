@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -47,7 +46,7 @@ public class SalaryCertificateServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(certificate));
 
         // Act
-        var result = await Client.Salary.Certificate.Get(new Entry { Id = certificate.Id });
+        var result = await Client.Salary.Certificate.Get(new() { Id = certificate.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

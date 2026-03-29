@@ -47,7 +47,7 @@ public class LocationServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(location));
 
         // Act
-        var result = await Client.Meta.Location.Get(new Entry { Id = location.Id });
+        var result = await Client.Meta.Location.Get(new() { Id = location.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -153,7 +153,7 @@ public class LocationServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Location deleted"));
 
         // Act
-        var result = await Client.Meta.Location.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Meta.Location.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

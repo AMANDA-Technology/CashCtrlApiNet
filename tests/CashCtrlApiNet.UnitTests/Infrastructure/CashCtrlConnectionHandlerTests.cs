@@ -24,10 +24,8 @@ SOFTWARE.
 */
 
 using System.Net;
-using System.Net.Http.Headers;
 using System.Text;
 using CashCtrlApiNet.Abstractions.Enums.Api;
-using CashCtrlApiNet.Abstractions.Values;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Services;
 using NSubstitute;
@@ -94,8 +92,8 @@ public class CashCtrlConnectionHandlerTests
     {
         // Arrange
         var handler = new MockHttpMessageHandler();
-        var httpClient = new HttpClient(handler) { BaseAddress = new Uri("https://testorg.cashctrl.com/") };
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("test-api-key:")));
+        var httpClient = new HttpClient(handler) { BaseAddress = new("https://testorg.cashctrl.com/") };
+        httpClient.DefaultRequestHeaders.Authorization = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("test-api-key:")));
 
         var factory = Substitute.For<IHttpClientFactory>();
         factory.CreateClient(Arg.Any<string>()).Returns(httpClient);
@@ -119,8 +117,8 @@ public class CashCtrlConnectionHandlerTests
     {
         // Arrange
         var handler = new MockHttpMessageHandler();
-        var httpClient = new HttpClient(handler) { BaseAddress = new Uri("https://testorg.cashctrl.com/") };
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("test-api-key:")));
+        var httpClient = new HttpClient(handler) { BaseAddress = new("https://testorg.cashctrl.com/") };
+        httpClient.DefaultRequestHeaders.Authorization = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("test-api-key:")));
 
         var factory = Substitute.For<IHttpClientFactory>();
         factory.CreateClient(Arg.Any<string>()).Returns(httpClient);
@@ -141,8 +139,8 @@ public class CashCtrlConnectionHandlerTests
     {
         // Arrange
         var handler = new MockHttpMessageHandler();
-        var httpClient = new HttpClient(handler) { BaseAddress = new Uri("https://testorg.cashctrl.com/") };
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("my-key:")));
+        var httpClient = new HttpClient(handler) { BaseAddress = new("https://testorg.cashctrl.com/") };
+        httpClient.DefaultRequestHeaders.Authorization = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("my-key:")));
 
         var factory = Substitute.For<IHttpClientFactory>();
         factory.CreateClient(Arg.Any<string>()).Returns(httpClient);
@@ -215,8 +213,8 @@ public class CashCtrlConnectionHandlerTests
     {
         // Arrange
         var handler = new MockHttpMessageHandler();
-        var httpClient = new HttpClient(handler) { BaseAddress = new Uri("https://testorg.cashctrl.com/") };
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("test-api-key:")));
+        var httpClient = new HttpClient(handler) { BaseAddress = new("https://testorg.cashctrl.com/") };
+        httpClient.DefaultRequestHeaders.Authorization = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("test-api-key:")));
 
         var factory = Substitute.For<IHttpClientFactory>();
         factory.CreateClient(Arg.Any<string>()).Returns(httpClient);

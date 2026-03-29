@@ -64,7 +64,7 @@ public class SalaryCertificateDocumentServiceTests : ServiceTestBase<SalaryCerti
         var entries = new Entries { Ids = [1, 2] };
         ConnectionHandler
             .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entries>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.DownloadPdf(entries);
 
@@ -79,7 +79,7 @@ public class SalaryCertificateDocumentServiceTests : ServiceTestBase<SalaryCerti
         var entries = new Entries { Ids = [1, 2] };
         ConnectionHandler
             .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entries>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<BinaryResponse> { ResponseData = new BinaryResponse { Data = [1, 2, 3] } });
+            .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
         var result = await Service.DownloadZip(entries);
 

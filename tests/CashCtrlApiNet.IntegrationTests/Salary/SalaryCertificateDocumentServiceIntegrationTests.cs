@@ -23,8 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Base;
-using CashCtrlApiNet.Abstractions.Models.Salary.CertificateDocument;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -48,7 +46,7 @@ public class SalaryCertificateDocumentServiceIntegrationTests : IntegrationTestB
             CashCtrlResponseFactory.SingleResponse(document));
 
         // Act
-        var result = await Client.Salary.CertificateDocument.Get(new Entry { Id = document.Id });
+        var result = await Client.Salary.CertificateDocument.Get(new() { Id = document.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -69,7 +67,7 @@ public class SalaryCertificateDocumentServiceIntegrationTests : IntegrationTestB
             "application/pdf", "certificate-document.pdf");
 
         // Act
-        var result = await Client.Salary.CertificateDocument.DownloadPdf(new Entries { Ids = [1] });
+        var result = await Client.Salary.CertificateDocument.DownloadPdf(new() { Ids = [1] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -89,7 +87,7 @@ public class SalaryCertificateDocumentServiceIntegrationTests : IntegrationTestB
             "application/zip", "certificate-documents.zip");
 
         // Act
-        var result = await Client.Salary.CertificateDocument.DownloadZip(new Entries { Ids = [1, 2] });
+        var result = await Client.Salary.CertificateDocument.DownloadZip(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -108,7 +106,7 @@ public class SalaryCertificateDocumentServiceIntegrationTests : IntegrationTestB
             CashCtrlResponseFactory.SuccessResponse("Mail sent"));
 
         // Act
-        var result = await Client.Salary.CertificateDocument.SendMail(new SalaryCertificateDocumentMail
+        var result = await Client.Salary.CertificateDocument.SendMail(new()
         {
             CertificateIds = "1,2",
             MailFrom = "sender@example.com",

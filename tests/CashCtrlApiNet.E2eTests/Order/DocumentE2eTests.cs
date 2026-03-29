@@ -23,9 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Order;
-using CashCtrlApiNet.Abstractions.Models.Order.Document;
-using CashCtrlApiNet.Abstractions.Models.Person;
 using Shouldly;
 
 namespace CashCtrlApiNet.E2eTests.Order;
@@ -35,6 +32,7 @@ namespace CashCtrlApiNet.E2eTests.Order;
 /// Covers <see cref="CashCtrlApiNet.Interfaces.Connectors.Order.IDocumentService"/> operations (excludes SendMail).
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class DocumentE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;
@@ -64,7 +62,7 @@ public class DocumentE2eTests : CashCtrlE2eTestBase
             ids => CashCtrlApiClient.Order.Order.Delete(ids));
 
         // Create a person as associate for the order
-        var personResult = await CashCtrlApiClient.Person.Person.Create(new PersonCreate
+        var personResult = await CashCtrlApiClient.Person.Person.Create(new()
         {
             FirstName = _testId,
             LastName = "E2E"
@@ -81,7 +79,7 @@ public class DocumentE2eTests : CashCtrlE2eTestBase
         var sequenceNumberId = category.SequenceNumberId ?? throw new InvalidOperationException("Order category has no SequenceNumberId");
 
         // Create an order that should have an associated document
-        var orderResult = await CashCtrlApiClient.Order.Order.Create(new OrderCreate
+        var orderResult = await CashCtrlApiClient.Order.Order.Create(new()
         {
             AccountId = accountId,
             CategoryId = category.Id,
@@ -148,7 +146,7 @@ public class DocumentE2eTests : CashCtrlE2eTestBase
     public async Task Update_Success()
     {
         var updatedText = $"{_testId}-UpdatedText";
-        var res = await CashCtrlApiClient.Order.Document.Update(new DocumentUpdate
+        var res = await CashCtrlApiClient.Order.Document.Update(new()
         {
             Id = _documentId,
             Text = updatedText

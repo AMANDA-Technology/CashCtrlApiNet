@@ -93,7 +93,7 @@ public abstract class IntegrationTestBase
     [TearDown]
     public void TearDown()
     {
-        Server?.Stop();
-        Server?.Dispose();
+        Server.Stop();
+        Server.Dispose();
     }
 }

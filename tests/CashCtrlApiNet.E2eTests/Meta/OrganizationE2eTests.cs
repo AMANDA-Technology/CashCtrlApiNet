@@ -32,6 +32,7 @@ namespace CashCtrlApiNet.E2eTests.Meta;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Meta.IOrganizationService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class OrganizationE2eTests : CashCtrlE2eTestBase
 {
     /// <summary>

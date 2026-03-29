@@ -29,7 +29,6 @@ using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Services.Connectors.Order;
 using CashCtrlApiNet.Services.Endpoints;
 using NSubstitute;
-using Shouldly;
 
 namespace CashCtrlApiNet.UnitTests.Order;
 

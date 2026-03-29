@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Journal;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Journal.IJournalService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class JournalE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;

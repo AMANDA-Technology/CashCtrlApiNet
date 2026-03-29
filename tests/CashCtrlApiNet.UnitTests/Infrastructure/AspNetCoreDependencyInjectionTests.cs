@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Net.Http;
 using CashCtrlApiNet.Abstractions.Enums.Api;
 using CashCtrlApiNet.AspNetCore;
 using CashCtrlApiNet.Interfaces;

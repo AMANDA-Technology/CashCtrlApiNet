@@ -26,7 +26,6 @@ SOFTWARE.
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
-using Shouldly;
 
 namespace CashCtrlApiNet.IntegrationTests;
 
@@ -48,7 +47,7 @@ public class PaginationParameterTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(articles));
 
         // Act
-        await Client.Inventory.Article.GetList(new ListParams { Start = 20, Limit = 10 });
+        await Client.Inventory.Article.GetList(new() { Start = 20, Limit = 10 });
 
         // Assert
         var request = Server.ShouldHaveReceivedRequest("/api/v1/inventory/article/list.json", "GET");
@@ -68,7 +67,7 @@ public class PaginationParameterTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(persons));
 
         // Act
-        await Client.Person.Person.GetList(new ListParams { Limit = 50 });
+        await Client.Person.Person.GetList(new() { Limit = 50 });
 
         // Assert
         var request = Server.ShouldHaveReceivedRequest("/api/v1/person/list.json", "GET");
@@ -88,7 +87,7 @@ public class PaginationParameterTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(accounts));
 
         // Act
-        await Client.Account.Account.GetList(new ListParams { Start = 0 });
+        await Client.Account.Account.GetList(new() { Start = 0 });
 
         // Assert
         var request = Server.ShouldHaveReceivedRequest("/api/v1/account/list.json", "GET");
@@ -108,7 +107,7 @@ public class PaginationParameterTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(articles));
 
         // Act
-        await Client.Inventory.Article.GetList(new ListParams
+        await Client.Inventory.Article.GetList(new()
         {
             Start = 10,
             Limit = 25,
@@ -174,7 +173,7 @@ public class PaginationParameterTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(articles));
 
         // Act
-        await Client.Inventory.Article.GetList(new ListParams { Start = 0 });
+        await Client.Inventory.Article.GetList(new() { Start = 0 });
 
         // Assert
         var request = Server.ShouldHaveReceivedRequest("/api/v1/inventory/article/list.json", "GET");
@@ -193,7 +192,7 @@ public class PaginationParameterTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(articles));
 
         // Act
-        await Client.Inventory.Article.GetList(new ListParams { Start = 100000, Limit = 5000 });
+        await Client.Inventory.Article.GetList(new() { Start = 100000, Limit = 5000 });
 
         // Assert
         var request = Server.ShouldHaveReceivedRequest("/api/v1/inventory/article/list.json", "GET");
@@ -213,7 +212,7 @@ public class PaginationParameterTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(articles));
 
         // Act
-        await Client.Inventory.Article.GetList(new ListParams
+        await Client.Inventory.Article.GetList(new()
         {
             OnlyActive = true,
             OnlyCostCenters = false,

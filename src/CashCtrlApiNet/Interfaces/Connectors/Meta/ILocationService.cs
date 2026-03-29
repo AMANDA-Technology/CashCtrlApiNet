@@ -42,7 +42,7 @@ public interface ILocationService
     /// <param name="location">The entry containing the ID of the location.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Meta.Location.Location>>> Get(Entry location, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Location>>> Get(Entry location, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// List locations. Returns a list of locations, optionally filtered and paginated.

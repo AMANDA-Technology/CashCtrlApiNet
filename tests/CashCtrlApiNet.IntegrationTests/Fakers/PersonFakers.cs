@@ -47,7 +47,7 @@ public static class PersonFakers
     /// Faker for <see cref="PersonModel"/> (detail response)
     /// </summary>
     public static readonly Faker<PersonModel> Person = new Faker<PersonModel>()
-        .CustomInstantiator(f => new PersonModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             FirstName = f.Person.FirstName,
@@ -67,7 +67,7 @@ public static class PersonFakers
     /// Faker for <see cref="PersonListedModel"/> (list response)
     /// </summary>
     public static readonly Faker<PersonListedModel> PersonListed = new Faker<PersonListedModel>()
-        .CustomInstantiator(f => new PersonListedModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             FirstName = f.Person.FirstName,
@@ -87,7 +87,7 @@ public static class PersonFakers
     /// Faker for <see cref="PersonCreateModel"/>
     /// </summary>
     public static readonly Faker<PersonCreateModel> PersonCreate = new Faker<PersonCreateModel>()
-        .CustomInstantiator(f => new PersonCreateModel
+        .CustomInstantiator(f => new()
         {
             FirstName = f.Person.FirstName,
             LastName = f.Person.LastName,
@@ -99,7 +99,7 @@ public static class PersonFakers
     /// Faker for <see cref="PersonUpdateModel"/>
     /// </summary>
     public static readonly Faker<PersonUpdateModel> PersonUpdate = new Faker<PersonUpdateModel>()
-        .CustomInstantiator(f => new PersonUpdateModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             FirstName = f.Person.FirstName,
@@ -113,7 +113,7 @@ public static class PersonFakers
     /// Faker for <see cref="PersonCategoryModel"/> (detail response)
     /// </summary>
     public static readonly Faker<PersonCategoryModel> PersonCategory = new Faker<PersonCategoryModel>()
-        .CustomInstantiator(f => new PersonCategoryModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0],
@@ -129,7 +129,7 @@ public static class PersonFakers
     /// Faker for <see cref="PersonCategoryCreateModel"/>
     /// </summary>
     public static readonly Faker<PersonCategoryCreateModel> PersonCategoryCreate = new Faker<PersonCategoryCreateModel>()
-        .CustomInstantiator(f => new PersonCategoryCreateModel
+        .CustomInstantiator(f => new()
         {
             Name = f.Commerce.Categories(1)[0]
         });
@@ -138,7 +138,7 @@ public static class PersonFakers
     /// Faker for <see cref="PersonCategoryUpdateModel"/>
     /// </summary>
     public static readonly Faker<PersonCategoryUpdateModel> PersonCategoryUpdate = new Faker<PersonCategoryUpdateModel>()
-        .CustomInstantiator(f => new PersonCategoryUpdateModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0]
@@ -148,7 +148,7 @@ public static class PersonFakers
     /// Faker for <see cref="PersonTitleModel"/> (detail response)
     /// </summary>
     public static readonly Faker<PersonTitleModel> PersonTitle = new Faker<PersonTitleModel>()
-        .CustomInstantiator(f => new PersonTitleModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Title = f.PickRandom("Mr.", "Mrs.", "Ms.", "Dr.", "Prof."),
@@ -161,7 +161,7 @@ public static class PersonFakers
     /// Faker for <see cref="PersonTitleCreateModel"/>
     /// </summary>
     public static readonly Faker<PersonTitleCreateModel> PersonTitleCreate = new Faker<PersonTitleCreateModel>()
-        .CustomInstantiator(f => new PersonTitleCreateModel
+        .CustomInstantiator(f => new()
         {
             Title = f.PickRandom("Mr.", "Mrs.", "Ms.", "Dr.", "Prof.")
         });
@@ -170,7 +170,7 @@ public static class PersonFakers
     /// Faker for <see cref="PersonTitleUpdateModel"/>
     /// </summary>
     public static readonly Faker<PersonTitleUpdateModel> PersonTitleUpdate = new Faker<PersonTitleUpdateModel>()
-        .CustomInstantiator(f => new PersonTitleUpdateModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Title = f.PickRandom("Mr.", "Mrs.", "Ms.", "Dr.", "Prof.")
@@ -180,7 +180,7 @@ public static class PersonFakers
     /// Faker for <see cref="PersonImportCreate"/>
     /// </summary>
     public static readonly Faker<PersonImportCreate> ImportCreate = new Faker<PersonImportCreate>()
-        .CustomInstantiator(f => new PersonImportCreate
+        .CustomInstantiator(f => new()
         {
             FileId = f.Random.Int(1, 9999)
         });
@@ -189,7 +189,7 @@ public static class PersonFakers
     /// Faker for <see cref="PersonImportMapping"/>
     /// </summary>
     public static readonly Faker<PersonImportMapping> ImportMapping = new Faker<PersonImportMapping>()
-        .CustomInstantiator(f => new PersonImportMapping
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Mapping = "{\"firstName\":\"First Name\",\"lastName\":\"Last Name\"}"
@@ -199,7 +199,7 @@ public static class PersonFakers
     /// Faker for <see cref="PersonImportPreview"/>
     /// </summary>
     public static readonly Faker<PersonImportPreview> ImportPreview = new Faker<PersonImportPreview>()
-        .CustomInstantiator(f => new PersonImportPreview
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999)
         });
@@ -208,7 +208,7 @@ public static class PersonFakers
     /// Faker for <see cref="PersonImportExecute"/>
     /// </summary>
     public static readonly Faker<PersonImportExecute> ImportExecute = new Faker<PersonImportExecute>()
-        .CustomInstantiator(f => new PersonImportExecute
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999)
         });

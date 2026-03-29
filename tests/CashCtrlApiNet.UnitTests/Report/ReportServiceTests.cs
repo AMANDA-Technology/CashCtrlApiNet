@@ -27,7 +27,6 @@ using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Services.Connectors.Report;
 using CashCtrlApiNet.Services.Endpoints;
 using NSubstitute;
-using Shouldly;
 
 namespace CashCtrlApiNet.UnitTests.Report;
 

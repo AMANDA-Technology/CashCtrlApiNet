@@ -24,7 +24,6 @@ SOFTWARE.
 */
 
 using System.Net;
-using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -67,7 +66,7 @@ public class ErrorResponseHandlingTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleErrorResponse("Resource not found"), 404);
 
         // Act
-        var result = await Client.Inventory.Article.Get(new Entry { Id = 42 });
+        var result = await Client.Inventory.Article.Get(new() { Id = 42 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeFalse();

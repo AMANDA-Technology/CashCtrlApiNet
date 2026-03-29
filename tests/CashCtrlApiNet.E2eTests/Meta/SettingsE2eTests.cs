@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Meta;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Meta.ISettingsService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class SettingsE2eTests : CashCtrlE2eTestBase
 {
     private Settings _originalSettings = null!;

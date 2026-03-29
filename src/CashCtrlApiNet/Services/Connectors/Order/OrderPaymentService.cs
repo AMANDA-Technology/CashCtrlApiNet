@@ -43,5 +43,5 @@ public class OrderPaymentService(ICashCtrlConnectionHandler connectionHandler) :
 
     /// <inheritdoc />
     public Task<ApiResult<BinaryResponse>> Download(Entry payment, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetBinaryAsync<Entry>(Endpoint.Download, payment, cancellationToken);
+        => ConnectionHandler.GetBinaryAsync(Endpoint.Download, payment, cancellationToken);
 }

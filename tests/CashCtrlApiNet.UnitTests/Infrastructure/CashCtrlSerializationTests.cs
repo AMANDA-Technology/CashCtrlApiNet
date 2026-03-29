@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Converters;
+using System.Diagnostics.CodeAnalysis;
 using CashCtrlApiNet.Abstractions.Helpers;
 using Shouldly;
 
@@ -37,6 +37,7 @@ public class CashCtrlSerializationTests
     /// <summary>
     /// Test record with a DateTime property for serialization verification
     /// </summary>
+    [SuppressMessage("ReSharper", "NotAccessedPositionalProperty.Local")]
     private record TestModel(DateTime CreatedAt, string? Name);
 
     [Test]

@@ -47,7 +47,7 @@ public class TextTemplateServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(textTemplate));
 
         // Act
-        var result = await Client.Common.TextTemplate.Get(new Entry { Id = textTemplate.Id });
+        var result = await Client.Common.TextTemplate.Get(new() { Id = textTemplate.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -152,7 +152,7 @@ public class TextTemplateServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Text template deleted"));
 
         // Act
-        var result = await Client.Common.TextTemplate.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Common.TextTemplate.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

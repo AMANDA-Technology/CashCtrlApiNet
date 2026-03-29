@@ -43,7 +43,7 @@ public static class ReportFakers
     /// Faker for <see cref="ReportModel"/> (tree node)
     /// </summary>
     public static readonly Faker<ReportModel> Report = new Faker<ReportModel>()
-        .CustomInstantiator(f => new ReportModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Department(),
@@ -55,7 +55,7 @@ public static class ReportFakers
     /// Faker for <see cref="ReportElementModel"/> (detail response)
     /// </summary>
     public static readonly Faker<ReportElementModel> ReportElement = new Faker<ReportElementModel>()
-        .CustomInstantiator(f => new ReportElementModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             ReportId = f.Random.Int(1, 100),
@@ -73,7 +73,7 @@ public static class ReportFakers
     /// Faker for <see cref="ReportElementCreateModel"/>
     /// </summary>
     public static readonly Faker<ReportElementCreateModel> ReportElementCreate = new Faker<ReportElementCreateModel>()
-        .CustomInstantiator(f => new ReportElementCreateModel
+        .CustomInstantiator(f => new()
         {
             ReportId = f.Random.Int(1, 100),
             AccountId = f.Random.Int(1, 100)
@@ -83,7 +83,7 @@ public static class ReportFakers
     /// Faker for <see cref="ReportElementUpdateModel"/>
     /// </summary>
     public static readonly Faker<ReportElementUpdateModel> ReportElementUpdate = new Faker<ReportElementUpdateModel>()
-        .CustomInstantiator(f => new ReportElementUpdateModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             ReportId = f.Random.Int(1, 100),
@@ -96,7 +96,7 @@ public static class ReportFakers
     /// Faker for <see cref="ReportSetModel"/> (detail response)
     /// </summary>
     public static readonly Faker<ReportSetModel> ReportSet = new Faker<ReportSetModel>()
-        .CustomInstantiator(f => new ReportSetModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Department(),
@@ -110,7 +110,7 @@ public static class ReportFakers
     /// Faker for <see cref="ReportSetCreateModel"/>
     /// </summary>
     public static readonly Faker<ReportSetCreateModel> ReportSetCreate = new Faker<ReportSetCreateModel>()
-        .CustomInstantiator(f => new ReportSetCreateModel
+        .CustomInstantiator(f => new()
         {
             Name = f.Commerce.Department()
         });
@@ -119,7 +119,7 @@ public static class ReportFakers
     /// Faker for <see cref="ReportSetUpdateModel"/>
     /// </summary>
     public static readonly Faker<ReportSetUpdateModel> ReportSetUpdate = new Faker<ReportSetUpdateModel>()
-        .CustomInstantiator(f => new ReportSetUpdateModel
+        .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Department(),

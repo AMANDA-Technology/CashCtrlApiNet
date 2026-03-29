@@ -42,7 +42,7 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriod">The entry containing the ID of the fiscal period.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Meta.FiscalPeriod.FiscalPeriod>>> Get(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<FiscalPeriod>>> Get(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// List fiscal periods. Returns a list of fiscal periods, optionally filtered and paginated.
@@ -96,7 +96,7 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriod">The entry containing the ID of the fiscal period.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Meta.FiscalPeriod.FiscalPeriod>>> GetResult(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<FiscalPeriod>>> GetResult(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// List depreciations of a fiscal period. Returns the depreciations for the specified fiscal period.

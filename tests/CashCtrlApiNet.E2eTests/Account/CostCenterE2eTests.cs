@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Account;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Account.ICostCenterService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class CostCenterE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;

@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Salary;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Salary.ISalarySettingService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class SalarySettingE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;

@@ -47,7 +47,7 @@ public class TaxRateServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(taxRate));
 
         // Act
-        var result = await Client.Common.TaxRate.Get(new Entry { Id = taxRate.Id });
+        var result = await Client.Common.TaxRate.Get(new() { Id = taxRate.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -153,7 +153,7 @@ public class TaxRateServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Tax rate deleted"));
 
         // Act
-        var result = await Client.Common.TaxRate.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Common.TaxRate.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

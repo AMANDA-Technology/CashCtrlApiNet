@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
@@ -48,7 +47,7 @@ public class FixedAssetServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(fixedAsset));
 
         // Act
-        var result = await Client.Inventory.FixedAsset.Get(new Entry { Id = fixedAsset.Id });
+        var result = await Client.Inventory.FixedAsset.Get(new() { Id = fixedAsset.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -155,7 +154,7 @@ public class FixedAssetServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Fixed asset deleted"));
 
         // Act
-        var result = await Client.Inventory.FixedAsset.Delete(new Entries { Ids = [1, 2] });
+        var result = await Client.Inventory.FixedAsset.Delete(new() { Ids = [1, 2] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -175,7 +174,7 @@ public class FixedAssetServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Fixed assets categorized"));
 
         // Act
-        var result = await Client.Inventory.FixedAsset.Categorize(new EntriesCategorize
+        var result = await Client.Inventory.FixedAsset.Categorize(new()
         {
             Ids = [1, 2],
             TargetCategoryId = 10
@@ -198,7 +197,7 @@ public class FixedAssetServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Attachments updated"));
 
         // Act
-        var result = await Client.Inventory.FixedAsset.UpdateAttachments(new EntryAttachments
+        var result = await Client.Inventory.FixedAsset.UpdateAttachments(new()
         {
             Id = 1,
             AttachedFileIds = [10, 20]

@@ -24,7 +24,6 @@ SOFTWARE.
 */
 
 using System.Text;
-using CashCtrlApiNet.Abstractions.Models.Person.Import;
 using Shouldly;
 
 namespace CashCtrlApiNet.E2eTests.Person;
@@ -34,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Person;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Person.IPersonImportService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class PersonImportE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;
@@ -104,7 +104,7 @@ public class PersonImportE2eTests : CashCtrlE2eTestBase
     {
         _fileId.ShouldBeGreaterThan(0, "File upload must succeed before Create");
 
-        var res = await CashCtrlApiClient.Person.Import.Create(new PersonImportCreate
+        var res = await CashCtrlApiClient.Person.Import.Create(new()
         {
             FileId = _fileId
         });
@@ -121,7 +121,7 @@ public class PersonImportE2eTests : CashCtrlE2eTestBase
     {
         _importId.ShouldBeGreaterThan(0, "Create must run before Mapping");
 
-        var res = await CashCtrlApiClient.Person.Import.Mapping(new PersonImportMapping
+        var res = await CashCtrlApiClient.Person.Import.Mapping(new()
         {
             Id = _importId,
             Mapping = "{\"lastName\":\"lastName\",\"firstName\":\"firstName\"}"
@@ -137,7 +137,7 @@ public class PersonImportE2eTests : CashCtrlE2eTestBase
     {
         _importId.ShouldBeGreaterThan(0, "Create must run before Preview");
 
-        var res = await CashCtrlApiClient.Person.Import.Preview(new PersonImportPreview
+        var res = await CashCtrlApiClient.Person.Import.Preview(new()
         {
             Id = _importId
         });
@@ -152,7 +152,7 @@ public class PersonImportE2eTests : CashCtrlE2eTestBase
     {
         _importId.ShouldBeGreaterThan(0, "Create must run before Execute");
 
-        var res = await CashCtrlApiClient.Person.Import.Execute(new PersonImportExecute
+        var res = await CashCtrlApiClient.Person.Import.Execute(new()
         {
             Id = _importId
         });

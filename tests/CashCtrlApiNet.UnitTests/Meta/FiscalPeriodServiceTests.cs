@@ -47,14 +47,14 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetAsync<SingleResponse<Abstractions.Models.Meta.FiscalPeriod.FiscalPeriod>, Entry>(
+            .GetAsync<SingleResponse<FiscalPeriod>, Entry>(
                 Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<SingleResponse<Abstractions.Models.Meta.FiscalPeriod.FiscalPeriod>>());
+            .Returns(new ApiResult<SingleResponse<FiscalPeriod>>());
 
         await Service.Get(entry);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<SingleResponse<Abstractions.Models.Meta.FiscalPeriod.FiscalPeriod>, Entry>(
+            .GetAsync<SingleResponse<FiscalPeriod>, Entry>(
                 MetaEndpoints.FiscalPeriod.Read, entry, Arg.Any<CancellationToken>());
     }
 
@@ -166,14 +166,14 @@ public class FiscalPeriodServiceTests : ServiceTestBase<FiscalPeriodService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetAsync<SingleResponse<Abstractions.Models.Meta.FiscalPeriod.FiscalPeriod>, Entry>(
+            .GetAsync<SingleResponse<FiscalPeriod>, Entry>(
                 Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<SingleResponse<Abstractions.Models.Meta.FiscalPeriod.FiscalPeriod>>());
+            .Returns(new ApiResult<SingleResponse<FiscalPeriod>>());
 
         await Service.GetResult(entry);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<SingleResponse<Abstractions.Models.Meta.FiscalPeriod.FiscalPeriod>, Entry>(
+            .GetAsync<SingleResponse<FiscalPeriod>, Entry>(
                 MetaEndpoints.FiscalPeriod.Result, entry, Arg.Any<CancellationToken>());
     }
 

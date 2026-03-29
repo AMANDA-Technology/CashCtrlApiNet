@@ -47,7 +47,7 @@ public class JournalImportServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(import));
 
         // Act
-        var result = await Client.Journal.Import.Get(new Entry { Id = import.Id });
+        var result = await Client.Journal.Import.Get(new() { Id = import.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -132,7 +132,7 @@ public class JournalImportServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Import executed"));
 
         // Act
-        var result = await Client.Journal.Import.Execute(new Entry { Id = 1 });
+        var result = await Client.Journal.Import.Execute(new() { Id = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using CashCtrlApiNet.Abstractions.Enums.Common;
 using CashCtrlApiNet.Abstractions.Models.Common.CustomField;
 using Shouldly;
@@ -35,6 +34,7 @@ namespace CashCtrlApiNet.E2eTests.Common;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Common.ICustomFieldService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class CustomFieldE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;

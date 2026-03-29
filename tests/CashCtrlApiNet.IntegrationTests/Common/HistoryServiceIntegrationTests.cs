@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using CashCtrlApiNet.Abstractions.Models.Common.History;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -47,7 +46,7 @@ public class HistoryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(historyEntries));
 
         // Act
-        var result = await Client.Common.History.GetList(new HistoryListRequest
+        var result = await Client.Common.History.GetList(new()
         {
             Id = 1,
             Type = "JOURNAL"

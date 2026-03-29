@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Order;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Order.IOrderLayoutService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class OrderLayoutE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;
@@ -56,7 +57,7 @@ public class OrderLayoutE2eTests : CashCtrlE2eTestBase
             ids => CashCtrlApiClient.Order.Layout.Delete(ids));
 
         // Create primary test order layout
-        var createResult = await CashCtrlApiClient.Order.Layout.Create(new OrderLayoutCreate
+        var createResult = await CashCtrlApiClient.Order.Layout.Create(new()
         {
             Name = _testId
         });
@@ -107,7 +108,7 @@ public class OrderLayoutE2eTests : CashCtrlE2eTestBase
     public async Task Create_Success()
     {
         var secondTestId = GenerateTestId();
-        var res = await CashCtrlApiClient.Order.Layout.Create(new OrderLayoutCreate
+        var res = await CashCtrlApiClient.Order.Layout.Create(new()
         {
             Name = secondTestId
         });

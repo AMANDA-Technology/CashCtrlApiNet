@@ -34,6 +34,7 @@ namespace CashCtrlApiNet.E2eTests.Account;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Account.IAccountBankService"/> operations.
 /// </summary>
 [Category("E2e")]
+// ReSharper disable once InconsistentNaming
 public class AccountBankE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;
