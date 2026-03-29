@@ -39,6 +39,7 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
     private int _setupArticleId;
     private int _createdArticleId;
     private int _categoryId;
+    private Action _cancelCreatedCleanup = null!;
 
     /// <summary>
     /// Scavenges orphan test data and creates the primary test article for the fixture
@@ -49,17 +50,11 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
         _testId = GenerateTestId();
 
         // Scavenge orphan articles from previous failed runs
-        var listResult = await CashCtrlApiClient.Inventory.Article.GetList();
-        if (listResult.ResponseData?.Data is { Length: > 0 } articles)
-        {
-            var orphanIds = articles
-                .Where(a => a.Name.StartsWith("E2E-", StringComparison.Ordinal))
-                .Select(a => a.Id)
-                .ToArray();
-
-            if (orphanIds.Length > 0)
-                await CashCtrlApiClient.Inventory.Article.Delete(new() { Ids = [..orphanIds] });
-        }
+        await ScavengeOrphans(
+            () => CashCtrlApiClient.Inventory.Article.GetList(),
+            a => a.Name,
+            a => a.Id,
+            ids => CashCtrlApiClient.Inventory.Article.Delete(ids));
 
         // Discover a category ID for the categorize test
         var categoryResult = await CashCtrlApiClient.Inventory.ArticleCategory.GetList();
@@ -72,10 +67,7 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
             Nr = _testId,
             Name = _testId
         });
-        createResult.ResponseData.ShouldNotBeNull();
-        createResult.ResponseData.Success.ShouldBeTrue();
-        _setupArticleId = createResult.ResponseData.InsertId
-                          ?? throw new InvalidOperationException("Failed to create setup article");
+        _setupArticleId = AssertCreated(createResult);
 
         RegisterCleanup(async () => await CashCtrlApiClient.Inventory.Article.Delete(new() { Ids = [_setupArticleId] }));
     }
@@ -93,15 +85,13 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
     public async Task Get_Success()
     {
         var res = await CashCtrlApiClient.Inventory.Article.Get(new() { Id = _setupArticleId });
-        res.IsHttpSuccess.ShouldBeTrue();
+        var article = AssertSuccess(res);
 
         res.RequestsLeft.ShouldNotBeNull();
         res.RequestsLeft.Value.ShouldBeGreaterThan(0);
         res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
 
-        res.ResponseData.ShouldNotBeNull();
-        res.ResponseData.Data.ShouldNotBeNull();
-        res.ResponseData.Data.Name.ShouldBe(_testId);
+        article.Name.ShouldBe(_testId);
     }
 
     /// <summary>
@@ -111,12 +101,10 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
     public async Task GetList_Success()
     {
         var res = await CashCtrlApiClient.Inventory.Article.GetList();
-        res.IsHttpSuccess.ShouldBeTrue();
+        var articles = AssertSuccess(res);
 
-        res.ResponseData.ShouldNotBeNull();
-        res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
-        res.ResponseData.Data.Length.ShouldBe(res.ResponseData.Total);
-        res.ResponseData.Data.ShouldContain(a => a.Id == _setupArticleId);
+        articles.Length.ShouldBe(res.ResponseData!.Total);
+        articles.ShouldContain(a => a.Id == _setupArticleId);
     }
 
     /// <summary>
@@ -131,17 +119,10 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
             Nr = secondTestId,
             Name = secondTestId
         });
-        res.IsHttpSuccess.ShouldBeTrue();
 
-        res.ResponseData.ShouldNotBeNull();
-        res.ResponseData.Success.ShouldBeTrue();
-        res.ResponseData.Errors.ShouldBeNull();
-        res.ResponseData.InsertId.ShouldNotBeNull();
-        res.ResponseData.InsertId.Value.ShouldBeGreaterThan(0);
-        res.ResponseData.Message.ShouldNotBeNullOrEmpty();
-
-        _createdArticleId = res.ResponseData.InsertId.Value;
-        RegisterCleanup(async () => await CashCtrlApiClient.Inventory.Article.Delete(new() { Ids = [_createdArticleId] }));
+        _createdArticleId = AssertCreated(res);
+        res.ResponseData!.Message.ShouldNotBeNullOrEmpty();
+        _cancelCreatedCleanup = RegisterCleanup(async () => await CashCtrlApiClient.Inventory.Article.Delete(new() { Ids = [_createdArticleId] }));
     }
 
     /// <summary>
@@ -220,14 +201,8 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
     [Test, Order(8)]
     public async Task ExportExcel_Success()
     {
-        var res = await CashCtrlApiClient.Inventory.Article.ExportExcel();
-        res.IsHttpSuccess.ShouldBeTrue();
-
-        res.ResponseData.ShouldNotBeNull();
-        res.ResponseData.FileName.ShouldNotBeNullOrEmpty();
-        res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
-
-        await DownloadFile(res.ResponseData.FileName, res.ResponseData.Data);
+        var export = AssertSuccess(await CashCtrlApiClient.Inventory.Article.ExportExcel());
+        await DownloadFile(export.FileName!, export.Data);
     }
 
     /// <summary>
@@ -236,14 +211,8 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
     [Test, Order(9)]
     public async Task ExportCsv_Success()
     {
-        var res = await CashCtrlApiClient.Inventory.Article.ExportCsv();
-        res.IsHttpSuccess.ShouldBeTrue();
-
-        res.ResponseData.ShouldNotBeNull();
-        res.ResponseData.FileName.ShouldNotBeNullOrEmpty();
-        res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
-
-        await DownloadFile(res.ResponseData.FileName, res.ResponseData.Data);
+        var export = AssertSuccess(await CashCtrlApiClient.Inventory.Article.ExportCsv());
+        await DownloadFile(export.FileName!, export.Data);
     }
 
     /// <summary>
@@ -252,14 +221,8 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
     [Test, Order(10)]
     public async Task ExportPdf_Success()
     {
-        var res = await CashCtrlApiClient.Inventory.Article.ExportPdf();
-        res.IsHttpSuccess.ShouldBeTrue();
-
-        res.ResponseData.ShouldNotBeNull();
-        res.ResponseData.FileName.ShouldNotBeNullOrEmpty();
-        res.ResponseData.Data.Length.ShouldBeGreaterThan(0);
-
-        await DownloadFile(res.ResponseData.FileName, res.ResponseData.Data);
+        var export = AssertSuccess(await CashCtrlApiClient.Inventory.Article.ExportPdf());
+        await DownloadFile(export.FileName!, export.Data);
     }
 
     /// <summary>
@@ -272,5 +235,7 @@ public class ArticleE2eTests : CashCtrlE2eTestBase
 
         var res = await CashCtrlApiClient.Inventory.Article.Delete(new() { Ids = [_createdArticleId] });
         AssertSuccess(res);
+
+        _cancelCreatedCleanup();
     }
 }
