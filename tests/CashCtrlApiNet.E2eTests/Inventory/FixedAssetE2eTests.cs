@@ -57,10 +57,21 @@ public class FixedAssetE2eTests : CashCtrlE2eTestBase
             a => a.Id,
             ids => CashCtrlApiClient.Inventory.FixedAsset.Delete(ids));
 
-        // Discover a category ID for the categorize test
+        // Discover or create a category for the categorize test
         var categoryResult = await CashCtrlApiClient.Inventory.FixedAssetCategory.GetList();
-        _categoryId = categoryResult.ResponseData?.Data.FirstOrDefault()?.Id
-                      ?? throw new InvalidOperationException("No fixed asset categories found for categorize test");
+        if (categoryResult.ResponseData?.Data is { Length: > 0 } categories)
+        {
+            _categoryId = categories[0].Id;
+        }
+        else
+        {
+            var catCreateResult = await CashCtrlApiClient.Inventory.FixedAssetCategory.Create(new()
+            {
+                Name = $"{_testId}-Category"
+            });
+            _categoryId = AssertCreated(catCreateResult);
+            RegisterCleanup(async () => await CashCtrlApiClient.Inventory.FixedAssetCategory.Delete(new() { Ids = [_categoryId] }));
+        }
 
         // Create primary test fixed asset
         var createResult = await CashCtrlApiClient.Inventory.FixedAsset.Create(new()

@@ -60,8 +60,8 @@ public class AccountBankE2eTests : CashCtrlE2eTestBase
         // Create primary test bank account
         var createResult = await CashCtrlApiClient.Account.Bank.Create(new()
         {
-            Bic = "TESTBIC1234",
-            Iban = "CH0000000000000000000",
+            Bic = "POFICHBEXXX",
+            Iban = "CH9300762011623852957",
             Name = _testId,
             Type = BankAccountType.DEFAULT
         });
@@ -115,8 +115,8 @@ public class AccountBankE2eTests : CashCtrlE2eTestBase
     {
         var res = await CashCtrlApiClient.Account.Bank.Create(new()
         {
-            Bic = "TESTBIC1234",
-            Iban = "CH0000000000000000000",
+            Bic = "POFICHBEXXX",
+            Iban = "CH9300762011623852957",
             Name = GenerateTestId(),
             Type = BankAccountType.DEFAULT
         });

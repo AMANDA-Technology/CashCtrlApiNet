@@ -77,6 +77,7 @@ public class CostCenterE2eTests : CashCtrlE2eTestBase
         var createResult = await CashCtrlApiClient.Account.CostCenter.Create(new()
         {
             Name = _testId,
+            Number = $"{Random.Shared.Next(100000, 999999)}",
             CategoryId = _costCenterCategoryId
         });
         _setupCostCenterId = AssertCreated(createResult);
@@ -137,7 +138,8 @@ public class CostCenterE2eTests : CashCtrlE2eTestBase
     {
         var res = await CashCtrlApiClient.Account.CostCenter.Create(new()
         {
-            Name = GenerateTestId()
+            Name = GenerateTestId(),
+            Number = $"{Random.Shared.Next(100000, 999999)}"
         });
 
         _createdCostCenterId = AssertCreated(res);
