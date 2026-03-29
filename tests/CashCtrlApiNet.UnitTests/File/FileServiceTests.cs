@@ -121,13 +121,13 @@ public class FileServiceTests : ServiceTestBase<FileService>
     {
         var request = new FilePrepareRequest { Files = "[{\"name\":\"test.txt\",\"mimeType\":\"text/plain\"}]" };
         ConnectionHandler
-            .PostAsync<ListResponse<FilePrepareEntry>, FilePrepareRequest>(Arg.Any<string>(), Arg.Any<FilePrepareRequest>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<ListResponse<FilePrepareEntry>>());
+            .PostAsync<FilePrepareResponse, FilePrepareRequest>(Arg.Any<string>(), Arg.Any<FilePrepareRequest>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<FilePrepareResponse>());
 
         await Service.Prepare(request);
 
         await ConnectionHandler.Received(1)
-            .PostAsync<ListResponse<FilePrepareEntry>, FilePrepareRequest>(
+            .PostAsync<FilePrepareResponse, FilePrepareRequest>(
                 FileEndpoints.File.Prepare, request, Arg.Any<CancellationToken>());
     }
 
