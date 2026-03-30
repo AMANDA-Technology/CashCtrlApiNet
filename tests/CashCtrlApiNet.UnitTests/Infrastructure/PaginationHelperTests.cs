@@ -60,7 +60,7 @@ public class PaginationHelperTests
             return Task.FromResult(new ApiResult<ListResponse<TestItem>>
             {
                 IsHttpSuccess = true,
-                ResponseData = new ListResponse<TestItem> { Total = 0, Data = [] }
+                ResponseData = new() { Total = 0, Data = [] }
             });
         }
 
@@ -79,14 +79,14 @@ public class PaginationHelperTests
     {
         // Arrange
         var testItems = ImmutableArray.Create(
-            new TestItem { Id = 1, Name = "A" },
+            new() { Id = 1, Name = "A" },
             new TestItem { Id = 2, Name = "B" });
 
         Task<ApiResult<ListResponse<TestItem>>> FetchPage(ListParams? p, CancellationToken ct)
             => Task.FromResult(new ApiResult<ListResponse<TestItem>>
             {
                 IsHttpSuccess = true,
-                ResponseData = new ListResponse<TestItem> { Total = 2, Data = testItems }
+                ResponseData = new() { Total = 2, Data = testItems }
             });
 
         // Act
@@ -116,7 +116,7 @@ public class PaginationHelperTests
             return Task.FromResult(new ApiResult<ListResponse<TestItem>>
             {
                 IsHttpSuccess = true,
-                ResponseData = new ListResponse<TestItem> { Total = 5, Data = page }
+                ResponseData = new() { Total = 5, Data = page }
             });
         }
 
@@ -148,7 +148,7 @@ public class PaginationHelperTests
             return Task.FromResult(new ApiResult<ListResponse<TestItem>>
             {
                 IsHttpSuccess = true,
-                ResponseData = new ListResponse<TestItem> { Total = 4, Data = page }
+                ResponseData = new() { Total = 4, Data = page }
             });
         }
 
@@ -174,7 +174,7 @@ public class PaginationHelperTests
             return Task.FromResult(new ApiResult<ListResponse<TestItem>>
             {
                 IsHttpSuccess = true,
-                ResponseData = new ListResponse<TestItem> { Total = 0, Data = [] }
+                ResponseData = new() { Total = 0, Data = [] }
             });
         }
 
@@ -214,7 +214,7 @@ public class PaginationHelperTests
             return Task.FromResult(new ApiResult<ListResponse<TestItem>>
             {
                 IsHttpSuccess = true,
-                ResponseData = new ListResponse<TestItem> { Total = 3, Data = page }
+                ResponseData = new() { Total = 3, Data = page }
             });
         }
 
@@ -248,7 +248,7 @@ public class PaginationHelperTests
             return Task.FromResult(new ApiResult<ListResponse<TestItem>>
             {
                 IsHttpSuccess = true,
-                ResponseData = new ListResponse<TestItem> { Total = 0, Data = [] }
+                ResponseData = new() { Total = 0, Data = [] }
             });
         }
 
@@ -312,7 +312,7 @@ public class PaginationHelperTests
             return Task.FromResult(new ApiResult<ListResponse<TestItem>>
             {
                 IsHttpSuccess = true,
-                ResponseData = new ListResponse<TestItem> { Total = 0, Data = [] }
+                ResponseData = new() { Total = 0, Data = [] }
             });
         }
 
@@ -336,7 +336,7 @@ public class PaginationHelperTests
             return Task.FromResult(new ApiResult<ListResponse<TestItem>>
             {
                 IsHttpSuccess = true,
-                ResponseData = new ListResponse<TestItem> { Total = 0, Data = [] }
+                ResponseData = new() { Total = 0, Data = [] }
             });
         }
 
@@ -369,7 +369,7 @@ public class PaginationHelperTests
             return Task.FromResult(new ApiResult<ListResponse<TestItem>>
             {
                 IsHttpSuccess = true,
-                ResponseData = new ListResponse<TestItem> { Total = 3, Data = page }
+                ResponseData = new() { Total = 3, Data = page }
             });
         }
 
@@ -402,7 +402,7 @@ public class PaginationHelperTests
             => Task.FromResult(new ApiResult<ListResponse<TestItem>>
             {
                 IsHttpSuccess = true,
-                ResponseData = new ListResponse<TestItem> { Total = 0, Data = [] }
+                ResponseData = new() { Total = 0, Data = [] }
             });
 
         // Act & Assert — throws eagerly at call time, not during enumeration
@@ -418,7 +418,7 @@ public class PaginationHelperTests
             => Task.FromResult(new ApiResult<ListResponse<TestItem>>
             {
                 IsHttpSuccess = true,
-                ResponseData = new ListResponse<TestItem> { Total = 0, Data = [] }
+                ResponseData = new() { Total = 0, Data = [] }
             });
 
         // Act & Assert — throws eagerly at call time, not during enumeration

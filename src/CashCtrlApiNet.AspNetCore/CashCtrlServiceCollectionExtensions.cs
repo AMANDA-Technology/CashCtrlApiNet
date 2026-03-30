@@ -76,8 +76,8 @@ public static class CashCtrlServiceCollectionExtensions
                 if (!baseUri.EndsWith('/'))
                     baseUri += '/';
 
-                client.BaseAddress = new Uri(baseUri);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
+                client.BaseAddress = new(baseUri);
+                client.DefaultRequestHeaders.Authorization = new("Basic",
                     Convert.ToBase64String(Encoding.ASCII.GetBytes($"{config.ApiKey}:")));
             });
 

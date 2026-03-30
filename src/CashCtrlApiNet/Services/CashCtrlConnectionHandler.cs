@@ -321,7 +321,7 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler, IDisposable
             HttpStatusCode = httpResponseMessage.StatusCode,
             CashCtrlHttpStatusCodeDescription = HttpStatusCodeMapping.GetDescription(httpResponseMessage.StatusCode),
             RequestsLeft = (int?)responseHeaders[ApiHeaderNames.RequestsLeft],
-            ResponseData = new PlainTextResponse { Value = content.Trim().Trim('"') }
+            ResponseData = new() { Value = content.Trim().Trim('"') }
         };
     }
 
