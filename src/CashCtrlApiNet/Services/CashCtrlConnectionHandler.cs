@@ -68,7 +68,7 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler, IDisposable
     /// <summary>
     /// Initializes a new instance of the <see cref="CashCtrlConnectionHandler"/> class.
     /// This constructor creates a standalone <see cref="HttpClient"/> for non-DI environments.
-    /// The created client is owned by this instance and will be disposed when <see cref="Dispose"/> is called.
+    /// The created client is owned by this instance and will be disposed when <see cref="Dispose()"/> is called.
     /// </summary>
     /// <param name="configuration">The CashCtrl API configuration</param>
     public CashCtrlConnectionHandler(ICashCtrlConfiguration configuration)
