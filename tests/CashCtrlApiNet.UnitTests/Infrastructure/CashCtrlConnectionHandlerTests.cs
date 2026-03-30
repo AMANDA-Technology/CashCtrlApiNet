@@ -206,7 +206,7 @@ public class CashCtrlConnectionHandlerTests
         var config = CreateMockConfiguration();
 
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => new CashCtrlConnectionHandler((HttpClient)null!, config));
+        Should.Throw<ArgumentNullException>(() => new CashCtrlConnectionHandler(null!, config));
     }
 
     [Test]

@@ -268,8 +268,7 @@ public class CashCtrlE2eTestBase
         var entry = prepareResult.ResponseData.Data[0];
 
         // Step 2: PUT — upload binary content to the pre-authenticated URL
-        using var httpClient = new HttpClient();
-        var putResponse = await httpClient.PutAsync(entry.WriteUrl, new ByteArrayContent(content));
+        var putResponse = await BinaryUploadClient.PutAsync(entry.WriteUrl, new ByteArrayContent(content));
         putResponse.IsSuccessStatusCode.ShouldBeTrue($"File PUT failed: {putResponse.StatusCode}");
 
         // Step 3: Persist — finalize the file in CashCtrl
@@ -297,6 +296,7 @@ public class CashCtrlE2eTestBase
     private static readonly bool IsDownloadsEnabled = string.Equals(Environment.GetEnvironmentVariable("CashCtrlApiNet__IsDownloadsEnabled"), "true", StringComparison.OrdinalIgnoreCase);
 
     private static readonly string DownloadsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+    private static readonly HttpClient BinaryUploadClient = new();
 
     private sealed class CleanupAction(Func<Task> action)
     {

@@ -37,6 +37,7 @@ namespace CashCtrlApiNet.E2eTests.File;
 // ReSharper disable once InconsistentNaming
 public class FileE2eTests : CashCtrlE2eTestBase
 {
+    private static readonly HttpClient BinaryUploadClient = new();
     private string _testId = null!;
     private int _setupFileId;
     private int _categoryId;
@@ -150,8 +151,7 @@ public class FileE2eTests : CashCtrlE2eTestBase
         _preparedFileId = res.ResponseData.Data[0].FileId;
 
         // Upload the actual content to the write URL
-        using var httpClient = new HttpClient();
-        var putResponse = await httpClient.PutAsync(res.ResponseData.Data[0].WriteUrl, new ByteArrayContent("E2E prepare test content"u8.ToArray()));
+        var putResponse = await BinaryUploadClient.PutAsync(res.ResponseData.Data[0].WriteUrl, new ByteArrayContent("E2E prepare test content"u8.ToArray()));
         putResponse.IsSuccessStatusCode.ShouldBeTrue($"File PUT failed: {putResponse.StatusCode}");
     }
 

@@ -52,7 +52,7 @@ public class PersonTitleE2eTests : CashCtrlE2eTestBase
         // Scavenge orphan person titles from previous failed runs
         await ScavengeOrphans(
             () => CashCtrlApiClient.Person.Title.GetList(),
-            t => t.Name ?? string.Empty,
+            t => t.Name,
             t => t.Id,
             ids => CashCtrlApiClient.Person.Title.Delete(ids));
 

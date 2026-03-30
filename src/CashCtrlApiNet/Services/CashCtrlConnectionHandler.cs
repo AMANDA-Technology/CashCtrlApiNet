@@ -36,9 +36,11 @@ using CashCtrlApiNet.Interfaces;
 
 namespace CashCtrlApiNet.Services;
 
-/// <inheritdoc />
+/// <inheritdoc cref="ICashCtrlConnectionHandler" />
 public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler, IDisposable
 {
+    private static readonly HttpClient RedirectClient = new();
+
     /// <summary>
     /// Language to use on all requests
     /// </summary>
@@ -334,11 +336,9 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler, IDisposable
 
         // Follow 302 redirects (e.g., file/get redirects to pre-authenticated cloud storage URL)
         var contentResponse = httpResponseMessage;
-        if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Redirect
-            && httpResponseMessage.Headers.Location is not null)
+        if (httpResponseMessage is { StatusCode: HttpStatusCode.Redirect, Headers.Location: not null })
         {
-            using var redirectClient = new HttpClient();
-            contentResponse = await redirectClient.GetAsync(httpResponseMessage.Headers.Location);
+            contentResponse = await RedirectClient.GetAsync(httpResponseMessage.Headers.Location);
         }
 
         var binaryResponse = new BinaryResponse

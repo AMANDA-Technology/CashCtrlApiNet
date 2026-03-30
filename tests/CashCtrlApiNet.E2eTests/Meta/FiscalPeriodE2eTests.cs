@@ -59,7 +59,7 @@ public class FiscalPeriodE2eTests : CashCtrlE2eTestBase
 
         // Scavenge orphan test periods from previous failed runs (far-future 2090 periods)
         var orphanPeriods = periods
-            .Where(p => p.StartDate.StartsWith("2090", StringComparison.Ordinal))
+            .Where(p => p.StartDate?.StartsWith("2090", StringComparison.Ordinal) is true)
             .ToArray();
         foreach (var orphan in orphanPeriods)
         {

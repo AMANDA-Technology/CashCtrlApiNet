@@ -53,7 +53,7 @@ public class PaginationHelperIntegrationTests : IntegrationTestBase
 
         // Act
         var items = new List<ArticleListed>();
-        await foreach (var item in PaginationHelper.ListAllAsync<ArticleListed>(
+        await foreach (var item in PaginationHelper.ListAllAsync(
             Client.Inventory.Article.GetList, pageSize: 10))
             items.Add(item);
 
@@ -74,7 +74,7 @@ public class PaginationHelperIntegrationTests : IntegrationTestBase
 
         // Act
         var items = new List<ArticleListed>();
-        await foreach (var item in PaginationHelper.ListAllAsync<ArticleListed>(
+        await foreach (var item in PaginationHelper.ListAllAsync(
             Client.Inventory.Article.GetList, pageSize: 2))
             items.Add(item);
 
@@ -96,7 +96,7 @@ public class PaginationHelperIntegrationTests : IntegrationTestBase
 
         // Act
         var items = new List<ArticleListed>();
-        await foreach (var item in PaginationHelper.ListAllAsync<ArticleListed>(
+        await foreach (var item in PaginationHelper.ListAllAsync(
             Client.Inventory.Article.GetList, pageSize: 10))
             items.Add(item);
 
@@ -119,7 +119,7 @@ public class PaginationHelperIntegrationTests : IntegrationTestBase
 
         // Act
         var items = new List<ArticleListed>();
-        await foreach (var item in PaginationHelper.ListAllAsync<ArticleListed>(
+        await foreach (var item in PaginationHelper.ListAllAsync(
             Client.Inventory.Article.GetList, listParams, pageSize: 10))
             items.Add(item);
 
@@ -144,7 +144,7 @@ public class PaginationHelperIntegrationTests : IntegrationTestBase
 
         // Act
         var items = new List<ArticleListed>();
-        await foreach (var item in PaginationHelper.ListAllAsync<ArticleListed>(
+        await foreach (var item in PaginationHelper.ListAllAsync(
             Client.Inventory.Article.GetList, pageSize: 2))
             items.Add(item);
 
@@ -172,7 +172,7 @@ public class PaginationHelperIntegrationTests : IntegrationTestBase
         // Act & Assert
         await Should.ThrowAsync<InvalidOperationException>(async () =>
         {
-            await foreach (var _ in PaginationHelper.ListAllAsync<ArticleListed>(
+            await foreach (var _ in PaginationHelper.ListAllAsync(
                 Client.Inventory.Article.GetList, pageSize: 10))
             { }
         });

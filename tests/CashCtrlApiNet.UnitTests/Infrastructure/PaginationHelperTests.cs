@@ -24,6 +24,7 @@ SOFTWARE.
 */
 
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Helpers;
@@ -40,6 +41,7 @@ public class PaginationHelperTests
     /// <summary>
     /// Test record to use as a list item in pagination tests
     /// </summary>
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
     private record TestItem : ModelBaseRecord
     {
         public int Id { get; init; }
@@ -64,7 +66,7 @@ public class PaginationHelperTests
 
         // Act
         var items = new List<TestItem>();
-        await foreach (var item in PaginationHelper.ListAllAsync<TestItem>(FetchPage))
+        await foreach (var item in PaginationHelper.ListAllAsync(FetchPage))
             items.Add(item);
 
         // Assert
@@ -89,7 +91,7 @@ public class PaginationHelperTests
 
         // Act
         var items = new List<TestItem>();
-        await foreach (var item in PaginationHelper.ListAllAsync<TestItem>(FetchPage))
+        await foreach (var item in PaginationHelper.ListAllAsync(FetchPage))
             items.Add(item);
 
         // Assert
@@ -120,7 +122,7 @@ public class PaginationHelperTests
 
         // Act
         var items = new List<TestItem>();
-        await foreach (var item in PaginationHelper.ListAllAsync<TestItem>(FetchPage, pageSize: 2))
+        await foreach (var item in PaginationHelper.ListAllAsync(FetchPage, pageSize: 2))
             items.Add(item);
 
         // Assert
@@ -152,7 +154,7 @@ public class PaginationHelperTests
 
         // Act
         var items = new List<TestItem>();
-        await foreach (var item in PaginationHelper.ListAllAsync<TestItem>(FetchPage, pageSize: 2))
+        await foreach (var item in PaginationHelper.ListAllAsync(FetchPage, pageSize: 2))
             items.Add(item);
 
         // Assert
@@ -179,7 +181,7 @@ public class PaginationHelperTests
         var listParams = new ListParams { Query = "search", Sort = "name", Dir = "ASC", CategoryId = 42 };
 
         // Act
-        await foreach (var _ in PaginationHelper.ListAllAsync<TestItem>(FetchPage, listParams, pageSize: 50))
+        await foreach (var _ in PaginationHelper.ListAllAsync(FetchPage, listParams, pageSize: 50))
         { }
 
         // Assert
@@ -219,7 +221,7 @@ public class PaginationHelperTests
         var listParams = new ListParams { Query = "test", Sort = "id" };
 
         // Act
-        await foreach (var _ in PaginationHelper.ListAllAsync<TestItem>(FetchPage, listParams, pageSize: 2))
+        await foreach (var _ in PaginationHelper.ListAllAsync(FetchPage, listParams, pageSize: 2))
         { }
 
         // Assert
@@ -251,7 +253,7 @@ public class PaginationHelperTests
         }
 
         // Act
-        await foreach (var _ in PaginationHelper.ListAllAsync<TestItem>(FetchPage))
+        await foreach (var _ in PaginationHelper.ListAllAsync(FetchPage))
         { }
 
         // Assert
@@ -273,7 +275,7 @@ public class PaginationHelperTests
         // Act & Assert
         Should.ThrowAsync<InvalidOperationException>(async () =>
         {
-            await foreach (var _ in PaginationHelper.ListAllAsync<TestItem>(FetchPage))
+            await foreach (var _ in PaginationHelper.ListAllAsync(FetchPage))
             { }
         });
     }
@@ -292,7 +294,7 @@ public class PaginationHelperTests
         // Act & Assert
         Should.ThrowAsync<InvalidOperationException>(async () =>
         {
-            await foreach (var _ in PaginationHelper.ListAllAsync<TestItem>(FetchPage))
+            await foreach (var _ in PaginationHelper.ListAllAsync(FetchPage))
             { }
         });
     }
@@ -315,7 +317,7 @@ public class PaginationHelperTests
         }
 
         // Act
-        await foreach (var _ in PaginationHelper.ListAllAsync<TestItem>(FetchPage, cancellationToken: cts.Token))
+        await foreach (var _ in PaginationHelper.ListAllAsync(FetchPage, cancellationToken: cts.Token))
         { }
 
         // Assert
@@ -339,7 +341,7 @@ public class PaginationHelperTests
         }
 
         // Act
-        await foreach (var _ in PaginationHelper.ListAllAsync<TestItem>(FetchPage, listParams: null))
+        await foreach (var _ in PaginationHelper.ListAllAsync(FetchPage, listParams: null))
         { }
 
         // Assert
@@ -405,7 +407,7 @@ public class PaginationHelperTests
 
         // Act & Assert — throws eagerly at call time, not during enumeration
         Should.Throw<ArgumentOutOfRangeException>(() =>
-            PaginationHelper.ListAllAsync<TestItem>(FetchPage, pageSize: 0));
+            PaginationHelper.ListAllAsync(FetchPage, pageSize: 0));
     }
 
     [Test]
@@ -421,7 +423,7 @@ public class PaginationHelperTests
 
         // Act & Assert — throws eagerly at call time, not during enumeration
         Should.Throw<ArgumentOutOfRangeException>(() =>
-            PaginationHelper.ListAllAsync<TestItem>(FetchPage, pageSize: -1));
+            PaginationHelper.ListAllAsync(FetchPage, pageSize: -1));
     }
 
     /// <summary>

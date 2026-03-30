@@ -36,7 +36,6 @@ namespace CashCtrlApiNet.E2eTests.Journal;
 public class JournalImportEntryE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;
-    private int _setupImportId;
     private int _setupImportEntryId;
 
     /// <summary>
@@ -63,7 +62,7 @@ public class JournalImportEntryE2eTests : CashCtrlE2eTestBase
             FileId = fileId,
             Name = _testId
         });
-        _setupImportId = AssertCreated(importResult);
+        AssertCreated(importResult);
 
         // Discover the first import entry created by the import
         var entryListResult = await CashCtrlApiClient.Journal.ImportEntry.GetList();
