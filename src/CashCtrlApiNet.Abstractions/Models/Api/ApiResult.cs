@@ -52,6 +52,12 @@ public record ApiResult
     /// Number of requests left on the API. Not documented, not sure how often this resets.
     /// </summary>
     public int? RequestsLeft { get; init; }
+
+    /// <summary>
+    /// Raw response content from the API. Populated when the response body cannot be deserialized as JSON,
+    /// e.g. rate limit messages or HTML error pages.
+    /// </summary>
+    public string? RawResponseContent { get; init; }
 }
 
 /// <summary>

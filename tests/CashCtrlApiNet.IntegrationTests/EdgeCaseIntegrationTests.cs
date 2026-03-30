@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Text.Json;
 using CashCtrlApiNet.IntegrationTests.Fakers;
 using CashCtrlApiNet.IntegrationTests.Helpers;
 using Shouldly;
@@ -59,25 +58,33 @@ public class EdgeCaseIntegrationTests : IntegrationTestBase
     }
 
     [Test]
-    public async Task Get_WithMalformedJson_ShouldThrowJsonException()
+    public async Task Get_WithMalformedJson_ShouldReturnNullResponseDataWithRawContent()
     {
         // Arrange: respond with invalid JSON
         Server.StubGetJson("/api/v1/account/read.json", "{ this is not valid json }}}");
 
-        // Act & Assert
-        await Should.ThrowAsync<JsonException>(
-            () => Client.Account.Account.Get(new() { Id = 1 }));
+        // Act
+        var result = await Client.Account.Account.Get(new() { Id = 1 });
+
+        // Assert
+        result.IsHttpSuccess.ShouldBeTrue();
+        result.ResponseData.ShouldBeNull();
+        result.RawResponseContent.ShouldBe("{ this is not valid json }}}");
     }
 
     [Test]
-    public async Task GetList_WithMalformedJson_ShouldThrowJsonException()
+    public async Task GetList_WithMalformedJson_ShouldReturnNullResponseDataWithRawContent()
     {
         // Arrange: respond with invalid JSON
         Server.StubGetJson("/api/v1/account/list.json", "<<<not json at all>>>");
 
-        // Act & Assert
-        await Should.ThrowAsync<JsonException>(
-            () => Client.Account.Account.GetList());
+        // Act
+        var result = await Client.Account.Account.GetList();
+
+        // Assert
+        result.IsHttpSuccess.ShouldBeTrue();
+        result.ResponseData.ShouldBeNull();
+        result.RawResponseContent.ShouldBe("<<<not json at all>>>");
     }
 
     [Test]
