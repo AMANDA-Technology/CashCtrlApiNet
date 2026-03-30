@@ -88,11 +88,12 @@ public abstract class IntegrationTestBase
     }
 
     /// <summary>
-    /// Stops and disposes the WireMock server after each test
+    /// Disposes the connection handler and stops the WireMock server after each test
     /// </summary>
     [TearDown]
     public void TearDown()
     {
+        (ConnectionHandler as IDisposable)?.Dispose();
         Server.Stop();
         Server.Dispose();
     }
