@@ -73,7 +73,7 @@ dotnet test tests/CashCtrlApiNet.E2eTests/CashCtrlApiNet.E2eTests.csproj
 
 ## API Completeness
 
-As of 2026-03-24, this library implements 375 endpoint methods covering 100% of the CashCtrl REST API v1. All 10 domain groups, 58 services, and 10 connectors are fully operational with 393 unit tests.
+As of 2026-03-30, this library implements 375 endpoint methods covering 100% of the CashCtrl REST API v1. All 10 domain groups, 58 services, and 10 connectors are fully operational with 631 unit tests and 453 integration tests.
 
 Full audit: `doc/analysis/2026-03-24-api-completeness-audit.md`
 Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
@@ -92,7 +92,7 @@ Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
 | Person       | 4        | 27        | YES             | 27         |
 | Report       | 3        | 22        | YES             | 22         |
 | Salary       | 16       | 90        | YES             | 90         |
-| **TOTAL**    | **58**   | **375**   | **ALL**         | **376+17** |
+| **TOTAL**    | **58**   | **375**   | **ALL**         | **631**    |
 
 ## Key Conventions
 
@@ -177,6 +177,7 @@ Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
 | DI options validator             | `src/CashCtrlApiNet.AspNetCore/CashCtrlOptionsValidator.cs`           |
 | DI options adapter               | `src/CashCtrlApiNet.AspNetCore/CashCtrlOptionsAdapter.cs`             |
 | API completeness audit           | `doc/analysis/2026-03-24-api-completeness-audit.md`                   |
+| Pagination helper                | `src/CashCtrlApiNet/Helpers/PaginationHelper.cs`                      |
 | Implementation design spec       | `doc/specs/2026-03-23-full-api-implementation-design.md`              |
 
 ## Known Constraints and Gotchas
@@ -184,9 +185,10 @@ Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
 1. **E2E tests require a live CashCtrl account** -- E2E tests live in the `CashCtrlApiNet.E2eTests` project (tagged `[Category("E2e")]`) and call the real API. They require environment variables `CashCtrlApiNet__BaseUri`, `CashCtrlApiNet__ApiKey`, and optionally `CashCtrlApiNet__Language`. Unit tests and integration tests run without credentials.
 2. **E2E test lifecycle** -- E2E fixtures use `[OneTimeSetUp]`/`[OneTimeTearDown]` for prepare/cleanup with LIFO cleanup queue. Tests are ordered via `[Order(n)]` with descriptive names (e.g., `Get_Success`). All test data uses `"E2E-"` prefix and GUID-based unique IDs. Orphan scavenging at fixture start cleans stale data from crashed runs.
 3. **Integration tests use WireMock** -- The `CashCtrlApiNet.IntegrationTests` project uses WireMock.Net to simulate the CashCtrl API. Tests inherit from `IntegrationTestBase` which manages the WireMock server lifecycle and creates a real `CashCtrlConnectionHandler` pointed at the mock server.
-4. **`CashCtrlConnectionHandler` supports dual construction** -- Use `IHttpClientFactory` constructor for DI environments (proper connection pooling/lifetime management), or the standalone `ICashCtrlConfiguration`-only constructor for non-DI usage.
+4. **`CashCtrlConnectionHandler` supports dual construction** -- DI path receives a pre-configured `HttpClient` via typed `AddHttpClient<T>` registration. Standalone path creates and owns its own `HttpClient`. Implements `IDisposable` with ownership tracking (`_ownsHttpClient`).
 5. **POST uses form-encoded content** -- The CashCtrl API expects `application/x-www-form-urlencoded` for writes, not JSON.
 6. **Language query parameter** -- Fixed: the `lang` query parameter is correctly set without a trailing space.
 7. **`GeneratePackageOnBuild`** is enabled for all three library projects, so `dotnet build` produces `.nupkg` files in the output.
 8. **`GetList` methods support filter/pagination parameters** -- All list endpoints accept optional `filter`, `sort`, `dir`, `query`, and pagination parameters via `ListParams` (or derived request types like `CustomFieldListRequest`, `SalaryFieldListRequest`, etc.).
-9. **DI registration uses `IHttpClientFactory`** -- `AddCashCtrl` registers `IHttpClientFactory` via `AddHttpClient()` and `CashCtrlConnectionHandler` as scoped, leveraging factory-based `HttpClient` lifetime management.
+9. **DI registration uses typed `HttpClient`** -- `AddCashCtrl` uses `AddHttpClient<ICashCtrlConnectionHandler, CashCtrlConnectionHandler>` with a configure delegate that sets `BaseAddress` and `Authorization` at registration time. Optional `EnableResilience` adds `AddStandardResilienceHandler()`.
+10. **`PaginationHelper.ListAllAsync`** -- Static helper for auto-pagination via `IAsyncEnumerable<T>`. Delegate-based (takes `GetList` as `Func`), zero modifications to services. Two overloads: `ListParams?` and generic `TParams : ListParams`.

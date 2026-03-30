@@ -3,6 +3,8 @@ title: AI Readiness Assessment - CashCtrlApiNet
 tags: [ai-readiness, assessment, dotnet, api-client]
 ---
 
+> **SUPERSEDED (2026-03-30)** — This assessment was written on 2026-03-23 when the project was in early development. Since then, most issues identified here have been resolved: README with usage examples added, Dependabot fixed, CI pipeline hardened, test framework migrated to NUnit/Shouldly, 631 unit + 453 integration tests, typed HttpClient registration, `[Optional]` replaced with `= default`, and more. This file is retained for historical context. For current state, see [`CLAUDE.md`](../CLAUDE.md).
+
 # AI Readiness Assessment: CashCtrlApiNet
 
 **Date:** 2026-03-23
