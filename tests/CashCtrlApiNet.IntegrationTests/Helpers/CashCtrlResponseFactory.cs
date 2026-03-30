@@ -51,6 +51,16 @@ public static class CashCtrlResponseFactory
         => JsonSerializer.Serialize(new { total = items.Length, data = items });
 
     /// <summary>
+    /// Create a list response JSON with a custom total count (for pagination test scenarios)
+    /// </summary>
+    /// <typeparam name="T">The model type</typeparam>
+    /// <param name="items">The items to include in the current page</param>
+    /// <param name="total">The total number of items across all pages</param>
+    /// <returns>JSON string matching CashCtrl ListResponse format with specified total</returns>
+    public static string ListResponse<T>(T[] items, int total) where T : class
+        => JsonSerializer.Serialize(new { total, data = items });
+
+    /// <summary>
     /// Create a success response JSON (for create/update/delete endpoints)
     /// </summary>
     /// <param name="message">Success message</param>
