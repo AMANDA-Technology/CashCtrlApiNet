@@ -131,6 +131,75 @@ await foreach (var entry in PaginationHelper.ListAllAsync(
 }
 ```
 
+## Result and Error Handling
+
+The library uses **result-based error handling** — no exceptions are thrown for HTTP errors, validation failures, or rate limiting. All API calls return `ApiResult<T>`, which wraps every possible outcome.
+
+### ApiResult properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `IsHttpSuccess` | `bool` | Whether the HTTP request returned a 2xx status code |
+| `HttpStatusCode` | `HttpStatusCode` | The HTTP status code from the API |
+| `CashCtrlHttpStatusCodeDescription` | `string?` | Human-readable CashCtrl description of the status code |
+| `RequestsLeft` | `int?` | Number of API requests remaining (rate limit) |
+| `RawResponseContent` | `string?` | Raw response body when JSON deserialization fails (e.g. rate limit messages) |
+| `ResponseData` | `T?` | Deserialized API response data |
+
+### Checking for success
+
+Write operations (create, update, delete) return `ApiResult<NoContentResponse>`. Always check both the HTTP status and the business logic result:
+
+```csharp
+var result = await cashCtrl.Person.Person.Create(
+    new PersonCreate { FirstName = "Jane", LastName = "Doe" });
+
+if (!result.IsHttpSuccess)
+{
+    Console.WriteLine($"HTTP error {result.HttpStatusCode}: {result.CashCtrlHttpStatusCodeDescription}");
+    return;
+}
+
+if (!result.ResponseData!.Success)
+{
+    foreach (var error in result.ResponseData.Errors ?? [])
+        Console.WriteLine($"Validation error on '{error.Field}': {error.Message}");
+    return;
+}
+
+Console.WriteLine($"Created person with ID {result.ResponseData.InsertId}");
+```
+
+Read operations return `ApiResult<SingleResponse<T>>` or `ApiResult<ListResponse<T>>`:
+
+```csharp
+var result = await cashCtrl.Account.Account.GetList();
+
+if (!result.IsHttpSuccess)
+{
+    Console.WriteLine($"HTTP error {result.HttpStatusCode}: {result.CashCtrlHttpStatusCodeDescription}");
+    return;
+}
+
+foreach (var account in result.ResponseData!.Data)
+    Console.WriteLine($"{account.Number} - {account.Name}");
+```
+
+### Handling non-JSON responses
+
+Some error responses (e.g. rate limiting) return plain text instead of JSON. When this happens, `ResponseData` is `null` and `RawResponseContent` contains the raw body:
+
+```csharp
+var result = await cashCtrl.Inventory.Article.Get(new Entry { Id = 1 });
+
+if (!result.IsHttpSuccess && result.ResponseData is null)
+{
+    // Non-JSON response (e.g. rate limit or HTML error page)
+    Console.WriteLine($"HTTP {result.HttpStatusCode}: {result.RawResponseContent}");
+    Console.WriteLine($"Requests left: {result.RequestsLeft}");
+}
+```
+
 ## API Domain Groups
 
 The client is organized into 10 domain groups, accessible via `ICashCtrlApiClient`:
