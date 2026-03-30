@@ -34,8 +34,8 @@ using Shouldly;
 namespace CashCtrlApiNet.UnitTests.Infrastructure;
 
 /// <summary>
-/// Tests for <see cref="CashCtrlConnectionHandler"/> covering IHttpClientFactory support,
-/// lang parameter bug fix, and backwards-compatible constructor
+/// Tests for <see cref="CashCtrlConnectionHandler"/> covering HttpClient constructor support,
+/// lang parameter, IDisposable pattern, and backwards-compatible standalone constructor
 /// </summary>
 public class CashCtrlConnectionHandlerTests
 {
@@ -95,11 +95,8 @@ public class CashCtrlConnectionHandlerTests
         var httpClient = new HttpClient(handler) { BaseAddress = new("https://testorg.cashctrl.com/") };
         httpClient.DefaultRequestHeaders.Authorization = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("test-api-key:")));
 
-        var factory = Substitute.For<IHttpClientFactory>();
-        factory.CreateClient(Arg.Any<string>()).Returns(httpClient);
-
         var config = CreateMockConfiguration();
-        var connectionHandler = new CashCtrlConnectionHandler(factory, config);
+        var connectionHandler = new CashCtrlConnectionHandler(httpClient, config);
 
         // Act
         await connectionHandler.GetAsync("api/v1/account/list.json");
@@ -113,40 +110,33 @@ public class CashCtrlConnectionHandlerTests
     }
 
     [Test]
-    public async Task GetAsync_WithFactoryConstructor_ShouldUseFactoryProvidedClient()
+    public async Task GetAsync_WithHttpClientConstructor_ShouldUseProvidedClient()
     {
         // Arrange
         var handler = new MockHttpMessageHandler();
         var httpClient = new HttpClient(handler) { BaseAddress = new("https://testorg.cashctrl.com/") };
         httpClient.DefaultRequestHeaders.Authorization = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("test-api-key:")));
 
-        var factory = Substitute.For<IHttpClientFactory>();
-        factory.CreateClient(Arg.Any<string>()).Returns(httpClient);
-
         var config = CreateMockConfiguration();
-        var connectionHandler = new CashCtrlConnectionHandler(factory, config);
+        var connectionHandler = new CashCtrlConnectionHandler(httpClient, config);
 
         // Act
         await connectionHandler.GetAsync("api/v1/account/list.json");
 
-        // Assert
-        factory.Received(1).CreateClient(Arg.Any<string>());
+        // Assert - request was sent via the provided HttpClient
         handler.CapturedRequest.ShouldNotBeNull();
     }
 
     [Test]
-    public async Task GetAsync_WithFactoryConstructor_ShouldSetBaseAddressAndAuthHeader()
+    public async Task GetAsync_WithHttpClientConstructor_ShouldUseConfiguredBaseAddress()
     {
         // Arrange
         var handler = new MockHttpMessageHandler();
         var httpClient = new HttpClient(handler) { BaseAddress = new("https://testorg.cashctrl.com/") };
         httpClient.DefaultRequestHeaders.Authorization = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("my-key:")));
 
-        var factory = Substitute.For<IHttpClientFactory>();
-        factory.CreateClient(Arg.Any<string>()).Returns(httpClient);
-
         var config = CreateMockConfiguration(apiKey: "my-key");
-        var connectionHandler = new CashCtrlConnectionHandler(factory, config);
+        var connectionHandler = new CashCtrlConnectionHandler(httpClient, config);
 
         // Act
         await connectionHandler.GetAsync("api/v1/account/list.json");
@@ -163,7 +153,8 @@ public class CashCtrlConnectionHandlerTests
         var config = CreateMockConfiguration();
 
         // Act & Assert - backwards-compatible constructor still works
-        Should.NotThrow(() => new CashCtrlConnectionHandler(config));
+        var handler = Should.NotThrow(() => new CashCtrlConnectionHandler(config));
+        handler.Dispose();
     }
 
     [Test]
@@ -187,25 +178,35 @@ public class CashCtrlConnectionHandlerTests
     }
 
     [Test]
-    public void FactoryConstructor_ShouldThrow_WhenBaseUriIsNull()
+    public void HttpClientConstructor_ShouldThrow_WhenBaseUriIsNull()
     {
         // Arrange
-        var factory = Substitute.For<IHttpClientFactory>();
+        using var httpClient = new HttpClient();
         var config = CreateMockConfiguration(baseUri: "");
 
         // Act & Assert
-        Should.Throw<ArgumentException>(() => new CashCtrlConnectionHandler(factory, config));
+        Should.Throw<ArgumentException>(() => new CashCtrlConnectionHandler(httpClient, config));
     }
 
     [Test]
-    public void FactoryConstructor_ShouldThrow_WhenApiKeyIsNull()
+    public void HttpClientConstructor_ShouldThrow_WhenApiKeyIsNull()
     {
         // Arrange
-        var factory = Substitute.For<IHttpClientFactory>();
+        using var httpClient = new HttpClient();
         var config = CreateMockConfiguration(apiKey: "");
 
         // Act & Assert
-        Should.Throw<ArgumentException>(() => new CashCtrlConnectionHandler(factory, config));
+        Should.Throw<ArgumentException>(() => new CashCtrlConnectionHandler(httpClient, config));
+    }
+
+    [Test]
+    public void HttpClientConstructor_ShouldThrow_WhenHttpClientIsNull()
+    {
+        // Arrange
+        var config = CreateMockConfiguration();
+
+        // Act & Assert
+        Should.Throw<ArgumentNullException>(() => new CashCtrlConnectionHandler((HttpClient)null!, config));
     }
 
     [Test]
@@ -216,11 +217,8 @@ public class CashCtrlConnectionHandlerTests
         var httpClient = new HttpClient(handler) { BaseAddress = new("https://testorg.cashctrl.com/") };
         httpClient.DefaultRequestHeaders.Authorization = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("test-api-key:")));
 
-        var factory = Substitute.For<IHttpClientFactory>();
-        factory.CreateClient(Arg.Any<string>()).Returns(httpClient);
-
         var config = CreateMockConfiguration(language: "de");
-        var connectionHandler = new CashCtrlConnectionHandler(factory, config);
+        var connectionHandler = new CashCtrlConnectionHandler(httpClient, config);
 
         // Act
         connectionHandler.SetLanguage(Language.En);
@@ -232,23 +230,16 @@ public class CashCtrlConnectionHandlerTests
     }
 
     [Test]
-    public async Task GetAsync_WithStandaloneConstructor_ShouldUseLangWithoutTrailingSpace()
+    public void GetAsync_WithStandaloneConstructor_ShouldAcceptValidLanguage()
     {
-        // This test verifies the lang bug is fixed even with the standalone constructor.
-        // We use reflection to access the private GetHttpRequestMessage method.
+        // This test verifies the standalone constructor initializes correctly with a valid language.
+        // The lang parameter fix applies to the shared GetHttpRequestMessage method used by both constructors.
         var config = CreateMockConfiguration(language: "fr");
         var connectionHandler = new CashCtrlConnectionHandler(config);
 
-        // Use the internal GetHttpRequestMessage via a real GetAsync call
-        // We cannot easily intercept the HTTP call from the standalone constructor,
-        // but we can verify via the factory path. The fix applies to the shared
-        // GetHttpRequestMessage method used by both constructors.
-        // The factory constructor test above covers this, so this test confirms
-        // the standalone constructor initializes without error with a valid language.
-        connectionHandler.SetLanguage(Language.Fr);
-
         // Verify the constructor accepted "fr" as valid language
         Should.NotThrow(() => connectionHandler.SetLanguage(Language.Fr));
+        connectionHandler.Dispose();
     }
 
     [Test]
@@ -258,17 +249,100 @@ public class CashCtrlConnectionHandlerTests
         var config = CreateMockConfiguration(baseUri: "https://testorg.cashctrl.com");
 
         // Act & Assert - should not throw, normalizes the URI
-        Should.NotThrow(() => new CashCtrlConnectionHandler(config));
+        var handler = Should.NotThrow(() => new CashCtrlConnectionHandler(config));
+        handler.Dispose();
     }
 
     [Test]
-    public void FactoryConstructor_WithBaseUriMissingTrailingSlash_ShouldNormalize()
+    public void HttpClientConstructor_WithBaseUriMissingTrailingSlash_ShouldNormalize()
     {
         // Arrange
-        var factory = Substitute.For<IHttpClientFactory>();
+        using var httpClient = new HttpClient();
         var config = CreateMockConfiguration(baseUri: "https://testorg.cashctrl.com");
 
         // Act & Assert - should not throw, normalizes the URI
-        Should.NotThrow(() => new CashCtrlConnectionHandler(factory, config));
+        Should.NotThrow(() => new CashCtrlConnectionHandler(httpClient, config));
+    }
+
+    [Test]
+    public async Task Dispose_Standalone_ShouldPreventFurtherRequests()
+    {
+        // Arrange
+        var config = CreateMockConfiguration();
+        var connectionHandler = new CashCtrlConnectionHandler(config);
+
+        // Act
+        connectionHandler.Dispose();
+
+        // Assert - should throw ObjectDisposedException when trying to use
+        await Should.ThrowAsync<ObjectDisposedException>(async () =>
+            await connectionHandler.GetAsync("api/v1/test"));
+    }
+
+    [Test]
+    public async Task Dispose_HttpClientConstructor_ShouldNotDisposeProvidedHttpClient()
+    {
+        // Arrange
+        var mockHandler = new MockHttpMessageHandler();
+        var httpClient = new HttpClient(mockHandler) { BaseAddress = new("https://testorg.cashctrl.com/") };
+        httpClient.DefaultRequestHeaders.Authorization = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("test-api-key:")));
+
+        var config = CreateMockConfiguration();
+        var connectionHandler = new CashCtrlConnectionHandler(httpClient, config);
+
+        // Act - dispose the connection handler (DI path)
+        connectionHandler.Dispose();
+
+        // Assert - the provided HttpClient should NOT be disposed and should still work
+        var request = new HttpRequestMessage(HttpMethod.Get, "https://testorg.cashctrl.com/api/v1/test");
+        var response = await httpClient.SendAsync(request);
+        response.ShouldNotBeNull();
+
+        httpClient.Dispose();
+    }
+
+    [Test]
+    public void Dispose_ShouldBeIdempotent()
+    {
+        // Arrange
+        var config = CreateMockConfiguration();
+        var connectionHandler = new CashCtrlConnectionHandler(config);
+
+        // Act & Assert - calling Dispose twice should not throw
+        connectionHandler.Dispose();
+        Should.NotThrow(() => connectionHandler.Dispose());
+    }
+
+    [Test]
+    public async Task GetAsync_AfterDispose_ShouldThrowObjectDisposedException()
+    {
+        // Arrange
+        var handler = new MockHttpMessageHandler();
+        var httpClient = new HttpClient(handler) { BaseAddress = new("https://testorg.cashctrl.com/") };
+        httpClient.DefaultRequestHeaders.Authorization = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("test-api-key:")));
+
+        var config = CreateMockConfiguration();
+        var connectionHandler = new CashCtrlConnectionHandler(httpClient, config);
+
+        // Act
+        connectionHandler.Dispose();
+
+        // Assert
+        await Should.ThrowAsync<ObjectDisposedException>(async () =>
+            await connectionHandler.GetAsync("api/v1/test"));
+    }
+
+    [Test]
+    public void SetLanguage_AfterDispose_ShouldNotThrow()
+    {
+        // Arrange - SetLanguage does not use the HttpClient, so it should not throw after disposal
+        var config = CreateMockConfiguration();
+        var connectionHandler = new CashCtrlConnectionHandler(config);
+
+        // Act
+        connectionHandler.Dispose();
+
+        // Assert - SetLanguage only sets a field, it should not throw
+        Should.NotThrow(() => connectionHandler.SetLanguage(Language.En));
     }
 }

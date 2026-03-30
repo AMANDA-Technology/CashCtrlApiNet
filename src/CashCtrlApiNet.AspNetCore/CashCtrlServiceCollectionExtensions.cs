@@ -23,6 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Net.Http.Headers;
+using System.Text;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors;
 using CashCtrlApiNet.Services;
@@ -61,18 +63,28 @@ public static class CashCtrlServiceCollectionExtensions
         // Register configuration adapter
         services.AddSingleton<ICashCtrlConfiguration, CashCtrlOptionsAdapter>();
 
-        // Register named HttpClient with optional resilience handler
+        // Register typed HttpClient with BaseAddress and Authorization configured at registration time
         var options = new CashCtrlOptions();
         configureOptions(options);
 
-        var httpClientBuilder = services.AddHttpClient(nameof(CashCtrlConnectionHandler));
+        var httpClientBuilder = services.AddHttpClient<ICashCtrlConnectionHandler, CashCtrlConnectionHandler>(
+            (sp, client) =>
+            {
+                var config = sp.GetRequiredService<ICashCtrlConfiguration>();
+
+                var baseUri = config.BaseUri;
+                if (!baseUri.EndsWith('/'))
+                    baseUri += '/';
+
+                client.BaseAddress = new Uri(baseUri);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
+                    Convert.ToBase64String(Encoding.ASCII.GetBytes($"{config.ApiKey}:")));
+            });
 
         if (options.EnableResilience)
         {
             httpClientBuilder.AddStandardResilienceHandler();
         }
-
-        services.AddScoped<ICashCtrlConnectionHandler, CashCtrlConnectionHandler>();
 
         // Register all connectors
         services.AddScoped<IAccountConnector, AccountConnector>();

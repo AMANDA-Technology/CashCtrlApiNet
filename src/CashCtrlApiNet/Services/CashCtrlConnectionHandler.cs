@@ -37,7 +37,7 @@ using CashCtrlApiNet.Interfaces;
 namespace CashCtrlApiNet.Services;
 
 /// <inheritdoc />
-public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
+public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler, IDisposable
 {
     /// <summary>
     /// Language to use on all requests
@@ -45,14 +45,9 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     private Language _language;
 
     /// <summary>
-    /// Optional HTTP client factory for DI environments
+    /// HTTP client for all API requests
     /// </summary>
-    private readonly IHttpClientFactory? _httpClientFactory;
-
-    /// <summary>
-    /// Standalone HTTP client for non-DI usage (null when factory is used)
-    /// </summary>
-    private readonly HttpClient? _httpClient;
+    private readonly HttpClient _httpClient;
 
     /// <summary>
     /// Base address for all API requests
@@ -60,13 +55,19 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     private readonly Uri _baseAddress;
 
     /// <summary>
-    /// Authorization header value for API authentication
+    /// Whether this instance owns (and should dispose) the <see cref="_httpClient"/>
     /// </summary>
-    private readonly System.Net.Http.Headers.AuthenticationHeaderValue _authHeader;
+    private readonly bool _ownsHttpClient;
+
+    /// <summary>
+    /// Whether this instance has been disposed
+    /// </summary>
+    private bool _disposed;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CashCtrlConnectionHandler"/> class.
     /// This constructor creates a standalone <see cref="HttpClient"/> for non-DI environments.
+    /// The created client is owned by this instance and will be disposed when <see cref="Dispose()"/> is called.
     /// </summary>
     /// <param name="configuration">The CashCtrl API configuration</param>
     public CashCtrlConnectionHandler(ICashCtrlConfiguration configuration)
@@ -85,7 +86,7 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
             baseUri += '/';
 
         _baseAddress = new(baseUri);
-        _authHeader = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{configuration.ApiKey}:")));
+        _ownsHttpClient = true;
 
         // Create a new http client for instance
         _httpClient = new(new HttpClientHandler { AllowAutoRedirect = false })
@@ -93,22 +94,21 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
             BaseAddress = _baseAddress
         };
 
-        _httpClient.DefaultRequestHeaders.Authorization = _authHeader;
+        _httpClient.DefaultRequestHeaders.Authorization = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{configuration.ApiKey}:")));
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CashCtrlConnectionHandler"/> class.
-    /// This constructor uses <see cref="IHttpClientFactory"/> for proper connection pooling and lifetime management in DI environments.
+    /// This constructor accepts a pre-configured <see cref="HttpClient"/> from typed HttpClient registration in DI environments.
+    /// The provided client is NOT owned by this instance and will not be disposed.
     /// </summary>
-    /// <param name="httpClientFactory">The HTTP client factory for creating clients</param>
+    /// <param name="httpClient">The pre-configured HTTP client from DI typed registration</param>
     /// <param name="configuration">The CashCtrl API configuration</param>
-    public CashCtrlConnectionHandler(IHttpClientFactory httpClientFactory, ICashCtrlConfiguration configuration)
+    public CashCtrlConnectionHandler(HttpClient httpClient, ICashCtrlConfiguration configuration)
     {
-        ArgumentNullException.ThrowIfNull(httpClientFactory);
+        ArgumentNullException.ThrowIfNull(httpClient);
         ArgumentException.ThrowIfNullOrWhiteSpace(configuration.BaseUri);
         ArgumentException.ThrowIfNullOrWhiteSpace(configuration.ApiKey);
-
-        _httpClientFactory = httpClientFactory;
 
         // Configure
         _language = CashCtrlSerialization.TryDeserializeEnum<Language>(configuration.DefaultLanguage, out var language)
@@ -121,24 +121,41 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
             baseUri += '/';
 
         _baseAddress = new(baseUri);
-        _authHeader = new("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{configuration.ApiKey}:")));
+        _ownsHttpClient = false;
+        _httpClient = httpClient;
     }
 
     /// <summary>
-    /// Gets an HTTP client, either from the factory or the standalone instance
+    /// Gets the HTTP client, throwing if this instance has been disposed
     /// </summary>
-    /// <returns>A configured <see cref="HttpClient"/></returns>
+    /// <returns>The configured <see cref="HttpClient"/></returns>
+    /// <exception cref="ObjectDisposedException">Thrown when this instance has been disposed</exception>
     private HttpClient GetHttpClient()
     {
-        if (_httpClientFactory is not null)
-        {
-            var client = _httpClientFactory.CreateClient(nameof(CashCtrlConnectionHandler));
-            client.BaseAddress = _baseAddress;
-            client.DefaultRequestHeaders.Authorization = _authHeader;
-            return client;
-        }
+        ObjectDisposedException.ThrowIf(_disposed, this);
+        return _httpClient;
+    }
 
-        return _httpClient!;
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Releases the unmanaged resources used by the <see cref="CashCtrlConnectionHandler"/> and optionally releases the managed resources
+    /// </summary>
+    /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+
+        if (disposing && _ownsHttpClient)
+            _httpClient.Dispose();
+
+        _disposed = true;
     }
 
     /// <inheritdoc />
