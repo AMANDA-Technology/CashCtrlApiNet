@@ -25,6 +25,7 @@ SOFTWARE.
 
 using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Web;
 using CashCtrlApiNet.Abstractions.Enums.Api;
 using CashCtrlApiNet.Abstractions.Helpers;
@@ -360,7 +361,9 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler, IDisposable
     }
 
     /// <summary>
-    /// Get API result with data from http response
+    /// Get API result with data from http response. When the response body is not valid JSON
+    /// (e.g. rate limit messages or HTML error pages), returns an <see cref="ApiResult{T}"/> with
+    /// <c>ResponseData = null</c> and the raw content in <see cref="ApiResult.RawResponseContent"/>.
     /// </summary>
     /// <param name="httpResponseMessage"></param>
     /// <typeparam name="T"></typeparam>
@@ -368,11 +371,22 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler, IDisposable
     private static async Task<ApiResult<T>> GetApiResult<T>(HttpResponseMessage httpResponseMessage) where T : ApiResponse
     {
         var data = await GetData(httpResponseMessage);
-        var responseData = CashCtrlSerialization.Deserialize<T>(data.Content);
-        return CreateApiResult<T>(data) with
+
+        try
         {
-            ResponseData = responseData
-        };
+            var responseData = CashCtrlSerialization.Deserialize<T>(data.Content);
+            return CreateApiResult<T>(data) with
+            {
+                ResponseData = responseData
+            };
+        }
+        catch (JsonException)
+        {
+            return CreateApiResult<T>(data) with
+            {
+                RawResponseContent = data.Content
+            };
+        }
     }
 
     /// <summary>
