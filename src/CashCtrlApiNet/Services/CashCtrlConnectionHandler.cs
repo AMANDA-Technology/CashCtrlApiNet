@@ -140,13 +140,23 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler, IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Releases the unmanaged resources used by the <see cref="CashCtrlConnectionHandler"/> and optionally releases the managed resources
+    /// </summary>
+    /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
+    protected virtual void Dispose(bool disposing)
+    {
         if (_disposed)
             return;
 
-        _disposed = true;
-
-        if (_ownsHttpClient)
+        if (disposing && _ownsHttpClient)
             _httpClient.Dispose();
+
+        _disposed = true;
     }
 
     /// <inheritdoc />
