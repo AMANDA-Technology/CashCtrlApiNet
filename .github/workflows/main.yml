@@ -35,5 +35,11 @@ jobs:
       - name: Build
         run: dotnet build $SOLUTION --configuration $BUILD_CONFIG -p:Version=$BUILD_VERSION --no-restore
 
+      - name: Unit Tests
+        run: dotnet test tests/CashCtrlApiNet.UnitTests/CashCtrlApiNet.UnitTests.csproj --configuration $BUILD_CONFIG --no-build
+
+      - name: Integration Tests
+        run: dotnet test tests/CashCtrlApiNet.IntegrationTests/CashCtrlApiNet.IntegrationTests.csproj --configuration $BUILD_CONFIG --no-build
+
       - name: Publish
         run: dotnet nuget push '**/*.nupkg' --source 'https://api.nuget.org/v3/index.json' --api-key ${{secrets.NUGET_API_KEY}}
