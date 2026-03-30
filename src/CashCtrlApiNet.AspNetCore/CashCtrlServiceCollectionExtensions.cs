@@ -61,8 +61,17 @@ public static class CashCtrlServiceCollectionExtensions
         // Register configuration adapter
         services.AddSingleton<ICashCtrlConfiguration, CashCtrlOptionsAdapter>();
 
-        // Register IHttpClientFactory and connection handler
-        services.AddHttpClient();
+        // Register named HttpClient with optional resilience handler
+        var options = new CashCtrlOptions();
+        configureOptions(options);
+
+        var httpClientBuilder = services.AddHttpClient(nameof(CashCtrlConnectionHandler));
+
+        if (options.EnableResilience)
+        {
+            httpClientBuilder.AddStandardResilienceHandler();
+        }
+
         services.AddScoped<ICashCtrlConnectionHandler, CashCtrlConnectionHandler>();
 
         // Register all connectors

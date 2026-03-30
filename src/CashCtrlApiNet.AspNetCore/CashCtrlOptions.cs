@@ -51,4 +51,10 @@ public class CashCtrlOptions
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#lang">API Doc - Language</a>
     /// </summary>
     public Language Language { get; set; } = Language.De;
+
+    /// <summary>
+    /// Enables HTTP resilience (retries, circuit breaker, timeouts) via the standard resilience handler.
+    /// Defaults to <c>true</c>.
+    /// </summary>
+    public bool EnableResilience { get; set; } = true;
 }
