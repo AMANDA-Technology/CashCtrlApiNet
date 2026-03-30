@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Meta.FiscalPeriod;
@@ -42,7 +41,7 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriod">The entry containing the ID of the fiscal period.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<FiscalPeriod>>> Get(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<FiscalPeriod>>> Get(Entry fiscalPeriod, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List fiscal periods. Returns a list of fiscal periods, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriod"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(FiscalPeriodCreate fiscalPeriod, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(FiscalPeriodCreate fiscalPeriod, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update fiscal period. Updates an existing fiscal period. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriod"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(FiscalPeriodUpdate fiscalPeriod, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(FiscalPeriodUpdate fiscalPeriod, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Switch fiscal period. Switches to the specified fiscal period. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriod">The entry containing the ID of the fiscal period to switch to.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Switch(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Switch(Entry fiscalPeriod, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete fiscal periods. Deletes one or multiple fiscal periods. Returns either a success or error message.
@@ -87,7 +86,7 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriods"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries fiscalPeriods, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries fiscalPeriods, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get result of a fiscal period. Returns the result data for the specified fiscal period.
@@ -96,7 +95,7 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriod">The entry containing the ID of the fiscal period.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<FiscalPeriod>>> GetResult(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<FiscalPeriod>>> GetResult(Entry fiscalPeriod, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List depreciations of a fiscal period. Returns the depreciations for the specified fiscal period.
@@ -105,7 +104,7 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriod">The entry containing the ID of the fiscal period.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<FiscalPeriodListed>>> GetDepreciations(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<FiscalPeriodListed>>> GetDepreciations(Entry fiscalPeriod, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Book depreciations of a fiscal period. Books the depreciations for the specified fiscal period. Returns either a success or error message.
@@ -114,7 +113,7 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriod">The entry containing the ID of the fiscal period.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> BookDepreciations(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> BookDepreciations(Entry fiscalPeriod, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List exchange differences of a fiscal period. Returns the exchange differences for the specified fiscal period.
@@ -123,7 +122,7 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriod">The entry containing the ID of the fiscal period.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<FiscalPeriodListed>>> GetExchangeDiff(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<FiscalPeriodListed>>> GetExchangeDiff(Entry fiscalPeriod, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Book exchange differences of a fiscal period. Books the exchange differences for the specified fiscal period. Returns either a success or error message.
@@ -132,7 +131,7 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriod">The entry containing the ID of the fiscal period.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> BookExchangeDiff(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> BookExchangeDiff(Entry fiscalPeriod, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Complete fiscal period. Completes the specified fiscal period. Returns either a success or error message.
@@ -141,7 +140,7 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriod">The entry containing the ID of the fiscal period.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Complete(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Complete(Entry fiscalPeriod, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reopen fiscal period. Reopens the specified fiscal period. Returns either a success or error message.
@@ -150,7 +149,7 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriod">The entry containing the ID of the fiscal period.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Reopen(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Reopen(Entry fiscalPeriod, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Complete months. Completes the months of the specified fiscal period. Returns either a success or error message.
@@ -159,7 +158,7 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriod">The entry containing the ID of the fiscal period.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> CompleteMonths(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> CompleteMonths(Entry fiscalPeriod, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reopen months. Reopens the months of the specified fiscal period. Returns either a success or error message.
@@ -168,5 +167,5 @@ public interface IFiscalPeriodService
     /// <param name="fiscalPeriod">The entry containing the ID of the fiscal period.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> ReopenMonths(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> ReopenMonths(Entry fiscalPeriod, CancellationToken cancellationToken = default);
 }

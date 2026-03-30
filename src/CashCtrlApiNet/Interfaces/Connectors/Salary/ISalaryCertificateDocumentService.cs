@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.CertificateDocument;
@@ -42,7 +41,7 @@ public interface ISalaryCertificateDocumentService
     /// <param name="document">The entry containing the ID of the document.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SalaryCertificateDocument>>> Get(Entry document, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<SalaryCertificateDocument>>> Get(Entry document, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download salary certificate document as PDF.
@@ -51,7 +50,7 @@ public interface ISalaryCertificateDocumentService
     /// <param name="documents">The entries containing the IDs of the documents.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entries documents, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entries documents, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download salary certificate documents as ZIP.
@@ -60,7 +59,7 @@ public interface ISalaryCertificateDocumentService
     /// <param name="documents">The entries containing the IDs of the documents.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadZip(Entries documents, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadZip(Entries documents, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Send salary certificate document per email.
@@ -69,5 +68,5 @@ public interface ISalaryCertificateDocumentService
     /// <param name="mail">The mail request containing the certificate IDs, sender, subject and text.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> SendMail(SalaryCertificateDocumentMail mail, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> SendMail(SalaryCertificateDocumentMail mail, CancellationToken cancellationToken = default);
 }

@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.File;
@@ -38,11 +37,11 @@ namespace CashCtrlApiNet.Services.Connectors.File;
 public class FileService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IFileService
 {
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> GetContent(Entry file, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> GetContent(Entry file, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.GetContent, file, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Abstractions.Models.File.File>>> Get(Entry file, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<Abstractions.Models.File.File>>> Get(Entry file, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<Abstractions.Models.File.File>, Entry>(Endpoint.Read, file, cancellationToken);
 
     /// <inheritdoc />
@@ -50,46 +49,46 @@ public class FileService(ICashCtrlConnectionHandler connectionHandler) : Connect
         => ConnectionHandler.GetAsync<ListResponse<Abstractions.Models.File.File>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<FilePrepareResponse>> Prepare(FilePrepareRequest request, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<FilePrepareResponse>> Prepare(FilePrepareRequest request, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<FilePrepareResponse, FilePrepareRequest>(Endpoint.Prepare, request, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Persist(Entries files, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Persist(Entries files, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Persist, files, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(FileCreate file, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(FileCreate file, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, FileCreate>(Endpoint.Create, file, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(FileUpdate file, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(FileUpdate file, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, FileUpdate>(Endpoint.Update, file, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries files, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries files, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, files, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize filesCategorize, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize filesCategorize, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, EntriesCategorize>(Endpoint.Categorize, filesCategorize, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> EmptyArchive([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> EmptyArchive(CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, object>(Endpoint.EmptyArchive, new { }, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Restore(Entries files, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Restore(Entries files, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Restore, files, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ListXlsx, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ListCsv, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ListPdf, cancellationToken: cancellationToken);
 }

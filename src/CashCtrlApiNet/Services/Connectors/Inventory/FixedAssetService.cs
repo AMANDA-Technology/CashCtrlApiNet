@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Inventory.FixedAsset;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Inventory;
 public class FixedAssetService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IFixedAssetService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<FixedAsset>>> Get(Entry fixedAssetId, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<FixedAsset>>> Get(Entry fixedAssetId, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<FixedAsset>, Entry>(Endpoint.Read, fixedAssetId, cancellationToken);
 
     /// <inheritdoc />
@@ -46,34 +45,34 @@ public class FixedAssetService(ICashCtrlConnectionHandler connectionHandler) : C
         => ConnectionHandler.GetAsync<ListResponse<FixedAssetListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(FixedAssetCreate fixedAsset, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(FixedAssetCreate fixedAsset, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, FixedAssetCreate>(Endpoint.Create, fixedAsset, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(FixedAssetUpdate fixedAsset, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(FixedAssetUpdate fixedAsset, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, FixedAssetUpdate>(Endpoint.Update, fixedAsset, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries fixedAssets, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries fixedAssets, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, fixedAssets, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize fixedAssetsCategorize, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize fixedAssetsCategorize, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, EntriesCategorize>(Endpoint.Categorize, fixedAssetsCategorize, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments fixedAssetAttachments, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments fixedAssetAttachments, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, EntryAttachments>(Endpoint.UpdateAttachments, fixedAssetAttachments, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ListXlsx, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ListCsv, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ListPdf, cancellationToken: cancellationToken);
 }

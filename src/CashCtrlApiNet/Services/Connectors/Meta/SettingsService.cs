@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Meta.Settings;
 using CashCtrlApiNet.Interfaces;
@@ -37,14 +36,14 @@ namespace CashCtrlApiNet.Services.Connectors.Meta;
 public class SettingsService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISettingsService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Settings>>> Read([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<Settings>>> Read(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<Settings>>(Endpoint.Read, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Settings>>> Get(SettingGet setting, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<Settings>>> Get(SettingGet setting, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<Settings>, SettingGet>(Endpoint.Get, setting, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(SettingsUpdate settings, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(SettingsUpdate settings, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, SettingsUpdate>(Endpoint.Update, settings, cancellationToken: cancellationToken);
 }

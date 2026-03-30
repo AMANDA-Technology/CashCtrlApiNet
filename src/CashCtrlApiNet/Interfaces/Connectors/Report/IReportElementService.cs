@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Report.Element;
@@ -42,7 +41,7 @@ public interface IReportElementService
     /// <param name="element">The entry containing the ID of the report element.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<ReportElement>>> Get(Entry element, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<ReportElement>>> Get(Entry element, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new report element. Returns either a success or multiple error messages (for each issue).
@@ -51,7 +50,7 @@ public interface IReportElementService
     /// <param name="element"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(ReportElementCreate element, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(ReportElementCreate element, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update report element. Updates an existing report element. Returns either a success or multiple error messages (for each issue).
@@ -60,7 +59,7 @@ public interface IReportElementService
     /// <param name="element"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(ReportElementUpdate element, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(ReportElementUpdate element, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete report elements. Deletes one or multiple report elements. Returns either a success or error message.
@@ -69,7 +68,7 @@ public interface IReportElementService
     /// <param name="elements"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries elements, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries elements, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reorder report elements. Changes the order of report elements. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface IReportElementService
     /// <param name="reorder"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Reorder(ReportElementReorder reorder, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Reorder(ReportElementReorder reorder, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get report element data as JSON.
@@ -87,7 +86,7 @@ public interface IReportElementService
     /// <param name="element">The entry containing the ID of the report element.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<ReportElement>>> GetData(Entry element, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<ReportElement>>> GetData(Entry element, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get report element data as HTML.
@@ -96,7 +95,7 @@ public interface IReportElementService
     /// <param name="element">The entry containing the ID of the report element.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> GetDataHtml(Entry element, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> GetDataHtml(Entry element, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get report element meta data.
@@ -105,7 +104,7 @@ public interface IReportElementService
     /// <param name="element">The entry containing the ID of the report element.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<ReportElement>>> GetMeta(Entry element, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<ReportElement>>> GetMeta(Entry element, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download report element as PDF.
@@ -114,7 +113,7 @@ public interface IReportElementService
     /// <param name="element">The entry containing the ID of the report element.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry element, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry element, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download report element as CSV.
@@ -123,7 +122,7 @@ public interface IReportElementService
     /// <param name="element">The entry containing the ID of the report element.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadCsv(Entry element, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadCsv(Entry element, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download report element as Excel.
@@ -132,5 +131,5 @@ public interface IReportElementService
     /// <param name="element">The entry containing the ID of the report element.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadExcel(Entry element, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadExcel(Entry element, CancellationToken cancellationToken = default);
 }

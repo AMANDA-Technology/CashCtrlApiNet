@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Inventory.Unit;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Inventory;
 public class UnitService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IUnitService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Unit>>> Get(Entry unitId, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<Unit>>> Get(Entry unitId, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<Unit>, Entry>(Endpoint.Read, unitId, cancellationToken);
 
     /// <inheritdoc />
@@ -46,14 +45,14 @@ public class UnitService(ICashCtrlConnectionHandler connectionHandler) : Connect
         => ConnectionHandler.GetAsync<ListResponse<Unit>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(UnitCreate unit, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(UnitCreate unit, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, UnitCreate>(Endpoint.Create, unit, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(UnitUpdate unit, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(UnitUpdate unit, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, UnitUpdate>(Endpoint.Update, unit, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries units, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries units, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, units, cancellationToken: cancellationToken);
 }

@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 
 namespace CashCtrlApiNet.Interfaces.Connectors.Meta;
@@ -39,5 +38,5 @@ public interface IOrganizationService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> GetLogo([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> GetLogo(CancellationToken cancellationToken = default);
 }

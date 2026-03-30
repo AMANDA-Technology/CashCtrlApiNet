@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Common.Rounding;
@@ -42,7 +41,7 @@ public interface IRoundingService
     /// <param name="rounding">The entry containing the ID of the rounding.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Rounding>>> Get(Entry rounding, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Rounding>>> Get(Entry rounding, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List roundings. Returns a list of roundings, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IRoundingService
     /// <param name="rounding"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(RoundingCreate rounding, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(RoundingCreate rounding, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update rounding. Updates an existing rounding. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface IRoundingService
     /// <param name="rounding"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(RoundingUpdate rounding, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(RoundingUpdate rounding, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete roundings. Deletes one or multiple roundings. Returns either a success or error message.
@@ -78,5 +77,5 @@ public interface IRoundingService
     /// <param name="roundings"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries roundings, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries roundings, CancellationToken cancellationToken = default);
 }

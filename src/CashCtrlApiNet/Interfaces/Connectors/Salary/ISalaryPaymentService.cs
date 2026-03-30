@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Salary.Payment;
 
@@ -41,7 +40,7 @@ public interface ISalaryPaymentService
     /// <param name="payment">The payment to create.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(SalaryPaymentCreate payment, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(SalaryPaymentCreate payment, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download salary payment file.
@@ -50,5 +49,5 @@ public interface ISalaryPaymentService
     /// <param name="payment">The payment parameters for the file to download.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> Download(SalaryPaymentCreate payment, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> Download(SalaryPaymentCreate payment, CancellationToken cancellationToken = default);
 }

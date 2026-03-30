@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Journal;
@@ -42,7 +41,7 @@ public interface IJournalService
     /// <param name="journal">The entry containing the ID of the journal entry.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Journal.Journal>>> Get(Entry journal, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Abstractions.Models.Journal.Journal>>> Get(Entry journal, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List journal entries. Returns a list of journal entries, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IJournalService
     /// <param name="journal"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(JournalCreate journal, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(JournalCreate journal, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update journal entry. Updates an existing journal entry. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface IJournalService
     /// <param name="journal"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(JournalUpdate journal, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(JournalUpdate journal, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete journal entries. Deletes one or multiple journal entries. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface IJournalService
     /// <param name="journals"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries journals, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries journals, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update attachments. Updates the file attachments of a journal entry. Returns either a success or error message.
@@ -87,7 +86,7 @@ public interface IJournalService
     /// <param name="journalAttachments"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments journalAttachments, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments journalAttachments, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update recurrence. Updates the recurrence of a journal entry. Returns either a success or error message.
@@ -96,7 +95,7 @@ public interface IJournalService
     /// <param name="journalRecurrence"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> UpdateRecurrence(EntryRecurrence journalRecurrence, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateRecurrence(EntryRecurrence journalRecurrence, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export journal entries as Excel file.
@@ -104,7 +103,7 @@ public interface IJournalService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export journal entries as CSV file.
@@ -112,7 +111,7 @@ public interface IJournalService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export journal entries as PDF file.
@@ -120,5 +119,5 @@ public interface IJournalService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default);
 }

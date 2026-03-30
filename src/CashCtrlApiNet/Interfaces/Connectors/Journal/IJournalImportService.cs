@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Journal.Import;
@@ -42,7 +41,7 @@ public interface IJournalImportService
     /// <param name="journalImport">The entry containing the ID of the journal import.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<JournalImport>>> Get(Entry journalImport, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<JournalImport>>> Get(Entry journalImport, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List journal imports. Returns a list of journal imports, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IJournalImportService
     /// <param name="journalImport"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(JournalImportCreate journalImport, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(JournalImportCreate journalImport, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute journal import. Executes an existing journal import. Returns either a success or error message.
@@ -69,5 +68,5 @@ public interface IJournalImportService
     /// <param name="journalImport">The entry containing the ID of the journal import to execute.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Execute(Entry journalImport, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Execute(Entry journalImport, CancellationToken cancellationToken = default);
 }

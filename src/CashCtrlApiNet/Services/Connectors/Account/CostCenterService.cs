@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Account.CostCenter;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Account;
 public class CostCenterService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ICostCenterService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<CostCenter>>> Get(Entry costCenter, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<CostCenter>>> Get(Entry costCenter, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<CostCenter>, Entry>(Endpoint.Read, costCenter, cancellationToken);
 
     /// <inheritdoc />
@@ -46,38 +45,38 @@ public class CostCenterService(ICashCtrlConnectionHandler connectionHandler) : C
         => ConnectionHandler.GetAsync<ListResponse<CostCenterListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<DecimalResponse>> GetBalance(Entry costCenter, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<DecimalResponse>> GetBalance(Entry costCenter, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBalanceAsync(Endpoint.Balance, costCenter, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(CostCenterCreate costCenter, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(CostCenterCreate costCenter, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, CostCenterCreate>(Endpoint.Create, costCenter, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(CostCenterUpdate costCenter, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(CostCenterUpdate costCenter, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, CostCenterUpdate>(Endpoint.Update, costCenter, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries costCenters, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries costCenters, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, costCenters, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize costCentersCategorize, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize costCentersCategorize, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, EntriesCategorize>(Endpoint.Categorize, costCentersCategorize, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments costCenterAttachments, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments costCenterAttachments, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, EntryAttachments>(Endpoint.UpdateAttachments, costCenterAttachments, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ListXlsx, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ListCsv, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ListPdf, cancellationToken: cancellationToken);
 }

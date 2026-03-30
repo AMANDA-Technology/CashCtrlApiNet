@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Order;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -42,7 +41,7 @@ public interface IOrderService
     /// <param name="order">The entry containing the ID of the order.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Order.Order>>> Get(Entry order, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Abstractions.Models.Order.Order>>> Get(Entry order, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List orders. Returns a list of orders, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IOrderService
     /// <param name="order"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(OrderCreate order, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(OrderCreate order, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update order. Updates an existing order. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface IOrderService
     /// <param name="order"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(OrderUpdate order, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(OrderUpdate order, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete orders. Deletes one or multiple orders. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface IOrderService
     /// <param name="orders"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries orders, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries orders, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update order status. Updates the status of an order.
@@ -87,7 +86,7 @@ public interface IOrderService
     /// <param name="status"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> UpdateStatus(OrderStatusUpdate status, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateStatus(OrderStatusUpdate status, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update order recurrence. Updates the recurrence of an order.
@@ -96,7 +95,7 @@ public interface IOrderService
     /// <param name="recurrence"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> UpdateRecurrence(OrderRecurrenceUpdate recurrence, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateRecurrence(OrderRecurrenceUpdate recurrence, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Continue order. Continues a recurring order.
@@ -105,7 +104,7 @@ public interface IOrderService
     /// <param name="order">The entry containing the ID of the order.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Continue(Entry order, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Continue(Entry order, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get order dossier. Returns a list of orders in the dossier.
@@ -114,7 +113,7 @@ public interface IOrderService
     /// <param name="order">The entry containing the ID of the order.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<OrderListed>>> GetDossier(Entry order, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<OrderListed>>> GetDossier(Entry order, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add order to dossier. Adds an order to a dossier.
@@ -123,7 +122,7 @@ public interface IOrderService
     /// <param name="dossier"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> DossierAdd(OrderDossierModify dossier, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> DossierAdd(OrderDossierModify dossier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove order from dossier. Removes an order from a dossier.
@@ -132,7 +131,7 @@ public interface IOrderService
     /// <param name="dossier"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> DossierRemove(OrderDossierModify dossier, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> DossierRemove(OrderDossierModify dossier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update attachments. Updates the file attachments of an order. Returns either a success or error message.
@@ -141,7 +140,7 @@ public interface IOrderService
     /// <param name="attachments"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments attachments, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments attachments, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export orders as Excel file.
@@ -149,7 +148,7 @@ public interface IOrderService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export orders as CSV file.
@@ -157,7 +156,7 @@ public interface IOrderService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export orders as PDF file.
@@ -165,5 +164,5 @@ public interface IOrderService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default);
 }

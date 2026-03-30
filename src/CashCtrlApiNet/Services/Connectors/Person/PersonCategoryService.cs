@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Person.Category;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Person;
 public class PersonCategoryService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IPersonCategoryService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<PersonCategory>>> Get(Entry category, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<PersonCategory>>> Get(Entry category, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<PersonCategory>, Entry>(Endpoint.Read, category, cancellationToken);
 
     /// <inheritdoc />
@@ -46,18 +45,18 @@ public class PersonCategoryService(ICashCtrlConnectionHandler connectionHandler)
         => ConnectionHandler.GetAsync<ListResponse<PersonCategory>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<PersonCategory>>> GetTree([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<ListResponse<PersonCategory>>> GetTree(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<ListResponse<PersonCategory>>(Endpoint.Tree, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(PersonCategoryCreate category, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(PersonCategoryCreate category, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, PersonCategoryCreate>(Endpoint.Create, category, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(PersonCategoryUpdate category, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(PersonCategoryUpdate category, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, PersonCategoryUpdate>(Endpoint.Update, category, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries categories, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries categories, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, categories, cancellationToken: cancellationToken);
 }

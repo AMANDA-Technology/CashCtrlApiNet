@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Common.Currency;
@@ -42,7 +41,7 @@ public interface ICurrencyService
     /// <param name="currency">The entry containing the ID of the currency.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Currency>>> Get(Entry currency, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Currency>>> Get(Entry currency, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List currencies. Returns a list of currencies, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface ICurrencyService
     /// <param name="currency"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(CurrencyCreate currency, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(CurrencyCreate currency, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update currency. Updates an existing currency. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface ICurrencyService
     /// <param name="currency"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(CurrencyUpdate currency, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(CurrencyUpdate currency, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete currencies. Deletes one or multiple currencies. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface ICurrencyService
     /// <param name="currencies"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries currencies, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries currencies, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get exchange rate. Returns the exchange rate between two currencies.
@@ -87,5 +86,5 @@ public interface ICurrencyService
     /// <param name="exchangeRateRequest">The exchange rate request parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<DecimalResponse>> GetExchangeRate(CurrencyExchangeRateRequest exchangeRateRequest, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<DecimalResponse>> GetExchangeRate(CurrencyExchangeRateRequest exchangeRateRequest, CancellationToken cancellationToken = default);
 }

@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.File;
@@ -42,7 +41,7 @@ public interface IFileService
     /// <param name="file">The entry containing the ID of the file.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> GetContent(Entry file, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> GetContent(Entry file, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Read file. Returns a single file by ID.
@@ -51,7 +50,7 @@ public interface IFileService
     /// <param name="file">The entry containing the ID of the file.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Abstractions.Models.File.File>>> Get(Entry file, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Abstractions.Models.File.File>>> Get(Entry file, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List files. Returns a list of files, optionally filtered and paginated.
@@ -70,7 +69,7 @@ public interface IFileService
     /// <param name="request">The prepare request containing file metadata as JSON.</param>
     /// <param name="cancellationToken"></param>
     /// <returns>A list of prepared file entries with IDs and pre-authenticated write URLs.</returns>
-    public Task<ApiResult<FilePrepareResponse>> Prepare(FilePrepareRequest request, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<FilePrepareResponse>> Prepare(FilePrepareRequest request, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Persist files. Persists one or multiple prepared files. Returns either a success or error message.
@@ -79,7 +78,7 @@ public interface IFileService
     /// <param name="files">The entries containing the IDs of the files to persist.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Persist(Entries files, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Persist(Entries files, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new file. Returns either a success or multiple error messages (for each issue).
@@ -88,7 +87,7 @@ public interface IFileService
     /// <param name="file"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(FileCreate file, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(FileCreate file, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update file. Updates an existing file. Returns either a success or multiple error messages (for each issue).
@@ -97,7 +96,7 @@ public interface IFileService
     /// <param name="file"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(FileUpdate file, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(FileUpdate file, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete files. Deletes one or multiple files. Returns either a success or error message.
@@ -106,7 +105,7 @@ public interface IFileService
     /// <param name="files"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries files, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries files, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Categorize files. Assigns one or multiple files to the desired category. Returns either a success or error message.
@@ -115,7 +114,7 @@ public interface IFileService
     /// <param name="filesCategorize"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize filesCategorize, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize filesCategorize, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Empty archive. Deletes all archived files. Returns either a success or error message.
@@ -123,7 +122,7 @@ public interface IFileService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> EmptyArchive([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> EmptyArchive(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restore files. Restores one or multiple files from the archive. Returns either a success or error message.
@@ -132,7 +131,7 @@ public interface IFileService
     /// <param name="files"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Restore(Entries files, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Restore(Entries files, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export files as Excel file.
@@ -140,7 +139,7 @@ public interface IFileService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export files as CSV file.
@@ -148,7 +147,7 @@ public interface IFileService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export files as PDF file.
@@ -156,5 +155,5 @@ public interface IFileService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default);
 }

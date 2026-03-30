@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Inventory.FixedAsset;
@@ -42,7 +41,7 @@ public interface IFixedAssetService
     /// <param name="fixedAssetId">The ID of the entry.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<FixedAsset>>> Get(Entry fixedAssetId, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<FixedAsset>>> Get(Entry fixedAssetId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List fixed assets. Returns a list of fixed assets, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IFixedAssetService
     /// <param name="fixedAsset"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(FixedAssetCreate fixedAsset, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(FixedAssetCreate fixedAsset, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update fixed asset. Updates an existing fixed asset. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface IFixedAssetService
     /// <param name="fixedAsset"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(FixedAssetUpdate fixedAsset, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(FixedAssetUpdate fixedAsset, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete fixed assets. Deletes one or multiple fixed assets. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface IFixedAssetService
     /// <param name="fixedAssets"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries fixedAssets, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries fixedAssets, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Categorize fixed assets. Assigns one or multiple fixed assets to the desired category. Returns either a success or error message.
@@ -87,7 +86,7 @@ public interface IFixedAssetService
     /// <param name="fixedAssetsCategorize"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize fixedAssetsCategorize, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize fixedAssetsCategorize, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update attachments. Updates the file attachments of a fixed asset. Use the File API to upload a file and then use the file ID here. Returns either a success or error message.
@@ -96,7 +95,7 @@ public interface IFixedAssetService
     /// <param name="fixedAssetAttachments"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments fixedAssetAttachments, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments fixedAssetAttachments, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export fixed assets as Excel file.
@@ -104,7 +103,7 @@ public interface IFixedAssetService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export fixed assets as CSV file.
@@ -112,7 +111,7 @@ public interface IFixedAssetService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export fixed assets as PDF file.
@@ -120,5 +119,5 @@ public interface IFixedAssetService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default);
 }

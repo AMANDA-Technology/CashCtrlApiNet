@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Order;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Order;
 public class OrderService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IOrderService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Order.Order>>> Get(Entry order, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<Abstractions.Models.Order.Order>>> Get(Entry order, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<Abstractions.Models.Order.Order>, Entry>(Endpoint.Read, order, cancellationToken);
 
     /// <inheritdoc />
@@ -46,54 +45,54 @@ public class OrderService(ICashCtrlConnectionHandler connectionHandler) : Connec
         => ConnectionHandler.GetAsync<ListResponse<OrderListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(OrderCreate order, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(OrderCreate order, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, OrderCreate>(Endpoint.Create, order, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(OrderUpdate order, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(OrderUpdate order, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, OrderUpdate>(Endpoint.Update, order, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries orders, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries orders, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, orders, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> UpdateStatus(OrderStatusUpdate status, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> UpdateStatus(OrderStatusUpdate status, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, OrderStatusUpdate>(Endpoint.UpdateStatus, status, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> UpdateRecurrence(OrderRecurrenceUpdate recurrence, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> UpdateRecurrence(OrderRecurrenceUpdate recurrence, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, OrderRecurrenceUpdate>(Endpoint.UpdateRecurrence, recurrence, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Continue(Entry order, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Continue(Entry order, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entry>(Endpoint.Continue, order, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<OrderListed>>> GetDossier(Entry order, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<ListResponse<OrderListed>>> GetDossier(Entry order, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<ListResponse<OrderListed>, Entry>(Endpoint.ReadDossier, order, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> DossierAdd(OrderDossierModify dossier, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> DossierAdd(OrderDossierModify dossier, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, OrderDossierModify>(Endpoint.DossierAdd, dossier, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> DossierRemove(OrderDossierModify dossier, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> DossierRemove(OrderDossierModify dossier, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, OrderDossierModify>(Endpoint.DossierRemove, dossier, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments attachments, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments attachments, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, EntryAttachments>(Endpoint.UpdateAttachments, attachments, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ListXlsx, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ListCsv, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ListPdf, cancellationToken: cancellationToken);
 }

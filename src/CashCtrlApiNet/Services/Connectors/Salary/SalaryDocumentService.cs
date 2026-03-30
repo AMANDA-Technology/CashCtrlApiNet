@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.Document;
@@ -38,22 +37,22 @@ namespace CashCtrlApiNet.Services.Connectors.Salary;
 public class SalaryDocumentService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryDocumentService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<SalaryDocument>>> Get(Entry document, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<SalaryDocument>>> Get(Entry document, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<SalaryDocument>, Entry>(Endpoint.Read, document, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entries documents, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entries documents, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ReadPdf, documents, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadZip(Entries documents, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> DownloadZip(Entries documents, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ReadZip, documents, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> SendMail(SalaryDocumentMail mail, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> SendMail(SalaryDocumentMail mail, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, SalaryDocumentMail>(Endpoint.Mail, mail, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(SalaryDocumentUpdate document, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(SalaryDocumentUpdate document, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, SalaryDocumentUpdate>(Endpoint.Update, document, cancellationToken: cancellationToken);
 }

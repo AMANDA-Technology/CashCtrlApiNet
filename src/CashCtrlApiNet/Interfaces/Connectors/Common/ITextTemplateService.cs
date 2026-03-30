@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Common.TextTemplate;
@@ -42,7 +41,7 @@ public interface ITextTemplateService
     /// <param name="textTemplate">The entry containing the ID of the text template.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<TextTemplate>>> Get(Entry textTemplate, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<TextTemplate>>> Get(Entry textTemplate, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List text templates. Returns a list of text templates, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface ITextTemplateService
     /// <param name="textTemplate"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(TextTemplateCreate textTemplate, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(TextTemplateCreate textTemplate, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update text template. Updates an existing text template. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface ITextTemplateService
     /// <param name="textTemplate"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(TextTemplateUpdate textTemplate, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(TextTemplateUpdate textTemplate, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete text templates. Deletes one or multiple text templates. Returns either a success or error message.
@@ -78,5 +77,5 @@ public interface ITextTemplateService
     /// <param name="textTemplates"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries textTemplates, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries textTemplates, CancellationToken cancellationToken = default);
 }

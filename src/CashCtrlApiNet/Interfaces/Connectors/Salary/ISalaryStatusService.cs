@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.Status;
@@ -42,7 +41,7 @@ public interface ISalaryStatusService
     /// <param name="status">The entry containing the ID of the status.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SalaryStatus>>> Get(Entry status, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<SalaryStatus>>> Get(Entry status, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List salary statuses. Returns a list of statuses, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface ISalaryStatusService
     /// <param name="status"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(SalaryStatusCreate status, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(SalaryStatusCreate status, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update salary status. Updates an existing status. Returns either a success or multiple error messages.
@@ -69,7 +68,7 @@ public interface ISalaryStatusService
     /// <param name="status"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(SalaryStatusUpdate status, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(SalaryStatusUpdate status, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete salary statuses. Deletes one or multiple statuses. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface ISalaryStatusService
     /// <param name="statuses"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries statuses, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries statuses, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reorder salary statuses. Changes the order of statuses. Returns either a success or error message.
@@ -87,5 +86,5 @@ public interface ISalaryStatusService
     /// <param name="reorder"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Reorder(SalaryStatusReorder reorder, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Reorder(SalaryStatusReorder reorder, CancellationToken cancellationToken = default);
 }

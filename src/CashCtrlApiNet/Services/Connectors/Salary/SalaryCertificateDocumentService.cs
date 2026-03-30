@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.CertificateDocument;
@@ -38,18 +37,18 @@ namespace CashCtrlApiNet.Services.Connectors.Salary;
 public class SalaryCertificateDocumentService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryCertificateDocumentService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<SalaryCertificateDocument>>> Get(Entry document, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<SalaryCertificateDocument>>> Get(Entry document, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<SalaryCertificateDocument>, Entry>(Endpoint.Read, document, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entries documents, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entries documents, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ReadPdf, documents, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadZip(Entries documents, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> DownloadZip(Entries documents, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ReadZip, documents, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> SendMail(SalaryCertificateDocumentMail mail, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> SendMail(SalaryCertificateDocumentMail mail, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, SalaryCertificateDocumentMail>(Endpoint.Mail, mail, cancellationToken: cancellationToken);
 }

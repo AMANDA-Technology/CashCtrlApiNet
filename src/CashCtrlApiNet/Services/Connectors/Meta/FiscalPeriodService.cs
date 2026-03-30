@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Meta.FiscalPeriod;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Meta;
 public class FiscalPeriodService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IFiscalPeriodService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<FiscalPeriod>>> Get(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<FiscalPeriod>>> Get(Entry fiscalPeriod, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<FiscalPeriod>, Entry>(Endpoint.Read, fiscalPeriod, cancellationToken);
 
     /// <inheritdoc />
@@ -46,54 +45,54 @@ public class FiscalPeriodService(ICashCtrlConnectionHandler connectionHandler) :
         => ConnectionHandler.GetAsync<ListResponse<FiscalPeriodListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(FiscalPeriodCreate fiscalPeriod, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(FiscalPeriodCreate fiscalPeriod, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, FiscalPeriodCreate>(Endpoint.Create, fiscalPeriod, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(FiscalPeriodUpdate fiscalPeriod, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(FiscalPeriodUpdate fiscalPeriod, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, FiscalPeriodUpdate>(Endpoint.Update, fiscalPeriod, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Switch(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Switch(Entry fiscalPeriod, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entry>(Endpoint.Switch, fiscalPeriod, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries fiscalPeriods, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries fiscalPeriods, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, fiscalPeriods, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<FiscalPeriod>>> GetResult(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<FiscalPeriod>>> GetResult(Entry fiscalPeriod, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<FiscalPeriod>, Entry>(Endpoint.Result, fiscalPeriod, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<FiscalPeriodListed>>> GetDepreciations(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<ListResponse<FiscalPeriodListed>>> GetDepreciations(Entry fiscalPeriod, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<ListResponse<FiscalPeriodListed>, Entry>(Endpoint.Deprecations, fiscalPeriod, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> BookDepreciations(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> BookDepreciations(Entry fiscalPeriod, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entry>(Endpoint.BookDeprecations, fiscalPeriod, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<FiscalPeriodListed>>> GetExchangeDiff(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<ListResponse<FiscalPeriodListed>>> GetExchangeDiff(Entry fiscalPeriod, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<ListResponse<FiscalPeriodListed>, Entry>(Endpoint.ExchangeDifferences, fiscalPeriod, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> BookExchangeDiff(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> BookExchangeDiff(Entry fiscalPeriod, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entry>(Endpoint.BookExchangeDifferences, fiscalPeriod, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Complete(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Complete(Entry fiscalPeriod, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entry>(Endpoint.Complete, fiscalPeriod, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Reopen(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Reopen(Entry fiscalPeriod, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entry>(Endpoint.Reopen, fiscalPeriod, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> CompleteMonths(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> CompleteMonths(Entry fiscalPeriod, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entry>(Endpoint.CompleteMonths, fiscalPeriod, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> ReopenMonths(Entry fiscalPeriod, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> ReopenMonths(Entry fiscalPeriod, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entry>(Endpoint.ReopenMonths, fiscalPeriod, cancellationToken: cancellationToken);
 }

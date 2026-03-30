@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Account.Bank;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Account;
 public class AccountBankService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IAccountBankService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<AccountBank>>> Get(Entry bankAccount, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<AccountBank>>> Get(Entry bankAccount, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<AccountBank>, Entry>(Endpoint.Read, bankAccount, cancellationToken);
 
     /// <inheritdoc />
@@ -46,30 +45,30 @@ public class AccountBankService(ICashCtrlConnectionHandler connectionHandler) : 
         => ConnectionHandler.GetAsync<ListResponse<AccountBank>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(AccountBankCreate bankAccount, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(AccountBankCreate bankAccount, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, AccountBankCreate>(Endpoint.Create, bankAccount, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(AccountBankUpdate bankAccount, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(AccountBankUpdate bankAccount, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, AccountBankUpdate>(Endpoint.Update, bankAccount, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries bankAccounts, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries bankAccounts, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, bankAccounts, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments bankAccountAttachments, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments bankAccountAttachments, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, EntryAttachments>(Endpoint.UpdateAttachments, bankAccountAttachments, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ListXlsx, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ListCsv, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ListPdf, cancellationToken: cancellationToken);
 }

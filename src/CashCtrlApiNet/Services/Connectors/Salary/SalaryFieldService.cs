@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.Field;
@@ -38,10 +37,10 @@ namespace CashCtrlApiNet.Services.Connectors.Salary;
 public class SalaryFieldService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryFieldService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<SalaryField>>> Get(Entry field, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<SalaryField>>> Get(Entry field, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<SalaryField>, Entry>(Endpoint.Read, field, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SalaryField>>> GetList(SalaryFieldListRequest listRequest, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<ListResponse<SalaryField>>> GetList(SalaryFieldListRequest listRequest, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<ListResponse<SalaryField>, SalaryFieldListRequest>(Endpoint.List, listRequest, cancellationToken);
 }

@@ -24,7 +24,6 @@ SOFTWARE.
 */
 
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Web;
 using CashCtrlApiNet.Abstractions.Enums.Api;
@@ -147,55 +146,55 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
         => _language = language;
 
     /// <inheritdoc />
-    public async Task<ApiResult> GetAsync(string requestPath, [Optional] CancellationToken cancellationToken)
+    public async Task<ApiResult> GetAsync(string requestPath, CancellationToken cancellationToken = default)
         => await GetApiResult(await GetHttpClient().SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult> GetAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken)
+    public async Task<ApiResult> GetAsync<TQuery>(string requestPath, TQuery queryParameters, CancellationToken cancellationToken = default)
         => await GetApiResult(await GetHttpClient().SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, queryParameters), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
+    public async Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, CancellationToken cancellationToken = default) where TResult : ApiResponse
         => await GetApiResult<TResult>(await GetHttpClient().SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, ListParams? listParams, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
+    public async Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, ListParams? listParams, CancellationToken cancellationToken = default) where TResult : ApiResponse
         => await GetApiResult<TResult>(await GetHttpClient().SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, listParams), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult<TResult>> GetAsync<TResult, TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
+    public async Task<ApiResult<TResult>> GetAsync<TResult, TQuery>(string requestPath, TQuery queryParameters, CancellationToken cancellationToken = default) where TResult : ApiResponse
         => await GetApiResult<TResult>(await GetHttpClient().SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, queryParameters), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult<TResult>> PostAsync<TResult, TPost>(string requestPath, TPost payload, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
+    public async Task<ApiResult<TResult>> PostAsync<TResult, TPost>(string requestPath, TPost payload, CancellationToken cancellationToken = default) where TResult : ApiResponse
         => await GetApiResult<TResult>(await GetHttpClient().SendAsync(GetHttpRequestMessageWithFormData(HttpMethod.Post, requestPath, payload), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult<DecimalResponse>> GetBalanceAsync(string requestPath, [Optional] CancellationToken cancellationToken)
+    public async Task<ApiResult<DecimalResponse>> GetBalanceAsync(string requestPath, CancellationToken cancellationToken = default)
         => await GetBalanceApiResult(await GetHttpClient().SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult<DecimalResponse>> GetBalanceAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken)
+    public async Task<ApiResult<DecimalResponse>> GetBalanceAsync<TQuery>(string requestPath, TQuery queryParameters, CancellationToken cancellationToken = default)
         => await GetBalanceApiResult(await GetHttpClient().SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, queryParameters), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult<PlainTextResponse>> GetPlainTextAsync(string requestPath, [Optional] CancellationToken cancellationToken)
+    public async Task<ApiResult<PlainTextResponse>> GetPlainTextAsync(string requestPath, CancellationToken cancellationToken = default)
         => await GetPlainTextApiResult(await GetHttpClient().SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult<PlainTextResponse>> GetPlainTextAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken)
+    public async Task<ApiResult<PlainTextResponse>> GetPlainTextAsync<TQuery>(string requestPath, TQuery queryParameters, CancellationToken cancellationToken = default)
         => await GetPlainTextApiResult(await GetHttpClient().SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, queryParameters), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult<BinaryResponse>> GetBinaryAsync(string requestPath, [Optional] CancellationToken cancellationToken)
+    public async Task<ApiResult<BinaryResponse>> GetBinaryAsync(string requestPath, CancellationToken cancellationToken = default)
         => await GetBinaryApiResult(await GetHttpClient().SendAsync(GetHttpRequestMessage<object>(HttpMethod.Get, requestPath), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult<BinaryResponse>> GetBinaryAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken)
+    public async Task<ApiResult<BinaryResponse>> GetBinaryAsync<TQuery>(string requestPath, TQuery queryParameters, CancellationToken cancellationToken = default)
         => await GetBinaryApiResult(await GetHttpClient().SendAsync(GetHttpRequestMessage(HttpMethod.Get, requestPath, queryParameters), cancellationToken));
 
     /// <inheritdoc />
-    public async Task<ApiResult<TResult>> PostMultipartAsync<TResult>(string requestPath, MultipartFormDataContent content, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse
+    public async Task<ApiResult<TResult>> PostMultipartAsync<TResult>(string requestPath, MultipartFormDataContent content, CancellationToken cancellationToken = default) where TResult : ApiResponse
     {
         var httpRequestMessage = GetHttpRequestMessage<object>(HttpMethod.Post, requestPath);
         httpRequestMessage.Content = content;
@@ -210,7 +209,7 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     /// <param name="payload"></param>
     /// <param name="queryParameters"></param>
     /// <returns></returns>
-    private HttpRequestMessage GetHttpRequestMessageWithFormData<TForms>(HttpMethod httpMethod, string requestPath, TForms? payload, [Optional] IEnumerable<KeyValuePair<string, string>>? queryParameters)
+    private HttpRequestMessage GetHttpRequestMessageWithFormData<TForms>(HttpMethod httpMethod, string requestPath, TForms? payload, IEnumerable<KeyValuePair<string, string>>? queryParameters = null)
     {
         var httpRequestMessage = GetHttpRequestMessage(httpMethod, requestPath, queryParameters);
 
@@ -231,7 +230,7 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler
     /// <param name="requestPath"></param>
     /// <param name="queryParameters"></param>
     /// <returns></returns>
-    private HttpRequestMessage GetHttpRequestMessage<TQuery>(HttpMethod httpMethod, string requestPath, [Optional] TQuery? queryParameters)
+    private HttpRequestMessage GetHttpRequestMessage<TQuery>(HttpMethod httpMethod, string requestPath, TQuery? queryParameters = default)
     {
         var httpRequestMessage = new HttpRequestMessage { Method = httpMethod };
 

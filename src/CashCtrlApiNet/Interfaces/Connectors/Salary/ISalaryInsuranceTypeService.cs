@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.InsuranceType;
@@ -42,7 +41,7 @@ public interface ISalaryInsuranceTypeService
     /// <param name="insuranceType">The entry containing the ID of the insurance type.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SalaryInsuranceType>>> Get(Entry insuranceType, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<SalaryInsuranceType>>> Get(Entry insuranceType, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List salary insurance types. Returns a list of insurance types, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface ISalaryInsuranceTypeService
     /// <param name="insuranceType"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(SalaryInsuranceTypeCreate insuranceType, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(SalaryInsuranceTypeCreate insuranceType, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update salary insurance type. Updates an existing insurance type. Returns either a success or multiple error messages.
@@ -69,7 +68,7 @@ public interface ISalaryInsuranceTypeService
     /// <param name="insuranceType"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(SalaryInsuranceTypeUpdate insuranceType, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(SalaryInsuranceTypeUpdate insuranceType, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete salary insurance types. Deletes one or multiple insurance types. Returns either a success or error message.
@@ -78,5 +77,5 @@ public interface ISalaryInsuranceTypeService
     /// <param name="insuranceTypes"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries insuranceTypes, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries insuranceTypes, CancellationToken cancellationToken = default);
 }

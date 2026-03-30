@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Person.Import;
 
@@ -41,7 +40,7 @@ public interface IPersonImportService
     /// <param name="importCreate"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(PersonImportCreate importCreate, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(PersonImportCreate importCreate, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Define the mapping for a person import.
@@ -50,7 +49,7 @@ public interface IPersonImportService
     /// <param name="importMapping"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Mapping(PersonImportMapping importMapping, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Mapping(PersonImportMapping importMapping, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get available mapping fields for a person import.
@@ -58,7 +57,7 @@ public interface IPersonImportService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult> GetMappingFields([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult> GetMappingFields(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a preview of a person import.
@@ -67,7 +66,7 @@ public interface IPersonImportService
     /// <param name="importPreview"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Preview(PersonImportPreview importPreview, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Preview(PersonImportPreview importPreview, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute a person import.
@@ -76,5 +75,5 @@ public interface IPersonImportService
     /// <param name="importExecute"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Execute(PersonImportExecute importExecute, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Execute(PersonImportExecute importExecute, CancellationToken cancellationToken = default);
 }

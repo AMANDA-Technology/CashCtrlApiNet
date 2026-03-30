@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Order.Category;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -42,7 +41,7 @@ public interface IOrderCategoryService
     /// <param name="category">The entry containing the ID of the category.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<OrderCategory>>> Get(Entry category, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<OrderCategory>>> Get(Entry category, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List order categories. Returns a list of categories, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IOrderCategoryService
     /// <param name="category"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(OrderCategoryCreate category, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(OrderCategoryCreate category, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update order category. Updates an existing category. Returns either a success or multiple error messages.
@@ -69,7 +68,7 @@ public interface IOrderCategoryService
     /// <param name="category"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(OrderCategoryUpdate category, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(OrderCategoryUpdate category, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete order categories. Deletes one or multiple categories. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface IOrderCategoryService
     /// <param name="categories"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries categories, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries categories, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reorder order categories. Reorders the categories.
@@ -87,7 +86,7 @@ public interface IOrderCategoryService
     /// <param name="reorder"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Reorder(OrderCategoryReorder reorder, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Reorder(OrderCategoryReorder reorder, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get order category status. Returns the status of an order category.
@@ -96,5 +95,5 @@ public interface IOrderCategoryService
     /// <param name="category">The entry containing the ID of the category.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<OrderCategory>>> GetStatus(Entry category, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<OrderCategory>>> GetStatus(Entry category, CancellationToken cancellationToken = default);
 }

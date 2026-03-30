@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Report.Set;
@@ -42,7 +41,7 @@ public interface IReportSetService
     /// <param name="set">The entry containing the ID of the report set.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<ReportSet>>> Get(Entry set, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<ReportSet>>> Get(Entry set, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new report set. Returns either a success or multiple error messages (for each issue).
@@ -51,7 +50,7 @@ public interface IReportSetService
     /// <param name="set"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(ReportSetCreate set, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(ReportSetCreate set, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update report set. Updates an existing report set. Returns either a success or multiple error messages (for each issue).
@@ -60,7 +59,7 @@ public interface IReportSetService
     /// <param name="set"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(ReportSetUpdate set, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(ReportSetUpdate set, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete report sets. Deletes one or multiple report sets. Returns either a success or error message.
@@ -69,7 +68,7 @@ public interface IReportSetService
     /// <param name="sets"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries sets, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries sets, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reorder report sets. Changes the order of report sets. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface IReportSetService
     /// <param name="reorder"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Reorder(ReportSetReorder reorder, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Reorder(ReportSetReorder reorder, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get report set meta data.
@@ -87,7 +86,7 @@ public interface IReportSetService
     /// <param name="set">The entry containing the ID of the report set.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<ReportSet>>> GetMeta(Entry set, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<ReportSet>>> GetMeta(Entry set, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download report set as PDF.
@@ -96,7 +95,7 @@ public interface IReportSetService
     /// <param name="set">The entry containing the ID of the report set.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry set, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry set, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download report set as CSV.
@@ -105,7 +104,7 @@ public interface IReportSetService
     /// <param name="set">The entry containing the ID of the report set.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadCsv(Entry set, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadCsv(Entry set, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download report set as Excel.
@@ -114,7 +113,7 @@ public interface IReportSetService
     /// <param name="set">The entry containing the ID of the report set.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadExcel(Entry set, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadExcel(Entry set, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download annual report as PDF.
@@ -123,5 +122,5 @@ public interface IReportSetService
     /// <param name="set">The entry containing the ID of the report set.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadAnnualReport(Entry set, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadAnnualReport(Entry set, CancellationToken cancellationToken = default);
 }

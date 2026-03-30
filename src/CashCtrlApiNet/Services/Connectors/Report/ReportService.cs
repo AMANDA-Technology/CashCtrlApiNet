@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors.Report;
@@ -36,6 +35,6 @@ namespace CashCtrlApiNet.Services.Connectors.Report;
 public class ReportService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IReportService
 {
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<Abstractions.Models.Report.Report>>> GetTree([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<ListResponse<Abstractions.Models.Report.Report>>> GetTree(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<ListResponse<Abstractions.Models.Report.Report>>(Endpoint.Tree, cancellationToken: cancellationToken);
 }

@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Person.Title;
@@ -42,7 +41,7 @@ public interface IPersonTitleService
     /// <param name="title">The entry containing the ID of the title.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<PersonTitle>>> Get(Entry title, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<PersonTitle>>> Get(Entry title, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List person titles. Returns a list of titles, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IPersonTitleService
     /// <param name="title"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(PersonTitleCreate title, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(PersonTitleCreate title, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update person title. Updates an existing title. Returns either a success or multiple error messages.
@@ -69,7 +68,7 @@ public interface IPersonTitleService
     /// <param name="title"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(PersonTitleUpdate title, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(PersonTitleUpdate title, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete person titles. Deletes one or multiple titles. Returns either a success or error message.
@@ -78,5 +77,5 @@ public interface IPersonTitleService
     /// <param name="titles"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries titles, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries titles, CancellationToken cancellationToken = default);
 }

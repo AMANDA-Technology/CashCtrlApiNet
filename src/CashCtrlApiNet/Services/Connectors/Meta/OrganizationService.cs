@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors.Meta;
@@ -36,6 +35,6 @@ namespace CashCtrlApiNet.Services.Connectors.Meta;
 public class OrganizationService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IOrganizationService
 {
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> GetLogo([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> GetLogo(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.Logo, cancellationToken: cancellationToken);
 }

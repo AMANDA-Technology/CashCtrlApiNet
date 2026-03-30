@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Journal.Import.Entry;
@@ -42,7 +41,7 @@ public interface IJournalImportEntryService
     /// <param name="journalImportEntry">The entry containing the ID of the journal import entry.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<JournalImportEntry>>> Get(Entry journalImportEntry, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<JournalImportEntry>>> Get(Entry journalImportEntry, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List journal import entries. Returns a list of journal import entries, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IJournalImportEntryService
     /// <param name="journalImportEntry"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(JournalImportEntryUpdate journalImportEntry, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(JournalImportEntryUpdate journalImportEntry, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Ignore journal import entries. Ignores one or multiple journal import entries. Returns either a success or error message.
@@ -69,7 +68,7 @@ public interface IJournalImportEntryService
     /// <param name="journalImportEntries"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Ignore(Entries journalImportEntries, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Ignore(Entries journalImportEntries, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restore journal import entries. Restores one or multiple ignored journal import entries. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface IJournalImportEntryService
     /// <param name="journalImportEntries"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Restore(Entries journalImportEntries, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Restore(Entries journalImportEntries, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Confirm journal import entries. Confirms one or multiple journal import entries. Returns either a success or error message.
@@ -87,7 +86,7 @@ public interface IJournalImportEntryService
     /// <param name="journalImportEntries"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Confirm(Entries journalImportEntries, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Confirm(Entries journalImportEntries, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unconfirm journal import entries. Unconfirms one or multiple journal import entries. Returns either a success or error message.
@@ -96,7 +95,7 @@ public interface IJournalImportEntryService
     /// <param name="journalImportEntries"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Unconfirm(Entries journalImportEntries, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Unconfirm(Entries journalImportEntries, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export journal import entries as Excel file.
@@ -104,7 +103,7 @@ public interface IJournalImportEntryService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export journal import entries as CSV file.
@@ -112,7 +111,7 @@ public interface IJournalImportEntryService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export journal import entries as PDF file.
@@ -120,5 +119,5 @@ public interface IJournalImportEntryService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default);
 }

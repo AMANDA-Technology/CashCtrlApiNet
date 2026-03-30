@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Meta.FiscalPeriod.Task;
@@ -42,10 +41,10 @@ public class FiscalPeriodTaskService(ICashCtrlConnectionHandler connectionHandle
         => ConnectionHandler.GetAsync<ListResponse<FiscalPeriodTask>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(FiscalPeriodTaskCreate fiscalPeriodTask, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(FiscalPeriodTaskCreate fiscalPeriodTask, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, FiscalPeriodTaskCreate>(Endpoint.Create, fiscalPeriodTask, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries fiscalPeriodTasks, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries fiscalPeriodTasks, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, fiscalPeriodTasks, cancellationToken: cancellationToken);
 }

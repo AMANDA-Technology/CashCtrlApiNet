@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Inventory.ArticleCategory;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Inventory;
 public class ArticleCategoryService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IArticleCategoryService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<ArticleCategory>>> Get(Entry articleCategoryId, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<ArticleCategory>>> Get(Entry articleCategoryId, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<ArticleCategory>, Entry>(Endpoint.Read, articleCategoryId, cancellationToken);
 
     /// <inheritdoc />
@@ -46,18 +45,18 @@ public class ArticleCategoryService(ICashCtrlConnectionHandler connectionHandler
         => ConnectionHandler.GetAsync<ListResponse<ArticleCategory>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(ArticleCategoryCreate articleCategory, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(ArticleCategoryCreate articleCategory, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, ArticleCategoryCreate>(Endpoint.Create, articleCategory, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(ArticleCategoryUpdate articleCategory, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(ArticleCategoryUpdate articleCategory, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, ArticleCategoryUpdate>(Endpoint.Update, articleCategory, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<ArticleCategory>>> GetTree([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<ListResponse<ArticleCategory>>> GetTree(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<ListResponse<ArticleCategory>>(Endpoint.Tree, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries articleCategories, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries articleCategories, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, articleCategories, cancellationToken: cancellationToken);
 }

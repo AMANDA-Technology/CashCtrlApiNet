@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.Template;
@@ -42,7 +41,7 @@ public interface ISalaryTemplateService
     /// <param name="template">The entry containing the ID of the template.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SalaryTemplate>>> Get(Entry template, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<SalaryTemplate>>> Get(Entry template, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List salary templates. Returns a list of templates, optionally filtered and paginated.
@@ -59,7 +58,7 @@ public interface ISalaryTemplateService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<SalaryTemplate>>> GetTree([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryTemplate>>> GetTree(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new salary template. Returns either a success or multiple error messages.
@@ -68,7 +67,7 @@ public interface ISalaryTemplateService
     /// <param name="template"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(SalaryTemplateCreate template, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(SalaryTemplateCreate template, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update salary template. Updates an existing template. Returns either a success or multiple error messages.
@@ -77,7 +76,7 @@ public interface ISalaryTemplateService
     /// <param name="template"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(SalaryTemplateUpdate template, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(SalaryTemplateUpdate template, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete salary templates. Deletes one or multiple templates. Returns either a success or error message.
@@ -86,5 +85,5 @@ public interface ISalaryTemplateService
     /// <param name="templates"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries templates, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries templates, CancellationToken cancellationToken = default);
 }

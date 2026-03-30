@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Meta.Location;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Meta;
 public class LocationService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ILocationService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Location>>> Get(Entry location, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<Location>>> Get(Entry location, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<Location>, Entry>(Endpoint.Read, location, cancellationToken);
 
     /// <inheritdoc />
@@ -46,14 +45,14 @@ public class LocationService(ICashCtrlConnectionHandler connectionHandler) : Con
         => ConnectionHandler.GetAsync<ListResponse<LocationListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(LocationCreate location, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(LocationCreate location, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, LocationCreate>(Endpoint.Create, location, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(LocationUpdate location, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(LocationUpdate location, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, LocationUpdate>(Endpoint.Update, location, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries locations, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries locations, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, locations, cancellationToken: cancellationToken);
 }

@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Account.CostCenterCategory;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Account;
 public class CostCenterCategoryService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ICostCenterCategoryService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<CostCenterCategory>>> Get(Entry category, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<CostCenterCategory>>> Get(Entry category, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<CostCenterCategory>, Entry>(Endpoint.Read, category, cancellationToken);
 
     /// <inheritdoc />
@@ -46,18 +45,18 @@ public class CostCenterCategoryService(ICashCtrlConnectionHandler connectionHand
         => ConnectionHandler.GetAsync<ListResponse<CostCenterCategory>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<CostCenterCategory>>> GetTree([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<ListResponse<CostCenterCategory>>> GetTree(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<ListResponse<CostCenterCategory>>(Endpoint.Tree, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(CostCenterCategoryCreate category, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(CostCenterCategoryCreate category, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, CostCenterCategoryCreate>(Endpoint.Create, category, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(CostCenterCategoryUpdate category, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(CostCenterCategoryUpdate category, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, CostCenterCategoryUpdate>(Endpoint.Update, category, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries categories, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries categories, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, categories, cancellationToken: cancellationToken);
 }

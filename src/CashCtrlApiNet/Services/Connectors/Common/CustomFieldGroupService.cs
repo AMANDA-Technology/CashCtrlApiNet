@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Common.CustomFieldGroup;
@@ -38,26 +37,26 @@ namespace CashCtrlApiNet.Services.Connectors.Common;
 public class CustomFieldGroupService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ICustomFieldGroupService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<CustomFieldGroup>>> Get(Entry customFieldGroup, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<CustomFieldGroup>>> Get(Entry customFieldGroup, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<CustomFieldGroup>, Entry>(Endpoint.Read, customFieldGroup, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<CustomFieldGroupListed>>> GetList(CustomFieldGroupListRequest listRequest, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<ListResponse<CustomFieldGroupListed>>> GetList(CustomFieldGroupListRequest listRequest, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<ListResponse<CustomFieldGroupListed>, CustomFieldGroupListRequest>(Endpoint.List, listRequest, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(CustomFieldGroupCreate customFieldGroup, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(CustomFieldGroupCreate customFieldGroup, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, CustomFieldGroupCreate>(Endpoint.Create, customFieldGroup, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(CustomFieldGroupUpdate customFieldGroup, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(CustomFieldGroupUpdate customFieldGroup, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, CustomFieldGroupUpdate>(Endpoint.Update, customFieldGroup, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries customFieldGroups, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries customFieldGroups, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, customFieldGroups, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Reorder(CustomFieldGroupReorder reorder, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Reorder(CustomFieldGroupReorder reorder, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, CustomFieldGroupReorder>(Endpoint.Reorder, reorder, cancellationToken: cancellationToken);
 }

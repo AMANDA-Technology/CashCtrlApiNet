@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Common.TaxRate;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Common;
 public class TaxRateService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ITaxRateService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<TaxRate>>> Get(Entry taxRate, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<TaxRate>>> Get(Entry taxRate, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<TaxRate>, Entry>(Endpoint.Read, taxRate, cancellationToken);
 
     /// <inheritdoc />
@@ -46,14 +45,14 @@ public class TaxRateService(ICashCtrlConnectionHandler connectionHandler) : Conn
         => ConnectionHandler.GetAsync<ListResponse<TaxRateListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(TaxRateCreate taxRate, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(TaxRateCreate taxRate, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, TaxRateCreate>(Endpoint.Create, taxRate, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(TaxRateUpdate taxRate, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(TaxRateUpdate taxRate, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, TaxRateUpdate>(Endpoint.Update, taxRate, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries taxRates, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries taxRates, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, taxRates, cancellationToken: cancellationToken);
 }

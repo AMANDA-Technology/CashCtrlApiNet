@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.Statement;
@@ -42,7 +41,7 @@ public interface ISalaryStatementService
     /// <param name="statement">The entry containing the ID of the statement.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SalaryStatement>>> Get(Entry statement, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<SalaryStatement>>> Get(Entry statement, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List salary statements. Returns a list of statements, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface ISalaryStatementService
     /// <param name="statement"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(SalaryStatementCreate statement, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(SalaryStatementCreate statement, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update salary statement. Updates an existing statement. Returns either a success or multiple error messages.
@@ -69,7 +68,7 @@ public interface ISalaryStatementService
     /// <param name="statement"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(SalaryStatementUpdate statement, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(SalaryStatementUpdate statement, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update multiple salary statements. Updates multiple existing statements at once.
@@ -78,7 +77,7 @@ public interface ISalaryStatementService
     /// <param name="statements"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> UpdateMultiple(SalaryStatementUpdateMultiple statements, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateMultiple(SalaryStatementUpdateMultiple statements, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update salary statement status. Updates the status of one or multiple statements.
@@ -87,7 +86,7 @@ public interface ISalaryStatementService
     /// <param name="status"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> UpdateStatus(SalaryStatementStatusUpdate status, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateStatus(SalaryStatementStatusUpdate status, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update salary statement recurrence. Updates the recurrence of a statement.
@@ -96,7 +95,7 @@ public interface ISalaryStatementService
     /// <param name="recurrence"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> UpdateRecurrence(SalaryStatementRecurrenceUpdate recurrence, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateRecurrence(SalaryStatementRecurrenceUpdate recurrence, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete salary statements. Deletes one or multiple statements. Returns either a success or error message.
@@ -105,7 +104,7 @@ public interface ISalaryStatementService
     /// <param name="statements"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries statements, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries statements, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Calculate salary statement. Calculates the values of a statement.
@@ -114,7 +113,7 @@ public interface ISalaryStatementService
     /// <param name="calculation"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Calculate(SalaryStatementCalculate calculation, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Calculate(SalaryStatementCalculate calculation, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update attachments. Updates the file attachments of a salary statement.
@@ -123,7 +122,7 @@ public interface ISalaryStatementService
     /// <param name="attachments"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments attachments, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments attachments, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export salary statements as Excel file.
@@ -131,7 +130,7 @@ public interface ISalaryStatementService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export salary statements as CSV file.
@@ -139,7 +138,7 @@ public interface ISalaryStatementService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export salary statements as PDF file.
@@ -147,5 +146,5 @@ public interface ISalaryStatementService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default);
 }

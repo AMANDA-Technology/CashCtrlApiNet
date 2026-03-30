@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.Layout;
@@ -42,7 +41,7 @@ public interface ISalaryLayoutService
     /// <param name="layout">The entry containing the ID of the layout.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SalaryLayout>>> Get(Entry layout, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<SalaryLayout>>> Get(Entry layout, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List salary layouts. Returns a list of layouts, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface ISalaryLayoutService
     /// <param name="layout"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(SalaryLayoutCreate layout, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(SalaryLayoutCreate layout, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update salary layout. Updates an existing layout. Returns either a success or multiple error messages.
@@ -69,7 +68,7 @@ public interface ISalaryLayoutService
     /// <param name="layout"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(SalaryLayoutUpdate layout, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(SalaryLayoutUpdate layout, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete salary layouts. Deletes one or multiple layouts. Returns either a success or error message.
@@ -78,5 +77,5 @@ public interface ISalaryLayoutService
     /// <param name="layouts"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries layouts, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries layouts, CancellationToken cancellationToken = default);
 }

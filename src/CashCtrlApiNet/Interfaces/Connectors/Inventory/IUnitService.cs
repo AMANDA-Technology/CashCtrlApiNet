@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Inventory.Unit;
@@ -42,7 +41,7 @@ public interface IUnitService
     /// <param name="unitId">The ID of the entry.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Unit>>> Get(Entry unitId, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Unit>>> Get(Entry unitId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List units. Returns a list of all units, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IUnitService
     /// <param name="unit"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(UnitCreate unit, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(UnitCreate unit, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update unit. Updates an existing unit. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface IUnitService
     /// <param name="unit"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(UnitUpdate unit, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(UnitUpdate unit, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete units. Deletes one or multiple units. Returns either a success or error message.
@@ -78,5 +77,5 @@ public interface IUnitService
     /// <param name="units"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries units, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries units, CancellationToken cancellationToken = default);
 }

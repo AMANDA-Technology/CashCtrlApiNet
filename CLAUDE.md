@@ -107,7 +107,7 @@ Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
 - **Nullable enabled**: All projects use `<Nullable>enable</Nullable>`.
 - **XML doc comments**: Every public member has XML documentation with links to CashCtrl API docs.
 - **MIT license header**: Every `.cs` file starts with the full MIT license block.
-- **`[Optional]` for CancellationToken**: Uses `System.Runtime.InteropServices.Optional` attribute instead of default parameter values.
+- **`= default` for CancellationToken**: All optional `CancellationToken` parameters use `CancellationToken cancellationToken = default` (not `[Optional]` attribute).
 - **Primary constructors**: Service classes use C# primary constructors (e.g., `ArticleService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler)`).
 - **`required` keyword**: Used on properties that must be set (e.g., `required string Name`).
 - **`init` accessors**: All record properties use `init` for immutability.

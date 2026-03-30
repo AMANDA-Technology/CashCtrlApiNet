@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.Certificate;
@@ -42,7 +41,7 @@ public interface ISalaryCertificateService
     /// <param name="certificate">The entry containing the ID of the certificate.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SalaryCertificate>>> Get(Entry certificate, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<SalaryCertificate>>> Get(Entry certificate, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List salary certificates. Returns a list of certificates, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface ISalaryCertificateService
     /// <param name="certificate"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(SalaryCertificateUpdate certificate, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(SalaryCertificateUpdate certificate, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export salary certificates as Excel file.
@@ -68,7 +67,7 @@ public interface ISalaryCertificateService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export salary certificates as CSV file.
@@ -76,7 +75,7 @@ public interface ISalaryCertificateService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export salary certificates as PDF file.
@@ -84,5 +83,5 @@ public interface ISalaryCertificateService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default);
 }

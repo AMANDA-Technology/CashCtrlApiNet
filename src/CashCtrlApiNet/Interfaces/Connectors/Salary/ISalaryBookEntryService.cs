@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.BookEntry;
@@ -42,7 +41,7 @@ public interface ISalaryBookEntryService
     /// <param name="bookEntry">The entry containing the ID of the book entry.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SalaryBookEntry>>> Get(Entry bookEntry, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<SalaryBookEntry>>> Get(Entry bookEntry, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List salary book entries. Returns a list of book entries for the specified statement, optionally filtered and paginated.
@@ -51,7 +50,7 @@ public interface ISalaryBookEntryService
     /// <param name="listRequest">The list request containing the statement ID and optional filter/pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<SalaryBookEntry>>> GetList(SalaryBookEntryListRequest listRequest, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryBookEntry>>> GetList(SalaryBookEntryListRequest listRequest, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new salary book entry. Returns either a success or multiple error messages.
@@ -60,7 +59,7 @@ public interface ISalaryBookEntryService
     /// <param name="bookEntry"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(SalaryBookEntryCreate bookEntry, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(SalaryBookEntryCreate bookEntry, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update salary book entry. Updates an existing book entry. Returns either a success or multiple error messages.
@@ -69,7 +68,7 @@ public interface ISalaryBookEntryService
     /// <param name="bookEntry"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(SalaryBookEntryUpdate bookEntry, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(SalaryBookEntryUpdate bookEntry, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete salary book entries. Deletes one or multiple book entries. Returns either a success or error message.
@@ -78,5 +77,5 @@ public interface ISalaryBookEntryService
     /// <param name="bookEntries"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries bookEntries, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries bookEntries, CancellationToken cancellationToken = default);
 }

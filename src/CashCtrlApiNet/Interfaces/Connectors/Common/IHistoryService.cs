@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Common.History;
 
@@ -41,5 +40,5 @@ public interface IHistoryService
     /// <param name="historyListRequest">The request parameters including entity ID, type, and count.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<HistoryEntry>>> GetList(HistoryListRequest historyListRequest, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<HistoryEntry>>> GetList(HistoryListRequest historyListRequest, CancellationToken cancellationToken = default);
 }

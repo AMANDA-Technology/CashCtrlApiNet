@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.Document;
@@ -42,7 +41,7 @@ public interface ISalaryDocumentService
     /// <param name="document">The entry containing the ID of the document.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SalaryDocument>>> Get(Entry document, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<SalaryDocument>>> Get(Entry document, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download salary document as PDF.
@@ -51,7 +50,7 @@ public interface ISalaryDocumentService
     /// <param name="documents">The entries containing the IDs of the documents.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entries documents, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entries documents, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download salary documents as ZIP.
@@ -60,7 +59,7 @@ public interface ISalaryDocumentService
     /// <param name="documents">The entries containing the IDs of the documents.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadZip(Entries documents, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadZip(Entries documents, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Send salary document per email.
@@ -69,7 +68,7 @@ public interface ISalaryDocumentService
     /// <param name="mail">The mail request containing the statement IDs, sender, subject and text.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> SendMail(SalaryDocumentMail mail, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> SendMail(SalaryDocumentMail mail, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update salary document. Updates an existing document. Returns either a success or multiple error messages.
@@ -78,5 +77,5 @@ public interface ISalaryDocumentService
     /// <param name="document"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(SalaryDocumentUpdate document, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(SalaryDocumentUpdate document, CancellationToken cancellationToken = default);
 }

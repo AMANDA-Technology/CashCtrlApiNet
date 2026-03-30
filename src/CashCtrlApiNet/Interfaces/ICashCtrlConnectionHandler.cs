@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Enums.Api;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Api.Base;
@@ -48,7 +47,7 @@ public interface ICashCtrlConnectionHandler
     /// <param name="requestPath"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult> GetAsync(string requestPath, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult> GetAsync(string requestPath, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Base GET request
@@ -57,7 +56,7 @@ public interface ICashCtrlConnectionHandler
     /// <param name="queryParameters"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult> GetAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult> GetAsync<TQuery>(string requestPath, TQuery queryParameters, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Base GET request
@@ -65,7 +64,7 @@ public interface ICashCtrlConnectionHandler
     /// <param name="requestPath"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse;
+    public Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, CancellationToken cancellationToken = default) where TResult : ApiResponse;
 
     /// <summary>
     /// Base GET request with optional list parameters
@@ -74,7 +73,7 @@ public interface ICashCtrlConnectionHandler
     /// <param name="listParams"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, ListParams? listParams, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse;
+    public Task<ApiResult<TResult>> GetAsync<TResult>(string requestPath, ListParams? listParams, CancellationToken cancellationToken = default) where TResult : ApiResponse;
 
     /// <summary>
     /// Base GET request
@@ -83,7 +82,7 @@ public interface ICashCtrlConnectionHandler
     /// <param name="queryParameters"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<TResult>> GetAsync<TResult, TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse;
+    public Task<ApiResult<TResult>> GetAsync<TResult, TQuery>(string requestPath, TQuery queryParameters, CancellationToken cancellationToken = default) where TResult : ApiResponse;
 
     /// <summary>
     /// Base POST request
@@ -92,7 +91,7 @@ public interface ICashCtrlConnectionHandler
     /// <param name="payload"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<TResult>> PostAsync<TResult, TPost>(string requestPath, TPost payload, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse;
+    public Task<ApiResult<TResult>> PostAsync<TResult, TPost>(string requestPath, TPost payload, CancellationToken cancellationToken = default) where TResult : ApiResponse;
 
     /// <summary>
     /// GET request returning a decimal balance value (e.g., account balance, cost center balance)
@@ -100,7 +99,7 @@ public interface ICashCtrlConnectionHandler
     /// <param name="requestPath"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<DecimalResponse>> GetBalanceAsync(string requestPath, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<DecimalResponse>> GetBalanceAsync(string requestPath, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// GET request returning a decimal balance value with query parameters (e.g., account balance, cost center balance)
@@ -109,7 +108,7 @@ public interface ICashCtrlConnectionHandler
     /// <param name="queryParameters"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<DecimalResponse>> GetBalanceAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<DecimalResponse>> GetBalanceAsync<TQuery>(string requestPath, TQuery queryParameters, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// GET request returning a plain text value (e.g., generated sequence numbers)
@@ -117,7 +116,7 @@ public interface ICashCtrlConnectionHandler
     /// <param name="requestPath"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<PlainTextResponse>> GetPlainTextAsync(string requestPath, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<PlainTextResponse>> GetPlainTextAsync(string requestPath, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// GET request returning a plain text value with query parameters
@@ -126,7 +125,7 @@ public interface ICashCtrlConnectionHandler
     /// <param name="queryParameters"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<PlainTextResponse>> GetPlainTextAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<PlainTextResponse>> GetPlainTextAsync<TQuery>(string requestPath, TQuery queryParameters, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// GET request returning binary data (e.g., file downloads, PDF exports)
@@ -134,7 +133,7 @@ public interface ICashCtrlConnectionHandler
     /// <param name="requestPath"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> GetBinaryAsync(string requestPath, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> GetBinaryAsync(string requestPath, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// GET request returning binary data with query parameters (e.g., file downloads, PDF exports)
@@ -143,7 +142,7 @@ public interface ICashCtrlConnectionHandler
     /// <param name="queryParameters"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> GetBinaryAsync<TQuery>(string requestPath, TQuery queryParameters, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> GetBinaryAsync<TQuery>(string requestPath, TQuery queryParameters, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// POST request with multipart form data content (e.g., file uploads)
@@ -152,5 +151,5 @@ public interface ICashCtrlConnectionHandler
     /// <param name="content"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<TResult>> PostMultipartAsync<TResult>(string requestPath, MultipartFormDataContent content, [Optional] CancellationToken cancellationToken) where TResult : ApiResponse;
+    public Task<ApiResult<TResult>> PostMultipartAsync<TResult>(string requestPath, MultipartFormDataContent content, CancellationToken cancellationToken = default) where TResult : ApiResponse;
 }

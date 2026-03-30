@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Common.Rounding;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Common;
 public class RoundingService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IRoundingService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Rounding>>> Get(Entry rounding, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<Rounding>>> Get(Entry rounding, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<Rounding>, Entry>(Endpoint.Read, rounding, cancellationToken);
 
     /// <inheritdoc />
@@ -46,14 +45,14 @@ public class RoundingService(ICashCtrlConnectionHandler connectionHandler) : Con
         => ConnectionHandler.GetAsync<ListResponse<RoundingListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(RoundingCreate rounding, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(RoundingCreate rounding, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, RoundingCreate>(Endpoint.Create, rounding, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(RoundingUpdate rounding, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(RoundingUpdate rounding, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, RoundingUpdate>(Endpoint.Update, rounding, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries roundings, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries roundings, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, roundings, cancellationToken: cancellationToken);
 }

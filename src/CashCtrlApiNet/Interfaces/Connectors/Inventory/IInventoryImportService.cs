@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Inventory.Import;
 
@@ -41,7 +40,7 @@ public interface IInventoryImportService
     /// <param name="importCreate"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(InventoryImportCreate importCreate, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(InventoryImportCreate importCreate, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Define the mapping for an inventory import.
@@ -50,7 +49,7 @@ public interface IInventoryImportService
     /// <param name="importMapping"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Mapping(InventoryImportMapping importMapping, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Mapping(InventoryImportMapping importMapping, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get available mapping fields for an inventory import.
@@ -58,7 +57,7 @@ public interface IInventoryImportService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult> GetMappingFields([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult> GetMappingFields(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a preview of an inventory import.
@@ -67,7 +66,7 @@ public interface IInventoryImportService
     /// <param name="importPreview"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Preview(InventoryImportPreview importPreview, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Preview(InventoryImportPreview importPreview, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute an inventory import.
@@ -76,5 +75,5 @@ public interface IInventoryImportService
     /// <param name="importExecute"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Execute(InventoryImportExecute importExecute, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Execute(InventoryImportExecute importExecute, CancellationToken cancellationToken = default);
 }

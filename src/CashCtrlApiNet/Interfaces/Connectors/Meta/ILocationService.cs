@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Meta.Location;
@@ -42,7 +41,7 @@ public interface ILocationService
     /// <param name="location">The entry containing the ID of the location.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Location>>> Get(Entry location, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Location>>> Get(Entry location, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List locations. Returns a list of locations, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface ILocationService
     /// <param name="location"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(LocationCreate location, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(LocationCreate location, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update location. Updates an existing location. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface ILocationService
     /// <param name="location"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(LocationUpdate location, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(LocationUpdate location, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete locations. Deletes one or multiple locations. Returns either a success or error message.
@@ -78,5 +77,5 @@ public interface ILocationService
     /// <param name="locations"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries locations, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries locations, CancellationToken cancellationToken = default);
 }

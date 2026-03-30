@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Meta.Settings;
 
@@ -40,7 +39,7 @@ public interface ISettingsService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Settings>>> Read([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Settings>>> Read(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get setting. Returns a single setting value by name.
@@ -49,7 +48,7 @@ public interface ISettingsService
     /// <param name="setting">The query containing the name of the setting to retrieve.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Settings>>> Get(SettingGet setting, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Settings>>> Get(SettingGet setting, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update settings. Updates one or more settings. Returns either a success or multiple error messages (for each issue).
@@ -58,5 +57,5 @@ public interface ISettingsService
     /// <param name="settings"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(SettingsUpdate settings, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(SettingsUpdate settings, CancellationToken cancellationToken = default);
 }

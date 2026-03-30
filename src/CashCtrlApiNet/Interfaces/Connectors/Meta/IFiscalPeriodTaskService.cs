@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Meta.FiscalPeriod.Task;
@@ -51,7 +50,7 @@ public interface IFiscalPeriodTaskService
     /// <param name="fiscalPeriodTask"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(FiscalPeriodTaskCreate fiscalPeriodTask, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(FiscalPeriodTaskCreate fiscalPeriodTask, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete fiscal period tasks. Deletes one or multiple fiscal period tasks. Returns either a success or error message.
@@ -60,5 +59,5 @@ public interface IFiscalPeriodTaskService
     /// <param name="fiscalPeriodTasks"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries fiscalPeriodTasks, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries fiscalPeriodTasks, CancellationToken cancellationToken = default);
 }

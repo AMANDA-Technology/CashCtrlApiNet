@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.Type;
@@ -42,7 +41,7 @@ public interface ISalaryTypeService
     /// <param name="salaryType">The entry containing the ID of the salary type.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SalaryType>>> Get(Entry salaryType, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<SalaryType>>> Get(Entry salaryType, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List salary types. Returns a list of salary types, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface ISalaryTypeService
     /// <param name="salaryType"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(SalaryTypeCreate salaryType, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(SalaryTypeCreate salaryType, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update salary type. Updates an existing salary type. Returns either a success or multiple error messages.
@@ -69,7 +68,7 @@ public interface ISalaryTypeService
     /// <param name="salaryType"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(SalaryTypeUpdate salaryType, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(SalaryTypeUpdate salaryType, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Categorize salary types. Assigns one or multiple salary types to the desired category. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface ISalaryTypeService
     /// <param name="salaryTypesCategorize"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize salaryTypesCategorize, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize salaryTypesCategorize, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete salary types. Deletes one or multiple salary types. Returns either a success or error message.
@@ -87,7 +86,7 @@ public interface ISalaryTypeService
     /// <param name="salaryTypes"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries salaryTypes, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries salaryTypes, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export salary types as Excel file.
@@ -95,7 +94,7 @@ public interface ISalaryTypeService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export salary types as CSV file.
@@ -103,7 +102,7 @@ public interface ISalaryTypeService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export salary types as PDF file.
@@ -111,5 +110,5 @@ public interface ISalaryTypeService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default);
 }

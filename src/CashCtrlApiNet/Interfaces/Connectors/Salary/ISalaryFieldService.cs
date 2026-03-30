@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.Field;
@@ -42,7 +41,7 @@ public interface ISalaryFieldService
     /// <param name="field">The entry containing the ID of the field.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SalaryField>>> Get(Entry field, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<SalaryField>>> Get(Entry field, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List salary fields. Returns a list of fields for the specified type, optionally filtered and paginated.
@@ -51,5 +50,5 @@ public interface ISalaryFieldService
     /// <param name="listRequest">The list request containing the type ID and optional filter/pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<SalaryField>>> GetList(SalaryFieldListRequest listRequest, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryField>>> GetList(SalaryFieldListRequest listRequest, CancellationToken cancellationToken = default);
 }

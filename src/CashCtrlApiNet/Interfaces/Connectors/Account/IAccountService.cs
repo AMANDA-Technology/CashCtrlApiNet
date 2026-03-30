@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Account;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -42,7 +41,7 @@ public interface IAccountService
     /// <param name="account">The entry containing the ID of the account.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Account.Account>>> Get(Entry account, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Abstractions.Models.Account.Account>>> Get(Entry account, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List accounts. Returns a list of accounts, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IAccountService
     /// <param name="account">The entry containing the ID of the account.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<DecimalResponse>> GetBalance(Entry account, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<DecimalResponse>> GetBalance(Entry account, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new account. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface IAccountService
     /// <param name="account"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(AccountCreate account, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(AccountCreate account, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update account. Updates an existing account. Returns either a success or multiple error messages (for each issue).
@@ -78,7 +77,7 @@ public interface IAccountService
     /// <param name="account"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(AccountUpdate account, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(AccountUpdate account, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete accounts. Deletes one or multiple accounts. Returns either a success or error message.
@@ -87,7 +86,7 @@ public interface IAccountService
     /// <param name="accounts"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries accounts, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries accounts, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Categorize accounts. Assigns one or multiple accounts to the desired category. Returns either a success or error message.
@@ -96,7 +95,7 @@ public interface IAccountService
     /// <param name="accountsCategorize"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize accountsCategorize, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize accountsCategorize, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update attachments. Updates the file attachments of an account. Returns either a success or error message.
@@ -105,7 +104,7 @@ public interface IAccountService
     /// <param name="accountAttachments"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments accountAttachments, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments accountAttachments, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export accounts as Excel file.
@@ -113,7 +112,7 @@ public interface IAccountService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export accounts as CSV file.
@@ -121,7 +120,7 @@ public interface IAccountService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export accounts as PDF file.
@@ -129,5 +128,5 @@ public interface IAccountService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default);
 }

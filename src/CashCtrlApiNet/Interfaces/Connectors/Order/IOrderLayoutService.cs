@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Order.Layout;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -42,7 +41,7 @@ public interface IOrderLayoutService
     /// <param name="layout">The entry containing the ID of the layout.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<OrderLayout>>> Get(Entry layout, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<OrderLayout>>> Get(Entry layout, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List layouts. Returns a list of layouts, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IOrderLayoutService
     /// <param name="layout"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(OrderLayoutCreate layout, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(OrderLayoutCreate layout, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update layout. Updates an existing layout. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface IOrderLayoutService
     /// <param name="layout"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(OrderLayoutUpdate layout, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(OrderLayoutUpdate layout, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete layouts. Deletes one or multiple layouts. Returns either a success or error message.
@@ -78,5 +77,5 @@ public interface IOrderLayoutService
     /// <param name="layouts"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries layouts, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries layouts, CancellationToken cancellationToken = default);
 }

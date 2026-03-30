@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Common.CustomField;
@@ -42,7 +41,7 @@ public interface ICustomFieldService
     /// <param name="customField">The entry containing the ID of the custom field.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<CustomField>>> Get(Entry customField, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<CustomField>>> Get(Entry customField, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List custom fields. Returns a list of custom fields filtered by type.
@@ -51,7 +50,7 @@ public interface ICustomFieldService
     /// <param name="listRequest">The list request containing the type filter.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<CustomFieldListed>>> GetList(CustomFieldListRequest listRequest, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<CustomFieldListed>>> GetList(CustomFieldListRequest listRequest, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create custom field. Creates a new custom field. Returns either a success or multiple error messages (for each issue).
@@ -60,7 +59,7 @@ public interface ICustomFieldService
     /// <param name="customField"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(CustomFieldCreate customField, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(CustomFieldCreate customField, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update custom field. Updates an existing custom field. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface ICustomFieldService
     /// <param name="customField"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(CustomFieldUpdate customField, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(CustomFieldUpdate customField, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete custom fields. Deletes one or multiple custom fields. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface ICustomFieldService
     /// <param name="customFields"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries customFields, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries customFields, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reorder custom fields. Reorders custom fields relative to a target. Returns either a success or error message.
@@ -87,7 +86,7 @@ public interface ICustomFieldService
     /// <param name="reorder"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Reorder(CustomFieldReorder reorder, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Reorder(CustomFieldReorder reorder, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get custom field types. Returns available custom field types.
@@ -95,5 +94,5 @@ public interface ICustomFieldService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult> GetTypes([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult> GetTypes(CancellationToken cancellationToken = default);
 }

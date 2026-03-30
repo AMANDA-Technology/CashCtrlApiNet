@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Common.TextTemplate;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Common;
 public class TextTemplateService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ITextTemplateService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<TextTemplate>>> Get(Entry textTemplate, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<TextTemplate>>> Get(Entry textTemplate, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<TextTemplate>, Entry>(Endpoint.Read, textTemplate, cancellationToken);
 
     /// <inheritdoc />
@@ -46,14 +45,14 @@ public class TextTemplateService(ICashCtrlConnectionHandler connectionHandler) :
         => ConnectionHandler.GetAsync<ListResponse<TextTemplateListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(TextTemplateCreate textTemplate, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(TextTemplateCreate textTemplate, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, TextTemplateCreate>(Endpoint.Create, textTemplate, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(TextTemplateUpdate textTemplate, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(TextTemplateUpdate textTemplate, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, TextTemplateUpdate>(Endpoint.Update, textTemplate, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries textTemplates, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries textTemplates, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, textTemplates, cancellationToken: cancellationToken);
 }

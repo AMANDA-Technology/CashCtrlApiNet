@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Order.BookEntry;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Order;
 public class BookEntryService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IBookEntryService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<BookEntry>>> Get(Entry bookEntry, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<BookEntry>>> Get(Entry bookEntry, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<BookEntry>, Entry>(Endpoint.Read, bookEntry, cancellationToken);
 
     /// <inheritdoc />
@@ -46,14 +45,14 @@ public class BookEntryService(ICashCtrlConnectionHandler connectionHandler) : Co
         => ConnectionHandler.GetAsync<ListResponse<BookEntry>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(BookEntryCreate bookEntry, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(BookEntryCreate bookEntry, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, BookEntryCreate>(Endpoint.Create, bookEntry, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(BookEntryUpdate bookEntry, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(BookEntryUpdate bookEntry, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, BookEntryUpdate>(Endpoint.Update, bookEntry, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries bookEntries, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries bookEntries, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, bookEntries, cancellationToken: cancellationToken);
 }

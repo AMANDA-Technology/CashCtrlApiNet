@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.File.Category;
@@ -42,7 +41,7 @@ public interface IFileCategoryService
     /// <param name="category">The entry containing the ID of the category.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<FileCategory>>> Get(Entry category, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<FileCategory>>> Get(Entry category, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List file categories. Returns a list of categories, optionally filtered and paginated.
@@ -59,7 +58,7 @@ public interface IFileCategoryService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<FileCategory>>> GetTree([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<FileCategory>>> GetTree(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new file category. Returns either a success or multiple error messages.
@@ -68,7 +67,7 @@ public interface IFileCategoryService
     /// <param name="category"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(FileCategoryCreate category, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(FileCategoryCreate category, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update file category. Updates an existing category. Returns either a success or multiple error messages.
@@ -77,7 +76,7 @@ public interface IFileCategoryService
     /// <param name="category"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(FileCategoryUpdate category, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(FileCategoryUpdate category, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete file categories. Deletes one or multiple categories. Returns either a success or error message.
@@ -86,5 +85,5 @@ public interface IFileCategoryService
     /// <param name="categories"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries categories, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries categories, CancellationToken cancellationToken = default);
 }

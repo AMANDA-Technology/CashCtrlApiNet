@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Common.SequenceNumber;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Common;
 public class SequenceNumberService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISequenceNumberService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<SequenceNumber>>> Get(Entry sequenceNumber, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<SequenceNumber>>> Get(Entry sequenceNumber, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<SequenceNumber>, Entry>(Endpoint.Read, sequenceNumber, cancellationToken);
 
     /// <inheritdoc />
@@ -46,18 +45,18 @@ public class SequenceNumberService(ICashCtrlConnectionHandler connectionHandler)
         => ConnectionHandler.GetAsync<ListResponse<SequenceNumberListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(SequenceNumberCreate sequenceNumber, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(SequenceNumberCreate sequenceNumber, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, SequenceNumberCreate>(Endpoint.Create, sequenceNumber, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(SequenceNumberUpdate sequenceNumber, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(SequenceNumberUpdate sequenceNumber, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, SequenceNumberUpdate>(Endpoint.Update, sequenceNumber, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries sequenceNumbers, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries sequenceNumbers, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, sequenceNumbers, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<PlainTextResponse>> GetGeneratedNumber(Entry sequenceNumber, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<PlainTextResponse>> GetGeneratedNumber(Entry sequenceNumber, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetPlainTextAsync(Endpoint.Get, sequenceNumber, cancellationToken);
 }

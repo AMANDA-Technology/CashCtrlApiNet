@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Salary.Payment;
 using CashCtrlApiNet.Interfaces;
@@ -37,10 +36,10 @@ namespace CashCtrlApiNet.Services.Connectors.Salary;
 public class SalaryPaymentService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryPaymentService
 {
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(SalaryPaymentCreate payment, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(SalaryPaymentCreate payment, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, SalaryPaymentCreate>(Endpoint.Create, payment, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> Download(SalaryPaymentCreate payment, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> Download(SalaryPaymentCreate payment, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.Download, payment, cancellationToken);
 }

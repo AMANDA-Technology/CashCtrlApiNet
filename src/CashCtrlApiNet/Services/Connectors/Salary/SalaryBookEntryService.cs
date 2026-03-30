@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.BookEntry;
@@ -38,22 +37,22 @@ namespace CashCtrlApiNet.Services.Connectors.Salary;
 public class SalaryBookEntryService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ISalaryBookEntryService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<SalaryBookEntry>>> Get(Entry bookEntry, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<SalaryBookEntry>>> Get(Entry bookEntry, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<SalaryBookEntry>, Entry>(Endpoint.Read, bookEntry, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SalaryBookEntry>>> GetList(SalaryBookEntryListRequest listRequest, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<ListResponse<SalaryBookEntry>>> GetList(SalaryBookEntryListRequest listRequest, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<ListResponse<SalaryBookEntry>, SalaryBookEntryListRequest>(Endpoint.List, listRequest, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(SalaryBookEntryCreate bookEntry, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(SalaryBookEntryCreate bookEntry, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, SalaryBookEntryCreate>(Endpoint.Create, bookEntry, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(SalaryBookEntryUpdate bookEntry, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(SalaryBookEntryUpdate bookEntry, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, SalaryBookEntryUpdate>(Endpoint.Update, bookEntry, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries bookEntries, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries bookEntries, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, bookEntries, cancellationToken: cancellationToken);
 }

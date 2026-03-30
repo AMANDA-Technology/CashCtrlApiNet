@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Inventory.FixedAssetCategory;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Inventory;
 public class FixedAssetCategoryService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IFixedAssetCategoryService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<FixedAssetCategory>>> Get(Entry category, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<FixedAssetCategory>>> Get(Entry category, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<FixedAssetCategory>, Entry>(Endpoint.Read, category, cancellationToken);
 
     /// <inheritdoc />
@@ -46,18 +45,18 @@ public class FixedAssetCategoryService(ICashCtrlConnectionHandler connectionHand
         => ConnectionHandler.GetAsync<ListResponse<FixedAssetCategory>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<FixedAssetCategory>>> GetTree([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<ListResponse<FixedAssetCategory>>> GetTree(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<ListResponse<FixedAssetCategory>>(Endpoint.Tree, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(FixedAssetCategoryCreate category, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(FixedAssetCategoryCreate category, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, FixedAssetCategoryCreate>(Endpoint.Create, category, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(FixedAssetCategoryUpdate category, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(FixedAssetCategoryUpdate category, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, FixedAssetCategoryUpdate>(Endpoint.Update, category, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries categories, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries categories, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, categories, cancellationToken: cancellationToken);
 }

@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Common.SequenceNumber;
@@ -42,7 +41,7 @@ public interface ISequenceNumberService
     /// <param name="sequenceNumber">The entry containing the ID of the sequence number.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SequenceNumber>>> Get(Entry sequenceNumber, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<SequenceNumber>>> Get(Entry sequenceNumber, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List sequence numbers. Returns a list of sequence numbers, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface ISequenceNumberService
     /// <param name="sequenceNumber"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(SequenceNumberCreate sequenceNumber, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(SequenceNumberCreate sequenceNumber, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update sequence number. Updates an existing sequence number. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface ISequenceNumberService
     /// <param name="sequenceNumber"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(SequenceNumberUpdate sequenceNumber, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(SequenceNumberUpdate sequenceNumber, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete sequence numbers. Deletes one or multiple sequence numbers. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface ISequenceNumberService
     /// <param name="sequenceNumbers"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries sequenceNumbers, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries sequenceNumbers, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get generated number. Returns the next generated number for the specified sequence number.
@@ -87,5 +86,5 @@ public interface ISequenceNumberService
     /// <param name="sequenceNumber">The entry containing the ID of the sequence number.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<PlainTextResponse>> GetGeneratedNumber(Entry sequenceNumber, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<PlainTextResponse>> GetGeneratedNumber(Entry sequenceNumber, CancellationToken cancellationToken = default);
 }

@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Inventory.Import;
 using CashCtrlApiNet.Interfaces;
@@ -37,22 +36,22 @@ namespace CashCtrlApiNet.Services.Connectors.Inventory;
 public class InventoryImportService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IInventoryImportService
 {
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(InventoryImportCreate importCreate, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(InventoryImportCreate importCreate, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, InventoryImportCreate>(Endpoint.Create, importCreate, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Mapping(InventoryImportMapping importMapping, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Mapping(InventoryImportMapping importMapping, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, InventoryImportMapping>(Endpoint.Mapping, importMapping, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult> GetMappingFields([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult> GetMappingFields(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync(Endpoint.AvailableMappingFields, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Preview(InventoryImportPreview importPreview, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Preview(InventoryImportPreview importPreview, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, InventoryImportPreview>(Endpoint.Preview, importPreview, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Execute(InventoryImportExecute importExecute, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Execute(InventoryImportExecute importExecute, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, InventoryImportExecute>(Endpoint.Execute, importExecute, cancellationToken: cancellationToken);
 }

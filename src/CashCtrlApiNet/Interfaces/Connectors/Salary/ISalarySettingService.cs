@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.Setting;
@@ -42,7 +41,7 @@ public interface ISalarySettingService
     /// <param name="setting">The entry containing the ID of the setting.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SalarySetting>>> Get(Entry setting, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<SalarySetting>>> Get(Entry setting, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List salary settings. Returns a list of settings, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface ISalarySettingService
     /// <param name="setting"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(SalarySettingCreate setting, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(SalarySettingCreate setting, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update salary setting. Updates an existing setting. Returns either a success or multiple error messages.
@@ -69,7 +68,7 @@ public interface ISalarySettingService
     /// <param name="setting"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(SalarySettingUpdate setting, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(SalarySettingUpdate setting, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete salary settings. Deletes one or multiple settings. Returns either a success or error message.
@@ -78,5 +77,5 @@ public interface ISalarySettingService
     /// <param name="settings"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries settings, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries settings, CancellationToken cancellationToken = default);
 }

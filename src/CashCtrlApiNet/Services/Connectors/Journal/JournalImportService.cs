@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Journal.Import;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Journal;
 public class JournalImportService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IJournalImportService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<JournalImport>>> Get(Entry journalImport, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<JournalImport>>> Get(Entry journalImport, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<JournalImport>, Entry>(Endpoint.Read, journalImport, cancellationToken);
 
     /// <inheritdoc />
@@ -46,10 +45,10 @@ public class JournalImportService(ICashCtrlConnectionHandler connectionHandler) 
         => ConnectionHandler.GetAsync<ListResponse<JournalImport>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(JournalImportCreate journalImport, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(JournalImportCreate journalImport, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, JournalImportCreate>(Endpoint.Create, journalImport, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Execute(Entry journalImport, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Execute(Entry journalImport, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entry>(Endpoint.Execute, journalImport, cancellationToken: cancellationToken);
 }

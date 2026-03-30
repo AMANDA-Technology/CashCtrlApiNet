@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.Sum;
@@ -42,7 +41,7 @@ public interface ISalarySumService
     /// <param name="sum">The entry containing the ID of the sum.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SalarySum>>> Get(Entry sum, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<SalarySum>>> Get(Entry sum, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List salary sums. Returns a list of sums, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface ISalarySumService
     /// <param name="sum"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(SalarySumCreate sum, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(SalarySumCreate sum, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update salary sum. Updates an existing sum. Returns either a success or multiple error messages.
@@ -69,7 +68,7 @@ public interface ISalarySumService
     /// <param name="sum"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(SalarySumUpdate sum, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(SalarySumUpdate sum, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete salary sums. Deletes one or multiple sums. Returns either a success or error message.
@@ -78,5 +77,5 @@ public interface ISalarySumService
     /// <param name="sums"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries sums, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries sums, CancellationToken cancellationToken = default);
 }

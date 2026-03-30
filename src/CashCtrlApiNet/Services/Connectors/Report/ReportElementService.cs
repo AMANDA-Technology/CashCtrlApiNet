@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Report.Element;
@@ -38,46 +37,46 @@ namespace CashCtrlApiNet.Services.Connectors.Report;
 public class ReportElementService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IReportElementService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<ReportElement>>> Get(Entry element, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<ReportElement>>> Get(Entry element, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<ReportElement>, Entry>(Endpoint.Read, element, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(ReportElementCreate element, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(ReportElementCreate element, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, ReportElementCreate>(Endpoint.Create, element, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(ReportElementUpdate element, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(ReportElementUpdate element, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, ReportElementUpdate>(Endpoint.Update, element, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries elements, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries elements, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, elements, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Reorder(ReportElementReorder reorder, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Reorder(ReportElementReorder reorder, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, ReportElementReorder>(Endpoint.Reorder, reorder, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<ReportElement>>> GetData(Entry element, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<ReportElement>>> GetData(Entry element, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<ReportElement>, Entry>(Endpoint.ReadJson, element, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> GetDataHtml(Entry element, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> GetDataHtml(Entry element, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ReadHtml, element, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<ReportElement>>> GetMeta(Entry element, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<ReportElement>>> GetMeta(Entry element, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<ReportElement>, Entry>(Endpoint.ReadMeta, element, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry element, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry element, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadPdf, element, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadCsv(Entry element, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> DownloadCsv(Entry element, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadCsv, element, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadExcel(Entry element, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> DownloadExcel(Entry element, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadXlsx, element, cancellationToken);
 }

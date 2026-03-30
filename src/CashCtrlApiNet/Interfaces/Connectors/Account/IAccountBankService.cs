@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Account.Bank;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -42,7 +41,7 @@ public interface IAccountBankService
     /// <param name="bankAccount">The entry containing the ID of the bank account.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<AccountBank>>> Get(Entry bankAccount, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<AccountBank>>> Get(Entry bankAccount, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List bank accounts. Returns a list of bank accounts, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IAccountBankService
     /// <param name="bankAccount"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(AccountBankCreate bankAccount, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(AccountBankCreate bankAccount, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update bank account. Updates an existing bank account. Returns either a success or multiple error messages.
@@ -69,7 +68,7 @@ public interface IAccountBankService
     /// <param name="bankAccount"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(AccountBankUpdate bankAccount, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(AccountBankUpdate bankAccount, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete bank accounts. Deletes one or multiple bank accounts. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface IAccountBankService
     /// <param name="bankAccounts"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries bankAccounts, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries bankAccounts, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update attachments. Updates the file attachments of a bank account. Returns either a success or error message.
@@ -87,7 +86,7 @@ public interface IAccountBankService
     /// <param name="bankAccountAttachments"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments bankAccountAttachments, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments bankAccountAttachments, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export bank accounts as Excel file.
@@ -95,7 +94,7 @@ public interface IAccountBankService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export bank accounts as CSV file.
@@ -103,7 +102,7 @@ public interface IAccountBankService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export bank accounts as PDF file.
@@ -111,5 +110,5 @@ public interface IAccountBankService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default);
 }

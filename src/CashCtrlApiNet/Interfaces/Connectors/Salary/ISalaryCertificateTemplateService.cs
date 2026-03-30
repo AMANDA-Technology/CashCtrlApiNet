@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Salary.CertificateTemplate;
@@ -42,7 +41,7 @@ public interface ISalaryCertificateTemplateService
     /// <param name="template">The entry containing the ID of the template.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<SalaryCertificateTemplate>>> Get(Entry template, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<SalaryCertificateTemplate>>> Get(Entry template, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List salary certificate templates. Returns a list of templates, optionally filtered and paginated.
@@ -59,7 +58,7 @@ public interface ISalaryCertificateTemplateService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<SalaryCertificateTemplate>>> GetTree([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryCertificateTemplate>>> GetTree(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new salary certificate template. Returns either a success or multiple error messages.
@@ -68,7 +67,7 @@ public interface ISalaryCertificateTemplateService
     /// <param name="template"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(SalaryCertificateTemplateCreate template, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(SalaryCertificateTemplateCreate template, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update salary certificate template. Updates an existing template. Returns either a success or multiple error messages.
@@ -77,7 +76,7 @@ public interface ISalaryCertificateTemplateService
     /// <param name="template"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(SalaryCertificateTemplateUpdate template, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(SalaryCertificateTemplateUpdate template, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete salary certificate templates. Deletes one or multiple templates. Returns either a success or error message.
@@ -86,5 +85,5 @@ public interface ISalaryCertificateTemplateService
     /// <param name="templates"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries templates, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries templates, CancellationToken cancellationToken = default);
 }

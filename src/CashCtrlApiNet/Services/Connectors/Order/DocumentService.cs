@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Order.Document;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -38,22 +37,22 @@ namespace CashCtrlApiNet.Services.Connectors.Order;
 public class DocumentService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IDocumentService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Document>>> Get(Entry document, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<Document>>> Get(Entry document, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<Document>, Entry>(Endpoint.Read, document, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry document, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry document, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ReadPdf, document, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadZip(Entry document, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<BinaryResponse>> DownloadZip(Entry document, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.ReadZip, document, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> SendMail(DocumentMail mail, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> SendMail(DocumentMail mail, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, DocumentMail>(Endpoint.SendMail, mail, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(DocumentUpdate document, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(DocumentUpdate document, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, DocumentUpdate>(Endpoint.Update, document, cancellationToken: cancellationToken);
 }

@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Common.TaxRate;
@@ -42,7 +41,7 @@ public interface ITaxRateService
     /// <param name="taxRate">The entry containing the ID of the tax rate.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<TaxRate>>> Get(Entry taxRate, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<TaxRate>>> Get(Entry taxRate, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List tax rates. Returns a list of tax rates, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface ITaxRateService
     /// <param name="taxRate"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(TaxRateCreate taxRate, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(TaxRateCreate taxRate, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update tax rate. Updates an existing tax rate. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface ITaxRateService
     /// <param name="taxRate"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(TaxRateUpdate taxRate, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(TaxRateUpdate taxRate, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete tax rates. Deletes one or multiple tax rates. Returns either a success or error message.
@@ -78,5 +77,5 @@ public interface ITaxRateService
     /// <param name="taxRates"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries taxRates, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries taxRates, CancellationToken cancellationToken = default);
 }

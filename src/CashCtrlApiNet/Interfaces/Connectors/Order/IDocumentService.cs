@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Order.Document;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -42,7 +41,7 @@ public interface IDocumentService
     /// <param name="document">The entry containing the ID of the document.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Document>>> Get(Entry document, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Document>>> Get(Entry document, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download document as PDF.
@@ -51,7 +50,7 @@ public interface IDocumentService
     /// <param name="document">The entry containing the ID of the document.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry document, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry document, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download document as ZIP.
@@ -60,7 +59,7 @@ public interface IDocumentService
     /// <param name="document">The entry containing the ID of the document.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadZip(Entry document, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadZip(Entry document, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Send document per email.
@@ -69,7 +68,7 @@ public interface IDocumentService
     /// <param name="mail">The mail request containing the document ID, recipient, subject and message.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> SendMail(DocumentMail mail, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> SendMail(DocumentMail mail, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update document. Updates an existing document. Returns either a success or multiple error messages (for each issue).
@@ -78,5 +77,5 @@ public interface IDocumentService
     /// <param name="document"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(DocumentUpdate document, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(DocumentUpdate document, CancellationToken cancellationToken = default);
 }

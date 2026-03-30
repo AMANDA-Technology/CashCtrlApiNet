@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Common.Currency;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Common;
 public class CurrencyService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), ICurrencyService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<Currency>>> Get(Entry currency, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<Currency>>> Get(Entry currency, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<Currency>, Entry>(Endpoint.Read, currency, cancellationToken);
 
     /// <inheritdoc />
@@ -46,18 +45,18 @@ public class CurrencyService(ICashCtrlConnectionHandler connectionHandler) : Con
         => ConnectionHandler.GetAsync<ListResponse<CurrencyListed>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(CurrencyCreate currency, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(CurrencyCreate currency, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, CurrencyCreate>(Endpoint.Create, currency, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(CurrencyUpdate currency, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(CurrencyUpdate currency, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, CurrencyUpdate>(Endpoint.Update, currency, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries currencies, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries currencies, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, currencies, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<DecimalResponse>> GetExchangeRate(CurrencyExchangeRateRequest exchangeRateRequest, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<DecimalResponse>> GetExchangeRate(CurrencyExchangeRateRequest exchangeRateRequest, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBalanceAsync(Endpoint.ExchangeRate, exchangeRateRequest, cancellationToken);
 }

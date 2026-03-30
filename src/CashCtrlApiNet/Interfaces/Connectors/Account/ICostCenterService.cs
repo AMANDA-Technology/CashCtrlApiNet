@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Account.CostCenter;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -42,7 +41,7 @@ public interface ICostCenterService
     /// <param name="costCenter">The entry containing the ID of the cost center.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<CostCenter>>> Get(Entry costCenter, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<CostCenter>>> Get(Entry costCenter, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List cost centers. Returns a list of cost centers, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface ICostCenterService
     /// <param name="costCenter">The entry containing the ID of the cost center.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<DecimalResponse>> GetBalance(Entry costCenter, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<DecimalResponse>> GetBalance(Entry costCenter, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new cost center. Returns either a success or multiple error messages.
@@ -69,7 +68,7 @@ public interface ICostCenterService
     /// <param name="costCenter"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(CostCenterCreate costCenter, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(CostCenterCreate costCenter, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update cost center. Updates an existing cost center. Returns either a success or multiple error messages.
@@ -78,7 +77,7 @@ public interface ICostCenterService
     /// <param name="costCenter"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(CostCenterUpdate costCenter, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(CostCenterUpdate costCenter, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete cost centers. Deletes one or multiple cost centers. Returns either a success or error message.
@@ -87,7 +86,7 @@ public interface ICostCenterService
     /// <param name="costCenters"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries costCenters, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries costCenters, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Categorize cost centers. Assigns one or multiple cost centers to the desired category. Returns either a success or error message.
@@ -96,7 +95,7 @@ public interface ICostCenterService
     /// <param name="costCentersCategorize"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize costCentersCategorize, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize costCentersCategorize, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update attachments. Updates the file attachments of a cost center. Returns either a success or error message.
@@ -105,7 +104,7 @@ public interface ICostCenterService
     /// <param name="costCenterAttachments"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments costCenterAttachments, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments costCenterAttachments, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export cost centers as Excel file.
@@ -113,7 +112,7 @@ public interface ICostCenterService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export cost centers as CSV file.
@@ -121,7 +120,7 @@ public interface ICostCenterService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export cost centers as PDF file.
@@ -129,5 +128,5 @@ public interface ICostCenterService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default);
 }

@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Common.CustomFieldGroup;
@@ -42,7 +41,7 @@ public interface ICustomFieldGroupService
     /// <param name="customFieldGroup">The entry containing the ID of the custom field group.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<CustomFieldGroup>>> Get(Entry customFieldGroup, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<CustomFieldGroup>>> Get(Entry customFieldGroup, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List custom field groups. Returns a list of custom field groups filtered by type.
@@ -51,7 +50,7 @@ public interface ICustomFieldGroupService
     /// <param name="listRequest">The list request containing the type filter.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<CustomFieldGroupListed>>> GetList(CustomFieldGroupListRequest listRequest, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<CustomFieldGroupListed>>> GetList(CustomFieldGroupListRequest listRequest, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create custom field group. Creates a new custom field group. Returns either a success or multiple error messages (for each issue).
@@ -60,7 +59,7 @@ public interface ICustomFieldGroupService
     /// <param name="customFieldGroup"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(CustomFieldGroupCreate customFieldGroup, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(CustomFieldGroupCreate customFieldGroup, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update custom field group. Updates an existing custom field group. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface ICustomFieldGroupService
     /// <param name="customFieldGroup"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(CustomFieldGroupUpdate customFieldGroup, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(CustomFieldGroupUpdate customFieldGroup, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete custom field groups. Deletes one or multiple custom field groups. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface ICustomFieldGroupService
     /// <param name="customFieldGroups"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries customFieldGroups, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries customFieldGroups, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reorder custom field groups. Reorders custom field groups relative to a target. Returns either a success or error message.
@@ -87,5 +86,5 @@ public interface ICustomFieldGroupService
     /// <param name="reorder"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Reorder(CustomFieldGroupReorder reorder, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Reorder(CustomFieldGroupReorder reorder, CancellationToken cancellationToken = default);
 }

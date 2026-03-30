@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Person;
@@ -42,7 +41,7 @@ public interface IPersonService
     /// <param name="person">The entry containing the ID of the person.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Abstractions.Models.Person.Person>>> Get(Entry person, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Abstractions.Models.Person.Person>>> Get(Entry person, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List persons. Returns a list of persons, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IPersonService
     /// <param name="person"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(PersonCreate person, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(PersonCreate person, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update person. Updates an existing person. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface IPersonService
     /// <param name="person"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(PersonUpdate person, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(PersonUpdate person, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete persons. Deletes one or multiple persons. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface IPersonService
     /// <param name="persons"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries persons, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries persons, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Categorize persons. Assigns one or multiple persons to the desired category. Returns either a success or error message.
@@ -87,7 +86,7 @@ public interface IPersonService
     /// <param name="personsCategorize"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize personsCategorize, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize personsCategorize, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update attachments. Updates the file attachments of a person. Returns either a success or error message.
@@ -96,7 +95,7 @@ public interface IPersonService
     /// <param name="personAttachments"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments personAttachments, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments personAttachments, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export persons as Excel file.
@@ -104,7 +103,7 @@ public interface IPersonService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export persons as CSV file.
@@ -112,7 +111,7 @@ public interface IPersonService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export persons as PDF file.
@@ -120,7 +119,7 @@ public interface IPersonService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export persons as vCard file.
@@ -128,5 +127,5 @@ public interface IPersonService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportVcard([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportVcard(CancellationToken cancellationToken = default);
 }

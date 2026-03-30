@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Person.Import;
 using CashCtrlApiNet.Interfaces;
@@ -37,22 +36,22 @@ namespace CashCtrlApiNet.Services.Connectors.Person;
 public class PersonImportService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IPersonImportService
 {
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(PersonImportCreate importCreate, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(PersonImportCreate importCreate, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, PersonImportCreate>(Endpoint.Create, importCreate, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Mapping(PersonImportMapping importMapping, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Mapping(PersonImportMapping importMapping, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, PersonImportMapping>(Endpoint.Mapping, importMapping, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult> GetMappingFields([Optional] CancellationToken cancellationToken)
+    public Task<ApiResult> GetMappingFields(CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync(Endpoint.AvailableMappingFields, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Preview(PersonImportPreview importPreview, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Preview(PersonImportPreview importPreview, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, PersonImportPreview>(Endpoint.Preview, importPreview, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Execute(PersonImportExecute importExecute, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Execute(PersonImportExecute importExecute, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, PersonImportExecute>(Endpoint.Execute, importExecute, cancellationToken: cancellationToken);
 }

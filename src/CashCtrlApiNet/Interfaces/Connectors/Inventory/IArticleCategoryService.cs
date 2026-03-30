@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Inventory.ArticleCategory;
@@ -42,7 +41,7 @@ public interface IArticleCategoryService
     /// <param name="articleCategoryId">The ID of the entry.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<ArticleCategory>>> Get(Entry articleCategoryId, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<ArticleCategory>>> Get(Entry articleCategoryId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List categories. Returns a list of all categories, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IArticleCategoryService
     /// <param name="articleCategory"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(ArticleCategoryCreate articleCategory, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(ArticleCategoryCreate articleCategory, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update category. Updates an existing category. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface IArticleCategoryService
     /// <param name="articleCategory"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(ArticleCategoryUpdate articleCategory, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(ArticleCategoryUpdate articleCategory, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get article category tree. Returns the full category tree.
@@ -77,7 +76,7 @@ public interface IArticleCategoryService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<ArticleCategory>>> GetTree([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<ArticleCategory>>> GetTree(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete categories. Deletes one or multiple existing categories. Note that you can only delete empty categories. Returns either a success or error message.
@@ -86,5 +85,5 @@ public interface IArticleCategoryService
     /// <param name="articleCategories"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries articleCategories, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries articleCategories, CancellationToken cancellationToken = default);
 }

@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Inventory.Article;
@@ -42,7 +41,7 @@ public interface IArticleService
     /// <param name="articleId">The ID of the entry.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<Article>>> Get(Entry articleId, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<Article>>> Get(Entry articleId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List articles. Returns a list of articles, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IArticleService
     /// <param name="article"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(ArticleCreate article, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(ArticleCreate article, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update article. Updates an existing article. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface IArticleService
     /// <param name="article"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(ArticleUpdate article, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(ArticleUpdate article, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete articles. Deletes one or multiple articles. Returns either a success or error message.
@@ -78,7 +77,7 @@ public interface IArticleService
     /// <param name="articles"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries articles, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries articles, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Categorize articles. Assigns one or multiple articles to the desired category. Returns either a success or error message.
@@ -87,7 +86,7 @@ public interface IArticleService
     /// <param name="articlesCategorize"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize articlesCategorize, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Categorize(EntriesCategorize articlesCategorize, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update attachments. Updates the file attachments of an article. Use the File API to upload a file and then use the file ID here. Returns either a success or error message.
@@ -96,7 +95,7 @@ public interface IArticleService
     /// <param name="articleAttachments"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments articleAttachments, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> UpdateAttachments(EntryAttachments articleAttachments, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export articles as Excel file.
@@ -104,7 +103,7 @@ public interface IArticleService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportExcel([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export articles as CSV file.
@@ -112,7 +111,7 @@ public interface IArticleService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportCsv([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export articles as PDF file.
@@ -120,5 +119,5 @@ public interface IArticleService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportPdf([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default);
 }

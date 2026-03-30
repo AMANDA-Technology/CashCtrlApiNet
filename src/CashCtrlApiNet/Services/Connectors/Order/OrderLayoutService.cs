@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Order.Layout;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -38,7 +37,7 @@ namespace CashCtrlApiNet.Services.Connectors.Order;
 public class OrderLayoutService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IOrderLayoutService
 {
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<OrderLayout>>> Get(Entry layout, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<SingleResponse<OrderLayout>>> Get(Entry layout, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<SingleResponse<OrderLayout>, Entry>(Endpoint.Read, layout, cancellationToken);
 
     /// <inheritdoc />
@@ -46,14 +45,14 @@ public class OrderLayoutService(ICashCtrlConnectionHandler connectionHandler) : 
         => ConnectionHandler.GetAsync<ListResponse<OrderLayout>>(Endpoint.List, listParams, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(OrderLayoutCreate layout, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Create(OrderLayoutCreate layout, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, OrderLayoutCreate>(Endpoint.Create, layout, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Update(OrderLayoutUpdate layout, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Update(OrderLayoutUpdate layout, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, OrderLayoutUpdate>(Endpoint.Update, layout, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Delete(Entries layouts, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<NoContentResponse>> Delete(Entries layouts, CancellationToken cancellationToken = default)
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Delete, layouts, cancellationToken: cancellationToken);
 }

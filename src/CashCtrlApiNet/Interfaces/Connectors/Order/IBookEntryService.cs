@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Order.BookEntry;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -42,7 +41,7 @@ public interface IBookEntryService
     /// <param name="bookEntry">The entry containing the ID of the book entry.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<BookEntry>>> Get(Entry bookEntry, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<SingleResponse<BookEntry>>> Get(Entry bookEntry, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List book entries. Returns a list of book entries, optionally filtered and paginated.
@@ -60,7 +59,7 @@ public interface IBookEntryService
     /// <param name="bookEntry"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(BookEntryCreate bookEntry, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(BookEntryCreate bookEntry, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update book entry. Updates an existing book entry. Returns either a success or multiple error messages (for each issue).
@@ -69,7 +68,7 @@ public interface IBookEntryService
     /// <param name="bookEntry"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Update(BookEntryUpdate bookEntry, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Update(BookEntryUpdate bookEntry, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete book entries. Deletes one or multiple book entries. Returns either a success or error message.
@@ -78,5 +77,5 @@ public interface IBookEntryService
     /// <param name="bookEntries"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Delete(Entries bookEntries, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Delete(Entries bookEntries, CancellationToken cancellationToken = default);
 }

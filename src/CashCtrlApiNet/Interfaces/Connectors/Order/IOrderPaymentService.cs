@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Order.Payment;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
@@ -42,7 +41,7 @@ public interface IOrderPaymentService
     /// <param name="payment">The payment to create.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(OrderPaymentCreate payment, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(OrderPaymentCreate payment, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download payment file.
@@ -51,5 +50,5 @@ public interface IOrderPaymentService
     /// <param name="payment">The entry containing the ID of the payment.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> Download(Entry payment, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<BinaryResponse>> Download(Entry payment, CancellationToken cancellationToken = default);
 }

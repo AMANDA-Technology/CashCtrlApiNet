@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Common.History;
 using CashCtrlApiNet.Interfaces;
@@ -37,6 +36,6 @@ namespace CashCtrlApiNet.Services.Connectors.Common;
 public class HistoryService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IHistoryService
 {
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<HistoryEntry>>> GetList(HistoryListRequest historyListRequest, [Optional] CancellationToken cancellationToken)
+    public Task<ApiResult<ListResponse<HistoryEntry>>> GetList(HistoryListRequest historyListRequest, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetAsync<ListResponse<HistoryEntry>, HistoryListRequest>(Endpoint.List, historyListRequest, cancellationToken);
 }
