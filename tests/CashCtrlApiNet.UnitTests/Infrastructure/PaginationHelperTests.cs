@@ -403,12 +403,9 @@ public class PaginationHelperTests
                 ResponseData = new ListResponse<TestItem> { Total = 0, Data = [] }
             });
 
-        // Act & Assert
-        Should.ThrowAsync<ArgumentOutOfRangeException>(async () =>
-        {
-            await foreach (var _ in PaginationHelper.ListAllAsync<TestItem>(FetchPage, pageSize: 0))
-            { }
-        });
+        // Act & Assert — throws eagerly at call time, not during enumeration
+        Should.Throw<ArgumentOutOfRangeException>(() =>
+            PaginationHelper.ListAllAsync<TestItem>(FetchPage, pageSize: 0));
     }
 
     [Test]
@@ -422,12 +419,9 @@ public class PaginationHelperTests
                 ResponseData = new ListResponse<TestItem> { Total = 0, Data = [] }
             });
 
-        // Act & Assert
-        Should.ThrowAsync<ArgumentOutOfRangeException>(async () =>
-        {
-            await foreach (var _ in PaginationHelper.ListAllAsync<TestItem>(FetchPage, pageSize: -1))
-            { }
-        });
+        // Act & Assert — throws eagerly at call time, not during enumeration
+        Should.Throw<ArgumentOutOfRangeException>(() =>
+            PaginationHelper.ListAllAsync<TestItem>(FetchPage, pageSize: -1));
     }
 
     /// <summary>

@@ -24,6 +24,7 @@ SOFTWARE.
 */
 
 using System.Runtime.CompilerServices;
+
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
@@ -58,11 +59,14 @@ public static class PaginationHelper
         int pageSize = DefaultPageSize,
         CancellationToken cancellationToken = default)
         where TItem : ModelBaseRecord
-        => ListAllAsyncCore(
+    {
+        ArgumentOutOfRangeException.ThrowIfLessThan(pageSize, 1);
+        return ListAllAsyncCore(
             (p, ct) => fetchPage(p, ct),
             listParams ?? new ListParams(),
             pageSize,
             cancellationToken);
+    }
 
     /// <summary>
     /// Automatically paginates through all pages of a CashCtrl list endpoint and yields each item as it is received.
@@ -79,16 +83,19 @@ public static class PaginationHelper
     /// <exception cref="InvalidOperationException">Thrown when the API returns an HTTP error or null response data</exception>
     public static IAsyncEnumerable<TItem> ListAllAsync<TItem, TParams>(
         Func<TParams?, CancellationToken, Task<ApiResult<ListResponse<TItem>>>> fetchPage,
-        TParams? listParams = null,
+        TParams listParams,
         int pageSize = DefaultPageSize,
         CancellationToken cancellationToken = default)
         where TItem : ModelBaseRecord
         where TParams : ListParams
-        => ListAllAsyncCore(
+    {
+        ArgumentOutOfRangeException.ThrowIfLessThan(pageSize, 1);
+        return ListAllAsyncCore(
             (p, ct) => fetchPage((TParams?)p, ct),
-            listParams ?? Activator.CreateInstance<TParams>(),
+            listParams,
             pageSize,
             cancellationToken);
+    }
 
     /// <summary>
     /// Core pagination loop shared by both overloads.
@@ -100,8 +107,6 @@ public static class PaginationHelper
         [EnumeratorCancellation] CancellationToken cancellationToken)
         where TItem : ModelBaseRecord
     {
-        ArgumentOutOfRangeException.ThrowIfLessThan(pageSize, 1);
-
         var offset = 0;
 
         while (true)
