@@ -51,7 +51,7 @@ public record ApiResult
     /// <summary>
     /// Number of requests left on the API. Not documented, not sure how often this resets.
     /// </summary>
-    public int? RequestsLeft { get; set; }
+    public int? RequestsLeft { get; init; }
 }
 
 /// <summary>
