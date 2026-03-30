@@ -58,19 +58,19 @@ public class SalaryBookEntryServiceTests : ServiceTestBase<SalaryBookEntryServic
     }
 
     [Test]
-    public async Task GetList_ShouldCallCorrectEndpoint_WithStatementParameter()
+    public async Task GetList_ShouldCallCorrectEndpoint_WithListRequest()
     {
-        var statement = new Entry { Id = 10 };
+        var listRequest = new SalaryBookEntryListRequest { Id = 10 };
         ConnectionHandler
-            .GetAsync<ListResponse<SalaryBookEntry>, Entry>(
-                Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<SalaryBookEntry>, SalaryBookEntryListRequest>(
+                Arg.Any<string>(), Arg.Any<SalaryBookEntryListRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<SalaryBookEntry>>());
 
-        await Service.GetList(statement);
+        await Service.GetList(listRequest);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<SalaryBookEntry>, Entry>(
-                SalaryEndpoints.BookEntry.List, statement, Arg.Any<CancellationToken>());
+            .GetAsync<ListResponse<SalaryBookEntry>, SalaryBookEntryListRequest>(
+                SalaryEndpoints.BookEntry.List, listRequest, Arg.Any<CancellationToken>());
     }
 
     [Test]

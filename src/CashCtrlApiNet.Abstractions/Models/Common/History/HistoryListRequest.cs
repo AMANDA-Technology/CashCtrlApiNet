@@ -31,7 +31,7 @@ namespace CashCtrlApiNet.Abstractions.Models.Common.History;
 /// <summary>
 /// History list request parameters. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/history/list.json">API Doc</a>
 /// </summary>
-public record HistoryListRequest : ModelBaseRecord
+public record HistoryListRequest : ListParams
 {
     /// <summary>
     /// The ID of the entity to get history for.

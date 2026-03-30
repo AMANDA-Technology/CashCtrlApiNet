@@ -24,19 +24,18 @@ SOFTWARE.
 */
 
 using System.Text.Json.Serialization;
-using CashCtrlApiNet.Abstractions.Enums.Common;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Abstractions.Models.Common.CustomFieldGroup;
+namespace CashCtrlApiNet.Abstractions.Models.Salary.BookEntry;
 
 /// <summary>
-/// Custom field group list request parameters. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield/group/list.json">API Doc</a>
+/// Salary book entry list request parameters. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/bookentry/list.json">API Doc</a>
 /// </summary>
-public record CustomFieldGroupListRequest : ListParams
+public record SalaryBookEntryListRequest : ListParams
 {
     /// <summary>
-    /// The entity type to filter custom field groups by.
+    /// The ID of the statement to list book entries for.
     /// </summary>
-    [JsonPropertyName("type")]
-    public required CustomFieldType Type { get; init; }
+    [JsonPropertyName("id")]
+    public required int Id { get; init; }
 }

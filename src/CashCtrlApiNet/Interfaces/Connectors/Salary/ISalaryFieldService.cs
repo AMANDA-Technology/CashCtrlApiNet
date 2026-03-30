@@ -45,11 +45,11 @@ public interface ISalaryFieldService
     public Task<ApiResult<SingleResponse<SalaryField>>> Get(Entry field, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List salary fields. Returns a list of fields for the specified type.
+    /// List salary fields. Returns a list of fields for the specified type, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/field/list.json">API Doc - Salary/Field/List</a>
     /// </summary>
-    /// <param name="type">The entry containing the type ID to list fields for.</param>
+    /// <param name="listRequest">The list request containing the type ID and optional filter/pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<SalaryField>>> GetList(Entry type, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryField>>> GetList(SalaryFieldListRequest listRequest, [Optional] CancellationToken cancellationToken);
 }

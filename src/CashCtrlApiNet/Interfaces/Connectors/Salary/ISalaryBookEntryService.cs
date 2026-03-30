@@ -45,13 +45,13 @@ public interface ISalaryBookEntryService
     public Task<ApiResult<SingleResponse<SalaryBookEntry>>> Get(Entry bookEntry, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List salary book entries. Returns a list of book entries for the specified statement.
+    /// List salary book entries. Returns a list of book entries for the specified statement, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/salary/bookentry/list.json">API Doc - Salary/Book entry/List</a>
     /// </summary>
-    /// <param name="statement">The entry containing the ID of the statement to list book entries for.</param>
+    /// <param name="listRequest">The list request containing the statement ID and optional filter/pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<SalaryBookEntry>>> GetList(Entry statement, [Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryBookEntry>>> GetList(SalaryBookEntryListRequest listRequest, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
     /// Creates a new salary book entry. Returns either a success or multiple error messages.

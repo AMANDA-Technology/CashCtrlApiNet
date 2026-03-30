@@ -45,12 +45,13 @@ public interface IBookEntryService
     public Task<ApiResult<SingleResponse<BookEntry>>> Get(Entry bookEntry, [Optional] CancellationToken cancellationToken);
 
     /// <summary>
-    /// List book entries. Returns a list of book entries.
+    /// List book entries. Returns a list of book entries, optionally filtered and paginated.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/bookentry/list.json">API Doc - Order/Book entry/List</a>
     /// </summary>
+    /// <param name="listParams">Optional filter and pagination parameters.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<BookEntry>>> GetList([Optional] CancellationToken cancellationToken);
+    public Task<ApiResult<ListResponse<BookEntry>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new book entry. Returns either a success or multiple error messages (for each issue).

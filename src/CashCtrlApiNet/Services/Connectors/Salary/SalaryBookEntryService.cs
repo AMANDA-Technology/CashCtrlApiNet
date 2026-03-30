@@ -42,8 +42,8 @@ public class SalaryBookEntryService(ICashCtrlConnectionHandler connectionHandler
         => ConnectionHandler.GetAsync<SingleResponse<SalaryBookEntry>, Entry>(Endpoint.Read, bookEntry, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SalaryBookEntry>>> GetList(Entry statement, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<SalaryBookEntry>, Entry>(Endpoint.List, statement, cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryBookEntry>>> GetList(SalaryBookEntryListRequest listRequest, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<SalaryBookEntry>, SalaryBookEntryListRequest>(Endpoint.List, listRequest, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Create(SalaryBookEntryCreate bookEntry, [Optional] CancellationToken cancellationToken)

@@ -32,7 +32,7 @@ namespace CashCtrlApiNet.Abstractions.Models.Common.CustomField;
 /// <summary>
 /// Custom field list request parameters. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/customfield/list.json">API Doc</a>
 /// </summary>
-public record CustomFieldListRequest : ModelBaseRecord
+public record CustomFieldListRequest : ListParams
 {
     /// <summary>
     /// The entity type to filter custom fields by.

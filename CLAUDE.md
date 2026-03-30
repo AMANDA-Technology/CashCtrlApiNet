@@ -188,5 +188,5 @@ Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
 5. **POST uses form-encoded content** -- The CashCtrl API expects `application/x-www-form-urlencoded` for writes, not JSON.
 6. **Language query parameter** -- Fixed: the `lang` query parameter is correctly set without a trailing space.
 7. **`GeneratePackageOnBuild`** is enabled for all three library projects, so `dotnet build` produces `.nupkg` files in the output.
-8. **`GetList` methods lack filter/pagination parameters** -- Most list endpoints accept optional `filter`, `sort`, `dir`, `query` parameters not yet exposed in the service interfaces.
+8. **`GetList` methods support filter/pagination parameters** -- All list endpoints accept optional `filter`, `sort`, `dir`, `query`, and pagination parameters via `ListParams` (or derived request types like `CustomFieldListRequest`, `SalaryFieldListRequest`, etc.).
 9. **DI registration uses `IHttpClientFactory`** -- `AddCashCtrl` registers `IHttpClientFactory` via `AddHttpClient()` and `CashCtrlConnectionHandler` as scoped, leveraging factory-based `HttpClient` lifetime management.
