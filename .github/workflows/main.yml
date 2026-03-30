@@ -1,7 +1,7 @@
 ﻿name: BuildNuGetAndPublish
 
 on:
-  create:
+  push:
     tags:
       - '*'
 jobs:
