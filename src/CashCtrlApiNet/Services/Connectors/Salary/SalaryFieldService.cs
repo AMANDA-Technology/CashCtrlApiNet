@@ -42,6 +42,6 @@ public class SalaryFieldService(ICashCtrlConnectionHandler connectionHandler) : 
         => ConnectionHandler.GetAsync<SingleResponse<SalaryField>, Entry>(Endpoint.Read, field, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<SalaryField>>> GetList(Entry type, [Optional] CancellationToken cancellationToken)
-        => ConnectionHandler.GetAsync<ListResponse<SalaryField>, Entry>(Endpoint.List, type, cancellationToken);
+    public Task<ApiResult<ListResponse<SalaryField>>> GetList(SalaryFieldListRequest listRequest, [Optional] CancellationToken cancellationToken)
+        => ConnectionHandler.GetAsync<ListResponse<SalaryField>, SalaryFieldListRequest>(Endpoint.List, listRequest, cancellationToken);
 }

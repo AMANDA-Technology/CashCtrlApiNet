@@ -58,18 +58,18 @@ public class SalaryFieldServiceTests : ServiceTestBase<SalaryFieldService>
     }
 
     [Test]
-    public async Task GetList_ShouldCallCorrectEndpoint_WithTypeParameter()
+    public async Task GetList_ShouldCallCorrectEndpoint_WithListRequest()
     {
-        var type = new Entry { Id = 10 };
+        var listRequest = new SalaryFieldListRequest { Id = 10 };
         ConnectionHandler
-            .GetAsync<ListResponse<SalaryField>, Entry>(
-                Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<SalaryField>, SalaryFieldListRequest>(
+                Arg.Any<string>(), Arg.Any<SalaryFieldListRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<SalaryField>>());
 
-        await Service.GetList(type);
+        await Service.GetList(listRequest);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<SalaryField>, Entry>(
-                SalaryEndpoints.Field.List, type, Arg.Any<CancellationToken>());
+            .GetAsync<ListResponse<SalaryField>, SalaryFieldListRequest>(
+                SalaryEndpoints.Field.List, listRequest, Arg.Any<CancellationToken>());
     }
 }

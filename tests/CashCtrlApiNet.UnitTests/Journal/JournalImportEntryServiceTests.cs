@@ -62,14 +62,43 @@ public class JournalImportEntryServiceTests : ServiceTestBase<JournalImportEntry
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
         ConnectionHandler
-            .GetAsync<ListResponse<JournalImportEntryListed>>(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<JournalImportEntryListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<JournalImportEntryListed>>());
 
         await Service.GetList();
 
         await ConnectionHandler.Received(1)
             .GetAsync<ListResponse<JournalImportEntryListed>>(
-                JournalEndpoints.ImportEntry.List, Arg.Any<CancellationToken>());
+                JournalEndpoints.ImportEntry.List, (ListParams?)null, Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    {
+        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        ConnectionHandler
+            .GetAsync<ListResponse<JournalImportEntryListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<ListResponse<JournalImportEntryListed>>());
+
+        await Service.GetList(listParams);
+
+        await ConnectionHandler.Received(1)
+            .GetAsync<ListResponse<JournalImportEntryListed>>(
+                JournalEndpoints.ImportEntry.List, listParams, Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task GetList_WithListParams_ShouldReturnResult()
+    {
+        var listParams = new ListParams { Query = "test" };
+        var expected = new ApiResult<ListResponse<JournalImportEntryListed>>();
+        ConnectionHandler
+            .GetAsync<ListResponse<JournalImportEntryListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .Returns(expected);
+
+        var result = await Service.GetList(listParams);
+
+        result.ShouldBe(expected);
     }
 
     [Test]
