@@ -24,44 +24,37 @@ SOFTWARE.
 */
 
 using System.Text.Json.Serialization;
-using CashCtrlApiNet.Abstractions.Converters;
+using CashCtrlApiNet.Abstractions.Enums.Common;
 
-namespace CashCtrlApiNet.Abstractions.Models.Journal.Import.Entry;
+namespace CashCtrlApiNet.Abstractions.Models.Common.TaxRate;
 
 /// <summary>
-/// Journal import entry listed (list response). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import/entry/list.json">API Doc</a>
+/// Tax rate component. Represents a single component of a tax rate with its own account, calculation type, percentage, and apply rule.
+/// <br/>Used as a JSON array element in <see cref="TaxRateCreate.Components"/>.
 /// </summary>
-public record JournalImportEntryListed : JournalImportEntryUpdate
+public record TaxRateComponent
 {
     /// <summary>
-    /// The date and time the journal import entry was created.
+    /// The ID of the account used for this tax rate component.
     /// </summary>
-    [JsonPropertyName("created")]
-    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
-    public DateTime? Created { get; init; }
+    [JsonPropertyName("accountId")]
+    public required int AccountId { get; init; }
 
     /// <summary>
-    /// The user who created the journal import entry.
+    /// The calculation type (NET or GROSS).
     /// </summary>
-    [JsonPropertyName("createdBy")]
-    public string? CreatedBy { get; init; }
+    [JsonPropertyName("calcType")]
+    public TaxCalcType? CalcType { get; init; }
 
     /// <summary>
-    /// The date and time the journal import entry was last updated.
+    /// The tax rate percentage for this component.
     /// </summary>
-    [JsonPropertyName("lastUpdated")]
-    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
-    public DateTime? LastUpdated { get; init; }
+    [JsonPropertyName("percentage")]
+    public double? Percentage { get; init; }
 
     /// <summary>
-    /// The user who last updated the journal import entry.
+    /// The apply rule that determines when this tax component is applied.
     /// </summary>
-    [JsonPropertyName("lastUpdatedBy")]
-    public string? LastUpdatedBy { get; init; }
-
-    /// <summary>
-    /// The tax code associated with this journal import entry.
-    /// </summary>
-    [JsonPropertyName("taxCode")]
-    public string? TaxCode { get; init; }
+    [JsonPropertyName("applyRule")]
+    public TaxApplyRule? ApplyRule { get; init; }
 }

@@ -106,7 +106,7 @@ public class TaxRateServiceTests : ServiceTestBase<TaxRateService>
     [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
-        var taxRate = new TaxRateCreate { AccountId = 1, Name = "Test Tax" };
+        var taxRate = new TaxRateCreate { Code = "TST", Description = "Test Tax" };
         ConnectionHandler
             .PostAsync<NoContentResponse, TaxRateCreate>(Arg.Any<string>(), Arg.Any<TaxRateCreate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -121,7 +121,7 @@ public class TaxRateServiceTests : ServiceTestBase<TaxRateService>
     [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
-        var taxRate = new TaxRateUpdate { Id = 1, AccountId = 1, Name = "Test Tax" };
+        var taxRate = new TaxRateUpdate { Id = 1, Code = "TST", Description = "Test Tax" };
         ConnectionHandler
             .PostAsync<NoContentResponse, TaxRateUpdate>(Arg.Any<string>(), Arg.Any<TaxRateUpdate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());

@@ -58,4 +58,10 @@ public record AccountListed : AccountUpdate
     /// </summary>
     [JsonPropertyName("lastUpdatedBy")]
     public string? LastUpdatedBy { get; init; }
+
+    /// <summary>
+    /// The tax code associated with this account.
+    /// </summary>
+    [JsonPropertyName("taxCode")]
+    public string? TaxCode { get; init; }
 }
