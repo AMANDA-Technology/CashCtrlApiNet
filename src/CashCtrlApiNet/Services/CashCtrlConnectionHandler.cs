@@ -270,12 +270,21 @@ public class CashCtrlConnectionHandler : ICashCtrlConnectionHandler, IDisposable
     }
 
     /// <summary>
-    /// Get API result from http response
+    /// Build an untyped <see cref="ApiResult"/>. Used by endpoints whose response shape is not a
+    /// fixed typed envelope (e.g. <c>/report/element/data.json</c> where the body structure varies
+    /// by report type) — the raw JSON body is carried through on <see cref="ApiResult.RawResponseContent"/>
+    /// so callers can parse it into whatever shape suits their report type.
     /// </summary>
     /// <param name="httpResponseMessage"></param>
     /// <returns></returns>
     private static async Task<ApiResult> GetApiResult(HttpResponseMessage httpResponseMessage)
-        => CreateApiResult<ApiResponse>(await GetData(httpResponseMessage));
+    {
+        var data = await GetData(httpResponseMessage);
+        return CreateApiResult<ApiResponse>(data) with
+        {
+            RawResponseContent = data.Content
+        };
+    }
 
     /// <summary>
     /// Get API result with decimal balance from http response

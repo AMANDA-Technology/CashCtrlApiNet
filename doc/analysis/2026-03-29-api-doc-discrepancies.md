@@ -231,6 +231,55 @@ Additionally, payment validation requires a fully-provisioned business context (
 
 The `OrderPaymentRequest` model matches the API spec exactly; the Create/Download E2E tests in `OrderPaymentE2eTests` are marked `[Ignore]` pending a dedicated fixture that provisions a Location + a Person with addresses.
 
+### 28. Report domain: "report set" vs "report collection" naming drift, and element-scope IDs
+
+The CashCtrl UI / docs use both "report set" and "report collection" to refer to the same entity. The actual API paths live under `/api/v1/report/collection/*` and the parameter name is consistently `collectionId`, not `reportSetId` or `reportId`. Every endpoint that takes a report set as input uses `collectionId`:
+
+- `report/collection/meta.json`, `download.pdf`, `download.csv`, `download.xlsx`, `download_annualreport.pdf` → `collectionId` (not `id`)
+- `report/element/create.json`, `update.json` → `collectionId` is the parent scope field (*not* `reportId` or `setId`)
+- `report/element/reorder.json` → **requires** `collectionId` (undocumented — see below)
+
+Meanwhile the element-side endpoints use *yet another* ID parameter:
+
+- `report/element/read.json` → `id`
+- `report/element/data.json`, `data.html`, `meta.json`, `download.pdf`, `download.csv`, `download.xlsx` → `elementId`
+
+Three different names (`id`, `elementId`, `collectionId`) for what's logically "the element's ID" / "the collection's ID" across sibling endpoints on the same entity.
+
+### 29. `report/element/create.json`: `type` is required despite being documented as optional
+
+Omitting `type` causes the API to reject with `[type] Invalid value.` — the docs list `type` as a plain parameter with no required flag. `type` is an enum (`JOURNAL`, `BALANCE`, `PLS`, `STAGGERED`, `COST_CENTER_PLS`, `COST_CENTER_BALANCE`, `CHART_OF_ACCOUNTS`, `OPEN_DEBTORS`, … ~40 values) modeled as `ReportElementType`.
+
+Related: `accountId` is documented as required but is only required for element types with a primary account dimension. `ChartOfAccounts`, for example, treats the whole chart as its dataset and silently stores `accountId=null` on create.
+
+### 30. Report meta endpoints return a slim document-header shape — not the entity shape
+
+`report/element/meta.json` and `report/collection/meta.json` don't return the `ReportElement` / `ReportSet` shape — they return a compact "document header" projection used when rendering the report:
+
+| Endpoint | Response fields |
+|----------|-----------------|
+| `report/element/meta.json` | `title`, `text`, `periodLabel`, `isHideTitle`, `isBeta`, `isPro` |
+| `report/collection/meta.json` | `title`, `text`, `periodLabel`, `logoUrl`, `logoHeight` |
+
+Neither payload has an `id` field — the response is keyed by the request's `elementId`/`collectionId`. The library therefore has dedicated `ReportElementMeta` and `ReportCollectionMeta` records distinct from `ReportElement`/`ReportSet`.
+
+### 31. `report/element/data.json` response shape varies by report type
+
+The data endpoint returns JSON whose structure depends entirely on the element's `type`. `ChartOfAccounts` returns a recursive tree of account nodes; `Journal` returns a flat list of entries; `Balance`/`Pls` return grouped sections; etc. There is no common envelope beyond `{"success": true, "data": …}`.
+
+The library therefore exposes `IReportElementService.GetData` as `Task<ApiResult>` (untyped) and carries the raw JSON on `ApiResult.RawResponseContent`. Callers parse into the shape appropriate for their report type. The untyped `GetAsync` overloads on `ICashCtrlConnectionHandler` were updated to always populate `RawResponseContent` (previously only populated on deserialization failure).
+
+### 32. `report/element/reorder.json`: `collectionId` is required but undocumented
+
+Reordering elements without `collectionId` fails with `ID missing.` — the API needs the parent scope to know *which* collection's element order is being changed. The docs list only `ids`, `target`, `before`.
+
+This follows the same pattern as `customfield/reorder.json` / `customfield/group/reorder.json` requiring an undocumented `type` scope field (§6). Generalizes to: **reorder endpoints on child entities require the parent-scope ID.**
+
+### 33. Report element read/export edge cases
+
+- **`negateAmount` is silently discarded on read for certain element types.** `ChartOfAccounts` accepts `negateAmount` on create/update but never reflects it back in `read.json`. The flag is only meaningful for report types with a primary amount dimension. Don't round-trip-verify this field in tests against `ChartOfAccounts` elements.
+- **`data.html` serves the body inline with no `Content-Disposition` header.** Unlike the PDF/CSV/Excel downloads, the HTML endpoint's response carries no filename. `BinaryResponse.FileName` will be `null` — callers must synthesize a filename if saving locally.
+
 ## Recommendations
 
 1. **Never use `required` on properties that appear in both create requests and read responses**, unless the field name and type are identical in both directions. Use nullable properties and validate at the application level.

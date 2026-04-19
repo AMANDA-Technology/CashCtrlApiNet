@@ -53,7 +53,7 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
         result.ResponseData.ShouldNotBeNull();
         result.ResponseData.Data.ShouldNotBeNull();
         result.ResponseData.Data.Id.ShouldBe(element.Id);
-        result.ResponseData.Data.ReportId.ShouldBe(element.ReportId);
+        result.ResponseData.Data.CollectionId.ShouldBe(element.CollectionId);
         result.ResponseData.Data.AccountId.ShouldBe(element.AccountId);
     }
 
@@ -133,6 +133,7 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
         // Act
         var result = await Client.Report.Element.Reorder(new()
         {
+            CollectionId = 10,
             Ids = [1, 2, 3],
             Target = 5
         });
@@ -145,24 +146,24 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
     }
 
     /// <summary>
-    /// Verify GetData returns a single report element with data
+    /// Verify GetData returns the raw JSON body untouched — its shape varies by report type
+    /// (tree structure for ChartOfAccounts, flat list for Journal, etc.), so the service returns
+    /// an untyped <see cref="CashCtrlApiNet.Abstractions.Models.Api.ApiResult"/> and callers parse
+    /// <c>RawResponseContent</c> into the shape appropriate for their report type.
     /// </summary>
     [Test]
     public async Task GetData_ReturnsExpectedResult()
     {
-        // Arrange
-        var element = ReportFakers.ReportElement.Generate();
-        Server.StubGetJson("/api/v1/report/element/data.json",
-            CashCtrlResponseFactory.SingleResponse(element));
+        // Arrange: ChartOfAccounts returns a tree node payload, not a flat single-entity shape
+        const string rawJson = """{"success":true,"data":[{"id":1,"name":"Assets","accounts":[]}]}""";
+        Server.StubGetJson("/api/v1/report/element/data.json", rawJson);
 
         // Act
-        var result = await Client.Report.Element.GetData(new() { Id = element.Id });
+        var result = await Client.Report.Element.GetData(new() { ElementId = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
-        result.ResponseData.ShouldNotBeNull();
-        result.ResponseData.Data.ShouldNotBeNull();
-        result.ResponseData.Data.Id.ShouldBe(element.Id);
+        result.RawResponseContent.ShouldBe(rawJson);
     }
 
     /// <summary>
@@ -177,7 +178,7 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
             "text/html", "report.html");
 
         // Act
-        var result = await Client.Report.Element.GetDataHtml(new() { Id = 1 });
+        var result = await Client.Report.Element.GetDataHtml(new() { ElementId = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -186,24 +187,26 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
     }
 
     /// <summary>
-    /// Verify GetMeta returns a single report element with metadata
+    /// Verify GetMeta returns the element's document header (title, text, period label, flags).
+    /// The meta shape is distinct from <see cref="CashCtrlApiNet.Abstractions.Models.Report.Element.ReportElement"/>
+    /// and carries no <c>id</c> field.
     /// </summary>
     [Test]
     public async Task GetMeta_ReturnsExpectedResult()
     {
-        // Arrange
-        var element = ReportFakers.ReportElement.Generate();
+        // Arrange: the meta endpoint returns a slim header payload, not the element's config record.
         Server.StubGetJson("/api/v1/report/element/meta.json",
-            CashCtrlResponseFactory.SingleResponse(element));
+            """{"success":true,"data":{"title":"Chart of accounts","text":"","periodLabel":"2026","isHideTitle":false,"isBeta":false,"isPro":false}}""");
 
         // Act
-        var result = await Client.Report.Element.GetMeta(new() { Id = element.Id });
+        var result = await Client.Report.Element.GetMeta(new() { ElementId = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
         result.ResponseData.ShouldNotBeNull();
         result.ResponseData.Data.ShouldNotBeNull();
-        result.ResponseData.Data.Id.ShouldBe(element.Id);
+        result.ResponseData.Data.Title.ShouldBe("Chart of accounts");
+        result.ResponseData.Data.PeriodLabel.ShouldBe("2026");
     }
 
     /// <summary>
@@ -218,7 +221,7 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
             "application/pdf", "report-element.pdf");
 
         // Act
-        var result = await Client.Report.Element.DownloadPdf(new() { Id = 1 });
+        var result = await Client.Report.Element.DownloadPdf(new() { ElementId = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -238,7 +241,7 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
             "text/csv", "report-element.csv");
 
         // Act
-        var result = await Client.Report.Element.DownloadCsv(new() { Id = 1 });
+        var result = await Client.Report.Element.DownloadCsv(new() { ElementId = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -258,7 +261,7 @@ public class ReportElementServiceIntegrationTests : IntegrationTestBase
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "report-element.xlsx");
 
         // Act
-        var result = await Client.Report.Element.DownloadExcel(new() { Id = 1 });
+        var result = await Client.Report.Element.DownloadExcel(new() { ElementId = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

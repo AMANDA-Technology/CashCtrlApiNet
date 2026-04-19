@@ -24,63 +24,55 @@ SOFTWARE.
 */
 
 using System.Text.Json.Serialization;
-using CashCtrlApiNet.Abstractions.Enums.Report;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Report.Element;
 
 /// <summary>
-/// Report element create. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/create.json">API Doc</a>
+/// Request parameters for the report element data/meta/download endpoints
+/// (<c>/report/element/data.json</c>, <c>data.html</c>, <c>meta.json</c>,
+/// <c>download.pdf</c>, <c>download.csv</c>, <c>download.xlsx</c>). These endpoints all take
+/// <c>elementId</c> as a mandatory query parameter (not <c>id</c> like the read endpoint) plus
+/// an optional reporting period.
+/// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/data.json">API Doc</a>
 /// </summary>
-public record ReportElementCreate : ModelBaseRecord
+public record ReportElementRequest : ModelBaseRecord
 {
     /// <summary>
-    /// The type of report this element renders. Mandatory — omitting it causes the API to reject
-    /// with <c>[type] Invalid value</c>.
+    /// The ID of the report element. Mandatory.
     /// </summary>
-    [JsonPropertyName("type")]
-    public required ReportElementType Type { get; init; }
+    [JsonPropertyName("elementId")]
+    public required int ElementId { get; init; }
 
     /// <summary>
-    /// The ID of the parent report collection (what CashCtrl used to call a "report set").
-    /// The API parameter is <c>collectionId</c>, not <c>reportId</c>.
+    /// The start date of the report period in <c>YYYY-MM-DD</c> format.
+    /// Overridden if <see cref="FiscalPeriod"/> is set.
     /// </summary>
-    [JsonPropertyName("collectionId")]
-    public int? CollectionId { get; init; }
+    [JsonPropertyName("startDate")]
+    public string? StartDate { get; init; }
 
     /// <summary>
-    /// The ID of the account.
+    /// The end date of the report period in <c>YYYY-MM-DD</c> format.
+    /// Overridden if <see cref="FiscalPeriod"/> is set.
     /// </summary>
-    [JsonPropertyName("accountId")]
-    public int? AccountId { get; init; }
+    [JsonPropertyName("endDate")]
+    public string? EndDate { get; init; }
 
     /// <summary>
-    /// The ID of the cost center category.
+    /// The ID of the fiscal period. Overrides <see cref="StartDate"/> / <see cref="EndDate"/>.
     /// </summary>
-    [JsonPropertyName("costCenterCategoryId")]
-    public int? CostCenterCategoryId { get; init; }
+    [JsonPropertyName("fiscalPeriod")]
+    public int? FiscalPeriod { get; init; }
 
     /// <summary>
-    /// The ID of the currency.
+    /// The language of the generated report. Possible values: <c>DE</c>, <c>EN</c>, <c>FR</c>, <c>IT</c>.
     /// </summary>
-    [JsonPropertyName("currencyId")]
-    public int? CurrencyId { get; init; }
+    [JsonPropertyName("language")]
+    public string? Language { get; init; }
 
     /// <summary>
-    /// The ID of the date filter.
+    /// The column to sort the report by.
     /// </summary>
-    [JsonPropertyName("dateFilterId")]
-    public int? DateFilterId { get; init; }
-
-    /// <summary>
-    /// Whether to include the total.
-    /// </summary>
-    [JsonPropertyName("includeTotal")]
-    public bool? IncludeTotal { get; init; }
-
-    /// <summary>
-    /// Whether to negate the amount.
-    /// </summary>
-    [JsonPropertyName("negateAmount")]
-    public bool? NegateAmount { get; init; }
+    [JsonPropertyName("sort")]
+    public string? Sort { get; init; }
 }

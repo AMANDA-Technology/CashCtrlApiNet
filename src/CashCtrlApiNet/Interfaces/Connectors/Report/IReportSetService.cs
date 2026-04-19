@@ -80,47 +80,51 @@ public interface IReportSetService
     public Task<ApiResult<NoContentResponse>> Reorder(ReportSetReorder reorder, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Get report set meta data.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/meta.json">API Doc - Report/Set/Meta</a>
+    /// Get report collection meta data (title, text, etc.) for a given time period.
+    /// Takes mandatory <c>collectionId</c> — not <c>id</c> like the other read endpoints.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/meta.json">API Doc - Report/Collection/Meta</a>
     /// </summary>
-    /// <param name="set">The entry containing the ID of the report set.</param>
+    /// <param name="request">Collection ID + optional period filter.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<ReportSet>>> GetMeta(Entry set, CancellationToken cancellationToken = default);
+    public Task<ApiResult<SingleResponse<ReportCollectionMeta>>> GetMeta(ReportCollectionRequest request, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Download report set as PDF.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/download.pdf">API Doc - Report/Set/Download PDF</a>
+    /// Download report collection as PDF for a given time period. Mandatory <c>collectionId</c>.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/download.pdf">API Doc - Report/Collection/Download PDF</a>
     /// </summary>
-    /// <param name="set">The entry containing the ID of the report set.</param>
+    /// <param name="request">Collection ID + optional period filter.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry set, CancellationToken cancellationToken = default);
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(ReportCollectionRequest request, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Download report set as CSV.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/download.csv">API Doc - Report/Set/Download CSV</a>
+    /// Download report collection as a ZIP of CSV files for a given time period.
+    /// Mandatory <c>collectionId</c>.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/download.csv">API Doc - Report/Collection/Download CSV</a>
     /// </summary>
-    /// <param name="set">The entry containing the ID of the report set.</param>
+    /// <param name="request">Collection ID + optional period filter.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadCsv(Entry set, CancellationToken cancellationToken = default);
+    public Task<ApiResult<BinaryResponse>> DownloadCsv(ReportCollectionRequest request, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Download report set as Excel.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/download.xlsx">API Doc - Report/Set/Download Excel</a>
+    /// Download report collection as Excel (one worksheet per element) for a given time period.
+    /// Mandatory <c>collectionId</c>.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/download.xlsx">API Doc - Report/Collection/Download Excel</a>
     /// </summary>
-    /// <param name="set">The entry containing the ID of the report set.</param>
+    /// <param name="request">Collection ID + optional period filter.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadExcel(Entry set, CancellationToken cancellationToken = default);
+    public Task<ApiResult<BinaryResponse>> DownloadExcel(ReportCollectionRequest request, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Download annual report as PDF.
-    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/download_annualreport.pdf">API Doc - Report/Set/Download Annual Report</a>
+    /// Download the annual report (balance sheet and P&amp;L by default) as PDF. Not scoped to a
+    /// specific collection; takes only an optional fiscal-period override.
+    /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/download_annualreport.pdf">API Doc - Report/Collection/Download Annual Report</a>
     /// </summary>
-    /// <param name="set">The entry containing the ID of the report set.</param>
+    /// <param name="request">Optional fiscal-period override (pass <c>new()</c> for the current period).</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadAnnualReport(Entry set, CancellationToken cancellationToken = default);
+    public Task<ApiResult<BinaryResponse>> DownloadAnnualReport(ReportAnnualReportRequest request, CancellationToken cancellationToken = default);
 }
