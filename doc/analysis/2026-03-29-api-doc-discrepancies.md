@@ -128,6 +128,37 @@ This is the **only** place in the CashCtrl API where `UPPER_SNAKE_CASE` identifi
 
 **Impact:** Inferring field IDs from model property names (e.g., `nr`, `name`, `firstName`) is wrong. Always call `mapping_combo.json` (or inspect the UI payload) to learn the correct `value` strings.
 
+### 12. Journal `items` returned as array (repeat of §4)
+
+`journal/create.json` and `journal/update.json` accept `items` as a JSON string (TEXT) for collective entries, but `journal/read.json` / `journal/list.json` return it as a parsed array (empty `[]` for regular entries). Same pattern as §4. Fix: `JsonElement?` instead of `string?`.
+
+### 13. Journal `sequenceNumberId` is write-only
+
+`journal/create.json` marks `sequenceNumberId` as mandatory, but `journal/read.json` / `journal/list.json` do not return it — the server emits the generated `reference` (e.g. `RE-2604193`) instead. A `required int` on the create model breaks deserialization across the shared hierarchy (§3 pattern). Fix: nullable `int?`, treat as required at the application level.
+
+### 14. Journal Update: echoing `items: []` back creates a broken "collective entry with 0 items"
+
+Per the update docs: *"Omit to create a regular book entry, and set if you want to create a collective book entry."* A Get→Update round-trip on a regular journal entry will echo `items: []` back, which the server interprets as a collective entry with zero items and rejects with **"At least 1 book entry must be created."** Callers must explicitly clear `items` when updating regular entries.
+
+### 15. Journal import `create.json`: `mappings` is effectively mandatory
+
+Docs don't emphasize this, but omitting `mappings` returns the masked `{"success":false,"message":"An unexpected error occurred. Please contact support."}` — no validation error hint, just a 500-style reply. The API also **silently ignores** any non-documented parameters (we had a phantom `name` field the server silently dropped).
+
+### 16. Journal import entry list / exports: `importId` query is mandatory
+
+`journal/import/entry/list.json` (and the `.xlsx` / `.csv` / `.pdf` export variants) require `importId` as a mandatory query parameter. Without it the API returns `{"success":false,"message":"ID missing."}`. The library must expose a dedicated request type (we added `JournalImportEntryListRequest : ListParams` with `required int ImportId`).
+
+### 17. Journal import entry update: undocumented mandatory fields
+
+Docs list only `id`, `amount`, `contraAccountId`, and `dateAdded` as mandatory for `journal/import/entry/update.json`. In practice the live API also rejects an update missing `debitId` / `creditId`:
+
+```
+[debitId] This field cannot be empty.
+[creditId] This field cannot be empty.
+```
+
+Callers need to echo the server-populated debit/credit IDs back on every update. Additionally, `dateAdded` in the read/list response is a CashCtrl datetime string (`2026-01-01 00:00:00.0`), but the update endpoint only accepts `YYYY-MM-DD` — so the string needs to be trimmed before sending.
+
 ## Recommendations
 
 1. **Never use `required` on properties that appear in both create requests and read responses**, unless the field name and type are identical in both directions. Use nullable properties and validate at the application level.

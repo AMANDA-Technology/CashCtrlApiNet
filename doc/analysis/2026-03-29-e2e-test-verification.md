@@ -15,12 +15,12 @@
 | 2 | Simple CRUD | Currency, CustomField, CustomFieldGroup, Rounding, SequenceNumber, TaxRate, TextTemplate, PersonTitle, Unit, 6x categories | 86 | **86/86 passed** |
 | 3 | CRUD + exports | Account, AccountBank, CostCenter, Article, FixedAsset, Person, File | 77 | **77/77 passed** |
 | 4 | Import workflows | InventoryImport, PersonImport | 10 | **10/10 passed** — see [2026-04-19 report](2026-04-19-group4-import-e2e-verification.md) |
-| 5 | Journal | Journal, JournalImport, JournalImportEntry | ~24 | **not yet run** |
+| 5 | Journal | Journal, JournalImport, JournalImportEntry | 24 | **24/24 passed** (issue #90) |
 | 6 | Order | OrderCategory, OrderLayout, Order, BookEntry, Document, OrderPayment | ~39 | **not yet run** |
 | 7 | Salary | 15 salary fixtures | ~90 | **not yet run** |
 | 8 | Meta (highest risk) | Settings, Location, FiscalPeriodTask, FiscalPeriod | ~26 | **not yet run** |
 
-**178 passed, 0 skipped, 0 failed.** ~179 tests remaining across Groups 5-8.
+**202 passed, 0 skipped, 0 failed.** ~155 tests remaining across Groups 6-8.
 
 ## What Was Fixed
 

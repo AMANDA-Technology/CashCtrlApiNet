@@ -38,4 +38,55 @@ public record JournalImportEntryUpdate : ModelBaseRecord
     /// </summary>
     [JsonPropertyName("id")]
     public required int Id { get; init; }
+
+    /// <summary>
+    /// The amount of the entry. Mandatory on update per the API; must be positive.
+    /// Nullable so the shared hierarchy still deserializes list/read responses correctly.
+    /// </summary>
+    [JsonPropertyName("amount")]
+    public double? Amount { get; init; }
+
+    /// <summary>
+    /// The date of the entry in <c>YYYY-MM-DD</c> format. Mandatory on update.
+    /// </summary>
+    [JsonPropertyName("dateAdded")]
+    public string? DateAdded { get; init; }
+
+    /// <summary>
+    /// The ID of the debit account. Required on update despite the docs listing
+    /// <c>contraAccountId</c> — the live API reports <c>debitId</c> as a mandatory field.
+    /// </summary>
+    [JsonPropertyName("debitId")]
+    public int? DebitId { get; init; }
+
+    /// <summary>
+    /// The ID of the credit account. Required on update (see note on <see cref="DebitId"/>).
+    /// </summary>
+    [JsonPropertyName("creditId")]
+    public int? CreditId { get; init; }
+
+    /// <summary>
+    /// The ID of the contra account (the opposite side of the target account). Documented as
+    /// mandatory; in practice the API also accepts <see cref="DebitId"/>/<see cref="CreditId"/>.
+    /// </summary>
+    [JsonPropertyName("contraAccountId")]
+    public int? ContraAccountId { get; init; }
+
+    /// <summary>
+    /// The title / description of the book entry.
+    /// </summary>
+    [JsonPropertyName("title")]
+    public string? Title { get; init; }
+
+    /// <summary>
+    /// An optional reference / receipt for the book entry.
+    /// </summary>
+    [JsonPropertyName("reference")]
+    public string? Reference { get; init; }
+
+    /// <summary>
+    /// The ID of the tax rate.
+    /// </summary>
+    [JsonPropertyName("taxId")]
+    public int? TaxId { get; init; }
 }

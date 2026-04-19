@@ -194,7 +194,7 @@ public class CashCtrlE2eTestBase
         where TData : ModelBaseRecord
     {
         result.IsHttpSuccess.ShouldBeTrue();
-        result.ResponseData.ShouldNotBeNull();
+        result.ResponseData.ShouldNotBeNull(FormatRawResponseDetails(result));
         result.ResponseData.Data.ShouldNotBeNull();
         return result.ResponseData.Data;
     }
@@ -210,9 +210,17 @@ public class CashCtrlE2eTestBase
         where TData : ModelBaseRecord
     {
         result.IsHttpSuccess.ShouldBeTrue();
-        result.ResponseData.ShouldNotBeNull();
+        result.ResponseData.ShouldNotBeNull(FormatRawResponseDetails(result));
         result.ResponseData.Data.Length.ShouldBeGreaterThan(0);
         return result.ResponseData.Data;
+    }
+
+    private static string FormatRawResponseDetails(ApiResult result)
+    {
+        var raw = result.RawResponseContent is { Length: > 0 } content
+            ? content.Length > 500 ? content[..500] + "…<truncated>" : content
+            : "<none>";
+        return $"Deserialization likely failed (ResponseData=null). Raw response body: {raw}";
     }
 
     /// <summary>

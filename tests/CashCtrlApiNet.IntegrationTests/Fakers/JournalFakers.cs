@@ -111,7 +111,7 @@ public static class JournalFakers
         {
             Id = f.Random.Int(1, 9999),
             FileId = f.Random.Int(1, 9999),
-            Name = f.Lorem.Word(),
+            Description = f.Lorem.Word(),
             CreatedBy = f.Person.UserName,
             LastUpdatedBy = f.Person.UserName
         });
@@ -123,7 +123,7 @@ public static class JournalFakers
         .CustomInstantiator(f => new()
         {
             FileId = f.Random.Int(1, 9999),
-            Name = f.Lorem.Word()
+            Mappings = """[{"columnAmount":"Amount","columnDate":"Date"}]"""
         });
 
     /// <summary>

@@ -44,13 +44,14 @@ public interface IJournalImportEntryService
     public Task<ApiResult<SingleResponse<JournalImportEntry>>> Get(Entry journalImportEntry, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List journal import entries. Returns a list of journal import entries, optionally filtered and paginated.
+    /// List journal import entries. Returns a list of journal import entries for the given import,
+    /// optionally filtered and paginated. <c>importId</c> is mandatory on the underlying API.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import/entry/list.json">API Doc - Journal/Import entry/List entries</a>
     /// </summary>
-    /// <param name="listParams">Optional filter and pagination parameters.</param>
+    /// <param name="request">The list request including the mandatory <c>importId</c>.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<JournalImportEntryListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default);
+    public Task<ApiResult<ListResponse<JournalImportEntryListed>>> GetList(JournalImportEntryListRequest request, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update journal import entry. Updates an existing journal import entry. Returns either a success or error message.
@@ -98,26 +99,29 @@ public interface IJournalImportEntryService
     public Task<ApiResult<NoContentResponse>> Unconfirm(Entries journalImportEntries, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Export journal import entries as Excel file.
+    /// Export journal import entries as Excel file. <c>importId</c> is mandatory.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import/entry/list.xlsx">API Doc - Journal/Import entry/Export Excel</a>
     /// </summary>
+    /// <param name="request">The list request including the mandatory <c>importId</c>.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default);
+    public Task<ApiResult<BinaryResponse>> ExportExcel(JournalImportEntryListRequest request, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Export journal import entries as CSV file.
+    /// Export journal import entries as CSV file. <c>importId</c> is mandatory.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import/entry/list.csv">API Doc - Journal/Import entry/Export CSV</a>
     /// </summary>
+    /// <param name="request">The list request including the mandatory <c>importId</c>.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default);
+    public Task<ApiResult<BinaryResponse>> ExportCsv(JournalImportEntryListRequest request, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Export journal import entries as PDF file.
+    /// Export journal import entries as PDF file. <c>importId</c> is mandatory.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import/entry/list.pdf">API Doc - Journal/Import entry/Export PDF</a>
     /// </summary>
+    /// <param name="request">The list request including the mandatory <c>importId</c>.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default);
+    public Task<ApiResult<BinaryResponse>> ExportPdf(JournalImportEntryListRequest request, CancellationToken cancellationToken = default);
 }

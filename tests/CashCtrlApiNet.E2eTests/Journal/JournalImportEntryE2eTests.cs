@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using CashCtrlApiNet.Abstractions.Models.Journal.Import.Entry;
 using Shouldly;
 
 namespace CashCtrlApiNet.E2eTests.Journal;
@@ -36,7 +37,9 @@ namespace CashCtrlApiNet.E2eTests.Journal;
 public class JournalImportEntryE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;
+    private int _setupImportId;
     private int _setupImportEntryId;
+    private JournalImportEntryListRequest ListRequest => new() { ImportId = _setupImportId };
 
     /// <summary>
     /// Scavenges orphan test data and creates the prerequisite journal import with entries for the fixture
@@ -56,16 +59,17 @@ public class JournalImportEntryE2eTests : CashCtrlE2eTestBase
         // Upload a CSV file for import via File.Prepare + File.Persist
         var fileId = await UploadImportFile(_testId);
 
-        // Create a journal import (prerequisite for import entries)
+        // Create a journal import (prerequisite for import entries). Mappings JSON is mandatory
+        // per API docs — without it the server returns a masked "unexpected error".
         var importResult = await CashCtrlApiClient.Journal.Import.Create(new()
         {
             FileId = fileId,
-            Name = _testId
+            Mappings = """[{"columnDate":"Date","columnDescription":"Title","columnDebitName":"Debit","columnCreditName":"Credit","columnAmount":"Amount"}]"""
         });
-        AssertCreated(importResult);
+        _setupImportId = AssertCreated(importResult);
 
         // Discover the first import entry created by the import
-        var entryListResult = await CashCtrlApiClient.Journal.ImportEntry.GetList();
+        var entryListResult = await CashCtrlApiClient.Journal.ImportEntry.GetList(ListRequest);
         var entries = entryListResult.ResponseData?.Data;
         entries.ShouldNotBeNull("Import should have produced entries");
         entries.Value.Length.ShouldBeGreaterThan(0, "Import should have at least one entry");
@@ -100,7 +104,7 @@ public class JournalImportEntryE2eTests : CashCtrlE2eTestBase
     [Test, Order(2)]
     public async Task GetList_Success()
     {
-        var res = await CashCtrlApiClient.Journal.ImportEntry.GetList();
+        var res = await CashCtrlApiClient.Journal.ImportEntry.GetList(ListRequest);
         var entries = AssertSuccess(res);
 
         entries.Length.ShouldBe(res.ResponseData!.Total);
@@ -113,9 +117,19 @@ public class JournalImportEntryE2eTests : CashCtrlE2eTestBase
     [Test, Order(3)]
     public async Task Update_Success()
     {
-        var res = await CashCtrlApiClient.Journal.ImportEntry.Update(new()
+        // Read the entry first so we can echo back the server-populated debit/credit IDs.
+        // The API requires amount, dateAdded, debitId and creditId on update even though the
+        // docs only mark contraAccountId as mandatory — the live API reports all four as
+        // "cannot be empty" when they're omitted.
+        var get = await CashCtrlApiClient.Journal.ImportEntry.Get(new() { Id = _setupImportEntryId });
+        var entry = AssertSuccess(get);
+
+        var res = await CashCtrlApiClient.Journal.ImportEntry.Update((entry as JournalImportEntryUpdate) with
         {
-            Id = _setupImportEntryId
+            Title = $"{_testId}-Updated",
+            // The response DateAdded is a CashCtrl datetime string ("2026-01-01 00:00:00.0").
+            // The update endpoint only accepts YYYY-MM-DD, so trim to the date portion.
+            DateAdded = entry.DateAdded?.Split(' ')[0]
         });
         AssertSuccess(res);
     }
@@ -166,7 +180,7 @@ public class JournalImportEntryE2eTests : CashCtrlE2eTestBase
     [Test, Order(8)]
     public async Task ExportExcel_Success()
     {
-        var export = AssertSuccess(await CashCtrlApiClient.Journal.ImportEntry.ExportExcel());
+        var export = AssertSuccess(await CashCtrlApiClient.Journal.ImportEntry.ExportExcel(ListRequest));
         await DownloadFile(export.FileName!, export.Data);
     }
 
@@ -176,7 +190,7 @@ public class JournalImportEntryE2eTests : CashCtrlE2eTestBase
     [Test, Order(9)]
     public async Task ExportCsv_Success()
     {
-        var export = AssertSuccess(await CashCtrlApiClient.Journal.ImportEntry.ExportCsv());
+        var export = AssertSuccess(await CashCtrlApiClient.Journal.ImportEntry.ExportCsv(ListRequest));
         await DownloadFile(export.FileName!, export.Data);
     }
 
@@ -186,7 +200,7 @@ public class JournalImportEntryE2eTests : CashCtrlE2eTestBase
     [Test, Order(10)]
     public async Task ExportPdf_Success()
     {
-        var export = AssertSuccess(await CashCtrlApiClient.Journal.ImportEntry.ExportPdf());
+        var export = AssertSuccess(await CashCtrlApiClient.Journal.ImportEntry.ExportPdf(ListRequest));
         await DownloadFile(export.FileName!, export.Data);
     }
 

@@ -67,7 +67,7 @@ public class JournalImportEntryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(entries));
 
         // Act
-        var result = await Client.Journal.ImportEntry.GetList();
+        var result = await Client.Journal.ImportEntry.GetList(new() { ImportId = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -188,7 +188,7 @@ public class JournalImportEntryServiceIntegrationTests : IntegrationTestBase
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "import-entries.xlsx");
 
         // Act
-        var result = await Client.Journal.ImportEntry.ExportExcel();
+        var result = await Client.Journal.ImportEntry.ExportExcel(new() { ImportId = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -207,7 +207,7 @@ public class JournalImportEntryServiceIntegrationTests : IntegrationTestBase
         Server.StubGetBinary("/api/v1/journal/import/entry/list.csv", csvBytes, "text/csv", "import-entries.csv");
 
         // Act
-        var result = await Client.Journal.ImportEntry.ExportCsv();
+        var result = await Client.Journal.ImportEntry.ExportCsv(new() { ImportId = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -226,7 +226,7 @@ public class JournalImportEntryServiceIntegrationTests : IntegrationTestBase
         Server.StubGetBinary("/api/v1/journal/import/entry/list.pdf", pdfBytes, "application/pdf", "import-entries.pdf");
 
         // Act
-        var result = await Client.Journal.ImportEntry.ExportPdf();
+        var result = await Client.Journal.ImportEntry.ExportPdf(new() { ImportId = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

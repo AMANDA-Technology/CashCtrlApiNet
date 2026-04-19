@@ -40,6 +40,19 @@ public record JournalImport : JournalImportCreate
     public required int Id { get; init; }
 
     /// <summary>
+    /// A human-readable description of the import session. Populated by the server from the
+    /// source filename — not settable from the create request.
+    /// </summary>
+    [JsonPropertyName("description")]
+    public string? Description { get; init; }
+
+    /// <summary>
+    /// The origin of the import session (e.g. <c>FILE</c>).
+    /// </summary>
+    [JsonPropertyName("source")]
+    public string? Source { get; init; }
+
+    /// <summary>
     /// The date and time the journal import was created.
     /// </summary>
     [JsonPropertyName("created")]

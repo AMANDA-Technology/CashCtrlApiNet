@@ -61,42 +61,46 @@ public class JournalImportEntryServiceTests : ServiceTestBase<JournalImportEntry
     [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
+        var request = new JournalImportEntryListRequest { ImportId = 7 };
         ConnectionHandler
-            .GetAsync<ListResponse<JournalImportEntryListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<JournalImportEntryListed>, JournalImportEntryListRequest>(
+                Arg.Any<string>(), Arg.Any<JournalImportEntryListRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<JournalImportEntryListed>>());
 
-        await Service.GetList();
+        await Service.GetList(request);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<JournalImportEntryListed>>(
-                JournalEndpoints.ImportEntry.List, (ListParams?)null, Arg.Any<CancellationToken>());
+            .GetAsync<ListResponse<JournalImportEntryListed>, JournalImportEntryListRequest>(
+                JournalEndpoints.ImportEntry.List, request, Arg.Any<CancellationToken>());
     }
 
     [Test]
-    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    public async Task GetList_WithFilter_ShouldCallCorrectEndpoint()
     {
-        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        var request = new JournalImportEntryListRequest { ImportId = 7, Query = "test", OnlyActive = true };
         ConnectionHandler
-            .GetAsync<ListResponse<JournalImportEntryListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<JournalImportEntryListed>, JournalImportEntryListRequest>(
+                Arg.Any<string>(), Arg.Any<JournalImportEntryListRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<JournalImportEntryListed>>());
 
-        await Service.GetList(listParams);
+        await Service.GetList(request);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<JournalImportEntryListed>>(
-                JournalEndpoints.ImportEntry.List, listParams, Arg.Any<CancellationToken>());
+            .GetAsync<ListResponse<JournalImportEntryListed>, JournalImportEntryListRequest>(
+                JournalEndpoints.ImportEntry.List, request, Arg.Any<CancellationToken>());
     }
 
     [Test]
-    public async Task GetList_WithListParams_ShouldReturnResult()
+    public async Task GetList_WithFilter_ShouldReturnResult()
     {
-        var listParams = new ListParams { Query = "test" };
+        var request = new JournalImportEntryListRequest { ImportId = 7, Query = "test" };
         var expected = new ApiResult<ListResponse<JournalImportEntryListed>>();
         ConnectionHandler
-            .GetAsync<ListResponse<JournalImportEntryListed>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<JournalImportEntryListed>, JournalImportEntryListRequest>(
+                Arg.Any<string>(), Arg.Any<JournalImportEntryListRequest>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
-        var result = await Service.GetList(listParams);
+        var result = await Service.GetList(request);
 
         result.ShouldBe(expected);
     }
@@ -179,42 +183,45 @@ public class JournalImportEntryServiceTests : ServiceTestBase<JournalImportEntry
     [Test]
     public async Task ExportExcel_ShouldCallGetBinaryAsync()
     {
+        var request = new JournalImportEntryListRequest { ImportId = 7 };
         ConnectionHandler
-            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<JournalImportEntryListRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
-        var result = await Service.ExportExcel();
+        var result = await Service.ExportExcel(request);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync(JournalEndpoints.ImportEntry.ListXlsx, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(JournalEndpoints.ImportEntry.ListXlsx, request, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
     [Test]
     public async Task ExportCsv_ShouldCallGetBinaryAsync()
     {
+        var request = new JournalImportEntryListRequest { ImportId = 7 };
         ConnectionHandler
-            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<JournalImportEntryListRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
-        var result = await Service.ExportCsv();
+        var result = await Service.ExportCsv(request);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync(JournalEndpoints.ImportEntry.ListCsv, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(JournalEndpoints.ImportEntry.ListCsv, request, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
     [Test]
     public async Task ExportPdf_ShouldCallGetBinaryAsync()
     {
+        var request = new JournalImportEntryListRequest { ImportId = 7 };
         ConnectionHandler
-            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<JournalImportEntryListRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
-        var result = await Service.ExportPdf();
+        var result = await Service.ExportPdf(request);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync(JournalEndpoints.ImportEntry.ListPdf, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(JournalEndpoints.ImportEntry.ListPdf, request, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 }

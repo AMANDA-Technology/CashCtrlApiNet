@@ -24,6 +24,7 @@ SOFTWARE.
 */
 
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
@@ -48,10 +49,12 @@ public record JournalCreate : ModelBaseRecord
     public required string Title { get; init; }
 
     /// <summary>
-    /// The ID of the sequence number. See Sequence number.
+    /// The ID of the sequence number. See Sequence number. Required on create, but absent from
+    /// read/list responses (the server returns the generated <c>reference</c> instead) — so the
+    /// property is nullable to keep response deserialization working across the shared hierarchy.
     /// </summary>
     [JsonPropertyName("sequenceNumberId")]
-    public required int SequenceNumberId { get; init; }
+    public int? SequenceNumberId { get; init; }
 
     /// <summary>
     /// The ID of the debit account. See Account.
@@ -78,10 +81,12 @@ public record JournalCreate : ModelBaseRecord
     public int? TaxId { get; init; }
 
     /// <summary>
-    /// Items for collective entries. This is a JSON array with accountId, debit, and credit properties.
+    /// Items for collective entries. On create, set to a JSON array with accountId, debit, and
+    /// credit properties (CashCtrl accepts the JSON text serialized form). On read, the API returns
+    /// a parsed array — <see cref="JsonElement"/> accepts both shapes.
     /// </summary>
     [JsonPropertyName("items")]
-    public string? ItemsJson { get; init; }
+    public JsonElement? Items { get; init; }
 
     /// <summary>
     /// The ID of the cost center. See Cost center.

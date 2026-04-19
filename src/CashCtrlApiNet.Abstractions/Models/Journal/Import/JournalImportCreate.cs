@@ -34,14 +34,36 @@ namespace CashCtrlApiNet.Abstractions.Models.Journal.Import;
 public record JournalImportCreate : ModelBaseRecord
 {
     /// <summary>
-    /// The ID of the file to import. Use the File API to upload a file and then use the file ID here.
+    /// The ID of the file to import. Documented as optional but in practice the create call fails
+    /// without it. Use the File API to upload a file and then use the file ID here.
     /// </summary>
     [JsonPropertyName("fileId")]
     public required int FileId { get; init; }
 
     /// <summary>
-    /// A name for the import.
+    /// Column-to-field mappings as a JSON string. Mandatory on create per the API docs, but kept
+    /// nullable because this field does not appear in the read/list responses (shared hierarchy).
+    /// Expected shape: <c>[{"columnDate":"Date","columnDescription":"Title","columnDebitName":"Debit","columnCreditName":"Credit","columnAmount":"Amount", ...}]</c>.
+    /// Each array entry also supports <c>fixed*</c> counterparts (e.g. <c>fixedDebitId</c>) instead of <c>column*</c>.
     /// </summary>
-    [JsonPropertyName("name")]
-    public string? Name { get; init; }
+    [JsonPropertyName("mappings")]
+    public string? Mappings { get; init; }
+
+    /// <summary>
+    /// Force the use of sequence numbers instead of importing the reference number from the file. Defaults to false.
+    /// </summary>
+    [JsonPropertyName("isForceSequenceNumber")]
+    public bool? IsForceSequenceNumber { get; init; }
+
+    /// <summary>
+    /// Number of lines to skip before parsing the file (useful if the header line is not the first line).
+    /// </summary>
+    [JsonPropertyName("skipRows")]
+    public int? SkipRows { get; init; }
+
+    /// <summary>
+    /// The ID of the target account (e.g. your bank account) to import the entries into.
+    /// </summary>
+    [JsonPropertyName("targetAccountId")]
+    public int? TargetAccountId { get; init; }
 }
