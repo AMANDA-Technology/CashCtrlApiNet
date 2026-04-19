@@ -41,12 +41,12 @@ public class OrderPaymentServiceIntegrationTests : IntegrationTestBase
     public async Task Create_ReturnsExpectedResult()
     {
         // Arrange
-        var paymentCreate = OrderFakers.PaymentCreate.Generate();
+        var paymentRequest = OrderFakers.PaymentRequest.Generate();
         Server.StubPostJson("/api/v1/order/payment/create.json",
             CashCtrlResponseFactory.SuccessResponse("Payment created", insertId: 42));
 
         // Act
-        var result = await Client.Order.Payment.Create(paymentCreate);
+        var result = await Client.Order.Payment.Create(paymentRequest);
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -68,7 +68,7 @@ public class OrderPaymentServiceIntegrationTests : IntegrationTestBase
             "application/octet-stream", "payment.xml");
 
         // Act
-        var result = await Client.Order.Payment.Download(new() { Id = 1 });
+        var result = await Client.Order.Payment.Download(new() { Date = "2026-01-15", OrderIds = [1] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

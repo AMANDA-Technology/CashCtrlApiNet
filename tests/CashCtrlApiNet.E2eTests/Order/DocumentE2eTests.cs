@@ -114,7 +114,8 @@ public class DocumentE2eTests : CashCtrlE2eTestBase
         res.RequestsLeft.Value.ShouldBeGreaterThan(0);
         res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
 
-        document.Id.ShouldBe(_documentId);
+        // Document is tied 1:1 to an order; the response carries the parent order's id as `orderId`.
+        document.OrderId.ShouldBe(_documentId);
     }
 
     /// <summary>
@@ -145,16 +146,16 @@ public class DocumentE2eTests : CashCtrlE2eTestBase
     [Test, Order(4)]
     public async Task Update_Success()
     {
-        var updatedText = $"{_testId}-UpdatedText";
+        var updatedHeader = $"Header-{_testId}";
         var res = await CashCtrlApiClient.Order.Document.Update(new()
         {
             Id = _documentId,
-            Text = updatedText
+            Header = updatedHeader
         });
         AssertSuccess(res);
 
         // Verify the update persisted
         var verify = await CashCtrlApiClient.Order.Document.Get(new() { Id = _documentId });
-        verify.ResponseData?.Data?.Text.ShouldBe(updatedText);
+        verify.ResponseData?.Data?.Header.ShouldBe(updatedHeader);
     }
 }

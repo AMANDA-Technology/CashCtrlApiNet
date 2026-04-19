@@ -74,19 +74,29 @@ public class BookEntryE2eTests : CashCtrlE2eTestBase
         var personId = AssertCreated(personResult);
         RegisterCleanup(async () => await CashCtrlApiClient.Person.Person.Delete(new() { Ids = [personId] }));
 
-        // Discover an order category to get required IDs
-        var categoryResult = await CashCtrlApiClient.Order.Category.GetList();
-        var category = categoryResult.ResponseData?.Data.FirstOrDefault()
-                       ?? throw new InvalidOperationException("No order categories found");
+        // Discover an order category whose status list allows book entries (isBook=true on at
+        // least one status — typically the Invoice/Rechnung category). Attempting this with the
+        // default Offer category fails with "This document does not allow book entries."
+        var categories = AssertSuccess(await CashCtrlApiClient.Order.Category.GetList());
+        var bookableCategory = categories
+            .Select(c => new
+            {
+                c.Id,
+                c.AccountId,
+                c.SequenceNrId,
+                BookStatusId = TryFindBookStatusId(c)
+            })
+            .FirstOrDefault(c => c.BookStatusId is not null)
+            ?? throw new InvalidOperationException("No order category with a status where isBook=true");
 
-        _accountId = category.AccountId;
-        var sequenceNumberId = category.SequenceNrId ?? throw new InvalidOperationException("Order category has no SequenceNrId");
+        _accountId = bookableCategory.AccountId;
+        var sequenceNumberId = bookableCategory.SequenceNrId ?? throw new InvalidOperationException("Order category has no SequenceNrId");
 
         // Create an order as parent for book entries
         var orderResult = await CashCtrlApiClient.Order.Order.Create(new()
         {
             AccountId = _accountId,
-            CategoryId = category.Id,
+            CategoryId = bookableCategory.Id,
             Date = DateTime.Today.ToString("yyyy-MM-dd"),
             SequenceNumberId = sequenceNumberId,
             AssociateId = personId,
@@ -95,9 +105,16 @@ public class BookEntryE2eTests : CashCtrlE2eTestBase
         _orderId = AssertCreated(orderResult);
         RegisterCleanup(async () => await CashCtrlApiClient.Order.Order.Delete(new() { Ids = [_orderId] }));
 
-        // Scavenge orphan book entries from previous failed runs
+        // Move the order into a booked status so the API accepts book entries against it.
+        AssertSuccess(await CashCtrlApiClient.Order.Order.UpdateStatus(new()
+        {
+            Ids = [_orderId],
+            StatusId = bookableCategory.BookStatusId!.Value
+        }));
+
+        // Scavenge orphan book entries from previous failed runs (list requires the order id).
         await ScavengeOrphans(
-            () => CashCtrlApiClient.Order.BookEntry.GetList(),
+            () => CashCtrlApiClient.Order.BookEntry.GetList(new() { OrderId = _orderId }),
             b => b.Description ?? "",
             b => b.Id,
             ids => CashCtrlApiClient.Order.BookEntry.Delete(ids));
@@ -105,14 +122,31 @@ public class BookEntryE2eTests : CashCtrlE2eTestBase
         // Create primary test book entry
         var createResult = await CashCtrlApiClient.Order.BookEntry.Create(new()
         {
-            OrderId = _orderId,
+            OrderIds = [_orderId],
             AccountId = _accountId,
             Amount = 100.0,
+            Date = DateTime.Today.ToString("yyyy-MM-dd"),
             Description = _testId
         });
         _setupBookEntryId = AssertCreated(createResult);
 
         RegisterCleanup(async () => await CashCtrlApiClient.Order.BookEntry.Delete(new() { Ids = [_setupBookEntryId] }));
+    }
+
+    /// <summary>
+    /// Return the ID of the first status in the category whose <c>isBook</c> flag is true, or null
+    /// if the category has no such status.
+    /// </summary>
+    private static int? TryFindBookStatusId(CashCtrlApiNet.Abstractions.Models.Order.Category.OrderCategory category)
+    {
+        if (category.Status is not { } statusArray)
+            return null;
+        foreach (var status in statusArray.EnumerateArray())
+        {
+            if (status.TryGetProperty("isBook", out var isBook) && isBook.GetBoolean())
+                return status.GetProperty("id").GetInt32();
+        }
+        return null;
     }
 
     /// <summary>
@@ -144,7 +178,7 @@ public class BookEntryE2eTests : CashCtrlE2eTestBase
     [Test, Order(2)]
     public async Task GetList_Success()
     {
-        var res = await CashCtrlApiClient.Order.BookEntry.GetList();
+        var res = await CashCtrlApiClient.Order.BookEntry.GetList(new() { OrderId = _orderId });
         var bookEntries = AssertSuccess(res);
 
         bookEntries.ShouldContain(b => b.Id == _setupBookEntryId);
@@ -159,9 +193,10 @@ public class BookEntryE2eTests : CashCtrlE2eTestBase
         var secondTestId = GenerateTestId();
         var res = await CashCtrlApiClient.Order.BookEntry.Create(new()
         {
-            OrderId = _orderId,
+            OrderIds = [_orderId],
             AccountId = _accountId,
             Amount = 50.0,
+            Date = DateTime.Today.ToString("yyyy-MM-dd"),
             Description = secondTestId
         });
 

@@ -46,14 +46,14 @@ public class DocumentServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SingleResponse(document));
 
         // Act
-        var result = await Client.Order.Document.Get(new() { Id = document.Id });
+        var result = await Client.Order.Document.Get(new() { Id = document.OrderId ?? 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
         result.ResponseData.ShouldNotBeNull();
         result.ResponseData.Data.ShouldNotBeNull();
-        result.ResponseData.Data.Id.ShouldBe(document.Id);
-        result.ResponseData.Data.Text.ShouldBe(document.Text);
+        result.ResponseData.Data.OrderId.ShouldBe(document.OrderId);
+        result.ResponseData.Data.Header.ShouldBe(document.Header);
     }
 
     /// <summary>
@@ -136,7 +136,7 @@ public class DocumentServiceIntegrationTests : IntegrationTestBase
         var result = await Client.Order.Document.Update(new()
         {
             Id = 1,
-            Text = "Updated document text"
+            Header = "Updated document header"
         });
 
         // Assert

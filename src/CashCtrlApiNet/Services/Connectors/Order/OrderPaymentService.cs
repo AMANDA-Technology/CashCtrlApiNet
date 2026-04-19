@@ -25,7 +25,6 @@ SOFTWARE.
 
 using CashCtrlApiNet.Abstractions.Models.Order.Payment;
 using CashCtrlApiNet.Abstractions.Models.Api;
-using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Interfaces;
 using CashCtrlApiNet.Interfaces.Connectors.Order;
 using CashCtrlApiNet.Services.Connectors.Base;
@@ -37,10 +36,10 @@ namespace CashCtrlApiNet.Services.Connectors.Order;
 public class OrderPaymentService(ICashCtrlConnectionHandler connectionHandler) : ConnectorService(connectionHandler), IOrderPaymentService
 {
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Create(OrderPaymentCreate payment, CancellationToken cancellationToken = default)
-        => ConnectionHandler.PostAsync<NoContentResponse, OrderPaymentCreate>(Endpoint.Create, payment, cancellationToken: cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Create(OrderPaymentRequest payment, CancellationToken cancellationToken = default)
+        => ConnectionHandler.PostAsync<NoContentResponse, OrderPaymentRequest>(Endpoint.Create, payment, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> Download(Entry payment, CancellationToken cancellationToken = default)
+    public Task<ApiResult<BinaryResponse>> Download(OrderPaymentRequest payment, CancellationToken cancellationToken = default)
         => ConnectionHandler.GetBinaryAsync(Endpoint.Download, payment, cancellationToken);
 }

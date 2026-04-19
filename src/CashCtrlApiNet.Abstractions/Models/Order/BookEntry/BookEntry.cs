@@ -34,6 +34,13 @@ namespace CashCtrlApiNet.Abstractions.Models.Order.BookEntry;
 public record BookEntry : BookEntryUpdate
 {
     /// <summary>
+    /// The ID of the parent order this book entry belongs to. Read-only — the parent order is
+    /// set via <see cref="BookEntryCreate.OrderIds"/> on create and cannot be changed afterwards.
+    /// </summary>
+    [JsonPropertyName("orderId")]
+    public int? OrderId { get; init; }
+
+    /// <summary>
     /// The date and time the book entry was created.
     /// </summary>
     [JsonPropertyName("created")]

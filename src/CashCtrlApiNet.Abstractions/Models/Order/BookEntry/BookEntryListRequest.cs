@@ -26,16 +26,19 @@ SOFTWARE.
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Abstractions.Models.Order.Payment;
+namespace CashCtrlApiNet.Abstractions.Models.Order.BookEntry;
 
 /// <summary>
-/// Order payment create. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/payment/create.json">API Doc</a>
+/// Book entry list request parameters. The <c>id</c> query parameter (the order's ID) is
+/// mandatory — without it the endpoint returns <c>{"success":false,"message":"This document
+/// does not exist."}</c>.
+/// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/bookentry/list.json">API Doc</a>
 /// </summary>
-public record OrderPaymentCreate : ModelBaseRecord
+public record BookEntryListRequest : ListParams
 {
     /// <summary>
-    /// The ID of the order to create a payment for.
+    /// The ID of the order whose book entries should be listed.
     /// </summary>
-    [JsonPropertyName("orderId")]
+    [JsonPropertyName("id")]
     public required int OrderId { get; init; }
 }

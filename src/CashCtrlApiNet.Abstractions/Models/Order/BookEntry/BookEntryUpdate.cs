@@ -24,17 +24,70 @@ SOFTWARE.
 */
 
 using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Order.BookEntry;
 
 /// <summary>
-/// Order book entry update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/bookentry/update.json">API Doc</a>
+/// Update request for <c>/order/bookentry/update.json</c>. Only manually created book entries
+/// (e.g. payments) can be updated — auto-created entries from order items cannot. Note that
+/// the update endpoint does not accept <c>orderIds</c>; the parent order(s) are immutable, so
+/// this model deliberately does not inherit from <see cref="BookEntryCreate"/>.
+/// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/bookentry/update.json">API Doc</a>
 /// </summary>
-public record BookEntryUpdate : BookEntryCreate
+public record BookEntryUpdate : ModelBaseRecord
 {
     /// <summary>
-    /// The ID of the book entry to update.
+    /// The ID of the book entry to update. Mandatory.
     /// </summary>
     [JsonPropertyName("id")]
     public required int Id { get; init; }
+
+    /// <summary>
+    /// The ID of the account for the book entry. Mandatory.
+    /// </summary>
+    [JsonPropertyName("accountId")]
+    public required int AccountId { get; init; }
+
+    /// <summary>
+    /// The amount of the book entry. Leave empty to use the order's open amount.
+    /// </summary>
+    [JsonPropertyName("amount")]
+    public double? Amount { get; init; }
+
+    /// <summary>
+    /// The date of the book entry in <c>YYYY-MM-DD</c> format.
+    /// </summary>
+    [JsonPropertyName("date")]
+    public string? Date { get; init; }
+
+    /// <summary>
+    /// A description of the book entry (max 200 chars).
+    /// </summary>
+    [JsonPropertyName("description")]
+    public string? Description { get; init; }
+
+    /// <summary>
+    /// An optional reference / receipt for the book entry (max 100 chars).
+    /// </summary>
+    [JsonPropertyName("reference")]
+    public string? Reference { get; init; }
+
+    /// <summary>
+    /// The ID of the currency. Leave empty to use the default currency.
+    /// </summary>
+    [JsonPropertyName("currencyId")]
+    public int? CurrencyId { get; init; }
+
+    /// <summary>
+    /// The exchange rate from foreign currency to main currency.
+    /// </summary>
+    [JsonPropertyName("currencyRate")]
+    public double? CurrencyRate { get; init; }
+
+    /// <summary>
+    /// The ID of the tax rate.
+    /// </summary>
+    [JsonPropertyName("taxId")]
+    public int? TaxId { get; init; }
 }
