@@ -190,19 +190,20 @@ public class OrderE2eTests : CashCtrlE2eTestBase
     }
 
     /// <summary>
-    /// Update order status successfully
+    /// Update order status successfully. Discover a real status id from the category's status
+    /// array — Category.GetStatus takes a status id, not a category id.
     /// </summary>
     [Test, Order(5)]
     public async Task UpdateStatus_Success()
     {
-        // Get valid status from the category
-        var statusResult = await CashCtrlApiClient.Order.Category.GetStatus(new() { Id = _categoryId });
-        var category = AssertSuccess(statusResult);
+        var category = AssertSuccess(await CashCtrlApiClient.Order.Category.Get(new() { Id = _categoryId }));
+        category.Status.ShouldNotBeNull();
+        var firstStatusId = category.Status!.Value.EnumerateArray().First().GetProperty("id").GetInt32();
 
         var res = await CashCtrlApiClient.Order.Order.UpdateStatus(new()
         {
-            Id = _setupOrderId,
-            StatusId = category.Id
+            Ids = [_setupOrderId],
+            StatusId = firstStatusId
         });
         AssertSuccess(res);
     }
@@ -216,59 +217,85 @@ public class OrderE2eTests : CashCtrlE2eTestBase
         var res = await CashCtrlApiClient.Order.Order.UpdateRecurrence(new()
         {
             Id = _setupOrderId,
-            Recurrence = "MONTHLY"
+            Recurrence = "MONTHLY",
+            // startDate is documented as optional but is required in practice whenever recurrence is set.
+            StartDate = DateTime.Today.AddDays(30).ToString("yyyy-MM-dd")
         });
         AssertSuccess(res);
     }
 
     /// <summary>
-    /// Continue a recurring order successfully
+    /// Continue the setup order as a new order in a different target category
+    /// (e.g. turning an offer into an invoice).
     /// </summary>
     [Test, Order(7)]
     public async Task Continue_Success()
     {
-        var res = await CashCtrlApiClient.Order.Order.Continue(new() { Id = _setupOrderId });
-        var continuedOrderId = AssertCreated(res);
+        // Continue requires a target categoryId different from the source. Discover one.
+        var categoriesRes = await CashCtrlApiClient.Order.Category.GetList();
+        var categories = AssertSuccess(categoriesRes);
+        var targetCategoryId = categories.First(c => c.Id != _categoryId).Id;
 
-        // The continued order is a new entity that must be cleaned up
-        RegisterCleanup(async () => await CashCtrlApiClient.Order.Order.Delete(new() { Ids = [continuedOrderId] }));
+        var res = await CashCtrlApiClient.Order.Order.Continue(new()
+        {
+            CategoryId = targetCategoryId,
+            Ids = [_setupOrderId]
+        });
+        AssertSuccess(res);
+
+        // Continue creates a new order in the target category, sharing the setup order's dossier.
+        // Find and register cleanup so we don't leak the continued order.
+        var dossier = AssertSuccess(await CashCtrlApiClient.Order.Order.GetDossier(new() { Id = _setupOrderId }));
+        var continuedOrderId = dossier.Items
+            .Where(o => o.Id != _setupOrderId && o.Id != _secondOrderId && o.CategoryId == targetCategoryId)
+            .Select(o => o.Id)
+            .FirstOrDefault();
+        if (continuedOrderId > 0)
+            RegisterCleanup(async () => await CashCtrlApiClient.Order.Order.Delete(new() { Ids = [continuedOrderId] }));
     }
 
     /// <summary>
-    /// Get order dossier successfully
+    /// Get the dossier (group of related orders) the setup order belongs to.
     /// </summary>
     [Test, Order(8)]
     public async Task GetDossier_Success()
     {
         var res = await CashCtrlApiClient.Order.Order.GetDossier(new() { Id = _setupOrderId });
-        res.IsHttpSuccess.ShouldBeTrue();
-        res.ResponseData.ShouldNotBeNull();
+        var dossier = AssertSuccess(res);
+        dossier.Items.ShouldContain(o => o.Id == _setupOrderId);
     }
 
     /// <summary>
-    /// Add an order to a dossier successfully
+    /// Add an order to an existing dossier successfully. <c>GroupId</c> comes from the setup
+    /// order's own <c>groupId</c> — <c>ids</c> is the list of orders to add to that group.
     /// </summary>
     [Test, Order(9)]
     public async Task DossierAdd_Success()
     {
+        var setupOrder = AssertSuccess(await CashCtrlApiClient.Order.Order.Get(new() { Id = _setupOrderId }));
+        var groupId = setupOrder.GroupId ?? throw new InvalidOperationException("Setup order has no GroupId");
+
         var res = await CashCtrlApiClient.Order.Order.DossierAdd(new()
         {
-            Id = _setupOrderId,
-            DossierId = _secondOrderId
+            GroupId = groupId,
+            Ids = [_secondOrderId]
         });
         AssertSuccess(res);
     }
 
     /// <summary>
-    /// Remove an order from a dossier successfully
+    /// Remove an order from a dossier successfully. Counterpart to <see cref="DossierAdd_Success"/>.
     /// </summary>
     [Test, Order(10)]
     public async Task DossierRemove_Success()
     {
+        var setupOrder = AssertSuccess(await CashCtrlApiClient.Order.Order.Get(new() { Id = _setupOrderId }));
+        var groupId = setupOrder.GroupId ?? throw new InvalidOperationException("Setup order has no GroupId");
+
         var res = await CashCtrlApiClient.Order.Order.DossierRemove(new()
         {
-            Id = _setupOrderId,
-            DossierId = _secondOrderId
+            GroupId = groupId,
+            Ids = [_secondOrderId]
         });
         AssertSuccess(res);
     }

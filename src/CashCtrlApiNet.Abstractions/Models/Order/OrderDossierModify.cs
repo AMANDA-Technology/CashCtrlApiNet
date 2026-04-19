@@ -23,25 +23,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Collections.Immutable;
 using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Converters;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Order;
 
 /// <summary>
-/// Order dossier modify (add/remove). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/dossier_add.json">API Doc</a>
+/// Request body for <c>/order/dossier_add.json</c> and <c>/order/dossier_remove.json</c>. Adds or
+/// removes one or multiple orders to/from a dossier (group).
+/// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/dossier_add.json">API Doc</a>
 /// </summary>
 public record OrderDossierModify : ModelBaseRecord
 {
     /// <summary>
-    /// The ID of the order.
+    /// The ID of the group (dossier). Obtain via <c>OrderListed.GroupId</c> of any order already in
+    /// the dossier, or from the <c>GetDossier</c> service response.
     /// </summary>
-    [JsonPropertyName("id")]
-    public required int Id { get; init; }
+    [JsonPropertyName("groupId")]
+    public required int GroupId { get; init; }
 
     /// <summary>
-    /// The ID of the dossier.
+    /// The IDs of the orders to add to (or remove from) the dossier, comma-separated on the wire.
     /// </summary>
-    [JsonPropertyName("dossierId")]
-    public required int DossierId { get; init; }
+    [JsonPropertyName("ids")]
+    [JsonConverter(typeof(IntArrayAsCsvJsonConverter))]
+    public required ImmutableArray<int> Ids { get; init; }
 }

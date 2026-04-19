@@ -176,7 +176,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
         // Act
         var result = await Client.Order.Order.UpdateStatus(new()
         {
-            Id = 1,
+            Ids = [1],
             StatusId = 5
         });
 
@@ -222,7 +222,7 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.SuccessResponse("Order continued"));
 
         // Act
-        var result = await Client.Order.Order.Continue(new() { Id = 1 });
+        var result = await Client.Order.Order.Continue(new() { CategoryId = 7, Ids = [1] });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -238,9 +238,8 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
     public async Task GetDossier_ReturnsExpectedResult()
     {
         // Arrange
-        var orders = OrderFakers.OrderListed.Generate(2).ToArray();
         Server.StubGetJson("/api/v1/order/dossier.json",
-            CashCtrlResponseFactory.ListResponse(orders));
+            """{"success":true,"data":{"id":42,"items":[{"id":1,"type":"SALES","nr":"OF-1"},{"id":2,"type":"SALES","nr":"AB-1"}]}}""");
 
         // Act
         var result = await Client.Order.Order.GetDossier(new() { Id = 1 });
@@ -248,7 +247,9 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
         result.ResponseData.ShouldNotBeNull();
-        result.ResponseData.Data.Length.ShouldBe(2);
+        result.ResponseData.Data.ShouldNotBeNull();
+        result.ResponseData.Data.Id.ShouldBe(42);
+        result.ResponseData.Data.Items.Length.ShouldBe(2);
     }
 
     /// <summary>
@@ -264,8 +265,8 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
         // Act
         var result = await Client.Order.Order.DossierAdd(new()
         {
-            Id = 1,
-            DossierId = 10
+            GroupId = 10,
+            Ids = [1]
         });
 
         // Assert
@@ -288,8 +289,8 @@ public class OrderServiceIntegrationTests : IntegrationTestBase
         // Act
         var result = await Client.Order.Order.DossierRemove(new()
         {
-            Id = 1,
-            DossierId = 10
+            GroupId = 10,
+            Ids = [1]
         });
 
         // Assert

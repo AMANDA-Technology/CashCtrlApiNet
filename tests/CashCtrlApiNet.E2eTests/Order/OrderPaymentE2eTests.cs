@@ -91,14 +91,16 @@ public class OrderPaymentE2eTests : CashCtrlE2eTestBase
         _orderId = AssertCreated(orderResult);
         RegisterCleanup(async () => await CashCtrlApiClient.Order.Order.Delete(new() { Ids = [_orderId] }));
 
-        // Book the order by updating its status
-        var statusResult = await CashCtrlApiClient.Order.Category.GetStatus(new() { Id = category.Id });
-        if (statusResult is { IsHttpSuccess: true, ResponseData.Data: not null })
+        // Book the order by updating its status. Category.GetStatus takes a STATUS id — discover
+        // a real status id by reading the category and walking its status array.
+        var categoryRead = await CashCtrlApiClient.Order.Category.Get(new() { Id = category.Id });
+        if (categoryRead is { IsHttpSuccess: true, ResponseData.Data.Status: { } statusArray })
         {
+            var firstStatusId = statusArray.EnumerateArray().First().GetProperty("id").GetInt32();
             await CashCtrlApiClient.Order.Order.UpdateStatus(new()
             {
-                Id = _orderId,
-                StatusId = statusResult.ResponseData.Data.Id
+                Ids = [_orderId],
+                StatusId = firstStatusId
             });
         }
     }

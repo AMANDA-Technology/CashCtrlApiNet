@@ -149,7 +149,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
     [Test]
     public async Task UpdateStatus_ShouldPostToCorrectEndpoint()
     {
-        var status = new OrderStatusUpdate { Id = 1, StatusId = 5 };
+        var status = new OrderStatusUpdate { Ids = [1], StatusId = 5 };
         ConnectionHandler
             .PostAsync<NoContentResponse, OrderStatusUpdate>(Arg.Any<string>(), Arg.Any<OrderStatusUpdate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -179,16 +179,16 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
     [Test]
     public async Task Continue_ShouldPostToCorrectEndpoint()
     {
-        var entry = new Entry { Id = 42 };
+        var request = new OrderContinue { CategoryId = 7, Ids = [42] };
         ConnectionHandler
-            .PostAsync<NoContentResponse, Entry>(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .PostAsync<NoContentResponse, OrderContinue>(Arg.Any<string>(), Arg.Any<OrderContinue>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
 
-        await Service.Continue(entry);
+        await Service.Continue(request);
 
         await ConnectionHandler.Received(1)
-            .PostAsync<NoContentResponse, Entry>(
-                OrderEndpoints.Order.Continue, entry, Arg.Any<CancellationToken>());
+            .PostAsync<NoContentResponse, OrderContinue>(
+                OrderEndpoints.Order.Continue, request, Arg.Any<CancellationToken>());
     }
 
     [Test]
@@ -196,21 +196,21 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetAsync<ListResponse<OrderListed>, Entry>(
+            .GetAsync<SingleResponse<OrderDossier>, Entry>(
                 Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<ListResponse<OrderListed>>());
+            .Returns(new ApiResult<SingleResponse<OrderDossier>>());
 
         await Service.GetDossier(entry);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<OrderListed>, Entry>(
+            .GetAsync<SingleResponse<OrderDossier>, Entry>(
                 OrderEndpoints.Order.ReadDossier, entry, Arg.Any<CancellationToken>());
     }
 
     [Test]
     public async Task DossierAdd_ShouldPostToCorrectEndpoint()
     {
-        var dossier = new OrderDossierModify { Id = 1, DossierId = 10 };
+        var dossier = new OrderDossierModify { GroupId = 10, Ids = [1] };
         ConnectionHandler
             .PostAsync<NoContentResponse, OrderDossierModify>(Arg.Any<string>(), Arg.Any<OrderDossierModify>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -225,7 +225,7 @@ public class OrderServiceTests : ServiceTestBase<OrderService>
     [Test]
     public async Task DossierRemove_ShouldPostToCorrectEndpoint()
     {
-        var dossier = new OrderDossierModify { Id = 1, DossierId = 10 };
+        var dossier = new OrderDossierModify { GroupId = 10, Ids = [1] };
         ConnectionHandler
             .PostAsync<NoContentResponse, OrderDossierModify>(Arg.Any<string>(), Arg.Any<OrderDossierModify>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());

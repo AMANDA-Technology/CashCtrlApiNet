@@ -98,22 +98,24 @@ public interface IOrderService
     public Task<ApiResult<NoContentResponse>> UpdateRecurrence(OrderRecurrenceUpdate recurrence, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Continue order. Continues a recurring order.
+    /// Continue one or multiple orders into a new order in a target category (e.g. convert an
+    /// offer into an invoice). The target <c>categoryId</c> and <c>ids</c> are mandatory.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/continue.json">API Doc - Order/Continue</a>
     /// </summary>
-    /// <param name="order">The entry containing the ID of the order.</param>
+    /// <param name="request">The continue request carrying the target categoryId + order IDs.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Continue(Entry order, CancellationToken cancellationToken = default);
+    public Task<ApiResult<NoContentResponse>> Continue(OrderContinue request, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Get order dossier. Returns a list of orders in the dossier.
+    /// Get the dossier an order belongs to (group of related orders with a shared <c>groupId</c>).
+    /// Returns a single dossier object <c>{id, items:[...]}</c> — not a list response.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/dossier.json">API Doc - Order/Dossier</a>
     /// </summary>
-    /// <param name="order">The entry containing the ID of the order.</param>
+    /// <param name="order">The entry containing the ID of any order in the dossier.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<ListResponse<OrderListed>>> GetDossier(Entry order, CancellationToken cancellationToken = default);
+    public Task<ApiResult<SingleResponse<OrderDossier>>> GetDossier(Entry order, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add order to dossier. Adds an order to a dossier.

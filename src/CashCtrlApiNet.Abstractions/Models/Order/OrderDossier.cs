@@ -25,28 +25,23 @@ SOFTWARE.
 
 using System.Collections.Immutable;
 using System.Text.Json.Serialization;
-using CashCtrlApiNet.Abstractions.Converters;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Order;
 
 /// <summary>
-/// Request body for <c>/order/update_status.json</c> — changes the status of one or multiple
-/// orders in a single call.
-/// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/update_status.json">API Doc</a>
+/// An order dossier — a group of related orders (e.g. an offer, its continuation invoice, and a
+/// credit note) sharing a common <c>groupId</c>. Returned by <c>/order/dossier.json</c> as a
+/// single object <c>{id, items: [...]}</c> (not a typical list response).
+/// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/dossier.json">API Doc</a>
 /// </summary>
-public record OrderStatusUpdate : ModelBaseRecord
+public record OrderDossier : ModelBaseRecord
 {
-    /// <summary>
-    /// The IDs of the orders to update, comma-separated on the wire. Mandatory.
-    /// </summary>
-    [JsonPropertyName("ids")]
-    [JsonConverter(typeof(IntArrayAsCsvJsonConverter))]
-    public required ImmutableArray<int> Ids { get; init; }
+    /// <summary>The group ID of the dossier.</summary>
+    [JsonPropertyName("id")]
+    public required int Id { get; init; }
 
-    /// <summary>
-    /// The ID of the new status. Mandatory.
-    /// </summary>
-    [JsonPropertyName("statusId")]
-    public required int StatusId { get; init; }
+    /// <summary>The orders that belong to this dossier, ordered by <c>pos</c>.</summary>
+    [JsonPropertyName("items")]
+    public ImmutableArray<OrderDossierItem> Items { get; init; } = [];
 }
