@@ -16,11 +16,11 @@
 | 3 | CRUD + exports | Account, AccountBank, CostCenter, Article, FixedAsset, Person, File | 77 | **77/77 passed** |
 | 4 | Import workflows | InventoryImport, PersonImport | 10 | **10/10 passed** — see [2026-04-19 report](2026-04-19-group4-import-e2e-verification.md) |
 | 5 | Journal | Journal, JournalImport, JournalImportEntry | 24 | **24/24 passed** (issue #90) |
-| 6 | Order | OrderCategory, OrderLayout, Order, BookEntry, Document, OrderPayment | ~39 | **not yet run** |
+| 6 | Order | OrderCategory, OrderLayout, Order, BookEntry, Document, OrderPayment | 41 | **39/41 passed, 2 ignored** (issue #91) |
 | 7 | Salary | 15 salary fixtures | ~90 | **not yet run** |
 | 8 | Meta (highest risk) | Settings, Location, FiscalPeriodTask, FiscalPeriod | ~26 | **not yet run** |
 
-**202 passed, 0 skipped, 0 failed.** ~155 tests remaining across Groups 6-8.
+**241 passed, 2 skipped, 0 failed.** ~116 tests remaining across Groups 7-8. The 2 skipped tests are `OrderPaymentE2eTests.Create_Success` and `Download_Success`, blocked on `Location` provisioning + `Person.Addresses` model support — tracked as a follow-up to #91.
 
 ## What Was Fixed
 
