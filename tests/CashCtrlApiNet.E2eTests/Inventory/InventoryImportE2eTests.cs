@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Collections.Immutable;
 using System.Text;
 using Shouldly;
 
@@ -37,6 +38,7 @@ namespace CashCtrlApiNet.E2eTests.Inventory;
 // ReSharper disable once InconsistentNaming
 public class InventoryImportE2eTests : CashCtrlE2eTestBase
 {
+    private string _testId = null!;
     private int _fileId;
     private int _importId;
 
@@ -46,15 +48,27 @@ public class InventoryImportE2eTests : CashCtrlE2eTestBase
     [OneTimeSetUp]
     public async Task OneTimeSetUp()
     {
-        // Scavenge orphan articles that may have been created by previous import runs
-        await ScavengeOrphans(
-            () => CashCtrlApiClient.Inventory.Article.GetList(),
-            a => a.Name,
-            a => a.Id,
-            ids => CashCtrlApiClient.Inventory.Article.Delete(ids));
+        _testId = GenerateTestId();
 
-        // Upload a minimal CSV file for import via UploadTestFile helper
-        var csvContent = "Nr;Name\nE2E-IMPORT-001;E2E-ImportTestArticle";
+        // Scavenge orphan articles that may have been created by previous import runs.
+        // Match by Name OR Nr because earlier broken-mapping runs could leave articles
+        // with no "E2E-" name but an "E2E-" Nr (or vice versa), which a name-only filter misses.
+        var listResult = await CashCtrlApiClient.Inventory.Article.GetList();
+        if (listResult.ResponseData?.Data is { Length: > 0 } items)
+        {
+            var orphanIds = items
+                .Where(a => a.Name.StartsWith("E2E-", StringComparison.Ordinal)
+                         || a.Nr.StartsWith("E2E-", StringComparison.Ordinal))
+                .Select(a => a.Id)
+                .ToImmutableArray();
+
+            if (orphanIds.Length > 0)
+                await CashCtrlApiClient.Inventory.Article.Delete(new() { Ids = orphanIds });
+        }
+
+        // Upload a minimal CSV file with a unique Nr/Name so Execute can't collide with orphans from
+        // prior runs whose name was never populated (broken mapping) and therefore slipped past scavenge.
+        var csvContent = $"Nr;Name\n{_testId};{_testId}";
         _fileId = await UploadTestFile("e2e-import-test.csv", Encoding.UTF8.GetBytes(csvContent), "text/csv");
     }
 
@@ -101,7 +115,7 @@ public class InventoryImportE2eTests : CashCtrlE2eTestBase
         var res = await CashCtrlApiClient.Inventory.Import.Mapping(new()
         {
             Id = _importId,
-            Mapping = "[{\"column\":\"Nr\",\"field\":\"nr\"},{\"column\":\"Name\",\"field\":\"name\"}]"
+            Mapping = "[{\"from\":\"Nr\",\"to\":\"NR\"},{\"from\":\"Name\",\"to\":\"NAME_DE\"}]"
         });
         AssertSuccess(res);
     }
@@ -131,7 +145,8 @@ public class InventoryImportE2eTests : CashCtrlE2eTestBase
 
         var res = await CashCtrlApiClient.Inventory.Import.Execute(new()
         {
-            Id = _importId
+            Id = _importId,
+            Async = true
         });
         AssertSuccess(res);
     }

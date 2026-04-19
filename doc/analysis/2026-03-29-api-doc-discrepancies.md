@@ -106,6 +106,28 @@ The `file/prepare.json` endpoint is documented as accepting a `files` TEXT param
 - `file/persist.json` must be called after upload to finalize
 - The `file/get` endpoint returns a **302 redirect** to a pre-authenticated cloud storage URL, not the file content directly
 
+### 9. Undocumented `async=true` required on import Execute
+
+The `inventory/article/import/execute.json` and `person/import/execute.json` endpoints document only `id` (mandatory) and `indexes` (optional). In practice, calling with only those parameters returns HTTP 200 with `{"success":false,"message":"An unexpected error occurred. Please contact support."}` — a masked server-side exception.
+
+The CashCtrl UI always sends `async=true`, which routes to a background-job path that succeeds. The response shape changes too: the async path returns `{"success":true,"attributes":{"progressId":"..."}}` while `insertId` is absent and the imported rows are created asynchronously.
+
+Verified via curl: creating the same article data through `POST /inventory/article/create.json` succeeds, but the import Execute endpoint with just `id` fails with the generic error. Adding `async=true` is the minimal fix.
+
+**Impact:** Execute appears completely broken when called per the docs. Models must include an `Async` parameter, and clients should default to `Async=true`.
+
+### 10. Preview endpoints documented as GET, actually POST
+
+`inventory/article/import/preview.json` and `person/import/preview.json` show `GET` in the docs, but the CashCtrl UI always sends `POST` with `id` in the form body. Both verbs work in practice; matching the UI (`POST`) is the safer choice.
+
+### 11. `mapping_combo.json` field IDs use `UPPER_SNAKE_CASE`
+
+The "List mapping fields" endpoints (`inventory/article/import/mapping_combo.json`, `person/import/mapping_combo.json`) return `{text, value, group}` triples where `value` is an `UPPER_SNAKE_CASE` identifier: `NR`, `NAME_DE`, `NAME_EN`, `FIRST_NAME`, `LAST_NAME`, `ROLE_CUSTOMER`, `CATEGORY_NAME_DE`, etc. These `value` strings are what must appear on the `to` side of each `mapping.json` array entry.
+
+This is the **only** place in the CashCtrl API where `UPPER_SNAKE_CASE` identifiers appear — all other request/response fields use `camelCase`. The docs link to the combo endpoint but never show the response shape, so the casing convention is undiscoverable without a live call.
+
+**Impact:** Inferring field IDs from model property names (e.g., `nr`, `name`, `firstName`) is wrong. Always call `mapping_combo.json` (or inspect the UI payload) to learn the correct `value` strings.
+
 ## Recommendations
 
 1. **Never use `required` on properties that appear in both create requests and read responses**, unless the field name and type are identical in both directions. Use nullable properties and validate at the application level.

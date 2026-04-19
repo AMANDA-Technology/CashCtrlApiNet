@@ -152,8 +152,9 @@ public class CashCtrlE2eTestBase
     {
         result.IsHttpSuccess.ShouldBeTrue();
         result.ResponseData.ShouldNotBeNull();
-        result.ResponseData.Success.ShouldBeTrue();
-        result.ResponseData.Errors.ShouldBeNull();
+        var details = FormatNoContentResponseDetails(result.ResponseData);
+        result.ResponseData.Success.ShouldBeTrue(details);
+        result.ResponseData.Errors.ShouldBeNull(details);
     }
 
     /// <summary>
@@ -166,11 +167,20 @@ public class CashCtrlE2eTestBase
     {
         result.IsHttpSuccess.ShouldBeTrue();
         result.ResponseData.ShouldNotBeNull();
-        result.ResponseData.Success.ShouldBeTrue();
-        result.ResponseData.Errors.ShouldBeNull();
-        result.ResponseData.InsertId.ShouldNotBeNull();
-        result.ResponseData.InsertId.Value.ShouldBeGreaterThan(0);
+        var details = FormatNoContentResponseDetails(result.ResponseData);
+        result.ResponseData.Success.ShouldBeTrue(details);
+        result.ResponseData.Errors.ShouldBeNull(details);
+        result.ResponseData.InsertId.ShouldNotBeNull(details);
+        result.ResponseData.InsertId.Value.ShouldBeGreaterThan(0, details);
         return result.ResponseData.InsertId.Value;
+    }
+
+    private static string FormatNoContentResponseDetails(NoContentResponse response)
+    {
+        var errors = response.Errors is { Length: > 0 } list
+            ? string.Join("; ", list.Select(e => $"[{e.Field}] {e.Message}"))
+            : "<none>";
+        return $"API response: Message='{response.Message ?? "<null>"}', Errors={errors}";
     }
 
     /// <summary>

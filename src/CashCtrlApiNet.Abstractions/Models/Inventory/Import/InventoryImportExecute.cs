@@ -38,4 +38,19 @@ public record InventoryImportExecute : ModelBaseRecord
     /// </summary>
     [JsonPropertyName("id")]
     public required int Id { get; init; }
+
+    /// <summary>
+    /// Run the import as a background job. Undocumented but required in practice: the synchronous
+    /// path returns a generic "unexpected error" on the live API, while <c>async=true</c> succeeds
+    /// and returns a <c>progressId</c> the caller can poll.
+    /// </summary>
+    [JsonPropertyName("async")]
+    public bool? Async { get; init; }
+
+    /// <summary>
+    /// Zero-based row indexes to import, comma-separated. Only these rows are imported, all others
+    /// ignored. Indexes come from the Preview response. Omit to import all rows.
+    /// </summary>
+    [JsonPropertyName("indexes")]
+    public string? Indexes { get; init; }
 }

@@ -40,7 +40,11 @@ public record PersonImportMapping : ModelBaseRecord
     public required int Id { get; init; }
 
     /// <summary>
-    /// The mapping of fields as a JSON string.
+    /// The mapping of Excel/CSV columns to CashCtrl fields as a JSON string.
+    /// Expected shape: <c>[{"from":"&lt;column header&gt;","to":"&lt;FIELD_ID&gt;"}, ...]</c>.
+    /// Field IDs are <c>UPPER_SNAKE_CASE</c> (e.g. <c>FIRST_NAME</c>, <c>LAST_NAME</c>, <c>COMPANY</c>, <c>ROLE_CUSTOMER</c>),
+    /// not the camelCase used elsewhere in the API. Not needed for vCard imports.
+    /// Enumerate the available IDs via <c>/person/import/mapping_combo.json</c>.
     /// </summary>
     [JsonPropertyName("mapping")]
     public required string Mapping { get; init; }
