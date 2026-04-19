@@ -33,6 +33,7 @@ namespace CashCtrlApiNet.E2eTests.Meta;
 /// Covers all <see cref="CashCtrlApiNet.Interfaces.Connectors.Meta.ILocationService"/> operations.
 /// </summary>
 [Category("E2e")]
+[Ignore("Group 8 (Meta) not yet verified against live API — highest-risk category: fixtures can touch active fiscal period, organization settings, and other tenant-wide state. See doc/analysis/2026-03-29-e2e-test-verification.md. Remove this attribute when the fixture is verified.")]
 // ReSharper disable once InconsistentNaming
 public class LocationE2eTests : CashCtrlE2eTestBase
 {

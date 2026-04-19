@@ -18,10 +18,22 @@
 | 4 | Import workflows | InventoryImport, PersonImport | 10 | **10/10 passed** — see [2026-04-19 report](2026-04-19-group4-import-e2e-verification.md) |
 | 5 | Journal | Journal, JournalImport, JournalImportEntry | 24 | **24/24 passed** (issue #90) |
 | 6 | Order | OrderCategory, OrderLayout, Order, BookEntry, Document, OrderPayment | 41 | **39/41 passed, 2 ignored** (issue #91) |
-| 7 | Salary | 15 salary fixtures | ~90 | **not yet run** |
-| 8 | Meta (highest risk) | Settings, Location, FiscalPeriodTask, FiscalPeriod | ~26 | **not yet run** |
+| 7 | Salary | 15 salary fixtures | ~90 | **not yet run — fixtures `[Ignore]`d at class level until verified** |
+| 8 | Meta (highest risk) | Settings, Location, FiscalPeriodTask, FiscalPeriod | ~26 | **not yet run — fixtures `[Ignore]`d at class level until verified** |
 
 **262 passed, 2 skipped, 0 failed.** ~116 tests remaining across Groups 7-8. The 2 skipped tests are `OrderPaymentE2eTests.Create_Success` and `Download_Success`, blocked on `Location` provisioning + `Person.Addresses` model support — tracked as a follow-up to #91.
+
+### Why Groups 7 and 8 are `[Ignore]`d
+
+Every fixture in `tests/CashCtrlApiNet.E2eTests/Salary/` (except `SalaryFieldE2eTests`, which is in Group 1) and `tests/CashCtrlApiNet.E2eTests/Meta/` (except `OrganizationE2eTests`, also Group 1) carries a class-level `[Ignore(…)]` attribute. This is deliberate: running any of those fixtures against a live account before verification risks leaving orphaned data or — in Meta's case — mutating tenant-wide state like the active fiscal period, organization settings, or book depreciation runs. When a future session picks up verification, the workflow is:
+
+1. Pick one fixture (smallest/lowest-risk first — e.g. `SalaryInsuranceTypeE2eTests` before `SalaryBookEntryE2eTests`; `LocationE2eTests` before `FiscalPeriodE2eTests`).
+2. Remove the `[Ignore]` attribute.
+3. Run only that fixture: `dotnet test --filter "FullyQualifiedName~<ClassName>"`.
+4. Apply the diagnostic playbook in "Diagnostic playbook" (below) + the `feedback_e2e_verification.md` memory — curl first, compare response shapes, fix models.
+5. Update this file's status table once the fixture is green.
+
+Do not bulk-remove the `[Ignore]` attributes and run all of Salary+Meta in one go — each fixture is likely to surface its own set of model/parameter discrepancies that will cascade into confusing cross-fixture failures (fiscal-period state leaking between runs, etc.).
 
 ## What Was Fixed
 

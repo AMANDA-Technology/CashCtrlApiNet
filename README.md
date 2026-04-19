@@ -17,6 +17,14 @@ Unofficial .NET 10 API client library for the [CashCtrl REST API v1](https://app
 - Auto-pagination helper (`PaginationHelper.ListAllAsync`)
 - Filter, sort, and pagination support on all list endpoints
 
+## E2E Verification Status
+
+Every release is covered by unit tests (NSubstitute) and WireMock-backed integration tests that run without credentials on every CI build. Separately, fixtures under `tests/CashCtrlApiNet.E2eTests/` exercise every service against a live CashCtrl account.
+
+**Every domain group has been verified against the live API except `Salary` and `Meta`.** Fixtures in those two groups are skipped with `[Ignore]` at the class level until a future verification pass. The library code for those services is fully implemented and usable, but if you hit a model or parameter mismatch there, follow the diagnostic playbook in [`doc/analysis/2026-03-29-e2e-test-verification.md`](doc/analysis/2026-03-29-e2e-test-verification.md) — the same patterns that surfaced issues in Groups 1-6 (catalogued in [`doc/analysis/2026-03-29-api-doc-discrepancies.md`](doc/analysis/2026-03-29-api-doc-discrepancies.md) §§1-33) are likely to surface in Salary and Meta too.
+
+Two Group 1 fixtures in these folders are verified and *not* ignored: `Meta/OrganizationE2eTests` and `Salary/SalaryFieldE2eTests`.
+
 ## Packages
 
 | Package | Description |
