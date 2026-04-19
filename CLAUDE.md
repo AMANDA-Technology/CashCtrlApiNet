@@ -177,6 +177,8 @@ Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
 | DI options validator             | `src/CashCtrlApiNet.AspNetCore/CashCtrlOptionsValidator.cs`           |
 | DI options adapter               | `src/CashCtrlApiNet.AspNetCore/CashCtrlOptionsAdapter.cs`             |
 | API completeness audit           | `doc/analysis/2026-03-24-api-completeness-audit.md`                   |
+| API documentation discrepancies  | `doc/analysis/2026-03-29-api-doc-discrepancies.md`                    |
+| E2E verification progress + findings | `doc/analysis/2026-03-29-e2e-test-verification.md`                |
 | Pagination helper                | `src/CashCtrlApiNet/Helpers/PaginationHelper.cs`                      |
 | Implementation design spec       | `doc/specs/2026-03-23-full-api-implementation-design.md`              |
 
@@ -192,3 +194,4 @@ Design spec: `doc/specs/2026-03-23-full-api-implementation-design.md`
 8. **`GetList` methods support filter/pagination parameters** -- All list endpoints accept optional `filter`, `sort`, `dir`, `query`, and pagination parameters via `ListParams` (or derived request types like `CustomFieldListRequest`, `SalaryFieldListRequest`, etc.).
 9. **DI registration uses typed `HttpClient`** -- `AddCashCtrl` uses `AddHttpClient<ICashCtrlConnectionHandler, CashCtrlConnectionHandler>` with a configure delegate that sets `BaseAddress` and `Authorization` at registration time. Optional `EnableResilience` adds `AddStandardResilienceHandler()`.
 10. **`PaginationHelper.ListAllAsync`** -- Static helper for auto-pagination via `IAsyncEnumerable<T>`. Delegate-based (takes `GetList` as `Func`), zero modifications to services. Two overloads: `ListParams?` and generic `TParams : ListParams`.
+11. **CashCtrl API docs document request parameters but not response schemas, and several documented parameters are silently wrong.** Before writing or modifying any model against a CashCtrl endpoint, read `doc/analysis/2026-03-29-api-doc-discrepancies.md` — it catalogs the recurring patterns (`required` fields that only exist on one side, singular-vs-plural CSV IDs, `isBook`-gated endpoints, etc.). When verifying an E2E fixture, also consult `doc/analysis/2026-03-29-e2e-test-verification.md` for the per-group status and the diagnostic playbook (curl-first, raw-body surfacing in `CashCtrlE2eTestBase.AssertSuccess`).

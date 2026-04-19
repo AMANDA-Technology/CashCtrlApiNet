@@ -159,6 +159,78 @@ Docs list only `id`, `amount`, `contraAccountId`, and `dateAdded` as mandatory f
 
 Callers need to echo the server-populated debit/credit IDs back on every update. Additionally, `dateAdded` in the read/list response is a CashCtrl datetime string (`2026-01-01 00:00:00.0`), but the update endpoint only accepts `YYYY-MM-DD` — so the string needs to be trimmed before sending.
 
+### 18. Order repeats §§3, 4, 13: `items` is array on read, `sequenceNumberId` is write-only
+
+`order/create.json` takes `items` as a JSON string (TEXT) and `sequenceNumberId` as mandatory, but the read/list responses return `items` as a parsed array and omit `sequenceNumberId` entirely (replaced by the server-generated `nr`). Same fixes as Journal (§§12–13): `Items` → `JsonElement?`, `SequenceNumberId` → `int?`.
+
+### 19. OrderCategory uses `sequenceNrId`, every other endpoint uses `sequenceNumberId`
+
+Order's own create/update endpoints take the parameter as `sequenceNumberId`; `order/category/create.json` and `order/category/update.json` take the same concept as `sequenceNrId`. Both are documented — but only visible if you read the two docs side-by-side. Models must use a separate `[JsonPropertyName("sequenceNrId")]` on the category type even though the C# name can still be `SequenceNumberId` (or `SequenceNrId` for clarity).
+
+### 20. OrderCategory create: `name` is a phantom — the real mandatory fields are `nameSingular`, `namePlural`, `accountId`, `status`
+
+The initial model accepted a single `name` parameter, which the server silently discards. The actual create takes four mandatory parameters:
+
+- `nameSingular` (TEXT, MAX:100) — e.g. `"Invoice"`
+- `namePlural` (TEXT, MAX:100) — e.g. `"Invoices"`
+- `accountId` (NUMBER) — typically debtors (sales) or creditors (purchase)
+- `status` (JSON array, at least one entry) — `[{"icon":"BLUE","name":"Draft"}, …]` with icon from `BLUE/GREEN/RED/YELLOW/ORANGE/BLACK/GRAY/BROWN/VIOLET/PINK`
+
+Calling with only `name` fails with `[accountId|nameSingular|namePlural] This field cannot be empty. [] At least 1 status must be defined.` The read response additionally exposes a derived `name` field (not a create parameter) — put it on the response model only.
+
+### 21. `read_status.json` takes a status ID, not a category ID
+
+`order/category/read_status.json` is documented as "Returns a single status by ID", where the `id` parameter is the **status**'s ID — not the category's ID. Passing a category ID by mistake may return a different category's status by accident (if the numeric ranges happen to collide, as they did in our test account). Discover the real status ID by reading the parent category and walking its `status` array. This endpoint also returns an `OrderCategoryStatus` record (id, categoryId, actionId, name, icon, pos, isBook, isAddStock, isRemoveStock, isClosed), not an `OrderCategory`.
+
+### 22. Plural-IDs-as-CSV across batch endpoints
+
+Many batch-capable Order endpoints take a comma-separated list of IDs under `ids` (or `orderIds`), not a singular `id`. The library's older models that used singular `int Id` fields silently serialized to the wrong form param name and the server responded with empty/validation errors:
+
+| Endpoint | Parameter | Old model had |
+|----------|-----------|---------------|
+| `order/continue.json` | `categoryId` + `ids` (CSV) | `id` (singular) |
+| `order/update_status.json` | `ids` (CSV) + `statusId` | `id` (singular) |
+| `order/dossier_add.json` / `dossier_remove.json` | `groupId` + `ids` (CSV) | `id` + `dossierId` |
+| `order/bookentry/create.json` | `orderIds` (CSV) | `orderId` (singular) |
+| `order/payment/create.json` / `download` | `orderIds` (CSV) | `orderId` (singular) |
+
+Use `ImmutableArray<int>` with `[JsonConverter(typeof(IntArrayAsCsvJsonConverter))]` for every `ids`/`orderIds` parameter.
+
+### 23. `order/dossier.json` returns a single dossier object, not a list
+
+The endpoint is named "Read dossier" but despite the plural-looking payload, it returns `SingleResponse<{id, items:[…]}>` — not `ListResponse<OrderListed>`. The items are a slim projection (id, date, type, nr, nameSingular, status, icon, total, open, percentage, pos, lastUpdatedBy, isHighlight), not full `OrderListed` records. Needs a dedicated `OrderDossier`/`OrderDossierItem` model.
+
+### 24. Order recurrence: `startDate` is documented as optional but required when `recurrence` is set
+
+`order/update_recurrence.json` marks `startDate` as optional. In practice, setting `recurrence` to any non-null value without a `startDate` fails with `[startDate] This field cannot be empty.` Always send them together; pass `recurrence=null` alone to clear recurrence.
+
+### 25. `order/bookentry/*`: `Document does not allow book entries` unless order is in an `isBook=true` status, plus split Create/Update shapes
+
+Book entries can only be created against orders whose current status has `isBook=true`. The default "Offer" category's statuses are all `isBook=false`; the "Invoice" category has the `Open`/`Paid`/etc. statuses with `isBook=true`. Callers must either pick a category whose statuses include an `isBook=true` entry, or move the order into such a status (via `order/update_status.json`) before creating book entries.
+
+Also: `bookentry/create.json` accepts `orderIds` (CSV), while `bookentry/update.json` deliberately does **not** — the parent order(s) are immutable on an existing entry. The library's `BookEntryUpdate` should not inherit from `BookEntryCreate`; they are genuinely different request shapes. `bookentry/list.json` additionally requires the order's `id` as a mandatory query parameter.
+
+Finally, `date` on `bookentry/create.json` is documented as optional but the live API rejects with `[date] This field cannot be empty.` when omitted. Always provide a date within an existing fiscal period.
+
+### 26. Document is keyed 1:1 by orderId — the read response has no top-level `id`
+
+`order/document/read.json` returns the document for a given order. The response has `orderId` but no top-level `id` field, because a document is not a first-class entity — there is exactly one document per order, and the order's ID is the document's identity. The library's `Document` read model must therefore stand alone (not inherit from a `DocumentUpdate` that had a `required int Id`) and expose an `OrderId` property mapped to `[JsonPropertyName("orderId")]`.
+
+Additionally, `DocumentUpdate`'s previously modeled `text` field does not appear in the API docs and is silently dropped by the server. The real update parameters include `orgAddress`, `recipientAddress`, `header`, `footer`, `layoutId`, `language`, `customReference`, `fileId`, `isDisplayItemGross`, `isFileReplacement` and bank account IDs.
+
+### 27. Order payment has no "payment id"; Create + Download share the same request shape
+
+`order/payment/create.json` and `order/payment/download` both take the same parameters (`date` + `orderIds` + optional `amount`/`isCombine`/`statusId`/`type`). There is no separate payment entity — a payment is identified by its `(date, orderIds)` tuple, and Download matches an existing payment by those same parameters. The docs even state explicitly: *"Please use the create endpoint first, and then use the same parameters to download the file here."*
+
+Additionally, payment validation requires a fully-provisioned business context (undocumented beyond cryptic `Sender/Recipient: Address must be set` errors):
+
+- Sender address: set on a `Location` entity that the document's `orgLocationId` points to.
+- Recipient address: set on the `Person.addresses` JSON array (itself an `addresses: [{type, address, city, zip, ...}]` structure on `person/create.json`).
+- For `PAIN`/`SEPA_PAIN`/`WIRE_PDF`: also bank accounts and BICs on both sides.
+- `CASH_PDF` is the least-demanding type — still requires addresses but not bank info.
+
+The `OrderPaymentRequest` model matches the API spec exactly; the Create/Download E2E tests in `OrderPaymentE2eTests` are marked `[Ignore]` pending a dedicated fixture that provisions a Location + a Person with addresses.
+
 ## Recommendations
 
 1. **Never use `required` on properties that appear in both create requests and read responses**, unless the field name and type are identical in both directions. Use nullable properties and validate at the application level.
@@ -168,3 +240,15 @@ Callers need to echo the server-populated debit/credit IDs back on every update.
 3. **Properties documented as TEXT that accept JSON should use `JsonElement?`** to handle both string (create) and parsed (response) formats.
 
 4. **Test every endpoint against the live API** before considering the model complete. The documentation is insufficient for building correct models.
+
+5. **Batch-capable write endpoints take plural-CSV IDs** (`ids`, `orderIds`, etc.), not a singular `id`. Use `ImmutableArray<int>` with `IntArrayAsCsvJsonConverter` for these. If you see a singular `id` field on a request model that targets a batch endpoint, it's almost certainly wrong.
+
+6. **Do not share write-side models between Create and Update when the two genuinely diverge.** The `BookEntryUpdate : BookEntryCreate` pattern broke because Update does not accept `orderIds`; inheritance forced a field that isn't valid for the endpoint. Prefer composition or standalone records over inheritance when the semantics differ.
+
+7. **When a read response has no top-level `id`, the entity is not first-class.** `Document` is identified by `orderId` (one document per order). Model it as a standalone record, not by inheriting from an Update type that has `required int Id`.
+
+8. **Parameter names can differ between sibling endpoints.** `OrderCategory` takes `sequenceNrId` while every other Order endpoint uses `sequenceNumberId`. Never assume a field name carries over — read the endpoint's own docs each time.
+
+9. **Some endpoints need server-side state to be "allowed" before they accept requests.** Book entries require the parent order to be in a status with `isBook=true`. Payments require a fully populated `Location` (sender) and `Person.addresses` (recipient). Discover these constraints by reading the error messages — the docs rarely mention them.
+
+10. **`[Ignore]` a test when the cheapest path to green is environment setup, not a fix.** Document the prerequisites in the XML doc comment (not just a terse reason) so the follow-up issue inherits the checklist.
