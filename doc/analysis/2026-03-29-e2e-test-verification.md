@@ -14,7 +14,7 @@
 | 1 | Read-only | Report, Organization, History, SalaryField | 5 | **5/5 passed** |
 | 2 | Simple CRUD | Currency, CustomField, CustomFieldGroup, Rounding, SequenceNumber, TaxRate, TextTemplate, PersonTitle, Unit, 6x categories | 86 | **86/86 passed** |
 | 3 | CRUD + exports | Account, AccountBank, CostCenter, Article, FixedAsset, Person, File | 77 | **77/77 passed** |
-| 4 | Import workflows | InventoryImport, PersonImport | ~10 | **not yet run** |
+| 4 | Import workflows | InventoryImport, PersonImport | ~10 | **blocked — see [2026-04-19 report](2026-04-19-group4-import-e2e-verification.md)** |
 | 5 | Journal | Journal, JournalImport, JournalImportEntry | ~24 | **not yet run** |
 | 6 | Order | OrderCategory, OrderLayout, Order, BookEntry, Document, OrderPayment | ~39 | **not yet run** |
 | 7 | Salary | 15 salary fixtures | ~90 | **not yet run** |
@@ -105,7 +105,7 @@ Groups 4-8 have not been run against the live API. Based on the patterns found i
 
 Continue running groups sequentially, fixing issues as they surface:
 
-4. **Import workflows** — InventoryImport, PersonImport (file upload now fixed, should work better)
+4. **Import workflows** — InventoryImport, PersonImport (file upload now fixed, should work better). A verification attempt was made on 2026-04-19 (issue #89) but could not be completed due to missing live credentials in the sandbox environment. See the [2026-04-19 status report](2026-04-19-group4-import-e2e-verification.md) for a static review of the architect's flagged risk areas.
 5. **Journal** — creates real bookings, verify cleanup
 6. **Order** — complex dependencies (Person, Account, OrderCategory)
 7. **Salary** — most complex, many interdependencies

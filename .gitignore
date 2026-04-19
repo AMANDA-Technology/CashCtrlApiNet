@@ -50,3 +50,7 @@ source/node_modules
 # Reverts
 !build/
 !build/GetBuildVersion.psm1
+
+# AI Cockpit internals (must never be committed)
+.ai-context/
+
