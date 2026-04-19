@@ -23,53 +23,56 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Converters;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Order;
 
 /// <summary>
-/// Order listed (list response). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/list.json">API Doc</a>
+/// Request body for <c>/order/continue.json</c> — continues one or more orders as a new order in
+/// a target category (e.g. convert an offer into an invoice).
+/// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/continue.json">API Doc</a>
 /// </summary>
-public record OrderListed : OrderUpdate
+public record OrderContinue : ModelBaseRecord
 {
     /// <summary>
-    /// The ID of the dossier (group) this order belongs to. Orders created together via
-    /// <c>dossier_add.json</c> or as continuations of one another share a <c>groupId</c>.
+    /// The ID of the target category the order(s) are continued into. Mandatory.
     /// </summary>
-    [JsonPropertyName("groupId")]
-    public int? GroupId { get; init; }
+    [JsonPropertyName("categoryId")]
+    public required int CategoryId { get; init; }
 
     /// <summary>
-    /// The ID of the previous order in this dossier — e.g. the offer that this invoice was
-    /// continued from.
+    /// The IDs of the orders to continue, comma-separated on the wire. Mandatory.
     /// </summary>
-    [JsonPropertyName("previousId")]
-    public int? PreviousId { get; init; }
+    [JsonPropertyName("ids")]
+    [JsonConverter(typeof(IntArrayAsCsvJsonConverter))]
+    public required ImmutableArray<int> Ids { get; init; }
 
     /// <summary>
-    /// The date and time the order was created.
+    /// The ID of the business associate (customer/vendor). Only mandatory when continuing between
+    /// sales and purchase category types.
     /// </summary>
-    [JsonPropertyName("created")]
-    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
-    public DateTime? Created { get; init; }
+    [JsonPropertyName("associateId")]
+    public int? AssociateId { get; init; }
 
     /// <summary>
-    /// The user who created the order.
+    /// The date of the new order in <c>YYYY-MM-DD</c> format. Leave empty to use today.
     /// </summary>
-    [JsonPropertyName("createdBy")]
-    public string? CreatedBy { get; init; }
+    [JsonPropertyName("date")]
+    public string? Date { get; init; }
 
     /// <summary>
-    /// The date and time the order was last updated.
+    /// Optional notes on the new order.
     /// </summary>
-    [JsonPropertyName("lastUpdated")]
-    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
-    public DateTime? LastUpdated { get; init; }
+    [JsonPropertyName("notes")]
+    public string? Notes { get; init; }
 
     /// <summary>
-    /// The user who last updated the order.
+    /// The ID of the status to set on the new order. Leave empty to use the first status in the
+    /// target category's status list.
     /// </summary>
-    [JsonPropertyName("lastUpdatedBy")]
-    public string? LastUpdatedBy { get; init; }
+    [JsonPropertyName("statusId")]
+    public int? StatusId { get; init; }
 }

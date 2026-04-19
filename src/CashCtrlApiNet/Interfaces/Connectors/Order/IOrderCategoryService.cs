@@ -95,5 +95,5 @@ public interface IOrderCategoryService
     /// <param name="category">The entry containing the ID of the category.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<OrderCategory>>> GetStatus(Entry category, CancellationToken cancellationToken = default);
+    public Task<ApiResult<SingleResponse<OrderCategoryStatus>>> GetStatus(Entry category, CancellationToken cancellationToken = default);
 }

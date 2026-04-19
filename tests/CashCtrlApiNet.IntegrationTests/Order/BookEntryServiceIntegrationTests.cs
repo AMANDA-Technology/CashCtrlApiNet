@@ -70,7 +70,7 @@ public class BookEntryServiceIntegrationTests : IntegrationTestBase
             CashCtrlResponseFactory.ListResponse(bookEntries));
 
         // Act
-        var result = await Client.Order.BookEntry.GetList();
+        var result = await Client.Order.BookEntry.GetList(new() { OrderId = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

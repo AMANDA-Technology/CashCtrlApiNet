@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Text.Json;
 using Bogus;
 using CashCtrlApiNet.Abstractions.Models.Order.BookEntry;
 using CashCtrlApiNet.Abstractions.Models.Order.Category;
@@ -110,8 +111,10 @@ public static class OrderFakers
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0],
+            NameSingular = f.Commerce.Categories(1)[0],
+            NamePlural = f.Commerce.Categories(1)[0],
             AccountId = f.Random.Int(1, 999),
-            SequenceNumberId = f.Random.Int(1, 100),
+            SequenceNrId = f.Random.Int(1, 100),
             CreatedBy = f.Person.UserName,
             LastUpdatedBy = f.Person.UserName,
             Created = DateTime.UtcNow
@@ -123,9 +126,11 @@ public static class OrderFakers
     public static readonly Faker<OrderCategoryCreate> CategoryCreate = new Faker<OrderCategoryCreate>()
         .CustomInstantiator(f => new()
         {
-            Name = f.Commerce.Categories(1)[0],
+            NameSingular = f.Commerce.Categories(1)[0],
+            NamePlural = f.Commerce.Categories(1)[0],
             AccountId = f.Random.Int(1, 999),
-            SequenceNumberId = f.Random.Int(1, 100)
+            Status = JsonSerializer.Deserialize<JsonElement>("""[{"icon":"BLUE","name":"Draft"}]"""),
+            SequenceNrId = f.Random.Int(1, 100)
         });
 
     /// <summary>
@@ -135,9 +140,11 @@ public static class OrderFakers
         .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
-            Name = f.Commerce.Categories(1)[0],
+            NameSingular = f.Commerce.Categories(1)[0],
+            NamePlural = f.Commerce.Categories(1)[0],
             AccountId = f.Random.Int(1, 999),
-            SequenceNumberId = f.Random.Int(1, 100)
+            Status = JsonSerializer.Deserialize<JsonElement>("""[{"icon":"BLUE","name":"Draft"}]"""),
+            SequenceNrId = f.Random.Int(1, 100)
         });
 
     /// <summary>
@@ -194,7 +201,7 @@ public static class OrderFakers
     public static readonly Faker<BookEntryCreate> BookEntryCreate = new Faker<BookEntryCreate>()
         .CustomInstantiator(f => new()
         {
-            OrderId = f.Random.Int(1, 9999),
+            OrderIds = [f.Random.Int(1, 9999)],
             AccountId = f.Random.Int(1, 999),
             Amount = f.Random.Double(1, 10000),
             Description = f.Lorem.Sentence(3)
@@ -207,7 +214,6 @@ public static class OrderFakers
         .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
-            OrderId = f.Random.Int(1, 9999),
             AccountId = f.Random.Int(1, 999),
             Amount = f.Random.Double(1, 10000),
             Description = f.Lorem.Sentence(3)
@@ -219,19 +225,21 @@ public static class OrderFakers
     public static readonly Faker<Document> Document = new Faker<Document>()
         .CustomInstantiator(f => new()
         {
-            Id = f.Random.Int(1, 9999),
-            Text = f.Lorem.Paragraph(),
+            OrderId = f.Random.Int(1, 9999),
+            Header = f.Lorem.Sentence(),
+            Footer = f.Lorem.Sentence(),
             CreatedBy = f.Person.UserName,
             LastUpdatedBy = f.Person.UserName,
             Created = DateTime.UtcNow
         });
 
     /// <summary>
-    /// Faker for <see cref="OrderPaymentCreate"/>
+    /// Faker for <see cref="OrderPaymentRequest"/>
     /// </summary>
-    public static readonly Faker<OrderPaymentCreate> PaymentCreate = new Faker<OrderPaymentCreate>()
+    public static readonly Faker<OrderPaymentRequest> PaymentRequest = new Faker<OrderPaymentRequest>()
         .CustomInstantiator(f => new()
         {
-            OrderId = f.Random.Int(1, 9999)
+            Date = f.Date.Recent().ToString("yyyy-MM-dd"),
+            OrderIds = [f.Random.Int(1, 9999)]
         });
 }

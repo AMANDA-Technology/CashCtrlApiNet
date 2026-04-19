@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
@@ -52,10 +53,12 @@ public record OrderCreate : ModelBaseRecord
     public required string Date { get; init; }
 
     /// <summary>
-    /// The ID of the sequence number.
+    /// The ID of the sequence number. Mandatory on create, but absent from read/list responses
+    /// (the server returns the generated <c>nr</c> instead) — so the property is nullable to keep
+    /// response deserialization working across the shared hierarchy (§3 / §13 pattern).
     /// </summary>
     [JsonPropertyName("sequenceNumberId")]
-    public required int SequenceNumberId { get; init; }
+    public int? SequenceNumberId { get; init; }
 
     /// <summary>
     /// The ID of the associate (person). See Person.
@@ -70,10 +73,13 @@ public record OrderCreate : ModelBaseRecord
     public string? Description { get; init; }
 
     /// <summary>
-    /// The order items as a JSON array string.
+    /// The order items. On create, set to a JSON array with the order-item properties (CashCtrl
+    /// accepts the JSON text serialized form). On read, the API returns a parsed array —
+    /// <see cref="JsonElement"/> accepts both shapes. Same pattern as the Journal <c>items</c> field
+    /// (§4 / §12 of <c>doc/analysis/2026-03-29-api-doc-discrepancies.md</c>).
     /// </summary>
     [JsonPropertyName("items")]
-    public string? ItemsJson { get; init; }
+    public JsonElement? Items { get; init; }
 
     /// <summary>
     /// The ID of the rounding account.

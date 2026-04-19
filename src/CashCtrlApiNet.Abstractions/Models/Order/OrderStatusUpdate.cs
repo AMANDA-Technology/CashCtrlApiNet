@@ -23,24 +23,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Collections.Immutable;
 using System.Text.Json.Serialization;
+using CashCtrlApiNet.Abstractions.Converters;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Order;
 
 /// <summary>
-/// Order status update. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/update_status.json">API Doc</a>
+/// Request body for <c>/order/update_status.json</c> — changes the status of one or multiple
+/// orders in a single call.
+/// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/update_status.json">API Doc</a>
 /// </summary>
 public record OrderStatusUpdate : ModelBaseRecord
 {
     /// <summary>
-    /// The ID of the order.
+    /// The IDs of the orders to update, comma-separated on the wire. Mandatory.
     /// </summary>
-    [JsonPropertyName("id")]
-    public required int Id { get; init; }
+    [JsonPropertyName("ids")]
+    [JsonConverter(typeof(IntArrayAsCsvJsonConverter))]
+    public required ImmutableArray<int> Ids { get; init; }
 
     /// <summary>
-    /// The ID of the new status.
+    /// The ID of the new status. Mandatory.
     /// </summary>
     [JsonPropertyName("statusId")]
     public required int StatusId { get; init; }

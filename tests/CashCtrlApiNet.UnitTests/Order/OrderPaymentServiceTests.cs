@@ -45,30 +45,30 @@ public class OrderPaymentServiceTests : ServiceTestBase<OrderPaymentService>
     [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
-        var payment = new OrderPaymentCreate { OrderId = 42 };
+        var payment = new OrderPaymentRequest { Date = "2026-01-15", OrderIds = [42] };
         ConnectionHandler
-            .PostAsync<NoContentResponse, OrderPaymentCreate>(Arg.Any<string>(), Arg.Any<OrderPaymentCreate>(), Arg.Any<CancellationToken>())
+            .PostAsync<NoContentResponse, OrderPaymentRequest>(Arg.Any<string>(), Arg.Any<OrderPaymentRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
 
         await Service.Create(payment);
 
         await ConnectionHandler.Received(1)
-            .PostAsync<NoContentResponse, OrderPaymentCreate>(
+            .PostAsync<NoContentResponse, OrderPaymentRequest>(
                 OrderEndpoints.Payment.Create, payment, Arg.Any<CancellationToken>());
     }
 
     [Test]
     public async Task Download_ShouldCallGetBinaryAsync()
     {
-        var entry = new Entry { Id = 42 };
+        var payment = new OrderPaymentRequest { Date = "2026-01-15", OrderIds = [42] };
         ConnectionHandler
-            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<OrderPaymentRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
-        var result = await Service.Download(entry);
+        var result = await Service.Download(payment);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync(OrderEndpoints.Payment.Download, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(OrderEndpoints.Payment.Download, payment, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 }

@@ -24,45 +24,21 @@ SOFTWARE.
 */
 
 using System.Text.Json.Serialization;
-using CashCtrlApiNet.Abstractions.Converters;
+using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Order.BookEntry;
 
 /// <summary>
-/// Order book entry (detail response). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/bookentry/read.json">API Doc</a>
+/// Book entry list request parameters. The <c>id</c> query parameter (the order's ID) is
+/// mandatory — without it the endpoint returns <c>{"success":false,"message":"This document
+/// does not exist."}</c>.
+/// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/bookentry/list.json">API Doc</a>
 /// </summary>
-public record BookEntry : BookEntryUpdate
+public record BookEntryListRequest : ListParams
 {
     /// <summary>
-    /// The ID of the parent order this book entry belongs to. Read-only — the parent order is
-    /// set via <see cref="BookEntryCreate.OrderIds"/> on create and cannot be changed afterwards.
+    /// The ID of the order whose book entries should be listed.
     /// </summary>
-    [JsonPropertyName("orderId")]
-    public int? OrderId { get; init; }
-
-    /// <summary>
-    /// The date and time the book entry was created.
-    /// </summary>
-    [JsonPropertyName("created")]
-    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
-    public DateTime? Created { get; init; }
-
-    /// <summary>
-    /// The user who created the book entry.
-    /// </summary>
-    [JsonPropertyName("createdBy")]
-    public string? CreatedBy { get; init; }
-
-    /// <summary>
-    /// The date and time the book entry was last updated.
-    /// </summary>
-    [JsonPropertyName("lastUpdated")]
-    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
-    public DateTime? LastUpdated { get; init; }
-
-    /// <summary>
-    /// The user who last updated the book entry.
-    /// </summary>
-    [JsonPropertyName("lastUpdatedBy")]
-    public string? LastUpdatedBy { get; init; }
+    [JsonPropertyName("id")]
+    public required int OrderId { get; init; }
 }

@@ -25,7 +25,6 @@ SOFTWARE.
 
 using CashCtrlApiNet.Abstractions.Models.Order.Payment;
 using CashCtrlApiNet.Abstractions.Models.Api;
-using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Interfaces.Connectors.Order;
 
@@ -35,20 +34,22 @@ namespace CashCtrlApiNet.Interfaces.Connectors.Order;
 public interface IOrderPaymentService
 {
     /// <summary>
-    /// Creates a new payment for an order. Returns either a success or multiple error messages (for each issue).
+    /// Creates a new payment for one or more orders. Must be called before Download so the server
+    /// can match the payment against an imported camt.05x file later.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/payment/create.json">API Doc - Order/Payment/Create</a>
     /// </summary>
-    /// <param name="payment">The payment to create.</param>
+    /// <param name="payment">The payment request — date + order IDs are mandatory.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<NoContentResponse>> Create(OrderPaymentCreate payment, CancellationToken cancellationToken = default);
+    public Task<ApiResult<NoContentResponse>> Create(OrderPaymentRequest payment, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Download payment file.
+    /// Download the pain.001 or PDF file for a payment. Call <see cref="Create"/> first with the
+    /// same parameters, otherwise the server can't match the payment later.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/payment/download">API Doc - Order/Payment/Download</a>
     /// </summary>
-    /// <param name="payment">The entry containing the ID of the payment.</param>
+    /// <param name="payment">The payment request — same shape as <see cref="Create"/>.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> Download(Entry payment, CancellationToken cancellationToken = default);
+    public Task<ApiResult<BinaryResponse>> Download(OrderPaymentRequest payment, CancellationToken cancellationToken = default);
 }

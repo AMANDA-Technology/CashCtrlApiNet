@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Text.Json;
 using CashCtrlApiNet.Abstractions.Models.Order.Category;
 using Shouldly;
 
@@ -37,6 +38,7 @@ namespace CashCtrlApiNet.E2eTests.Order;
 public class OrderCategoryE2eTests : CashCtrlE2eTestBase
 {
     private string _testId = null!;
+    private int _accountId;
     private int _setupCategoryId;
     private int _createdCategoryId;
     private Action _cancelCreatedCleanup = null!;
@@ -52,19 +54,32 @@ public class OrderCategoryE2eTests : CashCtrlE2eTestBase
         // Scavenge orphan order categories from previous failed runs
         await ScavengeOrphans(
             () => CashCtrlApiClient.Order.Category.GetList(),
-            c => c.Name,
+            c => c.Name ?? string.Empty,
             c => c.Id,
             ids => CashCtrlApiClient.Order.Category.Delete(ids));
 
-        // Create primary test order category
-        var createResult = await CashCtrlApiClient.Order.Category.Create(new()
-        {
-            Name = _testId
-        });
+        // Discover a usable account ID (needed for order category create)
+        var accountResult = await CashCtrlApiClient.Account.Account.GetList();
+        _accountId = accountResult.ResponseData?.Data.FirstOrDefault()?.Id
+                     ?? throw new InvalidOperationException("No accounts found");
+
+        // Create primary test order category. Per API docs: accountId, nameSingular, namePlural,
+        // and status are all mandatory — creating with just a Name fails with "This field cannot be empty"
+        // (the Name property isn't even a real API parameter; it's a derived read-only field).
+        var createResult = await CashCtrlApiClient.Order.Category.Create(BuildCreate(_testId, _accountId));
         _setupCategoryId = AssertCreated(createResult);
 
         RegisterCleanup(async () => await CashCtrlApiClient.Order.Category.Delete(new() { Ids = [_setupCategoryId] }));
     }
+
+    private static OrderCategoryCreate BuildCreate(string testId, int accountId) => new()
+    {
+        AccountId = accountId,
+        NameSingular = testId,
+        NamePlural = testId,
+        // At least one status is mandatory. icon values: BLUE, GREEN, RED, YELLOW, ORANGE, BLACK, GRAY, BROWN, VIOLET, PINK.
+        Status = JsonSerializer.Deserialize<JsonElement>("""[{"icon":"BLUE","name":"Draft"}]""")
+    };
 
     /// <summary>
     /// Cleans up all test data created during the fixture
@@ -85,7 +100,9 @@ public class OrderCategoryE2eTests : CashCtrlE2eTestBase
         res.RequestsLeft.Value.ShouldBeGreaterThan(0);
         res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
 
-        category.Name.ShouldBe(_testId);
+        // Name is derived server-side; it's populated with localized XML that contains our testId.
+        category.Name.ShouldNotBeNullOrEmpty();
+        category.Name!.ShouldContain(_testId);
     }
 
     /// <summary>
@@ -108,10 +125,7 @@ public class OrderCategoryE2eTests : CashCtrlE2eTestBase
     public async Task Create_Success()
     {
         var secondTestId = GenerateTestId();
-        var res = await CashCtrlApiClient.Order.Category.Create(new()
-        {
-            Name = secondTestId
-        });
+        var res = await CashCtrlApiClient.Order.Category.Create(BuildCreate(secondTestId, _accountId));
 
         _createdCategoryId = AssertCreated(res);
         res.ResponseData!.Message.ShouldNotBeNullOrEmpty();
@@ -125,18 +139,19 @@ public class OrderCategoryE2eTests : CashCtrlE2eTestBase
     public async Task Update_Success()
     {
         var get = await CashCtrlApiClient.Order.Category.Get(new() { Id = _setupCategoryId });
-        var category = get.ResponseData?.Data ?? throw new InvalidOperationException("Failed to get order category for update");
+        var category = AssertSuccess(get);
 
         var updatedName = $"{_testId}-Updated";
         var res = await CashCtrlApiClient.Order.Category.Update((category as OrderCategoryUpdate) with
         {
-            Name = updatedName
+            NameSingular = updatedName,
+            NamePlural = updatedName
         });
         AssertSuccess(res);
 
-        // Verify the update persisted
+        // Verify the update persisted (Name is server-derived from NameSingular).
         var verify = await CashCtrlApiClient.Order.Category.Get(new() { Id = _setupCategoryId });
-        verify.ResponseData?.Data?.Name.ShouldBe(updatedName);
+        verify.ResponseData?.Data?.Name!.ShouldContain(updatedName);
     }
 
     /// <summary>
@@ -154,15 +169,22 @@ public class OrderCategoryE2eTests : CashCtrlE2eTestBase
     }
 
     /// <summary>
-    /// Get order category status successfully
+    /// Get a single status row from an order category successfully.
+    /// The <c>read_status.json</c> endpoint takes a STATUS id (not a category id) — discover the
+    /// real status id from the category's <c>status</c> array first.
     /// </summary>
     [Test, Order(6)]
     public async Task GetStatus_Success()
     {
-        var res = await CashCtrlApiClient.Order.Category.GetStatus(new() { Id = _setupCategoryId });
-        var category = AssertSuccess(res);
+        var category = AssertSuccess(await CashCtrlApiClient.Order.Category.Get(new() { Id = _setupCategoryId }));
+        category.Status.ShouldNotBeNull();
+        var firstStatusId = category.Status!.Value.EnumerateArray().First().GetProperty("id").GetInt32();
 
-        category.Id.ShouldBeGreaterThan(0);
+        var res = await CashCtrlApiClient.Order.Category.GetStatus(new() { Id = firstStatusId });
+        var status = AssertSuccess(res);
+
+        status.Id.ShouldBe(firstStatusId);
+        status.CategoryId.ShouldBe(_setupCategoryId);
     }
 
     /// <summary>

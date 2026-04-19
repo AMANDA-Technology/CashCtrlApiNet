@@ -23,19 +23,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Abstractions.Models.Order.Payment;
+namespace CashCtrlApiNet.Abstractions.Models.Order;
 
 /// <summary>
-/// Order payment create. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/payment/create.json">API Doc</a>
+/// An order dossier — a group of related orders (e.g. an offer, its continuation invoice, and a
+/// credit note) sharing a common <c>groupId</c>. Returned by <c>/order/dossier.json</c> as a
+/// single object <c>{id, items: [...]}</c> (not a typical list response).
+/// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/order/dossier.json">API Doc</a>
 /// </summary>
-public record OrderPaymentCreate : ModelBaseRecord
+public record OrderDossier : ModelBaseRecord
 {
-    /// <summary>
-    /// The ID of the order to create a payment for.
-    /// </summary>
-    [JsonPropertyName("orderId")]
-    public required int OrderId { get; init; }
+    /// <summary>The group ID of the dossier.</summary>
+    [JsonPropertyName("id")]
+    public required int Id { get; init; }
+
+    /// <summary>The orders that belong to this dossier, ordered by <c>pos</c>.</summary>
+    [JsonPropertyName("items")]
+    public ImmutableArray<OrderDossierItem> Items { get; init; } = [];
 }

@@ -65,12 +65,12 @@ public class OrderService(ICashCtrlConnectionHandler connectionHandler) : Connec
         => ConnectionHandler.PostAsync<NoContentResponse, OrderRecurrenceUpdate>(Endpoint.UpdateRecurrence, recurrence, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<NoContentResponse>> Continue(Entry order, CancellationToken cancellationToken = default)
-        => ConnectionHandler.PostAsync<NoContentResponse, Entry>(Endpoint.Continue, order, cancellationToken: cancellationToken);
+    public Task<ApiResult<NoContentResponse>> Continue(OrderContinue request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.PostAsync<NoContentResponse, OrderContinue>(Endpoint.Continue, request, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<OrderListed>>> GetDossier(Entry order, CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetAsync<ListResponse<OrderListed>, Entry>(Endpoint.ReadDossier, order, cancellationToken);
+    public Task<ApiResult<SingleResponse<OrderDossier>>> GetDossier(Entry order, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetAsync<SingleResponse<OrderDossier>, Entry>(Endpoint.ReadDossier, order, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> DossierAdd(OrderDossierModify dossier, CancellationToken cancellationToken = default)

@@ -61,6 +61,6 @@ public class OrderCategoryService(ICashCtrlConnectionHandler connectionHandler) 
         => ConnectionHandler.PostAsync<NoContentResponse, OrderCategoryReorder>(Endpoint.Reorder, reorder, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<OrderCategory>>> GetStatus(Entry category, CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetAsync<SingleResponse<OrderCategory>, Entry>(Endpoint.ReadStatus, category, cancellationToken);
+    public Task<ApiResult<SingleResponse<OrderCategoryStatus>>> GetStatus(Entry category, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetAsync<SingleResponse<OrderCategoryStatus>, Entry>(Endpoint.ReadStatus, category, cancellationToken);
 }

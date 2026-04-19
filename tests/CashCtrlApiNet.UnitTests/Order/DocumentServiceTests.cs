@@ -106,7 +106,7 @@ public class DocumentServiceTests : ServiceTestBase<DocumentService>
     [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
-        var document = new DocumentUpdate { Id = 1, Text = "Updated text" };
+        var document = new DocumentUpdate { Id = 1, Header = "Updated header" };
         ConnectionHandler
             .PostAsync<NoContentResponse, DocumentUpdate>(Arg.Any<string>(), Arg.Any<DocumentUpdate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());

@@ -61,42 +61,46 @@ public class BookEntryServiceTests : ServiceTestBase<BookEntryService>
     [Test]
     public async Task GetList_ShouldCallCorrectEndpoint()
     {
+        var request = new BookEntryListRequest { OrderId = 7 };
         ConnectionHandler
-            .GetAsync<ListResponse<BookEntry>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<BookEntry>, BookEntryListRequest>(
+                Arg.Any<string>(), Arg.Any<BookEntryListRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<BookEntry>>());
 
-        await Service.GetList();
+        await Service.GetList(request);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<BookEntry>>(
-                OrderEndpoints.BookEntry.List, (ListParams?)null, Arg.Any<CancellationToken>());
+            .GetAsync<ListResponse<BookEntry>, BookEntryListRequest>(
+                OrderEndpoints.BookEntry.List, request, Arg.Any<CancellationToken>());
     }
 
     [Test]
-    public async Task GetList_WithListParams_ShouldCallCorrectEndpoint()
+    public async Task GetList_WithFilter_ShouldCallCorrectEndpoint()
     {
-        var listParams = new ListParams { Query = "test", OnlyActive = true };
+        var request = new BookEntryListRequest { OrderId = 7, Query = "test", OnlyActive = true };
         ConnectionHandler
-            .GetAsync<ListResponse<BookEntry>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<BookEntry>, BookEntryListRequest>(
+                Arg.Any<string>(), Arg.Any<BookEntryListRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<ListResponse<BookEntry>>());
 
-        await Service.GetList(listParams);
+        await Service.GetList(request);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<ListResponse<BookEntry>>(
-                OrderEndpoints.BookEntry.List, listParams, Arg.Any<CancellationToken>());
+            .GetAsync<ListResponse<BookEntry>, BookEntryListRequest>(
+                OrderEndpoints.BookEntry.List, request, Arg.Any<CancellationToken>());
     }
 
     [Test]
-    public async Task GetList_WithListParams_ShouldReturnResult()
+    public async Task GetList_WithFilter_ShouldReturnResult()
     {
-        var listParams = new ListParams { Query = "test" };
+        var request = new BookEntryListRequest { OrderId = 7, Query = "test" };
         var expected = new ApiResult<ListResponse<BookEntry>>();
         ConnectionHandler
-            .GetAsync<ListResponse<BookEntry>>(Arg.Any<string>(), Arg.Any<ListParams?>(), Arg.Any<CancellationToken>())
+            .GetAsync<ListResponse<BookEntry>, BookEntryListRequest>(
+                Arg.Any<string>(), Arg.Any<BookEntryListRequest>(), Arg.Any<CancellationToken>())
             .Returns(expected);
 
-        var result = await Service.GetList(listParams);
+        var result = await Service.GetList(request);
 
         result.ShouldBe(expected);
     }
@@ -104,7 +108,7 @@ public class BookEntryServiceTests : ServiceTestBase<BookEntryService>
     [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
-        var bookEntry = new BookEntryCreate { OrderId = 1, AccountId = 2, Amount = 100.50 };
+        var bookEntry = new BookEntryCreate { OrderIds = [1], AccountId = 2, Amount = 100.50 };
         ConnectionHandler
             .PostAsync<NoContentResponse, BookEntryCreate>(Arg.Any<string>(), Arg.Any<BookEntryCreate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -119,7 +123,7 @@ public class BookEntryServiceTests : ServiceTestBase<BookEntryService>
     [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
-        var bookEntry = new BookEntryUpdate { Id = 1, OrderId = 1, AccountId = 2, Amount = 200.00 };
+        var bookEntry = new BookEntryUpdate { Id = 1, AccountId = 2, Amount = 200.00 };
         ConnectionHandler
             .PostAsync<NoContentResponse, BookEntryUpdate>(Arg.Any<string>(), Arg.Any<BookEntryUpdate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
