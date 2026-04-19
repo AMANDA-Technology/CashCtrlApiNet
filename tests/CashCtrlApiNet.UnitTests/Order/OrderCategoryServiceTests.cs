@@ -177,14 +177,14 @@ public class OrderCategoryServiceTests : ServiceTestBase<OrderCategoryService>
     {
         var entry = new Entry { Id = 42 };
         ConnectionHandler
-            .GetAsync<SingleResponse<OrderCategory>, Entry>(
+            .GetAsync<SingleResponse<OrderCategoryStatus>, Entry>(
                 Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<SingleResponse<OrderCategory>>());
+            .Returns(new ApiResult<SingleResponse<OrderCategoryStatus>>());
 
         await Service.GetStatus(entry);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<SingleResponse<OrderCategory>, Entry>(
+            .GetAsync<SingleResponse<OrderCategoryStatus>, Entry>(
                 OrderEndpoints.Category.ReadStatus, entry, Arg.Any<CancellationToken>());
     }
 }
