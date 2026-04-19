@@ -149,7 +149,7 @@ public class ReportSetE2eTests : CashCtrlE2eTestBase
     [Test, Order(5)]
     public async Task GetMeta_Success()
     {
-        var res = await CashCtrlApiClient.Report.Set.GetMeta(new() { Id = _setupSetId });
+        var res = await CashCtrlApiClient.Report.Set.GetMeta(new() { CollectionId = _setupSetId });
         var meta = AssertSuccess(res);
 
         meta.ShouldNotBeNull();
@@ -161,7 +161,7 @@ public class ReportSetE2eTests : CashCtrlE2eTestBase
     [Test, Order(6)]
     public async Task DownloadPdf_Success()
     {
-        var export = AssertSuccess(await CashCtrlApiClient.Report.Set.DownloadPdf(new() { Id = _setupSetId }));
+        var export = AssertSuccess(await CashCtrlApiClient.Report.Set.DownloadPdf(new() { CollectionId = _setupSetId }));
         await DownloadFile(export.FileName!, export.Data);
     }
 
@@ -171,7 +171,7 @@ public class ReportSetE2eTests : CashCtrlE2eTestBase
     [Test, Order(7)]
     public async Task DownloadCsv_Success()
     {
-        var export = AssertSuccess(await CashCtrlApiClient.Report.Set.DownloadCsv(new() { Id = _setupSetId }));
+        var export = AssertSuccess(await CashCtrlApiClient.Report.Set.DownloadCsv(new() { CollectionId = _setupSetId }));
         await DownloadFile(export.FileName!, export.Data);
     }
 
@@ -181,7 +181,7 @@ public class ReportSetE2eTests : CashCtrlE2eTestBase
     [Test, Order(8)]
     public async Task DownloadExcel_Success()
     {
-        var export = AssertSuccess(await CashCtrlApiClient.Report.Set.DownloadExcel(new() { Id = _setupSetId }));
+        var export = AssertSuccess(await CashCtrlApiClient.Report.Set.DownloadExcel(new() { CollectionId = _setupSetId }));
         await DownloadFile(export.FileName!, export.Data);
     }
 
@@ -191,7 +191,7 @@ public class ReportSetE2eTests : CashCtrlE2eTestBase
     [Test, Order(9)]
     public async Task DownloadAnnualReport_Success()
     {
-        var export = AssertSuccess(await CashCtrlApiClient.Report.Set.DownloadAnnualReport(new() { Id = _setupSetId }));
+        var export = AssertSuccess(await CashCtrlApiClient.Report.Set.DownloadAnnualReport(new()));
         await DownloadFile(export.FileName!, export.Data);
     }
 

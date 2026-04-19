@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using CashCtrlApiNet.Abstractions.Enums.Report;
 using CashCtrlApiNet.Abstractions.Models.Api;
 using CashCtrlApiNet.Abstractions.Models.Base;
 using CashCtrlApiNet.Abstractions.Models.Report.Element;
@@ -61,7 +62,7 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
     [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
-        var element = new ReportElementCreate { ReportId = 1, AccountId = 2 };
+        var element = new ReportElementCreate { Type = ReportElementType.ChartOfAccounts, CollectionId = 1, AccountId = 2 };
         ConnectionHandler
             .PostAsync<NoContentResponse, ReportElementCreate>(Arg.Any<string>(), Arg.Any<ReportElementCreate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -76,7 +77,7 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
     [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
-        var element = new ReportElementUpdate { Id = 1, ReportId = 1, AccountId = 2 };
+        var element = new ReportElementUpdate { Id = 1, Type = ReportElementType.ChartOfAccounts, CollectionId = 1, AccountId = 2 };
         ConnectionHandler
             .PostAsync<NoContentResponse, ReportElementUpdate>(Arg.Any<string>(), Arg.Any<ReportElementUpdate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -106,7 +107,7 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
     [Test]
     public async Task Reorder_ShouldPostToCorrectEndpoint()
     {
-        var reorder = new ReportElementReorder { Ids = [1, 2], Target = 3 };
+        var reorder = new ReportElementReorder { CollectionId = 10, Ids = [1, 2], Target = 3 };
         ConnectionHandler
             .PostAsync<NoContentResponse, ReportElementReorder>(Arg.Any<string>(), Arg.Any<ReportElementReorder>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -121,92 +122,90 @@ public class ReportElementServiceTests : ServiceTestBase<ReportElementService>
     [Test]
     public async Task GetData_ShouldCallCorrectEndpoint()
     {
-        var entry = new Entry { Id = 42 };
+        var request = new ReportElementRequest { ElementId = 42 };
         ConnectionHandler
-            .GetAsync<SingleResponse<ReportElement>, Entry>(
-                Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<SingleResponse<ReportElement>>());
+            .GetAsync(Arg.Any<string>(), Arg.Any<ReportElementRequest>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult());
 
-        await Service.GetData(entry);
+        await Service.GetData(request);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<SingleResponse<ReportElement>, Entry>(
-                ReportEndpoints.Element.ReadJson, entry, Arg.Any<CancellationToken>());
+            .GetAsync(ReportEndpoints.Element.ReadJson, request, Arg.Any<CancellationToken>());
     }
 
     [Test]
     public async Task GetDataHtml_ShouldCallGetBinaryAsync()
     {
-        var entry = new Entry { Id = 42 };
+        var request = new ReportElementRequest { ElementId = 42 };
         ConnectionHandler
-            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<ReportElementRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
-        var result = await Service.GetDataHtml(entry);
+        var result = await Service.GetDataHtml(request);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync(ReportEndpoints.Element.ReadHtml, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Element.ReadHtml, request, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
     [Test]
     public async Task GetMeta_ShouldCallCorrectEndpoint()
     {
-        var entry = new Entry { Id = 42 };
+        var request = new ReportElementRequest { ElementId = 42 };
         ConnectionHandler
-            .GetAsync<SingleResponse<ReportElement>, Entry>(
-                Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<SingleResponse<ReportElement>>());
+            .GetAsync<SingleResponse<ReportElementMeta>, ReportElementRequest>(
+                Arg.Any<string>(), Arg.Any<ReportElementRequest>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<SingleResponse<ReportElementMeta>>());
 
-        await Service.GetMeta(entry);
+        await Service.GetMeta(request);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<SingleResponse<ReportElement>, Entry>(
-                ReportEndpoints.Element.ReadMeta, entry, Arg.Any<CancellationToken>());
+            .GetAsync<SingleResponse<ReportElementMeta>, ReportElementRequest>(
+                ReportEndpoints.Element.ReadMeta, request, Arg.Any<CancellationToken>());
     }
 
     [Test]
     public async Task DownloadPdf_ShouldCallGetBinaryAsync()
     {
-        var entry = new Entry { Id = 42 };
+        var request = new ReportElementRequest { ElementId = 42 };
         ConnectionHandler
-            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<ReportElementRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
-        var result = await Service.DownloadPdf(entry);
+        var result = await Service.DownloadPdf(request);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync(ReportEndpoints.Element.DownloadPdf, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Element.DownloadPdf, request, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
     [Test]
     public async Task DownloadCsv_ShouldCallGetBinaryAsync()
     {
-        var entry = new Entry { Id = 42 };
+        var request = new ReportElementRequest { ElementId = 42 };
         ConnectionHandler
-            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<ReportElementRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
-        var result = await Service.DownloadCsv(entry);
+        var result = await Service.DownloadCsv(request);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync(ReportEndpoints.Element.DownloadCsv, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Element.DownloadCsv, request, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
     [Test]
     public async Task DownloadExcel_ShouldCallGetBinaryAsync()
     {
-        var entry = new Entry { Id = 42 };
+        var request = new ReportElementRequest { ElementId = 42 };
         ConnectionHandler
-            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<ReportElementRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
-        var result = await Service.DownloadExcel(entry);
+        var result = await Service.DownloadExcel(request);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync(ReportEndpoints.Element.DownloadXlsx, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Element.DownloadXlsx, request, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 }

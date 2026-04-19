@@ -121,76 +121,76 @@ public class ReportSetServiceTests : ServiceTestBase<ReportSetService>
     [Test]
     public async Task GetMeta_ShouldCallCorrectEndpoint()
     {
-        var entry = new Entry { Id = 42 };
+        var request = new ReportCollectionRequest { CollectionId = 42 };
         ConnectionHandler
-            .GetAsync<SingleResponse<ReportSet>, Entry>(
-                Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
-            .Returns(new ApiResult<SingleResponse<ReportSet>>());
+            .GetAsync<SingleResponse<ReportCollectionMeta>, ReportCollectionRequest>(
+                Arg.Any<string>(), Arg.Any<ReportCollectionRequest>(), Arg.Any<CancellationToken>())
+            .Returns(new ApiResult<SingleResponse<ReportCollectionMeta>>());
 
-        await Service.GetMeta(entry);
+        await Service.GetMeta(request);
 
         await ConnectionHandler.Received(1)
-            .GetAsync<SingleResponse<ReportSet>, Entry>(
-                ReportEndpoints.Set.ReadMeta, entry, Arg.Any<CancellationToken>());
+            .GetAsync<SingleResponse<ReportCollectionMeta>, ReportCollectionRequest>(
+                ReportEndpoints.Set.ReadMeta, request, Arg.Any<CancellationToken>());
     }
 
     [Test]
     public async Task DownloadPdf_ShouldCallGetBinaryAsync()
     {
-        var entry = new Entry { Id = 42 };
+        var request = new ReportCollectionRequest { CollectionId = 42 };
         ConnectionHandler
-            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<ReportCollectionRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
-        var result = await Service.DownloadPdf(entry);
+        var result = await Service.DownloadPdf(request);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync(ReportEndpoints.Set.DownloadPdf, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Set.DownloadPdf, request, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
     [Test]
     public async Task DownloadCsv_ShouldCallGetBinaryAsync()
     {
-        var entry = new Entry { Id = 42 };
+        var request = new ReportCollectionRequest { CollectionId = 42 };
         ConnectionHandler
-            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<ReportCollectionRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
-        var result = await Service.DownloadCsv(entry);
+        var result = await Service.DownloadCsv(request);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync(ReportEndpoints.Set.DownloadCsv, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Set.DownloadCsv, request, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
     [Test]
     public async Task DownloadExcel_ShouldCallGetBinaryAsync()
     {
-        var entry = new Entry { Id = 42 };
+        var request = new ReportCollectionRequest { CollectionId = 42 };
         ConnectionHandler
-            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<ReportCollectionRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
-        var result = await Service.DownloadExcel(entry);
+        var result = await Service.DownloadExcel(request);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync(ReportEndpoints.Set.DownloadXlsx, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Set.DownloadXlsx, request, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 
     [Test]
     public async Task DownloadAnnualReport_ShouldCallGetBinaryAsync()
     {
-        var entry = new Entry { Id = 42 };
+        var request = new ReportAnnualReportRequest();
         ConnectionHandler
-            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<Entry>(), Arg.Any<CancellationToken>())
+            .GetBinaryAsync(Arg.Any<string>(), Arg.Any<ReportAnnualReportRequest>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<BinaryResponse> { ResponseData = new() { Data = [1, 2, 3] } });
 
-        var result = await Service.DownloadAnnualReport(entry);
+        var result = await Service.DownloadAnnualReport(request);
 
         await ConnectionHandler.Received(1)
-            .GetBinaryAsync(ReportEndpoints.Set.DownloadAnnualReport, entry, Arg.Any<CancellationToken>());
+            .GetBinaryAsync(ReportEndpoints.Set.DownloadAnnualReport, request, Arg.Any<CancellationToken>());
         result.ShouldNotBeNull();
     }
 }

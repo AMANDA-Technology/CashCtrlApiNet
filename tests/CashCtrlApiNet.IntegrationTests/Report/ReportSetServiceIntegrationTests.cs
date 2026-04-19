@@ -155,14 +155,21 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
         Server.StubGetJson("/api/v1/report/collection/meta.json",
             CashCtrlResponseFactory.SingleResponse(reportSet));
 
+        // Arrange: stub returns the collection-meta shape (title + periodLabel + logo info),
+        // not the full ReportSet shape.
+        Server.ResetMappings();
+        Server.StubGetJson("/api/v1/report/collection/meta.json",
+            """{"success":true,"data":{"title":"My Report","text":"","periodLabel":"2026","logoUrl":null,"logoHeight":null}}""");
+
         // Act
-        var result = await Client.Report.Set.GetMeta(new() { Id = reportSet.Id });
+        var result = await Client.Report.Set.GetMeta(new() { CollectionId = reportSet.Id });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
         result.ResponseData.ShouldNotBeNull();
         result.ResponseData.Data.ShouldNotBeNull();
-        result.ResponseData.Data.Id.ShouldBe(reportSet.Id);
+        result.ResponseData.Data.Title.ShouldBe("My Report");
+        result.ResponseData.Data.PeriodLabel.ShouldBe("2026");
     }
 
     /// <summary>
@@ -177,7 +184,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
             "application/pdf", "report-set.pdf");
 
         // Act
-        var result = await Client.Report.Set.DownloadPdf(new() { Id = 1 });
+        var result = await Client.Report.Set.DownloadPdf(new() { CollectionId = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -197,7 +204,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
             "text/csv", "report-set.csv");
 
         // Act
-        var result = await Client.Report.Set.DownloadCsv(new() { Id = 1 });
+        var result = await Client.Report.Set.DownloadCsv(new() { CollectionId = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -217,7 +224,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "report-set.xlsx");
 
         // Act
-        var result = await Client.Report.Set.DownloadExcel(new() { Id = 1 });
+        var result = await Client.Report.Set.DownloadExcel(new() { CollectionId = 1 });
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();
@@ -237,7 +244,7 @@ public class ReportSetServiceIntegrationTests : IntegrationTestBase
             "application/pdf", "annual-report.pdf");
 
         // Act
-        var result = await Client.Report.Set.DownloadAnnualReport(new() { Id = 1 });
+        var result = await Client.Report.Set.DownloadAnnualReport(new());
 
         // Assert
         result.IsHttpSuccess.ShouldBeTrue();

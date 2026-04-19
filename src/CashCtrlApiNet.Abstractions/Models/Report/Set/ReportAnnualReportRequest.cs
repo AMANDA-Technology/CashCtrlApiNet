@@ -23,42 +23,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections.Immutable;
 using System.Text.Json.Serialization;
-using CashCtrlApiNet.Abstractions.Converters;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
-namespace CashCtrlApiNet.Abstractions.Models.Report.Element;
+namespace CashCtrlApiNet.Abstractions.Models.Report.Set;
 
 /// <summary>
-/// Report element reorder. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/reorder.json">API Doc</a>
+/// Request parameters for <c>/report/collection/download_annualreport.pdf</c>. The endpoint is
+/// not scoped to a specific collection — it only takes an optional fiscal-period override.
+/// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/collection/download_annualreport.pdf">API Doc</a>
 /// </summary>
-public record ReportElementReorder : ModelBaseRecord
+public record ReportAnnualReportRequest : ModelBaseRecord
 {
     /// <summary>
-    /// The ID of the parent report collection containing the elements. Required — omitting it
-    /// causes the API to reject with <c>ID missing.</c> even though the docs don't list it.
-    /// Same pattern as <c>customfield/reorder.json</c> requiring <c>type</c> for scope.
+    /// The ID of the fiscal period to render. Leave empty to use the account's current fiscal period.
     /// </summary>
-    [JsonPropertyName("collectionId")]
-    public required int CollectionId { get; init; }
-
-    /// <summary>
-    /// The IDs of the entries to reorder, comma-separated.
-    /// </summary>
-    [JsonPropertyName("ids")]
-    [JsonConverter(typeof(IntArrayAsCsvJsonConverter))]
-    public required ImmutableArray<int> Ids { get; init; }
-
-    /// <summary>
-    /// The ID of the target entry.
-    /// </summary>
-    [JsonPropertyName("target")]
-    public required int Target { get; init; }
-
-    /// <summary>
-    /// Whether to insert before the target. Defaults to false (insert after).
-    /// </summary>
-    [JsonPropertyName("before")]
-    public bool? Before { get; init; }
+    [JsonPropertyName("fiscalPeriodId")]
+    public int? FiscalPeriodId { get; init; }
 }

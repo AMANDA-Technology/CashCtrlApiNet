@@ -57,26 +57,26 @@ public class ReportElementService(ICashCtrlConnectionHandler connectionHandler) 
         => ConnectionHandler.PostAsync<NoContentResponse, ReportElementReorder>(Endpoint.Reorder, reorder, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<ReportElement>>> GetData(Entry element, CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetAsync<SingleResponse<ReportElement>, Entry>(Endpoint.ReadJson, element, cancellationToken);
+    public Task<ApiResult> GetData(ReportElementRequest request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetAsync(Endpoint.ReadJson, request, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> GetDataHtml(Entry element, CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetBinaryAsync(Endpoint.ReadHtml, element, cancellationToken);
+    public Task<ApiResult<BinaryResponse>> GetDataHtml(ReportElementRequest request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ReadHtml, request, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<ReportElement>>> GetMeta(Entry element, CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetAsync<SingleResponse<ReportElement>, Entry>(Endpoint.ReadMeta, element, cancellationToken);
+    public Task<ApiResult<SingleResponse<ReportElementMeta>>> GetMeta(ReportElementRequest request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetAsync<SingleResponse<ReportElementMeta>, ReportElementRequest>(Endpoint.ReadMeta, request, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry element, CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadPdf, element, cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(ReportElementRequest request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadPdf, request, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadCsv(Entry element, CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadCsv, element, cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadCsv(ReportElementRequest request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadCsv, request, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadExcel(Entry element, CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadXlsx, element, cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadExcel(ReportElementRequest request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadXlsx, request, cancellationToken);
 }

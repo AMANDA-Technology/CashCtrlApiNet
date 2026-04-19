@@ -57,22 +57,22 @@ public class ReportSetService(ICashCtrlConnectionHandler connectionHandler) : Co
         => ConnectionHandler.PostAsync<NoContentResponse, ReportSetReorder>(Endpoint.Reorder, reorder, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<SingleResponse<ReportSet>>> GetMeta(Entry set, CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetAsync<SingleResponse<ReportSet>, Entry>(Endpoint.ReadMeta, set, cancellationToken);
+    public Task<ApiResult<SingleResponse<ReportCollectionMeta>>> GetMeta(ReportCollectionRequest request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetAsync<SingleResponse<ReportCollectionMeta>, ReportCollectionRequest>(Endpoint.ReadMeta, request, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry set, CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadPdf, set, cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(ReportCollectionRequest request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadPdf, request, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadCsv(Entry set, CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadCsv, set, cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadCsv(ReportCollectionRequest request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadCsv, request, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadExcel(Entry set, CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadXlsx, set, cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadExcel(ReportCollectionRequest request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadXlsx, request, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> DownloadAnnualReport(Entry set, CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadAnnualReport, set, cancellationToken);
+    public Task<ApiResult<BinaryResponse>> DownloadAnnualReport(ReportAnnualReportRequest request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.DownloadAnnualReport, request, cancellationToken);
 }

@@ -24,6 +24,7 @@ SOFTWARE.
 */
 
 using Bogus;
+using CashCtrlApiNet.Abstractions.Enums.Report;
 using ReportModel = CashCtrlApiNet.Abstractions.Models.Report.Report;
 using ReportElementModel = CashCtrlApiNet.Abstractions.Models.Report.Element.ReportElement;
 using ReportElementCreateModel = CashCtrlApiNet.Abstractions.Models.Report.Element.ReportElementCreate;
@@ -58,7 +59,8 @@ public static class ReportFakers
         .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
-            ReportId = f.Random.Int(1, 100),
+            Type = ReportElementType.ChartOfAccounts,
+            CollectionId = f.Random.Int(1, 100),
             AccountId = f.Random.Int(1, 100),
             CostCenterCategoryId = f.Random.Int(1, 100),
             CurrencyId = f.Random.Int(1, 10),
@@ -75,7 +77,8 @@ public static class ReportFakers
     public static readonly Faker<ReportElementCreateModel> ReportElementCreate = new Faker<ReportElementCreateModel>()
         .CustomInstantiator(f => new()
         {
-            ReportId = f.Random.Int(1, 100),
+            Type = ReportElementType.ChartOfAccounts,
+            CollectionId = f.Random.Int(1, 100),
             AccountId = f.Random.Int(1, 100)
         });
 
@@ -86,7 +89,8 @@ public static class ReportFakers
         .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
-            ReportId = f.Random.Int(1, 100),
+            Type = ReportElementType.ChartOfAccounts,
+            CollectionId = f.Random.Int(1, 100),
             AccountId = f.Random.Int(1, 100),
             IncludeTotal = f.Random.Bool(),
             NegateAmount = f.Random.Bool()

@@ -80,56 +80,60 @@ public interface IReportElementService
     public Task<ApiResult<NoContentResponse>> Reorder(ReportElementReorder reorder, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Get report element data as JSON.
+    /// Get report element data as JSON for the given time period. Takes mandatory <c>elementId</c>.
+    /// The response shape varies by report type (tree structure for ChartOfAccounts, flat list for
+    /// Journal, etc.) so this returns the untyped <see cref="ApiResult"/> with
+    /// <see cref="ApiResult.RawResponseContent"/> carrying the JSON body — callers parse into the
+    /// shape appropriate for their report type.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/data.json">API Doc - Report/Element/Data JSON</a>
     /// </summary>
-    /// <param name="element">The entry containing the ID of the report element.</param>
+    /// <param name="request">Element ID + optional period filter.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<ReportElement>>> GetData(Entry element, CancellationToken cancellationToken = default);
+    public Task<ApiResult> GetData(ReportElementRequest request, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Get report element data as HTML.
+    /// Get report element data as HTML for the given time period. Takes mandatory <c>elementId</c>.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/data.html">API Doc - Report/Element/Data HTML</a>
     /// </summary>
-    /// <param name="element">The entry containing the ID of the report element.</param>
+    /// <param name="request">Element ID + optional period filter.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> GetDataHtml(Entry element, CancellationToken cancellationToken = default);
+    public Task<ApiResult<BinaryResponse>> GetDataHtml(ReportElementRequest request, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Get report element meta data.
+    /// Get report element meta data for the given time period. Takes mandatory <c>elementId</c>.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/meta.json">API Doc - Report/Element/Meta</a>
     /// </summary>
-    /// <param name="element">The entry containing the ID of the report element.</param>
+    /// <param name="request">Element ID + optional period filter.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<SingleResponse<ReportElement>>> GetMeta(Entry element, CancellationToken cancellationToken = default);
+    public Task<ApiResult<SingleResponse<ReportElementMeta>>> GetMeta(ReportElementRequest request, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Download report element as PDF.
+    /// Download report element as PDF for the given time period. Takes mandatory <c>elementId</c>.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/download.pdf">API Doc - Report/Element/Download PDF</a>
     /// </summary>
-    /// <param name="element">The entry containing the ID of the report element.</param>
+    /// <param name="request">Element ID + optional period filter.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadPdf(Entry element, CancellationToken cancellationToken = default);
+    public Task<ApiResult<BinaryResponse>> DownloadPdf(ReportElementRequest request, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Download report element as CSV.
+    /// Download report element as CSV for the given time period. Takes mandatory <c>elementId</c>.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/download.csv">API Doc - Report/Element/Download CSV</a>
     /// </summary>
-    /// <param name="element">The entry containing the ID of the report element.</param>
+    /// <param name="request">Element ID + optional period filter.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadCsv(Entry element, CancellationToken cancellationToken = default);
+    public Task<ApiResult<BinaryResponse>> DownloadCsv(ReportElementRequest request, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Download report element as Excel.
+    /// Download report element as Excel for the given time period. Takes mandatory <c>elementId</c>.
     /// <a href="https://app.cashctrl.com/static/help/en/api/index.html#/report/element/download.xlsx">API Doc - Report/Element/Download Excel</a>
     /// </summary>
-    /// <param name="element">The entry containing the ID of the report element.</param>
+    /// <param name="request">Element ID + optional period filter.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<ApiResult<BinaryResponse>> DownloadExcel(Entry element, CancellationToken cancellationToken = default);
+    public Task<ApiResult<BinaryResponse>> DownloadExcel(ReportElementRequest request, CancellationToken cancellationToken = default);
 }

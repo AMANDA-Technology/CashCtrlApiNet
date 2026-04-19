@@ -12,6 +12,7 @@
 | Group | Scope | Fixtures | Tests | Status |
 |-------|-------|----------|-------|--------|
 | 1 | Read-only | Report, Organization, History, SalaryField | 5 | **5/5 passed** |
+| 1a | Report element/set (extended after initial Group 1) | ReportSet, ReportElement | 21 | **21/21 passed 2026-04-19** (issue [#123](https://github.com/AMANDA-Technology/CashCtrlApiNet/issues/123) follow-up) |
 | 2 | Simple CRUD | Currency, CustomField, CustomFieldGroup, Rounding, SequenceNumber, TaxRate, TextTemplate, PersonTitle, Unit, 6x categories | 86 | **86/86 passed** |
 | 3 | CRUD + exports | Account, AccountBank, CostCenter, Article, FixedAsset, Person, File | 77 | **77/77 passed** |
 | 4 | Import workflows | InventoryImport, PersonImport | 10 | **10/10 passed** — see [2026-04-19 report](2026-04-19-group4-import-e2e-verification.md) |
@@ -20,7 +21,7 @@
 | 7 | Salary | 15 salary fixtures | ~90 | **not yet run** |
 | 8 | Meta (highest risk) | Settings, Location, FiscalPeriodTask, FiscalPeriod | ~26 | **not yet run** |
 
-**241 passed, 2 skipped, 0 failed.** ~116 tests remaining across Groups 7-8. The 2 skipped tests are `OrderPaymentE2eTests.Create_Success` and `Download_Success`, blocked on `Location` provisioning + `Person.Addresses` model support — tracked as a follow-up to #91.
+**262 passed, 2 skipped, 0 failed.** ~116 tests remaining across Groups 7-8. The 2 skipped tests are `OrderPaymentE2eTests.Create_Success` and `Download_Success`, blocked on `Location` provisioning + `Person.Addresses` model support — tracked as a follow-up to #91.
 
 ## What Was Fixed
 
@@ -89,6 +90,7 @@ Also renamed `BalanceResponse` to `DecimalResponse` (with `.Value` instead of `.
 | `SalaryFieldE2eTests` | `Name` assertion on field that uses a different property |
 | `OrganizationE2eTests` | Logo endpoint has no `Content-Disposition` header |
 | `ReportElementE2eTests` | Used tree node ID instead of report set ID |
+| `ReportSetE2eTests`, `ReportElementE2eTests` (2026-04-19) | Rewrote models + tests for `collectionId` scope, `ReportElementType` enum, dedicated `ReportElementMeta`/`ReportCollectionMeta` shapes, untyped `GetData`, reorder `collectionId` requirement — see discrepancies §§28-33 |
 | All file upload tests (5 files) | Rewrote to use 3-step workflow (Prepare metadata + PUT binary + Persist) |
 
 ## Remaining Work for Groups 4-8
