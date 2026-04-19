@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using CashCtrlApiNet.Abstractions.Enums.Common;
 using CashCtrlApiNet.Abstractions.Models.Common.TaxRate;
 using Shouldly;
 
@@ -53,11 +54,11 @@ public class TaxRateE2eTests : CashCtrlE2eTestBase
         // Scavenge orphan tax rates from previous failed runs
         await ScavengeOrphans(
             () => CashCtrlApiClient.Common.TaxRate.GetList(),
-            t => t.Name,
+            t => t.Description,
             t => t.Id,
             ids => CashCtrlApiClient.Common.TaxRate.Delete(ids));
 
-        // Discover an account ID for creating tax rates
+        // Discover an account ID for creating tax rate components
         var accountResult = await CashCtrlApiClient.Account.Account.GetList();
         _accountId = accountResult.ResponseData?.Data.FirstOrDefault()?.Id
                      ?? throw new InvalidOperationException("No accounts found for tax rate test");
@@ -65,9 +66,26 @@ public class TaxRateE2eTests : CashCtrlE2eTestBase
         // Create primary test tax rate
         var createResult = await CashCtrlApiClient.Common.TaxRate.Create(new()
         {
-            Name = _testId,
-            AccountId = _accountId,
-            Percentage = 7.7
+            Description = _testId,
+            Code = "E2E",
+            Components =
+            [
+                new TaxRateComponent
+                {
+                    Code = "E2E-C1",
+                    AccountId = _accountId,
+                    CalcType = TaxCalcType.Net,
+                    ApplyRule = TaxApplyRule.REVENUE
+                }
+            ],
+            Rates =
+            [
+                new TaxRateHistoricalRate
+                {
+                    Percentage = 7.7,
+                    DateValid = "2020-01-01"
+                }
+            ]
         });
         _setupTaxRateId = AssertCreated(createResult);
 
@@ -93,7 +111,7 @@ public class TaxRateE2eTests : CashCtrlE2eTestBase
         res.RequestsLeft.Value.ShouldBeGreaterThan(0);
         res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
 
-        taxRate.Name.ShouldBe(_testId);
+        taxRate.Description.ShouldBe(_testId);
     }
 
     /// <summary>
@@ -118,9 +136,26 @@ public class TaxRateE2eTests : CashCtrlE2eTestBase
         var secondTestId = GenerateTestId();
         var res = await CashCtrlApiClient.Common.TaxRate.Create(new()
         {
-            Name = secondTestId,
-            AccountId = _accountId,
-            Percentage = 2.5
+            Description = secondTestId,
+            Code = "E2E2",
+            Components =
+            [
+                new TaxRateComponent
+                {
+                    Code = "E2E2-C1",
+                    AccountId = _accountId,
+                    CalcType = TaxCalcType.Net,
+                    ApplyRule = TaxApplyRule.REVENUE
+                }
+            ],
+            Rates =
+            [
+                new TaxRateHistoricalRate
+                {
+                    Percentage = 2.5,
+                    DateValid = "2020-01-01"
+                }
+            ]
         });
 
         _createdTaxRateId = AssertCreated(res);
@@ -137,16 +172,16 @@ public class TaxRateE2eTests : CashCtrlE2eTestBase
         var get = await CashCtrlApiClient.Common.TaxRate.Get(new() { Id = _setupTaxRateId });
         var taxRate = get.ResponseData?.Data ?? throw new InvalidOperationException("Failed to get tax rate for update");
 
-        var updatedName = $"{_testId}-Updated";
+        var updatedDescription = $"{_testId}-Updated";
         var res = await CashCtrlApiClient.Common.TaxRate.Update((taxRate as TaxRateUpdate) with
         {
-            Name = updatedName
+            Description = updatedDescription
         });
         AssertSuccess(res);
 
         // Verify the update persisted
         var verify = await CashCtrlApiClient.Common.TaxRate.Get(new() { Id = _setupTaxRateId });
-        verify.ResponseData?.Data?.Name.ShouldBe(updatedName);
+        verify.ResponseData?.Data?.Description.ShouldBe(updatedDescription);
     }
 
     /// <summary>

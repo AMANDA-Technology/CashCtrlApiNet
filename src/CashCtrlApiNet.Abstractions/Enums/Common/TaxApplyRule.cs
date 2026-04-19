@@ -24,44 +24,42 @@ SOFTWARE.
 */
 
 using System.Text.Json.Serialization;
-using CashCtrlApiNet.Abstractions.Converters;
 
-namespace CashCtrlApiNet.Abstractions.Models.Journal.Import.Entry;
+namespace CashCtrlApiNet.Abstractions.Enums.Common;
 
 /// <summary>
-/// Journal import entry listed (list response). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import/entry/list.json">API Doc</a>
+/// Tax apply rule. Determines when the tax component is applied. <a href="https://app.cashctrl.com/static/help/en/api/index.html#/tax">API Doc</a>
 /// </summary>
-public record JournalImportEntryListed : JournalImportEntryUpdate
+[JsonConverter(typeof(JsonStringEnumConverter<TaxApplyRule>))]
+public enum TaxApplyRule
 {
     /// <summary>
-    /// The date and time the journal import entry was created.
+    /// Apply on credit entries
     /// </summary>
-    [JsonPropertyName("created")]
-    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
-    public DateTime? Created { get; init; }
+    CREDIT,
 
     /// <summary>
-    /// The user who created the journal import entry.
+    /// Apply on debit entries
     /// </summary>
-    [JsonPropertyName("createdBy")]
-    public string? CreatedBy { get; init; }
+    DEBIT,
 
     /// <summary>
-    /// The date and time the journal import entry was last updated.
+    /// Apply on revenue entries
     /// </summary>
-    [JsonPropertyName("lastUpdated")]
-    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
-    public DateTime? LastUpdated { get; init; }
+    REVENUE,
 
     /// <summary>
-    /// The user who last updated the journal import entry.
+    /// Apply on expense entries
     /// </summary>
-    [JsonPropertyName("lastUpdatedBy")]
-    public string? LastUpdatedBy { get; init; }
+    EXPENSE,
 
     /// <summary>
-    /// The tax code associated with this journal import entry.
+    /// Legacy apply rule for revenue (backwards compatibility)
     /// </summary>
-    [JsonPropertyName("taxCode")]
-    public string? TaxCode { get; init; }
+    LEGACY_REV,
+
+    /// <summary>
+    /// Legacy apply rule for expense (backwards compatibility)
+    /// </summary>
+    LEGACY_EXP
 }

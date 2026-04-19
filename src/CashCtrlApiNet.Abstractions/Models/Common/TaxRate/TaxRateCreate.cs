@@ -23,9 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using CashCtrlApiNet.Abstractions.Enums.Common;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
 namespace CashCtrlApiNet.Abstractions.Models.Common.TaxRate;
@@ -36,24 +36,26 @@ namespace CashCtrlApiNet.Abstractions.Models.Common.TaxRate;
 public record TaxRateCreate : ModelBaseRecord
 {
     /// <summary>
-    /// The ID of the account used for this tax rate.
+    /// The code of the tax rate.
     /// </summary>
-    [JsonPropertyName("accountId")]
-    public required int AccountId { get; init; }
+    [JsonPropertyName("code")]
+    [MaxLength(32)]
+    public required string Code { get; init; }
 
     /// <summary>
-    /// The name of the tax rate.
+    /// The description of the tax rate.
     /// <br/>This can contain localized text. To add values in multiple languages, use the XML format like this: &lt;values&gt;&lt;de&gt;German text&lt;/de&gt;&lt;en&gt;English text&lt;/en&gt;&lt;/values&gt;
     /// </summary>
-    [JsonPropertyName("name")]
+    [JsonPropertyName("description")]
     [MaxLength(100)]
-    public required string Name { get; init; }
+    public required string Description { get; init; }
 
     /// <summary>
-    /// The calculation type (NET or GROSS).
+    /// The components of this tax rate. Each component specifies an account, calculation type, and apply rule.
+    /// <br/>This is a JSON array [{...},{...},...] with the following parameters: <see cref="TaxRateComponent"/>
     /// </summary>
-    [JsonPropertyName("calcType")]
-    public TaxCalcType? CalcType { get; init; }
+    [JsonPropertyName("components")]
+    public ImmutableArray<TaxRateComponent> Components { get; init; } = [];
 
     /// <summary>
     /// The document name of the tax rate.
@@ -64,14 +66,21 @@ public record TaxRateCreate : ModelBaseRecord
     public string? DocumentName { get; init; }
 
     /// <summary>
+    /// Whether this tax rate is a display tax rate.
+    /// </summary>
+    [JsonPropertyName("isDisplayTaxRate")]
+    public bool? IsDisplayTaxRate { get; init; }
+
+    /// <summary>
     /// Whether the tax rate is inactive.
     /// </summary>
     [JsonPropertyName("isInactive")]
     public bool? IsInactive { get; init; }
 
     /// <summary>
-    /// The tax rate percentage.
+    /// The historical rates for this tax rate. Each rate specifies a validity start date and a percentage.
+    /// <br/>This is a JSON array [{...},{...},...] with the following parameters: <see cref="TaxRateHistoricalRate"/>
     /// </summary>
-    [JsonPropertyName("percentage")]
-    public double? Percentage { get; init; }
+    [JsonPropertyName("rates")]
+    public ImmutableArray<TaxRateHistoricalRate> Rates { get; init; } = [];
 }
