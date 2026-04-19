@@ -41,8 +41,8 @@ public class JournalImportEntryService(ICashCtrlConnectionHandler connectionHand
         => ConnectionHandler.GetAsync<SingleResponse<JournalImportEntry>, Entry>(Endpoint.Read, journalImportEntry, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<ListResponse<JournalImportEntryListed>>> GetList(ListParams? listParams = null, CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetAsync<ListResponse<JournalImportEntryListed>>(Endpoint.List, listParams, cancellationToken);
+    public Task<ApiResult<ListResponse<JournalImportEntryListed>>> GetList(JournalImportEntryListRequest request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetAsync<ListResponse<JournalImportEntryListed>, JournalImportEntryListRequest>(Endpoint.List, request, cancellationToken);
 
     /// <inheritdoc />
     public Task<ApiResult<NoContentResponse>> Update(JournalImportEntryUpdate journalImportEntry, CancellationToken cancellationToken = default)
@@ -65,14 +65,14 @@ public class JournalImportEntryService(ICashCtrlConnectionHandler connectionHand
         => ConnectionHandler.PostAsync<NoContentResponse, Entries>(Endpoint.Unconfirm, journalImportEntries, cancellationToken: cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportExcel(CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetBinaryAsync(Endpoint.ListXlsx, cancellationToken: cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportExcel(JournalImportEntryListRequest request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ListXlsx, request, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportCsv(CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetBinaryAsync(Endpoint.ListCsv, cancellationToken: cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportCsv(JournalImportEntryListRequest request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ListCsv, request, cancellationToken);
 
     /// <inheritdoc />
-    public Task<ApiResult<BinaryResponse>> ExportPdf(CancellationToken cancellationToken = default)
-        => ConnectionHandler.GetBinaryAsync(Endpoint.ListPdf, cancellationToken: cancellationToken);
+    public Task<ApiResult<BinaryResponse>> ExportPdf(JournalImportEntryListRequest request, CancellationToken cancellationToken = default)
+        => ConnectionHandler.GetBinaryAsync(Endpoint.ListPdf, request, cancellationToken);
 }

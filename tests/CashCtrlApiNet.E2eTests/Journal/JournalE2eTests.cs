@@ -106,7 +106,9 @@ public class JournalE2eTests : CashCtrlE2eTestBase
         res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
 
         journal.Title.ShouldBe(_testId);
-        journal.SequenceNumberId.ShouldBe(_sequenceNumberId);
+        // SequenceNumberId does not round-trip — the server returns the generated Reference
+        // (e.g. "RE-2604193") in its place. Assert on the derived Reference instead.
+        journal.Reference.ShouldNotBeNullOrEmpty();
     }
 
     /// <summary>
@@ -154,7 +156,11 @@ public class JournalE2eTests : CashCtrlE2eTestBase
         var updatedTitle = $"{_testId}-Updated";
         var res = await CashCtrlApiClient.Journal.Journal.Update((journal as JournalUpdate) with
         {
-            Title = updatedTitle
+            Title = updatedTitle,
+            // Per API docs: items must be OMITTED for a regular (debit/credit) entry.
+            // The read response returns items as [] which, if echoed back, is interpreted as
+            // "collective entry with zero items" → "At least 1 book entry must be created".
+            Items = null
         });
         AssertSuccess(res);
 

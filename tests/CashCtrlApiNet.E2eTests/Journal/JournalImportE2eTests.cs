@@ -56,14 +56,21 @@ public class JournalImportE2eTests : CashCtrlE2eTestBase
         // Upload a CSV file for import via File.Prepare + File.Persist
         var fileId = await UploadImportFile(_testId);
 
-        // Create primary test journal import
+        // Create primary test journal import. The mappings JSON is mandatory per API docs —
+        // without it the server returns a masked "unexpected error".
         var createResult = await CashCtrlApiClient.Journal.Import.Create(new()
         {
             FileId = fileId,
-            Name = _testId
+            Mappings = JournalImportMappings
         });
         _setupImportId = AssertCreated(createResult);
     }
+
+    /// <summary>
+    /// JSON mappings matching the CSV columns produced by <see cref="UploadImportFile"/>.
+    /// </summary>
+    private const string JournalImportMappings =
+        """[{"columnDate":"Date","columnDescription":"Title","columnDebitName":"Debit","columnCreditName":"Credit","columnAmount":"Amount"}]""";
 
     /// <summary>
     /// Cleans up all test data created during the fixture
@@ -84,7 +91,9 @@ public class JournalImportE2eTests : CashCtrlE2eTestBase
         res.RequestsLeft.Value.ShouldBeGreaterThan(0);
         res.CashCtrlHttpStatusCodeDescription.ShouldNotBeNullOrEmpty();
 
-        import.Name.ShouldBe(_testId);
+        // The server derives Description from the uploaded filename, so it contains our test id.
+        import.Description.ShouldNotBeNullOrEmpty();
+        import.Description!.ShouldContain(_testId);
     }
 
     /// <summary>
@@ -111,7 +120,7 @@ public class JournalImportE2eTests : CashCtrlE2eTestBase
         var res = await CashCtrlApiClient.Journal.Import.Create(new()
         {
             FileId = fileId,
-            Name = GenerateTestId()
+            Mappings = JournalImportMappings
         });
         AssertCreated(res);
     }

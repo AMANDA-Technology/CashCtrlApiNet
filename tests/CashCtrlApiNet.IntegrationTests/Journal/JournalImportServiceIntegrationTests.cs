@@ -55,7 +55,7 @@ public class JournalImportServiceIntegrationTests : IntegrationTestBase
         result.ResponseData.Data.ShouldNotBeNull();
         result.ResponseData.Data.Id.ShouldBe(import.Id);
         result.ResponseData.Data.FileId.ShouldBe(import.FileId);
-        result.ResponseData.Data.Name.ShouldBe(import.Name);
+        result.ResponseData.Data.Description.ShouldBe(import.Description);
     }
 
     /// <summary>
