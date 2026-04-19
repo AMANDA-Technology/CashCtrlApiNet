@@ -75,8 +75,8 @@ public class DocumentE2eTests : CashCtrlE2eTestBase
         var category = categoryResult.ResponseData?.Data.FirstOrDefault()
                        ?? throw new InvalidOperationException("No order categories found");
 
-        var accountId = category.AccountId ?? throw new InvalidOperationException("Order category has no AccountId");
-        var sequenceNumberId = category.SequenceNumberId ?? throw new InvalidOperationException("Order category has no SequenceNumberId");
+        var accountId = category.AccountId;
+        var sequenceNumberId = category.SequenceNrId ?? throw new InvalidOperationException("Order category has no SequenceNrId");
 
         // Create an order that should have an associated document
         var orderResult = await CashCtrlApiClient.Order.Order.Create(new()

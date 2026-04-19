@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Text.Json;
 using Bogus;
 using CashCtrlApiNet.Abstractions.Models.Order.BookEntry;
 using CashCtrlApiNet.Abstractions.Models.Order.Category;
@@ -110,8 +111,10 @@ public static class OrderFakers
         {
             Id = f.Random.Int(1, 9999),
             Name = f.Commerce.Categories(1)[0],
+            NameSingular = f.Commerce.Categories(1)[0],
+            NamePlural = f.Commerce.Categories(1)[0],
             AccountId = f.Random.Int(1, 999),
-            SequenceNumberId = f.Random.Int(1, 100),
+            SequenceNrId = f.Random.Int(1, 100),
             CreatedBy = f.Person.UserName,
             LastUpdatedBy = f.Person.UserName,
             Created = DateTime.UtcNow
@@ -123,9 +126,11 @@ public static class OrderFakers
     public static readonly Faker<OrderCategoryCreate> CategoryCreate = new Faker<OrderCategoryCreate>()
         .CustomInstantiator(f => new()
         {
-            Name = f.Commerce.Categories(1)[0],
+            NameSingular = f.Commerce.Categories(1)[0],
+            NamePlural = f.Commerce.Categories(1)[0],
             AccountId = f.Random.Int(1, 999),
-            SequenceNumberId = f.Random.Int(1, 100)
+            Status = JsonSerializer.Deserialize<JsonElement>("""[{"icon":"BLUE","name":"Draft"}]"""),
+            SequenceNrId = f.Random.Int(1, 100)
         });
 
     /// <summary>
@@ -135,9 +140,11 @@ public static class OrderFakers
         .CustomInstantiator(f => new()
         {
             Id = f.Random.Int(1, 9999),
-            Name = f.Commerce.Categories(1)[0],
+            NameSingular = f.Commerce.Categories(1)[0],
+            NamePlural = f.Commerce.Categories(1)[0],
             AccountId = f.Random.Int(1, 999),
-            SequenceNumberId = f.Random.Int(1, 100)
+            Status = JsonSerializer.Deserialize<JsonElement>("""[{"icon":"BLUE","name":"Draft"}]"""),
+            SequenceNrId = f.Random.Int(1, 100)
         });
 
     /// <summary>

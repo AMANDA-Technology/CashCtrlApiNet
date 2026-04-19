@@ -34,6 +34,13 @@ namespace CashCtrlApiNet.Abstractions.Models.Order.Category;
 public record OrderCategory : OrderCategoryUpdate
 {
     /// <summary>
+    /// The derived display name of the category (server-side, typically mirrors <c>NameSingular</c>).
+    /// Read-only — the API does not accept <c>name</c> as a create/update parameter.
+    /// </summary>
+    [JsonPropertyName("name")]
+    public string? Name { get; init; }
+
+    /// <summary>
     /// The date and time the category was created.
     /// </summary>
     [JsonPropertyName("created")]

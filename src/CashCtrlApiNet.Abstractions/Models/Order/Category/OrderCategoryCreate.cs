@@ -24,6 +24,7 @@ SOFTWARE.
 */
 
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using CashCtrlApiNet.Abstractions.Models.Base;
 
@@ -35,22 +36,46 @@ namespace CashCtrlApiNet.Abstractions.Models.Order.Category;
 public record OrderCategoryCreate : ModelBaseRecord
 {
     /// <summary>
-    /// The name of the category.
-    /// <br/>This can contain localized text. To add values in multiple languages, use the XML format like this: &lt;values&gt;&lt;de&gt;German text&lt;/de&gt;&lt;en&gt;English text&lt;/en&gt;&lt;/values&gt;
-    /// </summary>
-    [JsonPropertyName("name")]
-    [MaxLength(100)]
-    public required string Name { get; init; }
-
-    /// <summary>
-    /// The ID of the account.
+    /// The ID of the account (typically debtors for sales, creditors for purchase). Mandatory on create.
     /// </summary>
     [JsonPropertyName("accountId")]
-    public int? AccountId { get; init; }
+    public required int AccountId { get; init; }
 
     /// <summary>
-    /// The ID of the sequence number.
+    /// The plural name of the category (e.g. 'Invoices'). Supports localized XML
+    /// (<c>&lt;values&gt;&lt;de&gt;...&lt;/de&gt;...&lt;/values&gt;</c>). Mandatory on create.
     /// </summary>
-    [JsonPropertyName("sequenceNumberId")]
-    public int? SequenceNumberId { get; init; }
+    [JsonPropertyName("namePlural")]
+    [MaxLength(100)]
+    public required string NamePlural { get; init; }
+
+    /// <summary>
+    /// The singular name of the category (e.g. 'Invoice'). Supports localized XML. Mandatory on create.
+    /// </summary>
+    [JsonPropertyName("nameSingular")]
+    [MaxLength(100)]
+    public required string NameSingular { get; init; }
+
+    /// <summary>
+    /// The status list (e.g. 'Draft', 'Open', 'Paid') for this order category. Mandatory on create
+    /// (at least one status must be defined). Expected shape:
+    /// <c>[{"icon":"BLUE","name":"Draft"}, ...]</c> — icon values: BLUE, GREEN, RED, YELLOW, ORANGE,
+    /// BLACK, GRAY, BROWN, VIOLET, PINK. On read the API returns a parsed array of status objects
+    /// with full audit fields — <see cref="JsonElement"/> accepts both shapes (§4 pattern).
+    /// </summary>
+    [JsonPropertyName("status")]
+    public JsonElement? Status { get; init; }
+
+    /// <summary>
+    /// The type of category. Defaults to <c>SALES</c>. Possible values: <c>SALES</c>, <c>PURCHASE</c>.
+    /// </summary>
+    [JsonPropertyName("type")]
+    public string? Type { get; init; }
+
+    /// <summary>
+    /// The ID of the sequence number used for order objects in this category. Note: this parameter
+    /// is <c>sequenceNrId</c> (not <c>sequenceNumberId</c> like on regular Order endpoints).
+    /// </summary>
+    [JsonPropertyName("sequenceNrId")]
+    public int? SequenceNrId { get; init; }
 }

@@ -104,7 +104,12 @@ public class OrderCategoryServiceTests : ServiceTestBase<OrderCategoryService>
     [Test]
     public async Task Create_ShouldPostToCorrectEndpoint()
     {
-        var category = new OrderCategoryCreate { Name = "Test Category" };
+        var category = new OrderCategoryCreate
+        {
+            AccountId = 1,
+            NameSingular = "Test Category",
+            NamePlural = "Test Categories"
+        };
         ConnectionHandler
             .PostAsync<NoContentResponse, OrderCategoryCreate>(Arg.Any<string>(), Arg.Any<OrderCategoryCreate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());
@@ -119,7 +124,13 @@ public class OrderCategoryServiceTests : ServiceTestBase<OrderCategoryService>
     [Test]
     public async Task Update_ShouldPostToCorrectEndpoint()
     {
-        var category = new OrderCategoryUpdate { Id = 1, Name = "Updated Category" };
+        var category = new OrderCategoryUpdate
+        {
+            Id = 1,
+            AccountId = 1,
+            NameSingular = "Updated Category",
+            NamePlural = "Updated Categories"
+        };
         ConnectionHandler
             .PostAsync<NoContentResponse, OrderCategoryUpdate>(Arg.Any<string>(), Arg.Any<OrderCategoryUpdate>(), Arg.Any<CancellationToken>())
             .Returns(new ApiResult<NoContentResponse>());

@@ -53,10 +53,12 @@ public record OrderCreate : ModelBaseRecord
     public required string Date { get; init; }
 
     /// <summary>
-    /// The ID of the sequence number.
+    /// The ID of the sequence number. Mandatory on create, but absent from read/list responses
+    /// (the server returns the generated <c>nr</c> instead) — so the property is nullable to keep
+    /// response deserialization working across the shared hierarchy (§3 / §13 pattern).
     /// </summary>
     [JsonPropertyName("sequenceNumberId")]
-    public required int SequenceNumberId { get; init; }
+    public int? SequenceNumberId { get; init; }
 
     /// <summary>
     /// The ID of the associate (person). See Person.

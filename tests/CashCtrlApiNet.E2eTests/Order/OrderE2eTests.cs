@@ -82,8 +82,8 @@ public class OrderE2eTests : CashCtrlE2eTestBase
         var category = categoryResult.ResponseData?.Data.FirstOrDefault()
                        ?? throw new InvalidOperationException("No order categories found");
         _categoryId = category.Id;
-        _accountId = category.AccountId ?? throw new InvalidOperationException("Order category has no AccountId");
-        _sequenceNumberId = category.SequenceNumberId ?? throw new InvalidOperationException("Order category has no SequenceNumberId");
+        _accountId = category.AccountId;
+        _sequenceNumberId = category.SequenceNrId ?? throw new InvalidOperationException("Order category has no SequenceNrId");
 
         // Create primary test order
         var createResult = await CashCtrlApiClient.Order.Order.Create(new()
