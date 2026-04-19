@@ -41,7 +41,9 @@ public class PersonImportE2eTests : CashCtrlE2eTestBase
     private int _importId;
 
     /// <summary>
-    /// Scavenges orphan test data and uploads a VCF file for import tests
+    /// Scavenges orphan test data and uploads a CSV file for import tests.
+    /// CSV (not vCard) is used so the Mapping step is meaningful — the API docs state
+    /// mapping is not needed for vCards, which would make Mapping_Success trivial or fail.
     /// </summary>
     [OneTimeSetUp]
     public async Task OneTimeSetUp()
@@ -55,9 +57,9 @@ public class PersonImportE2eTests : CashCtrlE2eTestBase
             p => p.Id,
             ids => CashCtrlApiClient.Person.Person.Delete(ids));
 
-        // Upload a minimal VCF file for import tests via UploadTestFile helper
-        var vcfContent = $"BEGIN:VCARD\nVERSION:3.0\nN:{_testId};E2E-First\nFN:E2E-First {_testId}\nEND:VCARD";
-        _fileId = await UploadTestFile("e2e-test.vcf", Encoding.UTF8.GetBytes(vcfContent), "text/vcard");
+        // Upload a minimal CSV file with first/last name columns for import via UploadTestFile helper
+        var csvContent = $"First name;Last name\n{_testId};{_testId}";
+        _fileId = await UploadTestFile("e2e-person-import.csv", Encoding.UTF8.GetBytes(csvContent), "text/csv");
 
         // Register cleanup to delete any imported persons after test
         RegisterCleanup(async () =>
@@ -93,7 +95,7 @@ public class PersonImportE2eTests : CashCtrlE2eTestBase
     }
 
     /// <summary>
-    /// Create a person import from uploaded VCF file successfully
+    /// Create a person import from uploaded CSV file successfully
     /// </summary>
     [Test, Order(2)]
     public async Task Create_Success()
@@ -120,7 +122,7 @@ public class PersonImportE2eTests : CashCtrlE2eTestBase
         var res = await CashCtrlApiClient.Person.Import.Mapping(new()
         {
             Id = _importId,
-            Mapping = "{\"lastName\":\"lastName\",\"firstName\":\"firstName\"}"
+            Mapping = "[{\"from\":\"First name\",\"to\":\"FIRST_NAME\"},{\"from\":\"Last name\",\"to\":\"LAST_NAME\"}]"
         });
         AssertSuccess(res);
     }
@@ -150,7 +152,8 @@ public class PersonImportE2eTests : CashCtrlE2eTestBase
 
         var res = await CashCtrlApiClient.Person.Import.Execute(new()
         {
-            Id = _importId
+            Id = _importId,
+            Async = true
         });
         AssertSuccess(res);
     }
