@@ -24,44 +24,30 @@ SOFTWARE.
 */
 
 using System.Text.Json.Serialization;
-using CashCtrlApiNet.Abstractions.Converters;
 
-namespace CashCtrlApiNet.Abstractions.Models.Journal.Import.Entry;
+namespace CashCtrlApiNet.Abstractions.Models.Common.TaxRate;
 
 /// <summary>
-/// Journal import entry listed (list response). <a href="https://app.cashctrl.com/static/help/en/api/index.html#/journal/import/entry/list.json">API Doc</a>
+/// Tax rate historical rate. Represents a historical percentage rate with a validity start date.
+/// <br/>Used as a JSON array element in <see cref="TaxRateCreate.Rates"/>.
 /// </summary>
-public record JournalImportEntryListed : JournalImportEntryUpdate
+public record TaxRateHistoricalRate
 {
     /// <summary>
-    /// The date and time the journal import entry was created.
+    /// The tax rate percentage (0-100).
     /// </summary>
-    [JsonPropertyName("created")]
-    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
-    public DateTime? Created { get; init; }
+    [JsonPropertyName("percentage")]
+    public required double Percentage { get; init; }
 
     /// <summary>
-    /// The user who created the journal import entry.
+    /// The flat tax rate percentage (0-100) used for simplified flat-rate accounting.
     /// </summary>
-    [JsonPropertyName("createdBy")]
-    public string? CreatedBy { get; init; }
+    [JsonPropertyName("percentageFlat")]
+    public double? PercentageFlat { get; init; }
 
     /// <summary>
-    /// The date and time the journal import entry was last updated.
+    /// The date from which this rate is valid (format: yyyy-MM-dd).
     /// </summary>
-    [JsonPropertyName("lastUpdated")]
-    [JsonConverter(typeof(CashCtrlDateTimeNullableConverter))]
-    public DateTime? LastUpdated { get; init; }
-
-    /// <summary>
-    /// The user who last updated the journal import entry.
-    /// </summary>
-    [JsonPropertyName("lastUpdatedBy")]
-    public string? LastUpdatedBy { get; init; }
-
-    /// <summary>
-    /// The tax code associated with this journal import entry.
-    /// </summary>
-    [JsonPropertyName("taxCode")]
-    public string? TaxCode { get; init; }
+    [JsonPropertyName("dateValid")]
+    public string? DateValid { get; init; }
 }

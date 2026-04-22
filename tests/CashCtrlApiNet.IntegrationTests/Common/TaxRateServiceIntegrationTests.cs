@@ -54,8 +54,8 @@ public class TaxRateServiceIntegrationTests : IntegrationTestBase
         result.ResponseData.ShouldNotBeNull();
         result.ResponseData.Data.ShouldNotBeNull();
         result.ResponseData.Data.Id.ShouldBe(taxRate.Id);
-        result.ResponseData.Data.Name.ShouldBe(taxRate.Name);
-        result.ResponseData.Data.AccountId.ShouldBe(taxRate.AccountId);
+        result.ResponseData.Data.Description.ShouldBe(taxRate.Description);
+        result.ResponseData.Data.Code.ShouldBe(taxRate.Code);
     }
 
     /// <summary>
